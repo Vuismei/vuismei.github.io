@@ -27,7 +27,7 @@
 
     body {
       font-family: 'Inter', 'Noto Sans JP', sans-serif;
-      background-color: #090b12;
+      background-color: #080a11;
       color: #f8fafc;
       overflow-x: hidden;
       min-height: 100vh;
@@ -37,223 +37,168 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
-    /* ========== TRUE APPLE MUSIC DYNAMIC FLUID BACKGROUND ========== */
+    /* ========== GPU-OPTIMIZED 120FPS APPLE MUSIC FLUID BACKGROUND ========== */
     .apple-bg-wrapper {
       position: fixed;
       inset: 0;
       z-index: -2;
       overflow: hidden;
-      background: #07080e;
+      background: #070910;
+      contain: strict;
+      pointer-events: none;
     }
 
-    /* 3 Lớp ảnh bìa xoay lệch tâm 360 độ ngược chiều nhau chuẩn Apple Music */
+    /* 2 Lớp ảnh bìa xoay ngược chiều tối ưu hoàn toàn bằng GPU Transform */
     .apple-art-layer {
       position: absolute;
       background-image: var(--cover-url);
       background-size: cover;
       background-position: center;
-      border-radius: 45%;
+      border-radius: 50%;
       transition: background-image 1.2s cubic-bezier(0.22, 1, 0.36, 1);
       will-change: transform;
+      backface-visibility: hidden;
+      transform: translateZ(0);
     }
 
     .art-layer-1 {
-      width: 135vmax;
-      height: 135vmax;
-      top: -25vmax;
-      left: -20vmax;
-      filter: blur(55px) saturate(260%) brightness(0.95);
-      opacity: 0.78;
-      transform-origin: 44% 56%;
-      animation: orbitClockwise 20s linear infinite;
+      width: 115vmax;
+      height: 115vmax;
+      top: -20vmax;
+      left: -15vmax;
+      filter: blur(48px) saturate(240%) brightness(0.92);
+      opacity: 0.72;
+      transform-origin: 45% 55%;
+      animation: orbitClockwise 24s linear infinite;
     }
 
     .art-layer-2 {
-      width: 120vmax;
-      height: 120vmax;
-      bottom: -30vmax;
-      right: -20vmax;
-      filter: blur(60px) saturate(280%) contrast(125%);
-      opacity: 0.72;
-      mix-blend-mode: hard-light;
-      transform-origin: 57% 43%;
-      animation: orbitCounterClockwise 15s linear infinite;
-    }
-
-    .art-layer-3 {
-      width: 95vmax;
-      height: 95vmax;
-      top: 5vmax;
-      left: 10vmax;
-      filter: blur(50px) saturate(300%) brightness(1.15);
+      width: 105vmax;
+      height: 105vmax;
+      bottom: -22vmax;
+      right: -15vmax;
+      filter: blur(52px) saturate(260%) brightness(1.05);
       opacity: 0.65;
-      mix-blend-mode: screen;
-      transform-origin: 38% 62%;
-      animation: liquidDriftCenter 11s ease-in-out infinite alternate;
+      transform-origin: 55% 45%;
+      animation: orbitCounterClockwise 18s linear infinite;
     }
 
-    /* 4 Khối màu lỏng di chuyển xuyên màn hình với biên độ lớn */
+    /* 4 Khối màu lỏng dùng Radial-Gradient tự làm mềm biên (Không tốn GPU Blur) */
     .mesh-blob {
       position: absolute;
-      filter: blur(55px) saturate(250%);
-      opacity: 0.82;
+      border-radius: 50%;
+      opacity: 0.78;
       mix-blend-mode: screen;
-      transition: background-color 1.2s ease;
-      will-change: transform, border-radius;
+      will-change: transform;
+      backface-visibility: hidden;
+      transform: translateZ(0);
     }
 
     .blob-1 {
-      width: 58vw;
-      height: 58vw;
-      max-width: 720px;
-      max-height: 720px;
-      top: -12%;
-      left: -10%;
-      background: radial-gradient(circle at 35% 35%, var(--blob-1), transparent 72%);
-      animation: flowBlob1 11s ease-in-out infinite alternate;
+      width: 68vw;
+      height: 68vw;
+      max-width: 820px;
+      max-height: 820px;
+      top: -18%;
+      left: -12%;
+      background: radial-gradient(circle, var(--blob-1) 0%, transparent 68%);
+      animation: flowBlob1 12s ease-in-out infinite alternate;
     }
 
     .blob-2 {
-      width: 55vw;
-      height: 55vw;
-      max-width: 680px;
-      max-height: 680px;
-      bottom: -15%;
-      right: -10%;
-      background: radial-gradient(circle at 65% 65%, var(--blob-2), transparent 72%);
-      animation: flowBlob2 13s ease-in-out infinite alternate;
+      width: 65vw;
+      height: 65vw;
+      max-width: 780px;
+      max-height: 780px;
+      bottom: -18%;
+      right: -12%;
+      background: radial-gradient(circle, var(--blob-2) 0%, transparent 68%);
+      animation: flowBlob2 15s ease-in-out infinite alternate;
     }
 
     .blob-3 {
-      width: 48vw;
-      height: 48vw;
-      max-width: 580px;
-      max-height: 580px;
-      top: 15%;
-      right: 15%;
-      background: radial-gradient(circle at 50% 50%, var(--blob-3), transparent 70%);
-      animation: flowBlob3 9.5s ease-in-out infinite alternate;
+      width: 58vw;
+      height: 58vw;
+      max-width: 700px;
+      max-height: 700px;
+      top: 10%;
+      right: 10%;
+      background: radial-gradient(circle, var(--blob-3) 0%, transparent 66%);
+      animation: flowBlob3 11s ease-in-out infinite alternate;
     }
 
     .blob-4 {
-      width: 46vw;
-      height: 46vw;
-      max-width: 550px;
-      max-height: 550px;
-      bottom: 10%;
-      left: 12%;
-      background: radial-gradient(circle at 40% 60%, var(--blob-4), transparent 70%);
-      animation: flowBlob4 12.5s ease-in-out infinite alternate;
+      width: 55vw;
+      height: 55vw;
+      max-width: 660px;
+      max-height: 660px;
+      bottom: 8%;
+      left: 10%;
+      background: radial-gradient(circle, var(--blob-4) 0%, transparent 66%);
+      animation: flowBlob4 13.5s ease-in-out infinite alternate;
     }
 
-    /* Lớp kính làm mịn vừa phải để không nuốt chuyển động bên dưới */
+    /* Lớp phủ vignette không dùng backdrop-filter để triệt tiêu hoàn toàn độ trễ cuộn trang */
     .apple-frost-overlay {
       position: fixed;
       inset: 0;
       z-index: -1;
-      background: radial-gradient(circle at 50% 25%, rgba(12, 15, 26, 0.16) 0%, rgba(8, 10, 18, 0.46) 100%);
-      backdrop-filter: blur(22px) saturate(190%);
-      -webkit-backdrop-filter: blur(22px) saturate(190%);
+      background: radial-gradient(circle at 50% 25%, rgba(10, 12, 22, 0.22) 0%, rgba(7, 9, 16, 0.56) 100%);
       pointer-events: none;
     }
 
     @keyframes orbitClockwise {
-      0% { transform: rotate(0deg) scale(1.1); }
-      50% { transform: rotate(180deg) scale(1.32); }
-      100% { transform: rotate(360deg) scale(1.1); }
+      0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1.08); }
+      50% { transform: translate3d(4vw, 3vh, 0) rotate(180deg) scale(1.24); }
+      100% { transform: translate3d(0, 0, 0) rotate(360deg) scale(1.08); }
     }
 
     @keyframes orbitCounterClockwise {
-      0% { transform: rotate(360deg) scale(1.25); }
-      50% { transform: rotate(180deg) scale(1.05); }
-      100% { transform: rotate(0deg) scale(1.25); }
-    }
-
-    @keyframes liquidDriftCenter {
-      0% {
-        transform: translate3d(-18vw, -12vh, 0) scale(0.95) rotate(0deg);
-        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-      }
-      50% {
-        transform: translate3d(16vw, 18vh, 0) scale(1.28) rotate(110deg);
-        border-radius: 65% 35% 45% 55% / 55% 35% 65% 45%;
-      }
-      100% {
-        transform: translate3d(-10vw, 22vh, 0) scale(1.12) rotate(220deg);
-        border-radius: 35% 65% 55% 45% / 60% 40% 50% 50%;
-      }
+      0% { transform: translate3d(0, 0, 0) rotate(360deg) scale(1.2); }
+      50% { transform: translate3d(-4vw, -3vh, 0) rotate(180deg) scale(1.04); }
+      100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1.2); }
     }
 
     @keyframes flowBlob1 {
-      0% {
-        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-        border-radius: 42% 58% 65% 35% / 45% 45% 55% 55%;
-      }
-      50% {
-        transform: translate3d(36vw, 18vh, 0) scale(1.32) rotate(95deg);
-        border-radius: 62% 38% 42% 58% / 58% 35% 65% 42%;
-      }
-      100% {
-        transform: translate3d(14vw, 44vh, 0) scale(0.92) rotate(190deg);
-        border-radius: 38% 62% 55% 45% / 42% 62% 38% 58%;
-      }
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(32vw, 16vh, 0) scale(1.28); }
+      100% { transform: translate3d(12vw, 38vh, 0) scale(0.94); }
     }
 
     @keyframes flowBlob2 {
-      0% {
-        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-        border-radius: 55% 45% 38% 62% / 50% 60% 40% 50%;
-      }
-      50% {
-        transform: translate3d(-38vw, -22vh, 0) scale(1.35) rotate(-105deg);
-        border-radius: 38% 62% 64% 36% / 42% 45% 55% 58%;
-      }
-      100% {
-        transform: translate3d(-15vw, -46vh, 0) scale(0.95) rotate(-210deg);
-        border-radius: 60% 40% 45% 55% / 55% 38% 62% 45%;
-      }
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(-34vw, -18vh, 0) scale(1.3); }
+      100% { transform: translate3d(-14vw, -40vh, 0) scale(0.95); }
     }
 
     @keyframes flowBlob3 {
-      0% {
-        transform: translate3d(0, 0, 0) scale(0.95) rotate(0deg);
-      }
-      50% {
-        transform: translate3d(-34vw, 32vh, 0) scale(1.38) rotate(120deg);
-      }
-      100% {
-        transform: translate3d(12vw, -24vh, 0) scale(1.1) rotate(240deg);
-      }
+      0% { transform: translate3d(0, 0, 0) scale(0.95); }
+      50% { transform: translate3d(-30vw, 28vh, 0) scale(1.32); }
+      100% { transform: translate3d(10vw, -20vh, 0) scale(1.08); }
     }
 
     @keyframes flowBlob4 {
-      0% {
-        transform: translate3d(0, 0, 0) scale(1.05) rotate(0deg);
-      }
-      50% {
-        transform: translate3d(38vw, -30vh, 0) scale(1.3) rotate(-115deg);
-      }
-      100% {
-        transform: translate3d(-16vw, -18vh, 0) scale(0.9) rotate(-230deg);
-      }
+      0% { transform: translate3d(0, 0, 0) scale(1.04); }
+      50% { transform: translate3d(34vw, -26vh, 0) scale(1.26); }
+      100% { transform: translate3d(-14vw, -15vh, 0) scale(0.92); }
     }
 
     /* ========== HIGH-CONTRAST GLASSMORPHISM CARDS ========== */
     .glass-card {
       position: relative;
-      background: rgba(15, 18, 32, 0.42);
-      backdrop-filter: blur(28px) saturate(180%);
-      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      background: rgba(15, 18, 32, 0.44);
+      backdrop-filter: blur(20px) saturate(165%);
+      -webkit-backdrop-filter: blur(20px) saturate(165%);
       border: 1px solid rgba(255, 255, 255, 0.22);
-      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.26);
+      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.25);
       border-radius: 1.25rem;
-      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.28s ease, box-shadow 0.28s ease;
+      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, box-shadow 0.25s ease;
     }
 
     .glass-card:hover {
       transform: translateY(-3px);
       border-color: rgba(255, 255, 255, 0.38);
-      box-shadow: 0 22px 48px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.36);
+      box-shadow: 0 22px 48px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
 
     .hud-corner {
@@ -323,6 +268,7 @@
       flex-shrink: 0;
       overflow: hidden;
       cursor: pointer;
+      will-change: transform;
     }
 
     .vinyl-record.is-playing {
@@ -434,8 +380,10 @@
   <!-- MÀN HÌNH CHÀO TỰ ĐỘNG PHÁT NHẠC (CLICK TO ENTER) -->
   <div id="intro-overlay" onclick="enterSite()" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#090b14]/90 backdrop-blur-2xl cursor-pointer transition-opacity duration-700">
     <div class="text-center space-y-4 select-none p-6">
-      <div class="w-16 h-16 mx-auto rounded-full border-2 border-rose-400/60 bg-rose-500/10 flex items-center justify-center animate-pulse text-rose-300 text-2xl shadow-[0_0_25px_rgba(244,63,94,0.4)]">
-        ▶
+      <div class="w-16 h-16 mx-auto rounded-full border-2 border-rose-400/60 bg-rose-500/10 flex items-center justify-center animate-pulse text-rose-300 shadow-[0_0_25px_rgba(244,63,94,0.4)]">
+        <svg class="w-7 h-7 fill-current translate-x-0.5" viewBox="0 0 24 24">
+          <path d="M8 5.14v14l11-7-11-7z"/>
+        </svg>
       </div>
       <p class="font-mono-code text-sm sm:text-base font-bold text-white tracking-widest uppercase">
         [ CLICK ANYWHERE TO ENTER ]
@@ -446,11 +394,10 @@
     </div>
   </div>
 
-  <!-- 1. APPLE MUSIC LIVE MESH BACKGROUND (3-LAYER ALBUM ORBIT + 4 FLUID BLOBS) -->
+  <!-- 1. GPU-ACCELERATED APPLE MUSIC FLUID BACKGROUND -->
   <div class="apple-bg-wrapper" aria-hidden="true">
     <div class="apple-art-layer art-layer-1"></div>
     <div class="apple-art-layer art-layer-2"></div>
-    <div class="apple-art-layer art-layer-3"></div>
     <div class="mesh-blob blob-1"></div>
     <div class="mesh-blob blob-2"></div>
     <div class="mesh-blob blob-3"></div>
@@ -569,7 +516,7 @@
       <!-- Social & Action Links Row -->
       <div class="mt-6 pt-5 border-t border-white/15 flex flex-wrap items-center gap-2.5">
         <a href="https://www.youtube.com/channel/UCYABwsH3KS9BPi8rD63wPUw" target="_blank" rel="noopener noreferrer" class="social-pill">
-          <span class="text-rose-400">▶</span>
+          <svg class="w-4 h-4 text-rose-400 fill-current" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7z"/></svg>
           <span>YouTube</span>
         </a>
 
@@ -594,7 +541,14 @@
         </a>
 
         <button type="button" onclick="triggerGachaTrack()" class="social-pill ml-auto !bg-white/20 !border-white/40">
-          <span>🎲</span>
+          <svg class="w-4 h-4 text-rose-300 fill-none stroke-current" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="4"/>
+            <circle cx="8.5" cy="8.5" r="1.2" fill="currentColor"/>
+            <circle cx="15.5" cy="8.5" r="1.2" fill="currentColor"/>
+            <circle cx="12" cy="12" r="1.2" fill="currentColor"/>
+            <circle cx="8.5" cy="15.5" r="1.2" fill="currentColor"/>
+            <circle cx="15.5" cy="15.5" r="1.2" fill="currentColor"/>
+          </svg>
           <span>Gacha Nhạc &amp; Đổi Màu Nền</span>
         </button>
       </div>
@@ -1030,7 +984,7 @@
 
   <!-- ================= FLOATING 5-TRACK GACHA PLAYER & VINYL DISC ================= -->
   <aside class="fixed bottom-3 inset-x-3 max-w-4xl mx-auto z-40">
-    <div class="glass-card px-4 py-3 sm:px-5 sm:py-3.5 !bg-slate-950/85 !border-white/25 shadow-2xl space-y-2.5">
+    <div class="glass-card px-4 py-3 sm:px-5 sm:py-3.5 !bg-slate-950/88 !border-white/25 shadow-2xl space-y-2.5">
       <audio id="audio-player" preload="auto"></audio>
 
       <!-- Quick 5-Track Selector Pills -->
@@ -1065,20 +1019,44 @@
           </div>
         </div>
 
-        <!-- Controls + Seekbar -->
+        <!-- Controls + Seekbar (PURE MONOCHROME VECTOR SVG ICONS) -->
         <div class="flex flex-col items-center gap-1.5 flex-1 min-w-[230px]">
-          <div class="flex items-center gap-2">
-            <button type="button" onclick="prevTrack()" title="Bài trước" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xs transition">
-              ⏮
+          <div class="flex items-center gap-2.5">
+            <!-- Nút Bài Trước (SVG) -->
+            <button type="button" onclick="prevTrack()" title="Bài trước" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 border border-white/10 flex items-center justify-center text-white transition active:scale-95">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/>
+              </svg>
             </button>
-            <button type="button" id="play-btn" onclick="togglePlay()" title="Play / Pause (Space)" class="w-10 h-10 rounded-full bg-white text-slate-950 hover:scale-105 font-black flex items-center justify-center text-sm shadow-lg transition">
-              ▶
+
+            <!-- Nút Play / Pause (SVG) -->
+            <button type="button" id="play-btn" onclick="togglePlay()" title="Play / Pause" class="w-10 h-10 rounded-full bg-white text-slate-950 hover:scale-105 active:scale-95 flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.35)] transition">
+              <svg id="play-icon-svg" class="w-5 h-5 fill-current translate-x-[1px]" viewBox="0 0 24 24">
+                <path d="M8 5.14v14l11-7-11-7z"/>
+              </svg>
+              <svg id="pause-icon-svg" class="w-5 h-5 fill-current hidden" viewBox="0 0 24 24">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              </svg>
             </button>
-            <button type="button" onclick="nextTrack()" title="Bài tiếp (N)" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xs transition">
-              ⏭
+
+            <!-- Nút Bài Tiếp (SVG) -->
+            <button type="button" onclick="nextTrack()" title="Bài tiếp" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 border border-white/10 flex items-center justify-center text-white transition active:scale-95">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+              </svg>
             </button>
-            <button type="button" onclick="triggerGachaTrack()" title="Gacha ngẫu nhiên 1 trong 5 bài" class="px-3 py-1.5 rounded-full bg-gradient-to-r from-rose-500 to-violet-500 hover:brightness-110 text-white text-xs font-bold shadow-md transition flex items-center gap-1">
-              🎲 Gacha
+
+            <!-- Nút Gacha (SVG Dice) -->
+            <button type="button" onclick="triggerGachaTrack()" title="Gacha ngẫu nhiên 1 trong 5 bài" class="px-3 py-1.5 rounded-full bg-gradient-to-r from-rose-500 to-violet-500 hover:brightness-110 active:scale-95 text-white text-xs font-bold shadow-md transition flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="4"/>
+                <circle cx="8.5" cy="8.5" r="1" fill="currentColor"/>
+                <circle cx="15.5" cy="8.5" r="1" fill="currentColor"/>
+                <circle cx="12" cy="12" r="1" fill="currentColor"/>
+                <circle cx="8.5" cy="15.5" r="1" fill="currentColor"/>
+                <circle cx="15.5" cy="15.5" r="1" fill="currentColor"/>
+              </svg>
+              <span>Gacha</span>
             </button>
           </div>
 
@@ -1089,10 +1067,15 @@
           </div>
         </div>
 
-        <!-- Volume -->
+        <!-- Volume (SVG Speaker) -->
         <div class="hidden md:flex items-center gap-2">
-          <button type="button" id="mute-btn" onclick="toggleMute()" class="text-sm text-slate-200 hover:text-white px-1">
-            🔊
+          <button type="button" id="mute-btn" onclick="toggleMute()" class="text-slate-200 hover:text-white p-1 transition" title="Bật / Tắt tiếng">
+            <svg id="vol-on-svg" class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+            </svg>
+            <svg id="vol-off-svg" class="w-4 h-4 fill-current hidden text-rose-400" viewBox="0 0 24 24">
+              <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+            </svg>
           </button>
           <input id="volume-bar" type="range" min="0" max="1" step="0.02" value="0.85" class="w-20" />
         </div>
@@ -1161,15 +1144,37 @@
     const trackTitle = document.getElementById("track-title");
     const trackArtist = document.getElementById("track-artist");
     const audioStatus = document.getElementById("audio-status");
-    const playBtn = document.getElementById("play-btn");
+    const playIconSvg = document.getElementById("play-icon-svg");
+    const pauseIconSvg = document.getElementById("pause-icon-svg");
+    const volOnSvg = document.getElementById("vol-on-svg");
+    const volOffSvg = document.getElementById("vol-off-svg");
     const seekBar = document.getElementById("seek-bar");
     const currentTimeEl = document.getElementById("current-time");
     const durationTimeEl = document.getElementById("duration-time");
     const volumeBar = document.getElementById("volume-bar");
-    const muteBtn = document.getElementById("mute-btn");
     const chipsRow = document.getElementById("track-chips-row");
 
     audio.volume = 0.85;
+
+    function setPlayButtonUI(playing) {
+      if (playing) {
+        playIconSvg.classList.add("hidden");
+        pauseIconSvg.classList.remove("hidden");
+      } else {
+        playIconSvg.classList.remove("hidden");
+        pauseIconSvg.classList.add("hidden");
+      }
+    }
+
+    function setMuteButtonUI(muted) {
+      if (muted) {
+        volOnSvg.classList.add("hidden");
+        volOffSvg.classList.remove("hidden");
+      } else {
+        volOnSvg.classList.remove("hidden");
+        volOffSvg.classList.add("hidden");
+      }
+    }
 
     function formatTime(sec) {
       if (!isFinite(sec) || sec < 0) return "0:00";
@@ -1229,21 +1234,21 @@
     audio.addEventListener("play", () => {
       isPlaying = true;
       vinylDisc.classList.add("is-playing");
-      playBtn.textContent = "⏸";
+      setPlayButtonUI(true);
       audioStatus.textContent = "● Đang phát nhạc";
     });
 
     audio.addEventListener("playing", () => {
       isPlaying = true;
       vinylDisc.classList.add("is-playing");
-      playBtn.textContent = "⏸";
+      setPlayButtonUI(true);
       audioStatus.textContent = "● Đang phát nhạc";
     });
 
     audio.addEventListener("pause", () => {
       isPlaying = false;
       vinylDisc.classList.remove("is-playing");
-      playBtn.textContent = "▶";
+      setPlayButtonUI(false);
       audioStatus.textContent = "Đã tạm dừng";
     });
 
@@ -1276,20 +1281,20 @@
     volumeBar.addEventListener("input", () => {
       audio.volume = parseFloat(volumeBar.value);
       audio.muted = audio.volume === 0;
-      muteBtn.textContent = audio.muted ? "🔇" : "🔊";
+      setMuteButtonUI(audio.muted);
     });
 
     function toggleMute() {
       audio.muted = !audio.muted;
-      muteBtn.textContent = audio.muted ? "🔇" : "🔊";
+      setMuteButtonUI(audio.muted);
     }
 
-    // Nạp bài hát & đổi màu nền Apple Music 3-Layer Orbit
+    // Nạp bài hát & đổi màu nền Apple Music
     function loadTrack(index, autoPlay = false) {
       currentIndex = (index + GACHA_PLAYLIST.length) % GACHA_PLAYLIST.length;
       const track = GACHA_PLAYLIST[currentIndex];
 
-      // 1. Đổi màu nền Apple Music Live Mesh & biến ảnh bìa cho cả 3 lớp xoay
+      // 1. Đổi màu nền Apple Music Live Mesh & biến ảnh bìa
       const root = document.documentElement;
       root.style.setProperty("--blob-1", track.colors[0]);
       root.style.setProperty("--blob-2", track.colors[1]);
@@ -1321,11 +1326,11 @@
         audioStatus.textContent = "Đang nạp dữ liệu...";
         audio.play().catch((err) => {
           if (err.name !== "AbortError") {
-            audioStatus.textContent = "Bấm ▶ để phát";
+            audioStatus.textContent = "Bấm Play để phát";
           }
         });
       } else {
-        audioStatus.textContent = "Sẵn sàng • Bấm ▶ để phát";
+        audioStatus.textContent = "Sẵn sàng • Bấm Play để phát";
       }
     }
 
@@ -1339,7 +1344,7 @@
       if (audio.paused) {
         audio.play().catch((err) => {
           if (err.name !== "AbortError") {
-            audioStatus.textContent = "Bấm ▶ để thử lại";
+            audioStatus.textContent = "Bấm Play để thử lại";
           }
         });
       } else {
