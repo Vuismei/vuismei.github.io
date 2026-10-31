@@ -21,9 +21,10 @@
   <link rel="preconnect" href="https://api.lanyard.rest" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
 
-  <!-- BIÊN DỊCH SẴN TAILWIND CSS TĨNH (TỰ ĐỘNG DỰ PHÒNG CDN NẾU CHƯA BUILD FILE) -->
-  <link rel="stylesheet" href="./tailwind.min.css" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.tailwindcss.com';document.head.appendChild(s);">
+  <!-- NẠP TRỰC TIẾP TAILWIND CDN (KHÔNG ĐỢI 404 ĐỂ CHỐNG NHÁY GIAO DIỆN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
@@ -41,6 +42,49 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    /* CRITICAL FOUC GUARD: Khóa cứng bố cục ngay từ mili-giây 0 trước khi Tailwind kịp chạy */
+    .hidden {
+      display: none !important;
+    }
+
+    #intro-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(7, 9, 18, 0.92);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      cursor: pointer;
+      transition: opacity 0.5s ease;
+    }
+
+    .intro-play-btn {
+      width: 3.5rem;
+      height: 3.5rem;
+      margin: 0 auto 0.875rem auto;
+      border-radius: 9999px;
+      border: 1px solid rgba(251, 113, 133, 0.6);
+      background-color: rgba(244, 63, 94, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fda4af;
+      box-shadow: 0 0 24px rgba(244, 63, 94, 0.35);
+    }
+
+    #toast-box {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 50;
+      pointer-events: none;
+      opacity: 0;
     }
 
     body {
@@ -894,16 +938,16 @@
 <body class="pb-44 selection:bg-rose-500 selection:text-white hover-expand-enabled">
   <!-- INTRO OVERLAY -->
   <div id="intro-overlay" onclick="enterSite()" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#070912]/90 backdrop-blur-2xl cursor-pointer transition-opacity duration-500">
-    <div class="text-center space-y-3.5 select-none p-6">
-      <div class="w-14 h-14 mx-auto rounded-full border border-rose-400/60 bg-rose-500/10 flex items-center justify-center animate-pulse text-rose-300 shadow-[0_0_24px_rgba(244,63,94,0.35)]">
-        <svg class="w-6 h-6 fill-current translate-x-0.5" viewBox="0 0 24 24">
-          <path d="M8 5.14v14l11-7-11-7z"/>
+    <div class="text-center space-y-3.5 select-none p-6" style="text-align: center; padding: 1.5rem;">
+      <div class="intro-play-btn w-14 h-14 mx-auto rounded-full border border-rose-400/60 bg-rose-500/10 flex items-center justify-center animate-pulse text-rose-300 shadow-[0_0_24px_rgba(244,63,94,0.35)]">
+        <svg width="24" height="24" style="width: 24px; height: 24px; transform: translateX(1px);" class="w-6 h-6 fill-current translate-x-0.5" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M8 5.14v14l11-7-11-7z"/>
         </svg>
       </div>
-      <p class="font-mono-code text-xs sm:text-sm font-bold text-white tracking-[0.2em] uppercase">
+      <p style="font-size: 13px; font-weight: 700; letter-spacing: 0.2em; color: #ffffff; margin-bottom: 0.5rem;" class="font-mono-code text-xs sm:text-sm font-bold text-white tracking-[0.2em] uppercase">
         [ CLICK ANYWHERE TO ENTER ]
       </p>
-      <p id="preload-hint" class="text-[11px] font-mono-code text-emerald-300">
+      <p id="preload-hint" style="font-size: 11px; color: #6ee7b7;" class="text-[11px] font-mono-code text-emerald-300">
         [ ヴン・センパイ ]_
       </p>
     </div>
