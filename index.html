@@ -44,9 +44,21 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
     /* CRITICAL FOUC GUARD: Khóa cứng bố cục ngay từ mili-giây 0 trước khi Tailwind kịp chạy */
     .hidden {
       display: none !important;
+    }
+
+    /* Tạm dừng toàn bộ animation khi ẩn tab để giải phóng 100% GPU/CPU */
+    body.is-tab-hidden *,
+    body.is-tab-hidden *::before,
+    body.is-tab-hidden *::after {
+      animation-play-state: paused !important;
     }
 
     #intro-overlay {
@@ -61,7 +73,8 @@
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       cursor: pointer;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity;
     }
 
     .intro-play-btn {
@@ -85,6 +98,7 @@
       z-index: 50;
       pointer-events: none;
       opacity: 0;
+      will-change: transform, opacity;
     }
 
     body {
@@ -94,10 +108,12 @@
       overflow-x: hidden;
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
     .font-mono-code {
       font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
     }
 
     .no-scrollbar::-webkit-scrollbar {
@@ -117,6 +133,7 @@
       background: #06080f;
       contain: strict;
       pointer-events: none;
+      transform: translateZ(0);
     }
 
     .apple-art-layer {
@@ -128,7 +145,7 @@
       transition: background-image 1.2s cubic-bezier(0.22, 1, 0.36, 1);
       will-change: transform;
       backface-visibility: hidden;
-      transform: translateZ(0);
+      transform: translate3d(0, 0, 0);
     }
 
     .art-layer-1 {
@@ -136,7 +153,7 @@
       height: 115vmax;
       top: -20vmax;
       left: -15vmax;
-      filter: blur(48px) saturate(240%) brightness(0.9);
+      filter: blur(46px) saturate(240%) brightness(0.9);
       opacity: 0.72;
       transform-origin: 45% 55%;
       animation: orbitClockwise 24s linear infinite;
@@ -147,7 +164,7 @@
       height: 105vmax;
       bottom: -22vmax;
       right: -15vmax;
-      filter: blur(52px) saturate(260%) brightness(1.04);
+      filter: blur(50px) saturate(260%) brightness(1.04);
       opacity: 0.65;
       transform-origin: 55% 45%;
       animation: orbitCounterClockwise 18s linear infinite;
@@ -160,7 +177,7 @@
       mix-blend-mode: screen;
       will-change: transform;
       backface-visibility: hidden;
-      transform: translateZ(0);
+      transform: translate3d(0, 0, 0);
     }
 
     .blob-1 {
@@ -213,9 +230,10 @@
       z-index: -2;
       background: radial-gradient(circle at 50% 25%, rgba(10, 12, 22, 0.22) 0%, rgba(6, 8, 15, 0.68) 100%);
       pointer-events: none;
+      contain: strict;
     }
 
-    /* ========== FULL-SCREEN SAKURA PETAL RAIN (PAGE 1 ONLY, GPU ACCELERATED) ========== */
+    /* ========== 100% GPU COMPOSITOR SAKURA PETAL RAIN (ZERO REFLOW / ZERO TOP ANIMATION) ========== */
     #sakura-global-layer {
       position: fixed;
       inset: 0;
@@ -223,38 +241,53 @@
       pointer-events: none;
       overflow: hidden;
       contain: strict;
-      transition: opacity 0.55s ease;
+      transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.5s;
+      will-change: opacity;
     }
     #sakura-global-layer.is-hidden-rain {
       opacity: 0;
       visibility: hidden;
     }
+    /* Ngắt hoàn toàn chu kỳ tính toán cánh hoa khi sang Page 2 */
+    #sakura-global-layer.is-hidden-rain .sakura-leaf,
+    #sakura-global-layer.is-hidden-rain .sakura-sway,
+    #sakura-global-layer.is-hidden-rain svg {
+      animation-play-state: paused !important;
+    }
 
     .sakura-leaf {
       position: absolute;
-      top: -8vh;
+      top: 0;
       left: var(--x, 50vw);
       width: var(--size, 14px);
       height: var(--size, 14px);
       opacity: var(--op, 0.85);
-      filter: var(--blur, none) drop-shadow(0 2px 6px rgba(244, 63, 94, 0.28));
       will-change: transform;
       backface-visibility: hidden;
-      animation:
-        sakuraFallY var(--dur, 9s) linear var(--delay, 0s) infinite,
-        sakuraSwayX var(--sway-dur, 3.6s) ease-in-out var(--delay, 0s) infinite alternate;
+      contain: layout style;
+      animation: sakuraFallY var(--dur, 9s) linear var(--delay, 0s) infinite;
+    }
+
+    .sakura-sway {
+      width: 100%;
+      height: 100%;
+      will-change: transform;
+      backface-visibility: hidden;
+      animation: sakuraSwayX var(--sway-dur, 3.6s) ease-in-out var(--delay, 0s) infinite alternate;
     }
 
     .sakura-leaf svg {
       width: 100%;
       height: 100%;
       display: block;
+      will-change: transform;
+      backface-visibility: hidden;
       animation: sakuraSpin3D var(--spin-dur, 4.5s) linear var(--delay, 0s) infinite;
     }
 
     @keyframes sakuraFallY {
-      0% { top: -8vh; }
-      100% { top: 108vh; }
+      0% { transform: translate3d(0, -10vh, 0); }
+      100% { transform: translate3d(0, 110vh, 0); }
     }
 
     @keyframes sakuraSwayX {
@@ -304,30 +337,35 @@
       100% { transform: translate3d(-14vw, -15vh, 0) scale(0.92); }
     }
 
-    /* ========== PAGE TRANSITION ========== */
+    /* ========== PAGE TRANSITION & INACTIVE PAGE PAUSE ========== */
     .page-view {
-      transition: opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1), transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1), transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
       will-change: opacity, transform;
     }
     .page-view.is-hidden {
       display: none !important;
       opacity: 0;
-      transform: translate3d(0, 14px, 0);
+      transform: translate3d(0, 12px, 0);
+    }
+    .page-view.is-hidden *,
+    .page-view.is-hidden *::after {
+      animation-play-state: paused !important;
     }
     .page-view.is-entering {
       opacity: 0;
-      transform: translate3d(0, 14px, 0);
+      transform: translate3d(0, 12px, 0);
     }
 
     /* ========== GLASSMORPHISM & HUD CORNERS ========== */
     .glass-card {
       position: relative;
-      background: rgba(12, 15, 26, 0.58);
-      backdrop-filter: blur(20px) saturate(170%);
-      -webkit-backdrop-filter: blur(20px) saturate(170%);
+      background: rgba(12, 15, 26, 0.62);
+      backdrop-filter: blur(18px) saturate(165%);
+      -webkit-backdrop-filter: blur(18px) saturate(165%);
       border: 1px solid rgba(255, 255, 255, 0.16);
       box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.18);
       border-radius: 1.15rem;
+      transform: translateZ(0);
       transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease;
     }
 
@@ -352,6 +390,7 @@
     .hero-glass-card {
       position: relative;
       isolation: isolate;
+      contain: layout style;
     }
 
     .hero-glass-card::before {
@@ -367,7 +406,6 @@
       );
       pointer-events: none;
       z-index: 0;
-      transition: opacity 0.3s ease;
     }
 
     /* Hiệu ứng chữ VuNn phát sáng hồng phấn chuẩn Discord Display Name Style */
@@ -445,6 +483,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      contain: paint;
     }
     @media (min-width: 640px) {
       .discord-sakura-banner {
@@ -461,7 +500,7 @@
       background-size: cover;
       background-position: center;
       filter: blur(18px) saturate(165%) brightness(0.52);
-      transform: scale(1.08);
+      transform: scale(1.08) translateZ(0);
       pointer-events: none;
     }
 
@@ -513,11 +552,12 @@
     }
 
     @keyframes blossomBreeze {
-      0%, 100% { transform: rotate(0deg) translateY(0px); }
-      50% { transform: rotate(1.6deg) translateY(1.5px); }
+      0%, 100% { transform: rotate(0deg) translate3d(0, 0, 0); }
+      50% { transform: rotate(1.6deg) translate3d(0, 1.5px, 0); }
     }
     .sakura-cluster-sway {
       transform-origin: top center;
+      will-change: transform;
       animation: blossomBreeze 5.5s ease-in-out infinite;
     }
 
@@ -550,10 +590,11 @@
 
     .avatar-deco-ring .ring-orbit {
       transform-origin: center;
+      will-change: transform;
       animation: spinSlowFrame 32s linear infinite;
     }
 
-    /* ========== PROGRESS BARS ========== */
+    /* ========== PROGRESS BARS (GPU COMPOSITED) ========== */
     .bar-track {
       position: relative;
       height: 0.42rem;
@@ -561,7 +602,7 @@
       border-radius: 9999px;
       background: rgba(255, 255, 255, 0.09);
       overflow: hidden;
-      contain: paint;
+      contain: strict;
     }
 
     .bar-fill {
@@ -570,15 +611,15 @@
       width: 100%;
       border-radius: 9999px;
       transform-origin: left center;
-      transform: scaleX(0);
-      transition: transform 1.35s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: scaleX(0) translateZ(0);
+      transition: transform 1.25s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: transform;
       backface-visibility: hidden;
       overflow: hidden;
     }
 
     .bar-fill.is-animated {
-      transform: scaleX(var(--scale, 1));
+      transform: scaleX(var(--scale, 1)) translateZ(0);
     }
 
     .bar-fill::after {
@@ -591,7 +632,7 @@
         rgba(255, 255, 255, 0.38) 50%,
         transparent 100%
       );
-      transform: translate3d(-100%, 0, 0);
+      transform: translate3d(-110%, 0, 0);
       animation: barShimmerSlide 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
       will-change: transform;
     }
@@ -603,13 +644,14 @@
 
     /* ========== COMMAND BAR ========== */
     .cmd-dock {
-      background: rgba(9, 11, 20, 0.82);
-      backdrop-filter: blur(24px) saturate(180%);
-      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      background: rgba(9, 11, 20, 0.84);
+      backdrop-filter: blur(22px) saturate(180%);
+      -webkit-backdrop-filter: blur(22px) saturate(180%);
       border: 1px solid rgba(255, 255, 255, 0.16);
       box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12);
       border-radius: 0.9rem;
       padding: 0.45rem;
+      transform: translateZ(0);
     }
 
     .seg-group {
@@ -698,30 +740,36 @@
       box-shadow: 0 0 8px #10b981;
     }
 
-    /* ========== STAT NODES ========== */
+    /* ========== STAT NODES (CONTAINED LAYOUT FOR 120FPS SCROLL) ========== */
+    .wrapped-section {
+      contain: layout style;
+    }
+
     .stat-node {
       position: relative;
-      background: rgba(14, 18, 32, 0.62);
+      background: rgba(14, 18, 32, 0.66);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 0.9rem;
       overflow: hidden;
       cursor: pointer;
+      contain: layout style;
+      transform: translate3d(0, 0, 0);
       transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease;
     }
 
     .stat-node:hover,
     .stat-node.is-pinned,
     .stat-node.is-open {
-      background: rgba(20, 26, 46, 0.86);
+      background: rgba(20, 26, 46, 0.88);
       border-color: rgba(251, 113, 133, 0.5);
       box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.55);
-      transform: translateY(-1px);
+      transform: translate3d(0, -1px, 0);
     }
 
     .stat-branch-wrapper {
       display: grid;
       grid-template-rows: 0fr;
-      transition: grid-template-rows 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: grid-template-rows 0.28s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     body.hover-expand-enabled .stat-node:hover .stat-branch-wrapper,
@@ -760,7 +808,8 @@
     }
 
     .branch-chevron {
-      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform;
     }
 
     body.hover-expand-enabled .stat-node:hover .branch-chevron,
@@ -830,7 +879,7 @@
 
     @keyframes twinkleStar {
       0%, 100% { opacity: 0.72; }
-      50% { opacity: 1; text-shadow: 0 0 8px rgba(253, 224, 71, 0.65); }
+      50% { opacity: 1; }
     }
 
     .star-sky {
@@ -841,6 +890,7 @@
       letter-spacing: 1px;
       user-select: none;
       margin-bottom: 2px;
+      will-change: opacity;
       animation: twinkleStar 3.2s ease-in-out infinite;
     }
 
@@ -876,6 +926,7 @@
       overflow: hidden;
       cursor: pointer;
       will-change: transform;
+      backface-visibility: hidden;
     }
 
     .vinyl-record.is-playing {
@@ -929,7 +980,7 @@
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.16);
       color: #f1f5f9;
-      transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+      transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.18s ease;
       cursor: pointer;
       text-decoration: none;
     }
@@ -937,7 +988,7 @@
     .social-pill:hover {
       background: rgba(255, 255, 255, 0.16);
       border-color: rgba(255, 255, 255, 0.38);
-      transform: translateY(-1px);
+      transform: translate3d(0, -1px, 0);
     }
 
     .cta-wrapped-btn {
@@ -955,10 +1006,10 @@
       color: #ffffff;
       box-shadow: 0 8px 24px -6px rgba(244, 63, 94, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease, border-color 0.2s ease;
     }
     .cta-wrapped-btn:hover {
-      transform: translateY(-1.5px);
+      transform: translate3d(0, -1.5px, 0);
       border-color: #fda4af;
       box-shadow: 0 12px 28px -6px rgba(244, 63, 94, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
@@ -1021,6 +1072,74 @@
 </head>
 
 <body class="pb-44 selection:bg-rose-500 selection:text-white hover-expand-enabled">
+  <!-- GLOBAL SHARED SVG DEFINITIONS (Dùng chung cho toàn bộ Hoa Anh Đào để tối ưu bộ nhớ DOM) -->
+  <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
+    <defs>
+      <radialGradient id="sakuraPetalGrad" cx="50%" cy="65%" r="65%">
+        <stop offset="0%" stop-color="#e11d48" />
+        <stop offset="35%" stop-color="#fb7185" />
+        <stop offset="75%" stop-color="#fecdd3" />
+        <stop offset="100%" stop-color="#fff1f2" />
+      </radialGradient>
+      <radialGradient id="sakuraDeepGrad" cx="50%" cy="60%" r="65%">
+        <stop offset="0%" stop-color="#9f1239" />
+        <stop offset="45%" stop-color="#f43f5e" />
+        <stop offset="85%" stop-color="#fda4af" />
+        <stop offset="100%" stop-color="#ffe4e6" />
+      </radialGradient>
+      <linearGradient id="crimsonBrush" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#4c0519" />
+        <stop offset="50%" stop-color="#e11d48" />
+        <stop offset="100%" stop-color="#fda4af" />
+      </linearGradient>
+
+      <!-- 1 Cánh Hoa Anh Đào có khấc chữ V ở đỉnh và vân giữa -->
+      <g id="single-sakura-petal">
+        <path d="M 0,0 C -7,-6 -12,-18 -6,-27 C -3,-31 -1,-31 0,-26 C 1,-31 3,-31 6,-27 C 12,-18 7,-6 0,0 Z" />
+        <path d="M 0,-3 L 0,-21 M -2,-7 L -4,-16 M 2,-7 L 4,-16" stroke="#be123c" stroke-width="0.6" opacity="0.45" fill="none" stroke-linecap="round"/>
+      </g>
+
+      <!-- Bông Hoa Anh Đào 5 Cánh Hoàn Chỉnh (Kèm Nhụy Hoa) -->
+      <g id="sakura-flower-full">
+        <g fill="url(#sakuraPetalGrad)" stroke="#fda4af" stroke-width="0.4">
+          <use href="#single-sakura-petal" transform="rotate(0)" />
+          <use href="#single-sakura-petal" transform="rotate(72)" />
+          <use href="#single-sakura-petal" transform="rotate(144)" />
+          <use href="#single-sakura-petal" transform="rotate(216)" />
+          <use href="#single-sakura-petal" transform="rotate(288)" />
+        </g>
+        <circle cx="0" cy="0" r="3.2" fill="#9f1239" opacity="0.85" />
+        <g stroke="#fff1f2" stroke-width="0.75" stroke-linecap="round">
+          <line x1="0" y1="0" x2="0" y2="-8" /><circle cx="0" cy="-8.5" r="1.1" fill="#fde047" stroke="none"/>
+          <line x1="0" y1="0" x2="7.5" y2="-2.5" /><circle cx="8" cy="-2.7" r="1.1" fill="#fde047" stroke="none"/>
+          <line x1="0" y1="0" x2="4.6" y2="6.5" /><circle cx="5" cy="7" r="1.1" fill="#fde047" stroke="none"/>
+          <line x1="0" y1="0" x2="-4.6" y2="6.5" /><circle cx="-5" cy="7" r="1.1" fill="#fde047" stroke="none"/>
+          <line x1="0" y1="0" x2="-7.5" y2="-2.5" /><circle cx="-8" cy="-2.7" r="1.1" fill="#fde047" stroke="none"/>
+          <line x1="0" y1="0" x2="4" y2="-6.5" /><circle cx="4.3" cy="-7" r="0.9" fill="#fff1f2" stroke="none"/>
+          <line x1="0" y1="0" x2="-4" y2="-6.5" /><circle cx="-4.3" cy="-7" r="0.9" fill="#fff1f2" stroke="none"/>
+        </g>
+      </g>
+
+      <!-- Bông Hoa Lớp Dưới (Đậm màu hơn để tạo chiều sâu 3D) -->
+      <g id="sakura-flower-back">
+        <g fill="url(#sakuraDeepGrad)" stroke="#fb7185" stroke-width="0.4">
+          <use href="#single-sakura-petal" transform="rotate(36)" />
+          <use href="#single-sakura-petal" transform="rotate(108)" />
+          <use href="#single-sakura-petal" transform="rotate(180)" />
+          <use href="#single-sakura-petal" transform="rotate(252)" />
+          <use href="#single-sakura-petal" transform="rotate(324)" />
+        </g>
+        <circle cx="0" cy="0" r="3" fill="#881337" />
+      </g>
+
+      <!-- Nụ Hoa Anh Đào -->
+      <g id="sakura-bud">
+        <path d="M0,0 C-5,-5 -6,-14 0,-20 C6,-14 5,-5 0,0 Z" fill="url(#sakuraDeepGrad)" />
+        <path d="M-3,-2 L0,2 L3,-2" fill="none" stroke="#4c0519" stroke-width="1.5" />
+      </g>
+    </defs>
+  </svg>
+
   <!-- INTRO OVERLAY -->
   <div id="intro-overlay" onclick="enterSite()" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#070912]/90 backdrop-blur-2xl cursor-pointer transition-opacity duration-500">
     <div class="text-center space-y-3.5 select-none p-6" style="text-align: center; padding: 1.5rem;">
@@ -1049,7 +1168,7 @@
   </div>
   <div class="apple-frost-overlay" aria-hidden="true"></div>
 
-  <!-- FULL-VIEWPORT FALLING SAKURA LAYER (ACTIVE ON PAGE 1 ONLY) -->
+  <!-- FULL-VIEWPORT FALLING SAKURA LAYER (ACTIVE ON PAGE 1 ONLY, 100% GPU COMPOSITED) -->
   <div id="sakura-global-layer" aria-hidden="true"></div>
 
   <!-- TOAST NOTIFICATION -->
@@ -1113,6 +1232,7 @@
             src="https://files.catbox.moe/15yqoj.gif"
             alt="VuNn Banner"
             fetchpriority="high"
+            decoding="async"
             class="banner-crisp-img"
           />
         </div>
@@ -1122,68 +1242,6 @@
 
         <!-- Lớp 4: Cành Hoa Anh Đào 5 Cánh Có Khấc (Notched 5-Petal Sakura) Chuẩn Discord Frame -->
         <svg class="sakura-canopy-svg" viewBox="0 0 900 200" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
-          <defs>
-            <!-- Gradient cánh hoa hồng phấn chuyển sắc tự nhiên -->
-            <radialGradient id="sakuraPetalGrad" cx="50%" cy="65%" r="65%">
-              <stop offset="0%" stop-color="#e11d48" />
-              <stop offset="35%" stop-color="#fb7185" />
-              <stop offset="75%" stop-color="#fecdd3" />
-              <stop offset="100%" stop-color="#fff1f2" />
-            </radialGradient>
-            <radialGradient id="sakuraDeepGrad" cx="50%" cy="60%" r="65%">
-              <stop offset="0%" stop-color="#9f1239" />
-              <stop offset="45%" stop-color="#f43f5e" />
-              <stop offset="85%" stop-color="#fda4af" />
-              <stop offset="100%" stop-color="#ffe4e6" />
-            </radialGradient>
-
-            <!-- 1 Cánh Hoa Anh Đào có khấc chữ V ở đỉnh và vân giữa -->
-            <g id="single-sakura-petal">
-              <path d="M 0,0 C -7,-6 -12,-18 -6,-27 C -3,-31 -1,-31 0,-26 C 1,-31 3,-31 6,-27 C 12,-18 7,-6 0,0 Z" />
-              <path d="M 0,-3 L 0,-21 M -2,-7 L -4,-16 M 2,-7 L 4,-16" stroke="#be123c" stroke-width="0.6" opacity="0.45" fill="none" stroke-linecap="round"/>
-            </g>
-
-            <!-- Bông Hoa Anh Đào 5 Cánh Hoàn Chỉnh (Kèm Nhụy Hoa) -->
-            <g id="sakura-flower-full">
-              <g fill="url(#sakuraPetalGrad)" stroke="#fda4af" stroke-width="0.4">
-                <use href="#single-sakura-petal" transform="rotate(0)" />
-                <use href="#single-sakura-petal" transform="rotate(72)" />
-                <use href="#single-sakura-petal" transform="rotate(144)" />
-                <use href="#single-sakura-petal" transform="rotate(216)" />
-                <use href="#single-sakura-petal" transform="rotate(288)" />
-              </g>
-              <!-- Nhụy hoa (Stamens) chuẩn như ảnh Discord -->
-              <circle cx="0" cy="0" r="3.2" fill="#9f1239" opacity="0.85" />
-              <g stroke="#fff1f2" stroke-width="0.75" stroke-linecap="round">
-                <line x1="0" y1="0" x2="0" y2="-8" /><circle cx="0" cy="-8.5" r="1.1" fill="#fde047" stroke="none"/>
-                <line x1="0" y1="0" x2="7.5" y2="-2.5" /><circle cx="8" cy="-2.7" r="1.1" fill="#fde047" stroke="none"/>
-                <line x1="0" y1="0" x2="4.6" y2="6.5" /><circle cx="5" cy="7" r="1.1" fill="#fde047" stroke="none"/>
-                <line x1="0" y1="0" x2="-4.6" y2="6.5" /><circle cx="-5" cy="7" r="1.1" fill="#fde047" stroke="none"/>
-                <line x1="0" y1="0" x2="-7.5" y2="-2.5" /><circle cx="-8" cy="-2.7" r="1.1" fill="#fde047" stroke="none"/>
-                <line x1="0" y1="0" x2="4" y2="-6.5" /><circle cx="4.3" cy="-7" r="0.9" fill="#fff1f2" stroke="none"/>
-                <line x1="0" y1="0" x2="-4" y2="-6.5" /><circle cx="-4.3" cy="-7" r="0.9" fill="#fff1f2" stroke="none"/>
-              </g>
-            </g>
-
-            <!-- Bông Hoa Lớp Dưới (Đậm màu hơn để tạo chiều sâu 3D) -->
-            <g id="sakura-flower-back">
-              <g fill="url(#sakuraDeepGrad)" stroke="#fb7185" stroke-width="0.4">
-                <use href="#single-sakura-petal" transform="rotate(36)" />
-                <use href="#single-sakura-petal" transform="rotate(108)" />
-                <use href="#single-sakura-petal" transform="rotate(180)" />
-                <use href="#single-sakura-petal" transform="rotate(252)" />
-                <use href="#single-sakura-petal" transform="rotate(324)" />
-              </g>
-              <circle cx="0" cy="0" r="3" fill="#881337" />
-            </g>
-
-            <!-- Nụ Hoa Anh Đào -->
-            <g id="sakura-bud">
-              <path d="M0,0 C-5,-5 -6,-14 0,-20 C6,-14 5,-5 0,0 Z" fill="url(#sakuraDeepGrad)" />
-              <path d="M-3,-2 L0,2 L3,-2" fill="none" stroke="#4c0519" stroke-width="1.5" />
-            </g>
-          </defs>
-
           <!-- Cành cây gỗ anh đào uốn lượn 2 góc trên -->
           <path d="M-10,18 C65,32 140,8 235,28 C290,38 330,12 390,4" fill="none" stroke="#3b0718" stroke-width="5" stroke-linecap="round"/>
           <path d="M85,22 C115,48 155,58 195,52" fill="none" stroke="#3b0718" stroke-width="3" stroke-linecap="round"/>
@@ -1228,19 +1286,13 @@
                 src="https://files.catbox.moe/0r6ro8.jpg"
                 alt="VuNn"
                 fetchpriority="high"
+                decoding="async"
                 class="w-full h-full object-cover"
               />
             </div>
 
             <!-- Vòng Brush Đỏ Đen + Hoa Anh Đào 5 Cánh Gắn Quanh Avatar -->
             <svg class="avatar-deco-ring" viewBox="0 0 140 140">
-              <defs>
-                <linearGradient id="crimsonBrush" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#4c0519" />
-                  <stop offset="50%" stop-color="#e11d48" />
-                  <stop offset="100%" stop-color="#fda4af" />
-                </linearGradient>
-              </defs>
               <g class="ring-orbit">
                 <circle cx="70" cy="70" r="61" fill="none" stroke="url(#crimsonBrush)" stroke-width="5" stroke-dasharray="105 16 58 14" stroke-linecap="round" />
                 <circle cx="70" cy="70" r="65" fill="none" stroke="#fda4af" stroke-width="1.4" stroke-dasharray="22 44" opacity="0.8" />
@@ -1321,7 +1373,7 @@
         <!-- Card 1: Playing / Custom Rich Presence -->
         <div class="flex items-center gap-3.5 p-3 rounded-xl bg-black/30 border border-white/10">
           <div class="relative w-12 h-12 rounded-lg overflow-hidden bg-slate-900 border border-white/15 shrink-0">
-            <img id="lanyard-act-img" src="https://files.catbox.moe/0r6ro8.jpg" alt="Activity" class="w-full h-full object-cover" />
+            <img id="lanyard-act-img" src="https://files.catbox.moe/0r6ro8.jpg" alt="Activity" decoding="async" class="w-full h-full object-cover" />
           </div>
           <div class="min-w-0 flex-1">
             <div class="flex items-center justify-between gap-2">
@@ -1343,7 +1395,7 @@
         <!-- Card 2: Live Listening to Spotify -->
         <div class="flex items-center gap-3.5 p-3 rounded-xl bg-black/35 border border-white/10 hover:border-emerald-400/35 transition-colors">
           <div class="relative w-12 h-12 rounded-lg overflow-hidden bg-slate-900 border border-white/15 shrink-0 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-            <img id="lanyard-spot-img" src="https://files.catbox.moe/6yr9eo.jpg" alt="Spotify Cover" class="w-full h-full object-cover" />
+            <img id="lanyard-spot-img" src="https://files.catbox.moe/6yr9eo.jpg" alt="Spotify Cover" decoding="async" class="w-full h-full object-cover" />
           </div>
           <div class="min-w-0 flex-1">
             <div class="flex items-center justify-between gap-2">
@@ -2675,7 +2727,7 @@
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3 min-w-[210px] flex-1">
           <div id="vinyl-disc" class="vinyl-record" onclick="togglePlay()" title="Play / Pause">
-            <img id="vinyl-cover" src="https://files.catbox.moe/6yr9eo.jpg" alt="Vinyl Cover" />
+            <img id="vinyl-cover" src="https://files.catbox.moe/6yr9eo.jpg" alt="Vinyl Cover" decoding="async" />
             <div class="vinyl-grooves"></div>
             <div class="vinyl-hole"></div>
           </div>
@@ -2728,7 +2780,7 @@
 
           <div class="w-full flex items-center gap-2 text-[10px] font-mono-code text-slate-400">
             <span id="current-time">0:00</span>
-            <input id="seek-bar" type="range" min="0" max="100" value="0" class="w-full" />
+            <input id="seek-bar" type="range" min="0" max="100" step="0.1" value="0" class="w-full" />
             <span id="duration-time">0:00</span>
           </div>
         </div>
@@ -2748,7 +2800,7 @@
     </div>
   </aside>
 
-  <!-- ================= 5-DECK AUDIO ENGINE, SAKURA RAIN & EDGE TELEMETRY ================= -->
+  <!-- ================= 120FPS 5-DECK AUDIO ENGINE, SAKURA RAIN & EDGE TELEMETRY ================= -->
   <script>
     const DISCORD_USER_ID = new URLSearchParams(window.location.search).get("discord_id") || localStorage.getItem("vunn_discord_id") || "856710730485465098";
     const GACHA_PLAYLIST = [
@@ -2803,10 +2855,13 @@
     let hoverModeEnabled = true;
     let allExpanded = false;
     let rafPending = false;
+    let isSeeking = false;
     let userVolume = 0.85;
     let userMuted = false;
     let bgWarmStarted = false;
     let currentPage = 1;
+    let lastCurrentTimeStr = "";
+    let lastDurationStr = "";
 
     const vinylDisc = document.getElementById("vinyl-disc");
     const vinylCover = document.getElementById("vinyl-cover");
@@ -2825,6 +2880,7 @@
     const chipsRow = document.getElementById("track-chips-row");
     const preloadHint = document.getElementById("preload-hint");
     const sakuraLayer = document.getElementById("sakura-global-layer");
+    const vnClockEl = document.getElementById("vn-clock");
     const allStatNodes = Array.from(document.querySelectorAll(".stat-node"));
 
     const sectionMap = {
@@ -2835,40 +2891,63 @@
       vault: document.getElementById("sec-vault")
     };
 
-    // ====== FULL-SCREEN DENSE NATURAL SAKURA RAIN GENERATOR (PAGE 1 ONLY) ======
+    // Bộ định dạng số và thời gian được khởi tạo 1 lần duy nhất (Zero GC Allocation trong rAF)
+    const vnClockFormatter = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Asia/Ho_Chi_Minh",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false
+    });
+
+    const numberFormatters = new Map();
+    function getNumberFormatter(decimals) {
+      if (!numberFormatters.has(decimals)) {
+        numberFormatters.set(
+          decimals,
+          new Intl.NumberFormat("en-US", {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals
+          })
+        );
+      }
+      return numberFormatters.get(decimals);
+    }
+
+    // Tự động tạm dừng toàn bộ CSS animations khi người dùng chuyển tab để tiết kiệm GPU
+    document.addEventListener("visibilitychange", () => {
+      document.body.classList.toggle("is-tab-hidden", document.hidden);
+    });
+
+    // ====== 100% GPU COMPOSITED SAKURA RAIN GENERATOR (ZERO TOP REFLOW) ======
     function initGlobalSakuraRain() {
       if (!sakuraLayer) return;
-      const PETAL_COUNT = 52;
+      const isLowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || window.innerWidth < 640;
+      const PETAL_COUNT = isLowPower ? 30 : 46;
       const frag = document.createDocumentFragment();
 
-      const petalSvg1 = `<svg viewBox="0 0 32 32"><path fill="url(#sakuraPetalGrad)" d="M16,2 C10,2 6,10 9,20 C11,26 14,29 16,30 C18,29 21,26 23,20 C26,10 22,2 16,2 M16,2 L14,7 L16,5 L18,7 Z"/></svg>`;
-      const petalSvg2 = `<svg viewBox="0 0 32 32"><path fill="#fda4af" opacity="0.9" d="M16,3 C9,6 5,14 10,23 C12,27 15,29 16,30 C17,29 20,27 22,23 C27,14 23,6 16,3 Z"/></svg>`;
-      const blossomMiniSvg = `<svg viewBox="-34 -34 68 68"><use href="#sakura-flower-full"/></svg>`;
+      const petalSvg1 = `<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="url(#sakuraPetalGrad)" d="M16,2 C10,2 6,10 9,20 C11,26 14,29 16,30 C18,29 21,26 23,20 C26,10 22,2 16,2 M16,2 L14,7 L16,5 L18,7 Z"/></svg></div>`;
+      const petalSvg2 = `<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="#fda4af" opacity="0.9" d="M16,3 C9,6 5,14 10,23 C12,27 15,29 16,30 C17,29 20,27 22,23 C27,14 23,6 16,3 Z"/></svg></div>`;
+      const blossomMiniSvg = `<div class="sakura-sway"><svg viewBox="-34 -34 68 68"><use href="#sakura-flower-full"/></svg></div>`;
 
       for (let i = 0; i < PETAL_COUNT; i++) {
         const leaf = document.createElement("div");
         leaf.className = "sakura-leaf";
 
         const depthRoll = Math.random();
-        let size, dur, op, blurCss;
+        let size, dur, op;
         if (depthRoll < 0.25) {
-          // Tầng xa
           size = 9 + Math.random() * 4;
           dur = 11 + Math.random() * 4.5;
           op = 0.45 + Math.random() * 0.2;
-          blurCss = "none";
         } else if (depthRoll < 0.82) {
-          // Tầng trung rõ nét
           size = 12 + Math.random() * 6;
           dur = 7.5 + Math.random() * 3.8;
           op = 0.72 + Math.random() * 0.22;
-          blurCss = "none";
         } else {
-          // Tầng gần Bokeh
-          size = 18 + Math.random() * 7;
-          dur = 6 + Math.random() * 2.5;
-          op = 0.65 + Math.random() * 0.2;
-          blurCss = "blur(1px)";
+          size = 17 + Math.random() * 6;
+          dur = 6.2 + Math.random() * 2.5;
+          op = 0.62 + Math.random() * 0.2;
         }
 
         const xPos = Math.random() * 100;
@@ -2885,7 +2964,6 @@
         leaf.style.setProperty("--spin-dur", `${spinDur.toFixed(2)}s`);
         leaf.style.setProperty("--drift", `${drift.toFixed(0)}px`);
         leaf.style.setProperty("--op", op.toFixed(2));
-        leaf.style.setProperty("--blur", blurCss);
 
         if (i % 9 === 0) {
           leaf.innerHTML = blossomMiniSvg;
@@ -2905,6 +2983,7 @@
     let countRafId = null;
 
     function switchPage(targetPage) {
+      if (targetPage === currentPage) return;
       const page1 = document.getElementById("page-1");
       const page2 = document.getElementById("page-2");
       const topBtn = document.getElementById("top-page-switch-btn");
@@ -2913,7 +2992,6 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       if (targetPage === 2) {
-        // Ẩn mưa hoa anh đào khi sang Page 2 (chỉ giữ nền Apple Music)
         if (sakuraLayer) sakuraLayer.classList.add("is-hidden-rain");
 
         page1.classList.add("is-hidden");
@@ -2929,7 +3007,6 @@
           });
         });
       } else {
-        // Hiện lại mưa hoa anh đào toàn màn hình khi về Page 1
         if (sakuraLayer) sakuraLayer.classList.remove("is-hidden-rain");
 
         page2.classList.add("is-hidden");
@@ -2950,27 +3027,32 @@
       if (!scopeEl) return;
 
       const bars = scopeEl.querySelectorAll(".bar-fill");
-      bars.forEach((bar) => {
-        bar.classList.remove("is-animated");
-        bar.style.transition = "none";
-      });
+      for (let i = 0; i < bars.length; i++) {
+        bars[i].classList.remove("is-animated");
+        bars[i].style.transition = "none";
+      }
 
-      const counters = Array.from(scopeEl.querySelectorAll(".count-up")).map((el) => ({
-        el,
-        target: parseFloat(el.dataset.val || "0"),
-        decimals: parseInt(el.dataset.decimals || "0", 10),
-        suffix: el.dataset.suffix || ""
-      }));
+      const counters = Array.from(scopeEl.querySelectorAll(".count-up")).map((el) => {
+        const decimals = parseInt(el.dataset.decimals || "0", 10);
+        return {
+          el,
+          target: parseFloat(el.dataset.val || "0"),
+          decimals,
+          formatter: getNumberFormatter(decimals),
+          suffix: el.dataset.suffix || "",
+          lastText: ""
+        };
+      });
 
       if (countRafId) cancelAnimationFrame(countRafId);
 
       requestAnimationFrame(() => {
-        bars.forEach((bar, idx) => {
-          bar.style.transition = `transform ${1.15 + (idx % 6) * 0.08}s cubic-bezier(0.16, 1, 0.3, 1)`;
-          bar.classList.add("is-animated");
-        });
+        for (let idx = 0; idx < bars.length; idx++) {
+          bars[idx].style.transition = `transform ${1.12 + (idx % 6) * 0.07}s cubic-bezier(0.16, 1, 0.3, 1)`;
+          bars[idx].classList.add("is-animated");
+        }
 
-        const duration = 1450;
+        const duration = 1350;
         const startTime = performance.now();
 
         function step(now) {
@@ -2981,16 +3063,12 @@
           for (let i = 0; i < counters.length; i++) {
             const item = counters[i];
             const currentVal = item.target * eased;
-            let formatted;
-            if (item.decimals === 0) {
-              formatted = Math.round(currentVal).toLocaleString("en-US");
-            } else {
-              formatted = currentVal.toLocaleString("en-US", {
-                minimumFractionDigits: item.decimals,
-                maximumFractionDigits: item.decimals
-              });
+            const numVal = item.decimals === 0 ? Math.round(currentVal) : currentVal;
+            const nextText = item.formatter.format(numVal) + item.suffix;
+            if (nextText !== item.lastText) {
+              item.lastText = nextText;
+              item.el.textContent = nextText;
             }
-            item.el.textContent = formatted + item.suffix;
           }
 
           if (progress < 1) {
@@ -3083,20 +3161,22 @@
       let heartbeatInterval = null;
 
       ws.onmessage = (event) => {
-        const msg = JSON.parse(event.data);
-        if (msg.op === 1) {
-          ws.send(JSON.stringify({
-            op: 2,
-            d: { subscribe_to_id: DISCORD_USER_ID }
-          }));
-          heartbeatInterval = setInterval(() => {
-            if (ws.readyState === WebSocket.OPEN) {
-              ws.send(JSON.stringify({ op: 3 }));
-            }
-          }, msg.d.heartbeat_interval);
-        } else if (msg.op === 0 && (msg.t === "INIT_STATE" || msg.t === "PRESENCE_UPDATE")) {
-          applyLanyardData(msg.d);
-        }
+        try {
+          const msg = JSON.parse(event.data);
+          if (msg.op === 1) {
+            ws.send(JSON.stringify({
+              op: 2,
+              d: { subscribe_to_id: DISCORD_USER_ID }
+            }));
+            heartbeatInterval = setInterval(() => {
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ op: 3 }));
+              }
+            }, msg.d.heartbeat_interval);
+          } else if (msg.op === 0 && (msg.t === "INIT_STATE" || msg.t === "PRESENCE_UPDATE")) {
+            applyLanyardData(msg.d);
+          }
+        } catch (e) {}
       };
 
       ws.onclose = () => {
@@ -3105,25 +3185,64 @@
       };
     }
 
-    setInterval(() => {
+    // Bộ đếm nhịp 1Hz hợp nhất cho Đồng hồ ICT + Lanyard Timers (Tự động nghỉ khi ẩn tab)
+    const actTimerEl = document.getElementById("lanyard-act-timer");
+    const spotBarEl = document.getElementById("lanyard-spot-bar");
+    const spotTimeEl = document.getElementById("lanyard-spot-time");
+
+    function masterSecondTick() {
+      if (document.hidden) return;
       const now = Date.now();
-      const actTimerEl = document.getElementById("lanyard-act-timer");
-      if (actTimerEl && lanyardActivityStart) {
-        actTimerEl.textContent = formatHMS(now - lanyardActivityStart);
+
+      if (vnClockEl) {
+        vnClockEl.textContent = `${vnClockFormatter.format(now)} ICT (UTC+7)`;
       }
 
-      if (lanyardSpotifyTimestamps && lanyardSpotifyTimestamps.start && lanyardSpotifyTimestamps.end) {
-        const total = lanyardSpotifyTimestamps.end - lanyardSpotifyTimestamps.start;
-        const current = Math.min(Math.max(0, now - lanyardSpotifyTimestamps.start), total);
-        const ratio = total > 0 ? current / total : 0;
-        const spotBar = document.getElementById("lanyard-spot-bar");
-        const spotTime = document.getElementById("lanyard-spot-time");
-        if (spotBar) spotBar.style.setProperty("--scale", ratio.toFixed(3));
-        if (spotTime) spotTime.textContent = `${formatHMS(current)} / ${formatHMS(total)}`;
-      }
-    }, 1000);
+      if (currentPage === 1) {
+        if (actTimerEl && lanyardActivityStart) {
+          actTimerEl.textContent = formatHMS(now - lanyardActivityStart);
+        }
 
+        if (lanyardSpotifyTimestamps && lanyardSpotifyTimestamps.start && lanyardSpotifyTimestamps.end) {
+          const total = lanyardSpotifyTimestamps.end - lanyardSpotifyTimestamps.start;
+          const current = Math.min(Math.max(0, now - lanyardSpotifyTimestamps.start), total);
+          const ratio = total > 0 ? current / total : 0;
+          if (spotBarEl) spotBarEl.style.setProperty("--scale", ratio.toFixed(3));
+          if (spotTimeEl) spotTimeEl.textContent = `${formatHMS(current)} / ${formatHMS(total)}`;
+        }
+      }
+    }
+
+    setInterval(masterSecondTick, 1000);
+    masterSecondTick();
     connectLanyardWebSocket();
+
+    // Khởi tạo 1 lần thanh Track Chips để không bao giờ phải xóa/tạo lại DOM
+    const chipButtons = [];
+    function initTrackChips() {
+      if (!chipsRow) return;
+      const frag = document.createDocumentFragment();
+      GACHA_PLAYLIST.forEach((item, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `track-chip ${idx === currentIndex ? "active" : ""}`;
+        btn.innerHTML = `<span class="chip-dot" title="Green = Buffered in RAM"></span><span>${item.shortName}</span>`;
+        btn.addEventListener("mouseenter", () => prewarmDeck(idx), { passive: true });
+        btn.addEventListener("click", () => loadTrack(idx, true));
+        chipButtons.push(btn);
+        frag.appendChild(btn);
+      });
+      chipsRow.appendChild(frag);
+    }
+    initTrackChips();
+
+    function syncTrackChipsUI() {
+      for (let i = 0; i < chipButtons.length; i++) {
+        const isReady = audioDecks[i] && audioDecks[i].dataset.ready === "1";
+        chipButtons[i].classList.toggle("active", i === currentIndex);
+        chipButtons[i].classList.toggle("is-ready", isReady);
+      }
+    }
 
     const audioDecks = GACHA_PLAYLIST.map((track, idx) => {
       const deck = new Audio();
@@ -3136,7 +3255,7 @@
         deck.dataset.ready = "1";
         markChipReady(idx);
         if (idx === currentIndex) {
-          durationTimeEl.textContent = formatTime(deck.duration);
+          updateDurationDisplay(deck.duration);
           if (deck.paused) {
             audioStatus.textContent = "READY (BUFFERED)";
           }
@@ -3149,7 +3268,7 @@
 
       deck.addEventListener("loadedmetadata", () => {
         if (idx === currentIndex) {
-          durationTimeEl.textContent = formatTime(deck.duration);
+          updateDurationDisplay(deck.duration);
         }
       });
 
@@ -3181,12 +3300,13 @@
       });
 
       deck.addEventListener("timeupdate", () => {
-        if (idx !== currentIndex || rafPending || !deck.duration) return;
+        if (idx !== currentIndex || rafPending || isSeeking || !deck.duration) return;
         rafPending = true;
         requestAnimationFrame(() => {
-          seekBar.value = (deck.currentTime / deck.duration) * 100;
-          currentTimeEl.textContent = formatTime(deck.currentTime);
-          durationTimeEl.textContent = formatTime(deck.duration);
+          const pct = (deck.currentTime / deck.duration) * 100;
+          seekBar.value = pct.toFixed(2);
+          updateCurrentTimeDisplay(deck.currentTime);
+          updateDurationDisplay(deck.duration);
           rafPending = false;
         });
       });
@@ -3197,6 +3317,7 @@
       });
 
       const imgPreload = new Image();
+      imgPreload.decoding = "async";
       imgPreload.src = track.coverUrl;
 
       return deck;
@@ -3244,8 +3365,7 @@
     }
 
     function markChipReady(idx) {
-      const chip = chipsRow.children[idx];
-      if (chip) chip.classList.add("is-ready");
+      if (chipButtons[idx]) chipButtons[idx].classList.add("is-ready");
     }
 
     document.getElementById("view-filter-group").addEventListener("click", (e) => {
@@ -3289,10 +3409,10 @@
 
     function toggleExpandAll() {
       allExpanded = !allExpanded;
-      allStatNodes.forEach((n) => {
-        n.classList.toggle("is-open", allExpanded);
-        if (!allExpanded) n.classList.remove("is-pinned");
-      });
+      for (let i = 0; i < allStatNodes.length; i++) {
+        allStatNodes[i].classList.toggle("is-open", allExpanded);
+        if (!allExpanded) allStatNodes[i].classList.remove("is-pinned");
+      }
       updateExtendStatus();
       showToast(allExpanded ? "EXTENDED ALL NODES" : "COLLAPSED ALL NODES");
     }
@@ -3332,32 +3452,21 @@
       return `${m}:${s < 10 ? "0" : ""}${s}`;
     }
 
-    function renderTrackChips() {
-      chipsRow.innerHTML = "";
-      GACHA_PLAYLIST.forEach((item, idx) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        const isReady = audioDecks[idx] && audioDecks[idx].dataset.ready === "1";
-        btn.className = `track-chip ${idx === currentIndex ? "active" : ""} ${isReady ? "is-ready" : ""}`;
-        btn.innerHTML = `<span class="chip-dot" title="Green = Buffered in RAM"></span><span>${item.shortName}</span>`;
-        btn.onmouseenter = () => prewarmDeck(idx);
-        btn.onclick = () => loadTrack(idx, true);
-        chipsRow.appendChild(btn);
-      });
+    function updateCurrentTimeDisplay(sec) {
+      const nextStr = formatTime(sec);
+      if (nextStr !== lastCurrentTimeStr) {
+        lastCurrentTimeStr = nextStr;
+        currentTimeEl.textContent = nextStr;
+      }
     }
 
-    function updateClock() {
-      const vnTime = new Intl.DateTimeFormat("en-GB", {
-        timeZone: "Asia/Ho_Chi_Minh",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false
-      }).format(new Date());
-      document.getElementById("vn-clock").textContent = `${vnTime} ICT (UTC+7)`;
+    function updateDurationDisplay(sec) {
+      const nextStr = isFinite(sec) && sec > 0 ? formatTime(sec) : "...";
+      if (nextStr !== lastDurationStr) {
+        lastDurationStr = nextStr;
+        durationTimeEl.textContent = nextStr;
+      }
     }
-    setInterval(updateClock, 1000);
-    updateClock();
 
     let toastTimeout = null;
     function showToast(msg) {
@@ -3382,39 +3491,45 @@
       showToast("COPIED DISCORD ID: vuismei");
     }
 
+    // Chống giật thanh tua nhạc khi người dùng đang kéo chuột/cảm ứng
+    seekBar.addEventListener("pointerdown", () => { isSeeking = true; }, { passive: true });
+    seekBar.addEventListener("pointerup", () => { isSeeking = false; }, { passive: true });
     seekBar.addEventListener("input", () => {
       const deck = getActiveDeck();
       if (deck.duration) {
-        deck.currentTime = (seekBar.value / 100) * deck.duration;
+        const targetTime = (parseFloat(seekBar.value) / 100) * deck.duration;
+        updateCurrentTimeDisplay(targetTime);
+        deck.currentTime = targetTime;
       }
     });
+    seekBar.addEventListener("change", () => { isSeeking = false; });
 
     volumeBar.addEventListener("input", () => {
       userVolume = parseFloat(volumeBar.value);
       userMuted = userVolume === 0;
-      audioDecks.forEach((d) => {
-        d.volume = userVolume;
-        d.muted = userMuted;
-      });
+      for (let i = 0; i < audioDecks.length; i++) {
+        audioDecks[i].volume = userVolume;
+        audioDecks[i].muted = userMuted;
+      }
       setMuteButtonUI(userMuted);
     });
 
     function toggleMute() {
       userMuted = !userMuted;
-      audioDecks.forEach((d) => {
-        d.muted = userMuted;
-      });
+      for (let i = 0; i < audioDecks.length; i++) {
+        audioDecks[i].muted = userMuted;
+      }
       setMuteButtonUI(userMuted);
     }
 
     function loadTrack(index, autoPlay = false) {
       const nextIdx = (index + GACHA_PLAYLIST.length) % GACHA_PLAYLIST.length;
 
-      audioDecks.forEach((d, i) => {
-        if (i !== nextIdx && !d.paused) {
-          d.pause();
+      for (let i = 0; i < audioDecks.length; i++) {
+        if (i !== nextIdx && !audioDecks[i].paused) {
+          audioDecks[i].pause();
         }
-      });
+      }
 
       currentIndex = nextIdx;
       const track = GACHA_PLAYLIST[currentIndex];
@@ -3442,15 +3557,15 @@
         if (spotArtist) spotArtist.textContent = track.artist;
       }
 
-      renderTrackChips();
+      syncTrackChipsUI();
 
       if (autoPlay) {
         try { activeDeck.currentTime = 0; } catch (e) {}
       }
 
-      seekBar.value = activeDeck.duration ? (activeDeck.currentTime / activeDeck.duration) * 100 : 0;
-      currentTimeEl.textContent = formatTime(activeDeck.currentTime);
-      durationTimeEl.textContent = activeDeck.duration ? formatTime(activeDeck.duration) : "...";
+      seekBar.value = activeDeck.duration ? ((activeDeck.currentTime / activeDeck.duration) * 100).toFixed(2) : 0;
+      updateCurrentTimeDisplay(activeDeck.currentTime);
+      updateDurationDisplay(activeDeck.duration);
 
       if (activeDeck.preload !== "auto") {
         activeDeck.preload = "auto";
@@ -3500,7 +3615,7 @@
       if (overlay) {
         overlay.style.opacity = "0";
         overlay.style.pointerEvents = "none";
-        setTimeout(() => overlay.remove(), 500);
+        setTimeout(() => overlay.remove(), 480);
       }
       getActiveDeck().play().catch(() => {});
     }
@@ -3508,17 +3623,33 @@
     loadTrack(currentIndex, false);
     updateExtendStatus();
 
-    // Hiệu ứng ánh sáng kính phản quang (Glass Spotlight) di chuyển mượt theo chuột ở Page 1
+    // Hiệu ứng ánh sáng kính phản quang (Glass Spotlight) cache tọa độ khung để không gây Forced Reflow khi di chuột
     const heroCard = document.getElementById("hero-profile-card");
     if (heroCard) {
       let spotRaf = false;
+      let cachedRect = null;
+      let lastClientX = 0;
+      let lastClientY = 0;
+
+      const refreshHeroRect = () => {
+        if (currentPage === 1) {
+          cachedRect = heroCard.getBoundingClientRect();
+        }
+      };
+
+      heroCard.addEventListener("mouseenter", refreshHeroRect, { passive: true });
+      window.addEventListener("resize", () => { cachedRect = null; }, { passive: true });
+      window.addEventListener("scroll", () => { cachedRect = null; }, { passive: true });
+
       heroCard.addEventListener("mousemove", (e) => {
+        lastClientX = e.clientX;
+        lastClientY = e.clientY;
         if (spotRaf) return;
         spotRaf = true;
         requestAnimationFrame(() => {
-          const rect = heroCard.getBoundingClientRect();
-          heroCard.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
-          heroCard.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+          if (!cachedRect) cachedRect = heroCard.getBoundingClientRect();
+          heroCard.style.setProperty("--mouse-x", `${(lastClientX - cachedRect.left).toFixed(1)}px`);
+          heroCard.style.setProperty("--mouse-y", `${(lastClientY - cachedRect.top).toFixed(1)}px`);
           spotRaf = false;
         });
       }, { passive: true });
