@@ -16,6 +16,7 @@
       --blob-3: #fb923c;
       --blob-4: #38bdf8;
       --accent: #fb7185;
+      --cover-url: url('https://files.catbox.moe/6yr9eo.jpg');
     }
 
     * {
@@ -26,7 +27,7 @@
 
     body {
       font-family: 'Inter', 'Noto Sans JP', sans-serif;
-      background-color: #0f111a;
+      background-color: #090b12;
       color: #f8fafc;
       overflow-x: hidden;
       min-height: 100vh;
@@ -36,127 +37,223 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
-    /* ========== APPLE MUSIC LIVE LIQUID MESH BACKGROUND ========== */
+    /* ========== TRUE APPLE MUSIC DYNAMIC FLUID BACKGROUND ========== */
     .apple-bg-wrapper {
       position: fixed;
       inset: 0;
       z-index: -2;
       overflow: hidden;
-      background: #0d0f18;
+      background: #07080e;
     }
 
-    .apple-cover-blur {
+    /* 3 Lớp ảnh bìa xoay lệch tâm 360 độ ngược chiều nhau chuẩn Apple Music */
+    .apple-art-layer {
       position: absolute;
-      inset: -15%;
+      background-image: var(--cover-url);
       background-size: cover;
       background-position: center;
-      filter: blur(80px) saturate(240%) brightness(1.05);
-      opacity: 0.62;
-      transform: scale(1.15);
+      border-radius: 45%;
       transition: background-image 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-      animation: slowPulse 18s ease-in-out infinite alternate;
+      will-change: transform;
     }
 
+    .art-layer-1 {
+      width: 135vmax;
+      height: 135vmax;
+      top: -25vmax;
+      left: -20vmax;
+      filter: blur(55px) saturate(260%) brightness(0.95);
+      opacity: 0.78;
+      transform-origin: 44% 56%;
+      animation: orbitClockwise 20s linear infinite;
+    }
+
+    .art-layer-2 {
+      width: 120vmax;
+      height: 120vmax;
+      bottom: -30vmax;
+      right: -20vmax;
+      filter: blur(60px) saturate(280%) contrast(125%);
+      opacity: 0.72;
+      mix-blend-mode: hard-light;
+      transform-origin: 57% 43%;
+      animation: orbitCounterClockwise 15s linear infinite;
+    }
+
+    .art-layer-3 {
+      width: 95vmax;
+      height: 95vmax;
+      top: 5vmax;
+      left: 10vmax;
+      filter: blur(50px) saturate(300%) brightness(1.15);
+      opacity: 0.65;
+      mix-blend-mode: screen;
+      transform-origin: 38% 62%;
+      animation: liquidDriftCenter 11s ease-in-out infinite alternate;
+    }
+
+    /* 4 Khối màu lỏng di chuyển xuyên màn hình với biên độ lớn */
     .mesh-blob {
       position: absolute;
-      border-radius: 50%;
-      filter: blur(95px) saturate(210%);
-      opacity: 0.7;
+      filter: blur(55px) saturate(250%);
+      opacity: 0.82;
       mix-blend-mode: screen;
-      transition: background-color 1.2s ease, transform 1.2s ease;
+      transition: background-color 1.2s ease;
+      will-change: transform, border-radius;
     }
 
     .blob-1 {
-      width: 65vw;
-      height: 65vw;
-      max-width: 780px;
-      max-height: 780px;
-      top: -15%;
+      width: 58vw;
+      height: 58vw;
+      max-width: 720px;
+      max-height: 720px;
+      top: -12%;
       left: -10%;
-      background: var(--blob-1);
-      animation: floatBlob1 22s ease-in-out infinite alternate;
+      background: radial-gradient(circle at 35% 35%, var(--blob-1), transparent 72%);
+      animation: flowBlob1 11s ease-in-out infinite alternate;
     }
 
     .blob-2 {
-      width: 60vw;
-      height: 60vw;
-      max-width: 720px;
-      max-height: 720px;
+      width: 55vw;
+      height: 55vw;
+      max-width: 680px;
+      max-height: 680px;
       bottom: -15%;
       right: -10%;
-      background: var(--blob-2);
-      animation: floatBlob2 26s ease-in-out infinite alternate;
+      background: radial-gradient(circle at 65% 65%, var(--blob-2), transparent 72%);
+      animation: flowBlob2 13s ease-in-out infinite alternate;
     }
 
     .blob-3 {
-      width: 50vw;
-      height: 50vw;
-      max-width: 620px;
-      max-height: 620px;
-      top: 30%;
-      left: 40%;
-      background: var(--blob-3);
-      animation: floatBlob3 20s ease-in-out infinite alternate;
+      width: 48vw;
+      height: 48vw;
+      max-width: 580px;
+      max-height: 580px;
+      top: 15%;
+      right: 15%;
+      background: radial-gradient(circle at 50% 50%, var(--blob-3), transparent 70%);
+      animation: flowBlob3 9.5s ease-in-out infinite alternate;
     }
 
     .blob-4 {
-      width: 45vw;
-      height: 45vw;
-      max-width: 540px;
-      max-height: 540px;
-      bottom: 20%;
-      left: 10%;
-      background: var(--blob-4);
-      animation: floatBlob1 24s ease-in-out infinite alternate-reverse;
+      width: 46vw;
+      height: 46vw;
+      max-width: 550px;
+      max-height: 550px;
+      bottom: 10%;
+      left: 12%;
+      background: radial-gradient(circle at 40% 60%, var(--blob-4), transparent 70%);
+      animation: flowBlob4 12.5s ease-in-out infinite alternate;
     }
 
+    /* Lớp kính làm mịn vừa phải để không nuốt chuyển động bên dưới */
     .apple-frost-overlay {
       position: fixed;
       inset: 0;
       z-index: -1;
-      background: radial-gradient(circle at 50% 0%, rgba(20, 24, 38, 0.25) 0%, rgba(12, 14, 24, 0.58) 100%);
-      backdrop-filter: blur(42px) saturate(160%);
-      -webkit-backdrop-filter: blur(42px) saturate(160%);
+      background: radial-gradient(circle at 50% 25%, rgba(12, 15, 26, 0.16) 0%, rgba(8, 10, 18, 0.46) 100%);
+      backdrop-filter: blur(22px) saturate(190%);
+      -webkit-backdrop-filter: blur(22px) saturate(190%);
+      pointer-events: none;
     }
 
-    @keyframes floatBlob1 {
-      0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-      50% { transform: translate(12%, 10%) scale(1.12) rotate(45deg); }
-      100% { transform: translate(-6%, 16%) scale(0.95) rotate(90deg); }
+    @keyframes orbitClockwise {
+      0% { transform: rotate(0deg) scale(1.1); }
+      50% { transform: rotate(180deg) scale(1.32); }
+      100% { transform: rotate(360deg) scale(1.1); }
     }
 
-    @keyframes floatBlob2 {
-      0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-      50% { transform: translate(-14%, -10%) scale(1.15) rotate(-45deg); }
-      100% { transform: translate(8%, -15%) scale(0.92) rotate(-90deg); }
+    @keyframes orbitCounterClockwise {
+      0% { transform: rotate(360deg) scale(1.25); }
+      50% { transform: rotate(180deg) scale(1.05); }
+      100% { transform: rotate(0deg) scale(1.25); }
     }
 
-    @keyframes floatBlob3 {
-      0% { transform: translate(0, 0) scale(0.95); }
-      100% { transform: translate(-18%, 12%) scale(1.18); }
+    @keyframes liquidDriftCenter {
+      0% {
+        transform: translate3d(-18vw, -12vh, 0) scale(0.95) rotate(0deg);
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+      }
+      50% {
+        transform: translate3d(16vw, 18vh, 0) scale(1.28) rotate(110deg);
+        border-radius: 65% 35% 45% 55% / 55% 35% 65% 45%;
+      }
+      100% {
+        transform: translate3d(-10vw, 22vh, 0) scale(1.12) rotate(220deg);
+        border-radius: 35% 65% 55% 45% / 60% 40% 50% 50%;
+      }
     }
 
-    @keyframes slowPulse {
-      0% { transform: scale(1.12) rotate(0deg); }
-      100% { transform: scale(1.26) rotate(6deg); }
+    @keyframes flowBlob1 {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+        border-radius: 42% 58% 65% 35% / 45% 45% 55% 55%;
+      }
+      50% {
+        transform: translate3d(36vw, 18vh, 0) scale(1.32) rotate(95deg);
+        border-radius: 62% 38% 42% 58% / 58% 35% 65% 42%;
+      }
+      100% {
+        transform: translate3d(14vw, 44vh, 0) scale(0.92) rotate(190deg);
+        border-radius: 38% 62% 55% 45% / 42% 62% 38% 58%;
+      }
+    }
+
+    @keyframes flowBlob2 {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+        border-radius: 55% 45% 38% 62% / 50% 60% 40% 50%;
+      }
+      50% {
+        transform: translate3d(-38vw, -22vh, 0) scale(1.35) rotate(-105deg);
+        border-radius: 38% 62% 64% 36% / 42% 45% 55% 58%;
+      }
+      100% {
+        transform: translate3d(-15vw, -46vh, 0) scale(0.95) rotate(-210deg);
+        border-radius: 60% 40% 45% 55% / 55% 38% 62% 45%;
+      }
+    }
+
+    @keyframes flowBlob3 {
+      0% {
+        transform: translate3d(0, 0, 0) scale(0.95) rotate(0deg);
+      }
+      50% {
+        transform: translate3d(-34vw, 32vh, 0) scale(1.38) rotate(120deg);
+      }
+      100% {
+        transform: translate3d(12vw, -24vh, 0) scale(1.1) rotate(240deg);
+      }
+    }
+
+    @keyframes flowBlob4 {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1.05) rotate(0deg);
+      }
+      50% {
+        transform: translate3d(38vw, -30vh, 0) scale(1.3) rotate(-115deg);
+      }
+      100% {
+        transform: translate3d(-16vw, -18vh, 0) scale(0.9) rotate(-230deg);
+      }
     }
 
     /* ========== HIGH-CONTRAST GLASSMORPHISM CARDS ========== */
     .glass-card {
       position: relative;
-      background: rgba(255, 255, 255, 0.09);
+      background: rgba(15, 18, 32, 0.42);
       backdrop-filter: blur(28px) saturate(180%);
       -webkit-backdrop-filter: blur(28px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.26);
       border-radius: 1.25rem;
       transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.28s ease, box-shadow 0.28s ease;
     }
 
     .glass-card:hover {
       transform: translateY(-3px);
-      border-color: rgba(255, 255, 255, 0.36);
-      box-shadow: 0 22px 48px -12px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      border-color: rgba(255, 255, 255, 0.38);
+      box-shadow: 0 22px 48px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.36);
     }
 
     .hud-corner {
@@ -177,7 +274,7 @@
 
     /* ========== FIX TRIỆT ĐỂ CON MÈO ASCII ========== */
     .neko-frame {
-      background: rgba(10, 12, 22, 0.45);
+      background: rgba(10, 12, 22, 0.48);
       border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: 1rem;
       padding: 1rem 1.25rem;
@@ -334,7 +431,7 @@
 </head>
 
 <body class="pb-48 selection:bg-rose-500 selection:text-white">
-<!-- MÀN HÌNH CHÀO TỰ ĐỘNG PHÁT NHẠC (CLICK TO ENTER) -->
+  <!-- MÀN HÌNH CHÀO TỰ ĐỘNG PHÁT NHẠC (CLICK TO ENTER) -->
   <div id="intro-overlay" onclick="enterSite()" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#090b14]/90 backdrop-blur-2xl cursor-pointer transition-opacity duration-700">
     <div class="text-center space-y-4 select-none p-6">
       <div class="w-16 h-16 mx-auto rounded-full border-2 border-rose-400/60 bg-rose-500/10 flex items-center justify-center animate-pulse text-rose-300 text-2xl shadow-[0_0_25px_rgba(244,63,94,0.4)]">
@@ -348,9 +445,12 @@
       </p>
     </div>
   </div>
-  <!-- 1. APPLE MUSIC LIVE MESH BACKGROUND -->
+
+  <!-- 1. APPLE MUSIC LIVE MESH BACKGROUND (3-LAYER ALBUM ORBIT + 4 FLUID BLOBS) -->
   <div class="apple-bg-wrapper" aria-hidden="true">
-    <div id="apple-cover-bg" class="apple-cover-blur"></div>
+    <div class="apple-art-layer art-layer-1"></div>
+    <div class="apple-art-layer art-layer-2"></div>
+    <div class="apple-art-layer art-layer-3"></div>
     <div class="mesh-blob blob-1"></div>
     <div class="mesh-blob blob-2"></div>
     <div class="mesh-blob blob-3"></div>
@@ -1002,7 +1102,6 @@
 
   <!-- ================= JAVASCRIPT & PRE-FILLED CATBOX LINKS ================= -->
   <script>
-    // ĐÃ GẮN CHÍNH XÁC 5 CẶP NHẠC .MP3 & ẢNH BÌA CATBOX CỦA BẠN
     const GACHA_PLAYLIST = [
       {
         shortName: "1. Fukashigi no Carte",
@@ -1058,7 +1157,6 @@
     const audio = document.getElementById("audio-player");
     const vinylDisc = document.getElementById("vinyl-disc");
     const vinylCover = document.getElementById("vinyl-cover");
-    const appleCoverBg = document.getElementById("apple-cover-bg");
     const trackBadge = document.getElementById("track-badge");
     const trackTitle = document.getElementById("track-title");
     const trackArtist = document.getElementById("track-artist");
@@ -1072,6 +1170,13 @@
     const chipsRow = document.getElementById("track-chips-row");
 
     audio.volume = 0.85;
+
+    function formatTime(sec) {
+      if (!isFinite(sec) || sec < 0) return "0:00";
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m}:${s < 10 ? "0" : ""}${s}`;
+    }
 
     // Render 5 nút chọn bài nhanh
     function renderTrackChips() {
@@ -1120,7 +1225,7 @@
       showToast("Đã sao chép Discord ID: vuismei");
     }
 
-// Đồng bộ giao diện phát/dừng trực tiếp theo sự kiện Audio
+    // Đồng bộ giao diện phát/dừng & thanh thời gian trực tiếp theo sự kiện Audio
     audio.addEventListener("play", () => {
       isPlaying = true;
       vinylDisc.classList.add("is-playing");
@@ -1146,21 +1251,54 @@
       audioStatus.textContent = "Đang tải đệm...";
     });
 
-    // Nạp bài hát & đổi màu nền Apple Music
+    audio.addEventListener("loadedmetadata", () => {
+      durationTimeEl.textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener("timeupdate", () => {
+      if (audio.duration) {
+        seekBar.value = (audio.currentTime / audio.duration) * 100;
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+        durationTimeEl.textContent = formatTime(audio.duration);
+      }
+    });
+
+    audio.addEventListener("ended", () => {
+      nextTrack();
+    });
+
+    seekBar.addEventListener("input", () => {
+      if (audio.duration) {
+        audio.currentTime = (seekBar.value / 100) * audio.duration;
+      }
+    });
+
+    volumeBar.addEventListener("input", () => {
+      audio.volume = parseFloat(volumeBar.value);
+      audio.muted = audio.volume === 0;
+      muteBtn.textContent = audio.muted ? "🔇" : "🔊";
+    });
+
+    function toggleMute() {
+      audio.muted = !audio.muted;
+      muteBtn.textContent = audio.muted ? "🔇" : "🔊";
+    }
+
+    // Nạp bài hát & đổi màu nền Apple Music 3-Layer Orbit
     function loadTrack(index, autoPlay = false) {
       currentIndex = (index + GACHA_PLAYLIST.length) % GACHA_PLAYLIST.length;
       const track = GACHA_PLAYLIST[currentIndex];
 
-      // 1. Đổi màu nền Apple Music Live Mesh
+      // 1. Đổi màu nền Apple Music Live Mesh & biến ảnh bìa cho cả 3 lớp xoay
       const root = document.documentElement;
       root.style.setProperty("--blob-1", track.colors[0]);
       root.style.setProperty("--blob-2", track.colors[1]);
       root.style.setProperty("--blob-3", track.colors[2]);
       root.style.setProperty("--blob-4", track.colors[3]);
       root.style.setProperty("--accent", track.colors[0]);
+      root.style.setProperty("--cover-url", `url('${track.coverUrl}')`);
 
-      // 2. Đổi ảnh nền mờ & Đĩa than
-      appleCoverBg.style.backgroundImage = `url('${track.coverUrl}')`;
+      // 2. Đổi ảnh Đĩa than
       vinylCover.src = track.coverUrl;
 
       // 3. Cập nhật thông tin bài hát
@@ -1174,7 +1312,7 @@
       currentTimeEl.textContent = "0:00";
       durationTimeEl.textContent = "...";
 
-      // 5. Gán file và phát trực tiếp (không gọi audio.load())
+      // 5. Gán file và phát trực tiếp
       if (audio.src !== track.audioUrl) {
         audio.src = track.audioUrl;
       }
@@ -1228,6 +1366,7 @@
       loadTrack(nextIdx, true);
       showToast(`🎲 Gacha: ${GACHA_PLAYLIST[nextIdx].title}`);
     }
+
     // Hàm mở trang và phát nhạc ngay lập tức
     function enterSite() {
       const overlay = document.getElementById("intro-overlay");
@@ -1239,18 +1378,16 @@
       hasInteracted = true;
       audio.play().catch(() => {});
     }
+
     // Khởi tạo Gacha ngẫu nhiên 1 trong 5 bài ngay khi tải trang
     window.addEventListener("DOMContentLoaded", () => {
       const randomStart = Math.floor(Math.random() * GACHA_PLAYLIST.length);
       loadTrack(randomStart, false);
 
-      // Thử phát trước, nếu trình duyệt đã lưu quyền tự phát thì bỏ qua màn hình chào
       audio.play().then(() => {
         const overlay = document.getElementById("intro-overlay");
         if (overlay) overlay.remove();
-      }).catch(() => {
-        // Trình duyệt chặn tự phát: giữ nguyên màn hình chào để click 1 cái là phát ngay
-      });
+      }).catch(() => {});
     });
   </script>
 </body>
