@@ -1107,12 +1107,38 @@
       showToast("Đã sao chép Discord ID: vuismei");
     }
 
-    // Nạp bài hát & Đổi màu nền Apple Music
+// Đồng bộ giao diện phát/dừng trực tiếp theo sự kiện Audio
+    audio.addEventListener("play", () => {
+      isPlaying = true;
+      vinylDisc.classList.add("is-playing");
+      playBtn.textContent = "⏸";
+      audioStatus.textContent = "● Đang phát nhạc";
+    });
+
+    audio.addEventListener("playing", () => {
+      isPlaying = true;
+      vinylDisc.classList.add("is-playing");
+      playBtn.textContent = "⏸";
+      audioStatus.textContent = "● Đang phát nhạc";
+    });
+
+    audio.addEventListener("pause", () => {
+      isPlaying = false;
+      vinylDisc.classList.remove("is-playing");
+      playBtn.textContent = "▶";
+      audioStatus.textContent = "Đã tạm dừng";
+    });
+
+    audio.addEventListener("waiting", () => {
+      audioStatus.textContent = "Đang tải đệm...";
+    });
+
+    // Nạp bài hát & đổi màu nền Apple Music
     function loadTrack(index, autoPlay = false) {
       currentIndex = (index + GACHA_PLAYLIST.length) % GACHA_PLAYLIST.length;
       const track = GACHA_PLAYLIST[currentIndex];
 
-      // 1. Đổi 4 khối màu Apple Music Live Mesh
+      // 1. Đổi màu nền Apple Music Live Mesh
       const root = document.documentElement;
       root.style.setProperty("--blob-1", track.colors[0]);
       root.style.setProperty("--blob-2", track.colors[1]);
@@ -1120,54 +1146,53 @@
       root.style.setProperty("--blob-4", track.colors[3]);
       root.style.setProperty("--accent", track.colors[0]);
 
-      // 2. Đổi ảnh nền mờ Apple Music & ảnh Đĩa than
+      // 2. Đổi ảnh nền mờ & Đĩa than
       appleCoverBg.style.backgroundImage = `url('${track.coverUrl}')`;
       vinylCover.src = track.coverUrl;
 
-      // 3. Cập nhật thông tin chữ
+      // 3. Cập nhật thông tin bài hát
       trackBadge.textContent = track.badge;
       trackTitle.textContent = track.title;
       trackArtist.textContent = track.artist;
       renderTrackChips();
 
-      // 4. Nạp file âm thanh
+      // 4. Reset thanh thời gian
       seekBar.value = 0;
       currentTimeEl.textContent = "0:00";
       durationTimeEl.textContent = "...";
-      audio.src = track.audioUrl;
-      audio.load();
+
+      // 5. Gán file và phát trực tiếp (không gọi audio.load())
+      if (audio.src !== track.audioUrl) {
+        audio.src = track.audioUrl;
+      }
 
       if (autoPlay) {
-        playAudio();
+        audioStatus.textContent = "Đang nạp dữ liệu...";
+        audio.play().catch((err) => {
+          if (err.name !== "AbortError") {
+            audioStatus.textContent = "Bấm ▶ để phát";
+          }
+        });
       } else {
-        audioStatus.textContent = "Bấm ▶ hoặc chạm màn hình để phát";
+        audioStatus.textContent = "Sẵn sàng • Bấm ▶ để phát";
       }
-    }
-
-    function playAudio() {
-      audio.play().then(() => {
-        isPlaying = true;
-        vinylDisc.classList.add("is-playing");
-        playBtn.textContent = "⏸";
-        audioStatus.textContent = "● Đang phát nhạc";
-      }).catch(() => {
-        isPlaying = false;
-        vinylDisc.classList.remove("is-playing");
-        playBtn.textContent = "▶";
-        audioStatus.textContent = "Bấm ▶ để bắt đầu phát";
-      });
     }
 
     function togglePlay() {
       hasInteracted = true;
+      const track = GACHA_PLAYLIST[currentIndex];
+      if (!audio.src || audio.src === "" || audio.src !== track.audioUrl) {
+        audio.src = track.audioUrl;
+      }
+
       if (audio.paused) {
-        playAudio();
+        audio.play().catch((err) => {
+          if (err.name !== "AbortError") {
+            audioStatus.textContent = "Bấm ▶ để thử lại";
+          }
+        });
       } else {
         audio.pause();
-        isPlaying = false;
-        vinylDisc.classList.remove("is-playing");
-        playBtn.textContent = "▶";
-        audioStatus.textContent = "Đã tạm dừng";
       }
     }
 
@@ -1190,69 +1215,6 @@
       loadTrack(nextIdx, true);
       showToast(`🎲 Gacha: ${GACHA_PLAYLIST[nextIdx].title}`);
     }
-
-    function formatTime(sec) {
-      if (!sec || isNaN(sec)) return "0:00";
-      const m = Math.floor(sec / 60);
-      const s = Math.floor(sec % 60);
-      return `${m}:${s < 10 ? "0" : ""}${s}`;
-    }
-
-    audio.addEventListener("loadedmetadata", () => {
-      durationTimeEl.textContent = formatTime(audio.duration);
-    });
-
-    audio.addEventListener("timeupdate", () => {
-      if (audio.duration) {
-        seekBar.value = (audio.currentTime / audio.duration) * 100;
-        currentTimeEl.textContent = formatTime(audio.currentTime);
-        durationTimeEl.textContent = formatTime(audio.duration);
-      }
-    });
-
-    audio.addEventListener("ended", () => nextTrack());
-
-    seekBar.addEventListener("input", () => {
-      if (audio.duration) {
-        audio.currentTime = (seekBar.value / 100) * audio.duration;
-      }
-    });
-
-    volumeBar.addEventListener("input", () => {
-      audio.volume = volumeBar.value;
-      muteBtn.textContent = audio.volume == 0 ? "🔇" : "🔊";
-    });
-
-    function toggleMute() {
-      audio.muted = !audio.muted;
-      muteBtn.textContent = audio.muted ? "🔇" : "🔊";
-    }
-
-    // Tự động kích hoạt phát nhạc ở cú click chuột đầu tiên vào trang (vượt chặn Autoplay trình duyệt)
-    document.addEventListener("click", (e) => {
-      if (!hasInteracted) {
-        hasInteracted = true;
-        if (audio.paused && !e.target.closest("#play-btn")) {
-          playAudio();
-        }
-      }
-    }, { once: true });
-
-    // Phím tắt bàn phím
-    window.addEventListener("keydown", (e) => {
-      if (["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) return;
-      if (e.code === "Space") {
-        e.preventDefault();
-        togglePlay();
-      } else if (e.key.toLowerCase() === "n") {
-        nextTrack();
-      } else if (e.key.toLowerCase() === "m") {
-        toggleMute();
-      } else if (e.key.toLowerCase() === "g") {
-        triggerGachaTrack();
-      }
-    });
-
     // Khởi tạo Gacha ngẫu nhiên 1 trong 5 bài ngay khi tải trang
     window.addEventListener("DOMContentLoaded", () => {
       const randomStart = Math.floor(Math.random() * GACHA_PLAYLIST.length);
