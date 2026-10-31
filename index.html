@@ -348,6 +348,91 @@
     .hud-bl { bottom: 10px; left: 10px; border-bottom: 1.5px solid; border-left: 1.5px solid; }
     .hud-br { bottom: 10px; right: 10px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
 
+    /* ========== PAGE 1 INTERACTIVE GLASS SPOTLIGHT & DISCORD NAME STYLE ========== */
+    .hero-glass-card {
+      position: relative;
+      isolation: isolate;
+    }
+
+    .hero-glass-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(
+        520px circle at var(--mouse-x, 50%) var(--mouse-y, 20%),
+        rgba(251, 113, 133, 0.13),
+        rgba(56, 189, 248, 0.05) 45%,
+        transparent 75%
+      );
+      pointer-events: none;
+      z-index: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Hiệu ứng chữ VuNn phát sáng hồng phấn chuẩn Discord Display Name Style */
+    .vunn-display-name {
+      background: linear-gradient(180deg, #ffffff 15%, #fecdd3 65%, #fb7185 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 0 12px rgba(244, 63, 94, 0.52));
+      letter-spacing: -0.02em;
+    }
+
+    /* Huy hiệu Discord Badges bên cạnh tag プロセカ */
+    .discord-badges-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.32rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.45rem;
+      background: rgba(15, 18, 32, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    /* Sóng nhạc Equalizer động cho thẻ Live Spotify */
+    .eq-bars {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 11px;
+      margin-left: 2px;
+    }
+
+    .eq-bar {
+      width: 2.5px;
+      height: 100%;
+      background: #34d399;
+      border-radius: 999px;
+      transform-origin: bottom;
+      animation: eqBounce 0.85s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    .eq-bar:nth-child(2) { animation-duration: 0.65s; animation-delay: -0.25s; background: #6ee7b7; }
+    .eq-bar:nth-child(3) { animation-duration: 0.95s; animation-delay: -0.45s; background: #10b981; }
+    .eq-bar:nth-child(4) { animation-duration: 0.72s; animation-delay: -0.15s; background: #a7f3d0; }
+
+    @keyframes eqBounce {
+      0% { transform: scaleY(0.25); }
+      100% { transform: scaleY(1); }
+    }
+
+    /* Cụm hoa anh đào trang trí góc dưới thẻ chuẩn Discord Profile Frame */
+    .bottom-sakura-corner {
+      position: absolute;
+      bottom: -6px;
+      width: 150px;
+      height: 46px;
+      pointer-events: none;
+      z-index: 15;
+      opacity: 0.9;
+      filter: drop-shadow(0 4px 10px rgba(15, 6, 16, 0.65));
+    }
+    .bottom-sakura-left { left: -4px; }
+    .bottom-sakura-right { right: -4px; transform: scaleX(-1); }
+
     /* ========== ANTI-PIXELATION DUAL-LAYER GIF BANNER + REAL SAKURA CANOPY ========== */
     .discord-sakura-banner {
       position: relative;
@@ -994,12 +1079,28 @@
   <!-- ========================================================================= -->
   <!-- PAGE 1: MINIMALIST BIO CARD + GIF BANNER + SAKURA FRAME + LIVE LANYARD   -->
   <!-- ========================================================================= -->
-  <main id="page-1" class="page-view max-w-6xl mx-auto px-4 min-h-[calc(100vh-14rem)] flex flex-col justify-center py-6">
-    <section class="glass-card p-5 sm:p-7 w-full overflow-hidden">
+  <main id="page-1" class="page-view max-w-6xl mx-auto px-4 min-h-[calc(100vh-16.5rem)] flex flex-col justify-center pt-2 pb-8">
+    <section id="hero-profile-card" class="glass-card hero-glass-card p-5 sm:p-7 w-full overflow-hidden">
       <span class="hud-corner hud-tl"></span>
       <span class="hud-corner hud-tr"></span>
       <span class="hud-corner hud-bl"></span>
       <span class="hud-corner hud-br"></span>
+
+      <!-- Cụm hoa anh đào ôm 2 góc dưới thẻ Profile đồng bộ Discord Frame -->
+      <svg class="bottom-sakura-corner bottom-sakura-left" viewBox="0 0 180 60" aria-hidden="true">
+        <path d="M-5,52 Q55,44 125,56" fill="none" stroke="#3b0718" stroke-width="3.5" stroke-linecap="round"/>
+        <use href="#sakura-flower-back" transform="translate(18, 42) scale(0.62) rotate(-12)" />
+        <use href="#sakura-flower-full" transform="translate(46, 46) scale(0.72) rotate(14)" />
+        <use href="#sakura-flower-full" transform="translate(82, 50) scale(0.58) rotate(-20)" />
+        <use href="#sakura-bud" transform="translate(112, 52) rotate(75) scale(0.6)" />
+      </svg>
+      <svg class="bottom-sakura-corner bottom-sakura-right" viewBox="0 0 180 60" aria-hidden="true">
+        <path d="M-5,52 Q55,44 125,56" fill="none" stroke="#3b0718" stroke-width="3.5" stroke-linecap="round"/>
+        <use href="#sakura-flower-back" transform="translate(18, 42) scale(0.62) rotate(-12)" />
+        <use href="#sakura-flower-full" transform="translate(46, 46) scale(0.72) rotate(14)" />
+        <use href="#sakura-flower-full" transform="translate(82, 50) scale(0.58) rotate(-20)" />
+        <use href="#sakura-bud" transform="translate(112, 52) rotate(75) scale(0.6)" />
+      </svg>
 
       <!-- BANNER GIF ĐÔI MẮT ANIME CHỐNG VỠ HẠT + VÒM HOA ANH ĐÀO 5 CÁNH CHUẨN DISCORD -->
       <div class="discord-sakura-banner mb-4">
@@ -1158,10 +1259,17 @@
 
           <div class="space-y-2 flex-1 min-w-0">
             <div class="flex flex-wrap items-center gap-2">
-              <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">VuNn</h1>
+              <h1 class="text-2xl sm:text-3xl font-black tracking-tight vunn-display-name">VuNn</h1>
               <span class="text-xs sm:text-sm text-rose-200 font-medium">V u N n （詠ノな）</span>
-              <span class="px-2 py-0.5 text-[11px] font-mono-code font-semibold rounded bg-rose-500/20 border border-rose-400/30 text-rose-200">
-                プロセカ
+              <span class="px-2 py-0.5 text-[11px] font-mono-code font-semibold rounded bg-rose-500/20 border border-rose-400/30 text-rose-200 flex items-center gap-1">
+                <span class="text-rose-300">🤍</span> プロセカ
+              </span>
+              <!-- Cụm huy hiệu Discord Badges chuẩn theo ảnh hồ sơ -->
+              <span class="discord-badges-group" title="Discord Profile Badges">
+                <span class="text-[11px] leading-none" title="Nitro Subscriber">🚀</span>
+                <span class="text-[11px] leading-none" title="Gaming Activity">🎮</span>
+                <span class="text-[11px] leading-none" title="Discord Quest Completed">🗡️</span>
+                <span class="text-[11px] leading-none" title="Server Booster">🎁</span>
               </span>
               <span class="text-[11px] font-mono-code text-sky-300 bg-sky-500/15 border border-sky-400/25 px-2 py-0.5 rounded">
                 @vuismei
@@ -1233,8 +1341,8 @@
         </div>
 
         <!-- Card 2: Live Listening to Spotify -->
-        <div class="flex items-center gap-3.5 p-3 rounded-xl bg-black/30 border border-white/10">
-          <div class="relative w-12 h-12 rounded-lg overflow-hidden bg-slate-900 border border-white/15 shrink-0">
+        <div class="flex items-center gap-3.5 p-3 rounded-xl bg-black/35 border border-white/10 hover:border-emerald-400/35 transition-colors">
+          <div class="relative w-12 h-12 rounded-lg overflow-hidden bg-slate-900 border border-white/15 shrink-0 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
             <img id="lanyard-spot-img" src="https://files.catbox.moe/6yr9eo.jpg" alt="Spotify Cover" class="w-full h-full object-cover" />
           </div>
           <div class="min-w-0 flex-1">
@@ -1242,8 +1350,14 @@
               <span class="text-[10px] font-mono-code uppercase tracking-wider text-emerald-300 font-bold flex items-center gap-1.5">
                 <svg class="w-3 h-3 fill-current text-emerald-400" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.59 14.42c-.18.3-.56.39-.86.21-2.35-1.44-5.31-1.76-8.8-0.96-.34.08-.67-.13-.75-.47-.08-.34.13-.67.47-.75 3.82-.87 7.1-.5 9.73 1.11.3.18.39.56.21.86zm1.22-2.72c-.23.37-.71.49-1.08.26-2.69-1.65-6.79-2.13-9.97-1.16-.42.13-.86-.11-.99-.52-.13-.42.11-.86.52-.99 3.63-1.1 8.15-.57 11.26 1.34.37.23.49.71.26 1.07zm.11-2.83c-3.22-1.91-8.54-2.09-11.62-1.15-.49.15-1.01-.13-1.16-.62-.15-.49.13-1.01.62-1.16 3.54-1.07 9.41-.86 13.11 1.33.44.26.59.83.33 1.27-.26.44-.83.59-1.28.33z"/></svg>
                 <span id="lanyard-spot-label">LISTENING TO SPOTIFY</span>
+                <span class="eq-bars" aria-hidden="true">
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                </span>
               </span>
-              <span id="lanyard-spot-time" class="text-[10px] font-mono-code text-slate-400">LIVE SYNC</span>
+              <span id="lanyard-spot-time" class="text-[10px] font-mono-code text-emerald-300/90 font-semibold">LIVE SYNC</span>
             </div>
             <div id="lanyard-spot-song" class="text-xs sm:text-sm font-extrabold text-white truncate mt-0.5">
               Giọt Lệ Cho Ngàn Sau
@@ -3393,6 +3507,22 @@
 
     loadTrack(currentIndex, false);
     updateExtendStatus();
+
+    // Hiệu ứng ánh sáng kính phản quang (Glass Spotlight) di chuyển mượt theo chuột ở Page 1
+    const heroCard = document.getElementById("hero-profile-card");
+    if (heroCard) {
+      let spotRaf = false;
+      heroCard.addEventListener("mousemove", (e) => {
+        if (spotRaf) return;
+        spotRaf = true;
+        requestAnimationFrame(() => {
+          const rect = heroCard.getBoundingClientRect();
+          heroCard.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
+          heroCard.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+          spotRaf = false;
+        });
+      }, { passive: true });
+    }
 
     window.addEventListener("DOMContentLoaded", () => {
       getActiveDeck().play().then(() => {
