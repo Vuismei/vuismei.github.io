@@ -3,371 +3,769 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VuNn （詠ノな） — Ultimate Sonic Flex Showcase V35.4</title>
-  <!-- Google Fonts: Inter, Plus Jakarta Sans, JetBrains Mono & Noto Sans JP -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <title>VuNn // Ultimate Sonic Flex V35.4</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --blob-1: #f43f5e;
+      --blob-2: #6366f1;
+      --blob-3: #fb923c;
+      --blob-4: #38bdf8;
+      --accent: #fb7185;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Sans JP', sans-serif;
+      background-color: #0f111a;
+      color: #f8fafc;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ========== APPLE MUSIC LIVE LIQUID MESH BACKGROUND ========== */
+    .apple-bg-wrapper {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      background: #0d0f18;
+    }
+
+    .apple-cover-blur {
+      position: absolute;
+      inset: -15%;
+      background-size: cover;
+      background-position: center;
+      filter: blur(80px) saturate(240%) brightness(1.05);
+      opacity: 0.62;
+      transform: scale(1.15);
+      transition: background-image 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+      animation: slowPulse 18s ease-in-out infinite alternate;
+    }
+
+    .mesh-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(95px) saturate(210%);
+      opacity: 0.7;
+      mix-blend-mode: screen;
+      transition: background-color 1.2s ease, transform 1.2s ease;
+    }
+
+    .blob-1 {
+      width: 65vw;
+      height: 65vw;
+      max-width: 780px;
+      max-height: 780px;
+      top: -15%;
+      left: -10%;
+      background: var(--blob-1);
+      animation: floatBlob1 22s ease-in-out infinite alternate;
+    }
+
+    .blob-2 {
+      width: 60vw;
+      height: 60vw;
+      max-width: 720px;
+      max-height: 720px;
+      bottom: -15%;
+      right: -10%;
+      background: var(--blob-2);
+      animation: floatBlob2 26s ease-in-out infinite alternate;
+    }
+
+    .blob-3 {
+      width: 50vw;
+      height: 50vw;
+      max-width: 620px;
+      max-height: 620px;
+      top: 30%;
+      left: 40%;
+      background: var(--blob-3);
+      animation: floatBlob3 20s ease-in-out infinite alternate;
+    }
+
+    .blob-4 {
+      width: 45vw;
+      height: 45vw;
+      max-width: 540px;
+      max-height: 540px;
+      bottom: 20%;
+      left: 10%;
+      background: var(--blob-4);
+      animation: floatBlob1 24s ease-in-out infinite alternate-reverse;
+    }
+
+    .apple-frost-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(circle at 50% 0%, rgba(20, 24, 38, 0.25) 0%, rgba(12, 14, 24, 0.58) 100%);
+      backdrop-filter: blur(42px) saturate(160%);
+      -webkit-backdrop-filter: blur(42px) saturate(160%);
+    }
+
+    @keyframes floatBlob1 {
+      0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+      50% { transform: translate(12%, 10%) scale(1.12) rotate(45deg); }
+      100% { transform: translate(-6%, 16%) scale(0.95) rotate(90deg); }
+    }
+
+    @keyframes floatBlob2 {
+      0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+      50% { transform: translate(-14%, -10%) scale(1.15) rotate(-45deg); }
+      100% { transform: translate(8%, -15%) scale(0.92) rotate(-90deg); }
+    }
+
+    @keyframes floatBlob3 {
+      0% { transform: translate(0, 0) scale(0.95); }
+      100% { transform: translate(-18%, 12%) scale(1.18); }
+    }
+
+    @keyframes slowPulse {
+      0% { transform: scale(1.12) rotate(0deg); }
+      100% { transform: scale(1.26) rotate(6deg); }
+    }
+
+    /* ========== HIGH-CONTRAST GLASSMORPHISM CARDS ========== */
+    .glass-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+      border-radius: 1.25rem;
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.28s ease, box-shadow 0.28s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255, 255, 255, 0.36);
+      box-shadow: 0 22px 48px -12px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    }
+
+    .hud-corner {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-color: rgba(255, 255, 255, 0.42);
+      pointer-events: none;
+      transition: border-color 0.3s ease;
+    }
+    .glass-card:hover .hud-corner {
+      border-color: var(--accent);
+    }
+    .hud-tl { top: 10px; left: 10px; border-top: 2px solid; border-left: 2px solid; }
+    .hud-tr { top: 10px; right: 10px; border-top: 2px solid; border-right: 2px solid; }
+    .hud-bl { bottom: 10px; left: 10px; border-bottom: 2px solid; border-left: 2px solid; }
+    .hud-br { bottom: 10px; right: 10px; border-bottom: 2px solid; border-right: 2px solid; }
+
+    /* ========== FIX TRIỆT ĐỂ CON MÈO ASCII ========== */
+    .neko-frame {
+      background: rgba(10, 12, 22, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 1rem;
+      padding: 1rem 1.25rem;
+      min-width: 225px;
+      text-align: left !important;
+    }
+
+    .star-sky {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      line-height: 1.35;
+      color: #fde047;
+      letter-spacing: 1px;
+      user-select: none;
+      margin-bottom: 2px;
+    }
+
+    .cat-art {
+      font-family: 'MS PGothic', 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+      font-size: 15px;
+      line-height: 1.28;
+      color: #fda4af;
+      text-align: left !important;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+    }
+    .cat-indent {
+      padding-left: 1em;
+    }
+
+    /* ========== VINYL DISC SPIN ANIMATION ========== */
+    @keyframes spinVinyl {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .vinyl-record {
+      position: relative;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #1e293b 0%, #090a0f 65%, #1e293b 67%, #090a0f 100%);
+      box-shadow: 0 0 22px rgba(0, 0, 0, 0.65), 0 0 0 2px rgba(255, 255, 255, 0.24);
+      animation: spinVinyl 7.5s linear infinite;
+      animation-play-state: paused;
+      flex-shrink: 0;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .vinyl-record.is-playing {
+      animation-play-state: running;
+    }
+
+    .vinyl-record img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .vinyl-grooves {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: repeating-radial-gradient(
+        circle at center,
+        rgba(0, 0, 0, 0) 0px,
+        rgba(0, 0, 0, 0) 3px,
+        rgba(0, 0, 0, 0.25) 4px
+      );
+      pointer-events: none;
+    }
+
+    .vinyl-hole {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 14px;
+      height: 14px;
+      transform: translate(-50%, -50%);
+      background: #0f172a;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      border-radius: 50%;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    /* Pill Buttons */
+    .social-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 1.05rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.11);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+      transition: all 0.22s ease;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .social-pill:hover {
+      background: rgba(255, 255, 255, 0.24);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+    }
+
+    .track-chip {
+      padding: 0.28rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #e2e8f0;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .track-chip:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
+    .track-chip.active {
+      background: rgba(244, 63, 94, 0.35);
+      border-color: rgba(251, 113, 133, 0.75);
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(244, 63, 94, 0.35);
+    }
+
+    /* Custom Range Slider */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: rgba(255, 255, 255, 0.22);
+      height: 5px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+    }
+  </style>
 </head>
-<body>
 
-  <!-- =========================================================
-       1. APPLE MUSIC DYNAMIC FLUID MESH BACKGROUND
-       ========================================================= -->
-  <div class="apple-bg-container" id="apple-bg-container" aria-hidden="true">
-    <div class="bg-blob bg-blob-1" id="bg-blob-1"></div>
-    <div class="bg-blob bg-blob-2" id="bg-blob-2"></div>
-    <div class="bg-blob bg-blob-3" id="bg-blob-3"></div>
-    <div class="bg-blob bg-blob-4" id="bg-blob-4"></div>
-    <div class="apple-bg-glass-overlay"></div>
+<body class="pb-48 selection:bg-rose-500 selection:text-white">
+
+  <!-- 1. APPLE MUSIC LIVE MESH BACKGROUND -->
+  <div class="apple-bg-wrapper" aria-hidden="true">
+    <div id="apple-cover-bg" class="apple-cover-blur"></div>
+    <div class="mesh-blob blob-1"></div>
+    <div class="mesh-blob blob-2"></div>
+    <div class="mesh-blob blob-3"></div>
+    <div class="mesh-blob blob-4"></div>
+  </div>
+  <div class="apple-frost-overlay" aria-hidden="true"></div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast-box" class="fixed top-5 right-5 z-50 pointer-events-none opacity-0 -translate-y-3 transition-all duration-300">
+    <div class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-rose-400/50 text-white text-sm font-medium shadow-2xl backdrop-blur-xl">
+      <span class="text-rose-400">✦</span>
+      <span id="toast-text">Đã sao chép Discord ID: vuismei</span>
+    </div>
   </div>
 
-  <!-- Toast Notification -->
-  <div id="toast-notification" class="toast-notification" role="status" aria-live="polite">
-    <span class="toast-icon">✦</span>
-    <span id="toast-message">Đã sao chép Discord ID: vuismei</span>
-  </div>
+  <!-- TOP TELEMETRY BAR -->
+  <header class="max-w-6xl mx-auto px-4 pt-5 pb-2 flex flex-wrap items-center justify-between gap-3 text-xs font-mono-code text-slate-200">
+    <div class="flex items-center gap-2 bg-white/10 border border-white/15 px-3.5 py-1.5 rounded-full backdrop-blur-md">
+      <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
+      <span class="font-bold tracking-wider">VUNN // SONIC.FLEX.V35.4</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <div id="vn-clock" class="bg-white/10 border border-white/15 px-3.5 py-1.5 rounded-full backdrop-blur-md">
+        00:00:00 ICT (UTC+7)
+      </div>
+      <div class="bg-gradient-to-r from-rose-500/30 to-violet-500/30 border border-rose-300/40 text-white px-3.5 py-1.5 rounded-full font-semibold shadow-sm">
+        ★ TOP 0.0057% GLOBAL LISTENER
+      </div>
+    </div>
+  </header>
 
-  <!-- Main Wrapper -->
-  <main class="main-container">
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-6xl mx-auto px-4 space-y-8 mt-3">
 
-    <!-- =========================================================
-         2. HERO PROFILE CARD & ASCII NEKO STARFIELD
-         ========================================================= -->
-    <section class="hero-card glass-card tilt-card" id="hero-section">
-      <div class="hero-glow-accent"></div>
+    <!-- ================= HERO PROFILE CARD ================= -->
+    <section class="glass-card p-6 md:p-8">
+      <span class="hud-corner hud-tl"></span>
+      <span class="hud-corner hud-tr"></span>
+      <span class="hud-corner hud-bl"></span>
+      <span class="hud-corner hud-br"></span>
 
-      <div class="hero-top-grid">
+      <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
         <!-- Left: Avatar + Identity -->
-        <div class="hero-identity-group">
-          <div class="avatar-wrapper">
-            <div class="avatar-ring"></div>
-            <img
-              id="profile-avatar"
-              class="profile-avatar"
-              src="https://files.catbox.moe/0r6ro8.jpg"
-              alt="VuNn"
-            />
-            <span class="avatar-status-dot" title="Dual-Core Listener Active"></span>
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 flex-1">
+          <!-- Avatar Wrapper -->
+          <div class="relative group shrink-0">
+            <div class="absolute -inset-1 rounded-full bg-gradient-to-tr from-rose-500 via-fuchsia-500 to-sky-400 opacity-85 blur-md group-hover:opacity-100 transition duration-500"></div>
+            <div class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-2 border-white/60 bg-slate-900 shadow-2xl">
+              <img
+                id="hero-avatar"
+                src="https://files.catbox.moe/0r6ro8.jpg"
+                alt="VuNn"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <!-- DND Status Dot -->
+            <span title="BUSY / SLEEP = NO REPLY" class="absolute bottom-1 right-1 w-6 h-6 rounded-full bg-rose-500 border-4 border-[#141624] shadow-lg flex items-center justify-center">
+              <span class="w-2.5 h-0.5 bg-white rounded-full"></span>
+            </span>
           </div>
 
-          <div class="hero-text-meta">
-            <div class="hero-name-row">
-              <h1 class="hero-title">VuNn</h1>
-              <span class="hero-jp-name">V u N n （詠ノな）</span>
-              <span class="hero-prsk-badge">[ ♥ プロセカ ]</span>
-              <span class="hero-handle">@vuismei</span>
+          <!-- Bio Text -->
+          <div class="space-y-2.5">
+            <div class="flex flex-wrap items-center gap-2.5">
+              <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-white drop-shadow">VuNn</h1>
+              <span class="text-sm sm:text-base text-rose-200 font-medium">V u N n （詠ノな）</span>
+              <span class="px-2.5 py-0.5 text-xs font-semibold rounded-md bg-rose-500/25 border border-rose-300/40 text-rose-100">
+                [ ♥ プロセカ ]
+              </span>
+              <span class="text-xs font-mono-code text-sky-300 bg-sky-500/15 border border-sky-400/30 px-2.5 py-0.5 rounded-md">
+                @vuismei
+              </span>
             </div>
 
-            <div class="typewriter-wrapper">
-              <span id="typewriter-text" class="typewriter-text">&gt; The Spatial &amp; Speed Purist — Dual-Core Listener (80/20) _</span>
+            <div class="font-mono-code text-xs sm:text-sm text-sky-200 font-medium">
+              <span>&gt; The Spatial &amp; Speed Purist — Dual-Core Listener (80/20)</span><span class="animate-pulse">_</span>
             </div>
 
-            <blockquote class="hero-quote-box">
-              <p class="quote-main">
+            <!-- Quote Oshino Meme -->
+            <blockquote class="p-3.5 rounded-xl bg-black/25 border-l-4 border-rose-400 space-y-1">
+              <p class="text-sm sm:text-base font-semibold text-white italic leading-relaxed">
                 “Người ta chỉ tự mình cứu lấy bản thân thôi. Chẳng ai có thể cứu được ai cả.”
-                <span class="quote-author">— Oshino Meme</span>
+                <span class="not-italic font-bold text-rose-300 ml-1">— Oshino Meme</span>
               </p>
-              <p class="quote-sub">
-                "what are you looking at me for" — BUSY / SLEEP = NO REPLY | ocean.
+              <p class="text-xs font-mono-code text-slate-300">
+                "what are you looking at me for" — <span class="text-rose-300 font-semibold">BUSY / SLEEP = NO REPLY</span> | 𝑜𝒸𝑒𝒶𝓃.
               </p>
             </blockquote>
           </div>
         </div>
 
-        <!-- Right: ASCII Starry Sky + Neko Box (Fixed Alignment) -->
-        <div class="hero-neko-wrapper">
-          <div class="neko-header-tag">
-            <span class="neko-dot"></span> NIGHT SKY TERMINAL
+        <!-- Right: Fixed Starry Neko Box -->
+        <div class="neko-frame self-stretch sm:self-auto flex flex-col justify-between shrink-0">
+          <div class="flex items-center justify-between text-[10px] font-mono-code text-slate-300 border-b border-white/10 pb-1.5 mb-2">
+            <span class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              DISCORD BIO ART
+            </span>
+            <span>22 JUN 2021</span>
           </div>
-          <pre class="neko-box" aria-label="ASCII Starry Cat">*      .       *     .   * .  *
-  .   *        *    .   *
- *      *  .     ✦ ✧   .  ✧  *
-   . *
-  *
-  ／l、
-（ﾟ､ ｡ ７
-  l  ~ヽ
-  じしf_,)ノ</pre>
+          <div class="star-sky">
+            <div>* &nbsp;&nbsp;&nbsp;. &nbsp;&nbsp;&nbsp;&nbsp;* &nbsp;&nbsp;. &nbsp;* . *</div>
+            <div>&nbsp;. &nbsp;* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* &nbsp;&nbsp;. &nbsp;&nbsp;*</div>
+            <div>* &nbsp;&nbsp;&nbsp;* . &nbsp;&nbsp;✦ ✧ &nbsp;. ✧ *</div>
+            <div>&nbsp;. *</div>
+          </div>
+          <div class="cat-art" aria-label="Starry Neko">
+            <div class="cat-indent">／l、</div>
+            <div>（ﾟ､ ｡ ７</div>
+            <div class="cat-indent">l &nbsp;~ヽ</div>
+            <div class="cat-indent">じしf_,)ノ</div>
+          </div>
         </div>
       </div>
 
-      <!-- Social Pill Buttons & DOCX Download -->
-      <div class="hero-links-row">
-        <a id="link-youtube" href="https://www.youtube.com/channel/UCYABwsH3KS9BPi8rD63wPUw" target="_blank" rel="noopener noreferrer" class="pill-btn pill-youtube">
-          <svg class="pill-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      <!-- Social & Action Links Row -->
+      <div class="mt-6 pt-5 border-t border-white/15 flex flex-wrap items-center gap-2.5">
+        <a href="https://www.youtube.com/channel/UCYABwsH3KS9BPi8rD63wPUw" target="_blank" rel="noopener noreferrer" class="social-pill">
+          <span class="text-rose-400">▶</span>
           <span>YouTube</span>
         </a>
 
-        <a id="link-spotify" href="https://open.spotify.com/user/31d3h322skpdkzylnfqctdik6bku" target="_blank" rel="noopener noreferrer" class="pill-btn pill-spotify">
-          <svg class="pill-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+        <a href="https://open.spotify.com/user/31d3h322skpdkzylnfqctdik6bku" target="_blank" rel="noopener noreferrer" class="social-pill">
+          <span class="text-emerald-400">🎧</span>
           <span>Spotify — VuNn</span>
         </a>
 
-        <a id="link-steam" href="https://steamcommunity.com/profiles/76561199201898657" target="_blank" rel="noopener noreferrer" class="pill-btn pill-steam">
-          <svg class="pill-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0z"/></svg>
+        <a href="https://steamcommunity.com/profiles/76561199201898657" target="_blank" rel="noopener noreferrer" class="social-pill">
+          <span class="text-sky-400">🎮</span>
           <span>Steam</span>
         </a>
 
-        <button type="button" id="btn-discord" class="pill-btn pill-discord">
-          <svg class="pill-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286z"/></svg>
-          <span>Discord: <strong id="discord-handle-text">vuismei</strong></span>
+        <button type="button" onclick="copyDiscordId()" class="social-pill">
+          <span class="text-indigo-300">💬</span>
+          <span>Discord: <strong>vuismei</strong></span>
         </button>
 
-        <a id="link-docx" href="./Ho_So_Ban_Than_Book_Edition_V35_4.docx" download class="pill-btn pill-docx">
-          <span>📄 Hồ Sơ Bản Dạng V35.4 (.DOCX)</span>
+        <a href="./Ho_So_Ban_Than_Book_Edition_V35_4.docx" download class="social-pill !bg-gradient-to-r !from-rose-500/35 !to-violet-500/35 !border-rose-300/50">
+          <span>📄</span>
+          <span>Hồ Sơ Bản Dạng V35.4 (.DOCX)</span>
         </a>
+
+        <button type="button" onclick="triggerGachaTrack()" class="social-pill ml-auto !bg-white/20 !border-white/40">
+          <span>🎲</span>
+          <span>Gacha Nhạc &amp; Đổi Màu Nền</span>
+        </button>
       </div>
     </section>
 
-    <!-- =========================================================
-         3. [KHU VỰC 1] // GLOBAL & NATIONAL OUTLIER BADGES
-         ========================================================= -->
-    <section class="flex-section" aria-labelledby="sec-outlier-title">
-      <div class="section-header">
-        <span class="section-kicker">// SECTION 01 • EMPIRICAL TELEMETRY (2022–2026)</span>
-        <h2 class="section-title" id="sec-outlier-title">GLOBAL &amp; NATIONAL OUTLIER BADGES</h2>
+    <!-- ================= KHU VỰC 1: GLOBAL & NATIONAL OUTLIERS ================= -->
+    <section class="space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-1 px-1">
+        <div>
+          <span class="text-xs font-mono-code uppercase tracking-widest text-rose-300 font-semibold">
+            // 01 • EMPIRICAL TELEMETRY (2022–2026)
+          </span>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white">
+            HUY HIỆU ĐỘC BẢN TOÀN CẦU &amp; QUỐC GIA
+          </h2>
+        </div>
+        <span class="text-xs font-mono-code text-slate-200">SHA-256 Verified • 207,281 Track Events</span>
       </div>
 
-      <div class="bento-grid-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- Card 1 -->
-        <article class="glass-card outlier-card tilt-card">
-          <div class="card-top-tag tag-cyan">SPOTIFY WRAPPED GLOBAL</div>
-          <div class="outlier-stat">
-            TOP <span class="count-up" data-target="0.0057" data-decimals="4">0.0057</span>%
+        <article class="glass-card p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono-code text-rose-200 mb-2">
+              <span>SPOTIFY WRAPPED GLOBAL</span>
+              <span class="px-2 py-0.5 rounded bg-rose-500/30 border border-rose-300/40 text-white font-bold">#1 WORLD</span>
+            </div>
+            <div class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+              TOP 0.0057%
+            </div>
+            <h3 class="text-sm font-bold text-rose-200 mt-1">
+              Fan Toàn Cầu • Tokyo Philharmonic Orchestra
+            </h3>
+            <p class="text-xs text-slate-200 mt-2 leading-relaxed">
+              Chỉ <strong>~1 / 18,000</strong> người nghe trên toàn thế giới đạt tới phân vị này. Kết hợp <strong>627 Count Lossless</strong> trọn bộ 11 album <em>Miku Symphony</em>.
+            </p>
           </div>
-          <h3 class="outlier-subtitle">GLOBAL FAN • Tokyo Philharmonic Orchestra</h3>
-          <p class="outlier-desc">
-            Chỉ <strong>~1 / 18,000</strong> người nghe trên toàn thế giới đạt tới phân vị cực hiếm này trên bảng xếp hạng toàn cầu.
-          </p>
-          <div class="energy-bar"><span style="width: 99.9%"></span></div>
+          <div class="mt-4 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
+            <div class="h-full w-[99.9%] bg-gradient-to-r from-rose-400 via-fuchsia-400 to-sky-400"></div>
+          </div>
         </article>
 
         <!-- Card 2 -->
-        <article class="glass-card outlier-card tilt-card">
-          <div class="card-top-tag tag-purple">TOP &lt;0.1% WORLDWIDE</div>
-          <div class="outlier-stat">
-            <span class="count-up" data-target="10594.8" data-decimals="1">10,594.8</span> <small>GIỜ</small>
+        <article class="glass-card p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono-code text-sky-200 mb-2">
+              <span>EXTREME VOLUME OUTLIER</span>
+              <span class="px-2 py-0.5 rounded bg-sky-500/30 border border-sky-300/40 text-white font-bold">TOP &lt;0.1%</span>
+            </div>
+            <div class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+              10,594.8 <span class="text-lg font-bold text-sky-200">GIỜ</span>
+            </div>
+            <h3 class="text-sm font-bold text-sky-200 mt-1">
+              207,281 Sự Kiện Nhạc (441.4 Ngày Đêm Liên Tục)
+            </h3>
+            <p class="text-xs text-slate-200 mt-2 leading-relaxed">
+              Gấp <strong>3.55 lần</strong> mức trung bình toàn cầu (~1.8h/ngày). Ngay cả khi trừ toàn bộ chuỗi phát nền vẫn nằm trong <strong>Top 5% thế giới</strong>.
+            </p>
           </div>
-          <h3 class="outlier-subtitle">207,281 Sự Kiện Track (2022–2026)</h3>
-          <p class="outlier-desc">
-            Tương đương <strong>441.4 ngày đêm</strong> phát nhạc liên tục không ngắt nghỉ xuyên suốt kỷ nguyên số.
-          </p>
-          <div class="energy-bar"><span style="width: 96%"></span></div>
+          <div class="mt-4 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
+            <div class="h-full w-[98%] bg-gradient-to-r from-sky-400 to-indigo-400"></div>
+          </div>
         </article>
 
         <!-- Card 3 -->
-        <article class="glass-card outlier-card tilt-card">
-          <div class="card-top-tag tag-emerald">UNBROKEN PRESENCE</div>
-          <div class="outlier-stat">
-            <span class="count-up" data-target="526" data-decimals="0">526</span> <small>NGÀY STREAK</small>
+        <article class="glass-card p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono-code text-emerald-200 mb-2">
+              <span>UNBROKEN CONSISTENCY</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-500/30 border border-emerald-300/40 text-white font-bold">96.19% LIFE</span>
+            </div>
+            <div class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+              526 <span class="text-lg font-bold text-emerald-200">NGÀY STREAK</span>
+            </div>
+            <h3 class="text-sm font-bold text-emerald-200 mt-1">
+              Hiện Diện 1,592 / 1,655 Ngày Lịch Liên Tiếp
+            </h3>
+            <p class="text-xs text-slate-200 mt-2 leading-relaxed">
+              Suốt 4.5 năm (từ năm lớp 8 đến đại học), chỉ vắng tiếng nhạc đúng 63 ngày. Trung bình <strong>6.40 giờ/ngày</strong> bất kể ngày thường hay lễ Tết.
+            </p>
           </div>
-          <h3 class="outlier-subtitle">Hiện Diện 1,592 / 1,655 Ngày Lịch (96.19%)</h3>
-          <p class="outlier-desc">
-            Chuỗi ngày nghe nhạc bất bại • Duy trì trung bình <strong>6.40h/ngày</strong> liên tục suốt 4.5 năm.
-          </p>
-          <div class="energy-bar"><span style="width: 96.2%"></span></div>
+          <div class="mt-4 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
+            <div class="h-full w-[96.2%] bg-gradient-to-r from-emerald-400 to-teal-300"></div>
+          </div>
         </article>
 
         <!-- Card 4 -->
-        <article class="glass-card outlier-card tilt-card">
-          <div class="card-top-tag tag-rose">VIETNAM BENCHMARK OUTLIER</div>
-          <div class="outlier-stat">
-            <span class="count-up" data-target="14.0" data-decimals="1">14.0</span>× &amp; <span class="count-up" data-target="12.6" data-decimals="1">12.6</span>×
+        <article class="glass-card p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono-code text-amber-200 mb-2">
+              <span>VIETNAM SOUND CAPSULE</span>
+              <span class="px-2 py-0.5 rounded bg-amber-500/30 border border-amber-300/40 text-white font-bold">#59 DISCOVER</span>
+            </div>
+            <div class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+              14.0× <span class="text-xl font-bold text-amber-200">&amp;</span> 12.6×
+            </div>
+            <h3 class="text-sm font-bold text-amber-200 mt-1">
+              Vượt Chuẩn Việt Nam • Thắng (14×) &amp; Ngọt (12.6×)
+            </h3>
+            <p class="text-xs text-slate-200 mt-2 leading-relaxed">
+              Nghe <strong>Ngọt 331.4h</strong> (5,747 lượt, 4 album lọt Top 12) &amp; <strong>Thắng 126.4h</strong>. Hạng <strong>#59 First to Discover</strong> tại Việt Nam (<em>Kaseijin</em>).
+            </p>
           </div>
-          <h3 class="outlier-subtitle">#59 First to Discover VN</h3>
-          <p class="outlier-desc">
-            Thời lượng nghe <strong>Thắng gấp 14.0 lần</strong> &amp; <strong>Ngọt gấp 12.6 lần</strong> trung bình người nghe tại Việt Nam.
-          </p>
-          <div class="energy-bar"><span style="width: 94%"></span></div>
+          <div class="mt-4 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
+            <div class="h-full w-[94%] bg-gradient-to-r from-amber-400 to-rose-400"></div>
+          </div>
         </article>
 
         <!-- Card 5 -->
-        <article class="glass-card outlier-card tilt-card">
-          <div class="card-top-tag tag-amber">PEAK EXAM COGNITIVE LOAD</div>
-          <div class="outlier-stat">
-            <span class="count-up" data-target="1120.1" data-decimals="1">1,120.1</span> <small>GIỜ</small>
+        <article class="glass-card p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono-code text-fuchsia-200 mb-2">
+              <span>PEAK EXAM OVERDRIVE</span>
+              <span class="px-2 py-0.5 rounded bg-fuchsia-500/30 border border-fuchsia-300/40 text-white font-bold">126.0H / TUẦN</span>
+            </div>
+            <div class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+              1,120.1 <span class="text-lg font-bold text-fuchsia-200">GIỜ</span>
+            </div>
+            <h3 class="text-sm font-bold text-fuchsia-200 mt-1">
+              92 Ngày Cao Điểm Ôn Thi THPT (03–05/2026)
+            </h3>
+            <p class="text-xs text-slate-200 mt-2 leading-relaxed">
+              Trung bình <strong>12.18 giờ/ngày</strong> (chiếm <strong>76.09% tổng quỹ giờ thức</strong>). Tuần sát kỳ thi đạt kỷ lục <strong>126.0 giờ/tuần (18h/ngày)</strong>.
+            </p>
           </div>
-          <h3 class="outlier-subtitle">Mùa Ôn Thi THPT (92 Ngày Cao Điểm 03–05/2026)</h3>
-          <p class="outlier-desc">
-            Trung bình <strong>12.18h/ngày</strong> (76.09% giờ thức) • Tuần đỉnh điểm chạm ngưỡng <strong>126.0 giờ/tuần (18h/ngày)</strong>.
-          </p>
-          <div class="energy-bar"><span style="width: 92%"></span></div>
+          <div class="mt-4 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
+            <div class="h-full w-[92%] bg-gradient-to-r from-fuchsia-400 to-violet-400"></div>
+          </div>
         </article>
 
         <!-- Card 6 -->
-        <article class="glass-card outlier-card tilt-card">
-          <div class="card-top-tag tag-blue">ABSOLUTE CHAOS × LEADER</div>
-          <div class="outlier-stat">
-            <span class="count-up" data-target="446" data-decimals="0">446</span> <small>GENRES</small> × <span class="count-up" data-target="5.0" data-decimals="1">5.0</span>%
+        <article class="glass-card p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono-code text-cyan-200 mb-2">
+              <span>LOW-ENTROPY OMNIVORE</span>
+              <span class="px-2 py-0.5 rounded bg-cyan-500/30 border border-cyan-300/40 text-white font-bold">LEADER ROLE</span>
+            </div>
+            <div class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+              446 <span class="text-lg font-bold text-cyan-200">GENRES</span>
+            </div>
+            <h3 class="text-sm font-bold text-cyan-200 mt-1">
+              Absolute Chaos × Skip Rate Chạm Đáy 5.0%
+            </h3>
+            <p class="text-xs text-slate-200 mt-2 leading-relaxed">
+              Khám phá <strong>31,102 bài hát</strong> &amp; <strong>8,897 nghệ sĩ</strong> (6× Spotify Marquee Super Listener) nhưng cứ 20 bài phát ra mới skip 1 bài.
+            </p>
           </div>
-          <h3 class="outlier-subtitle">LEADER — Cloud State Society</h3>
-          <p class="outlier-desc">
-            Khám phá <strong>31,102 bài hát</strong> &amp; <strong>8,897 nghệ sĩ</strong> đa vũ trụ nhưng tỷ lệ Skip chỉ <strong>5.0%</strong> (2026).
-          </p>
-          <div class="energy-bar"><span style="width: 95%"></span></div>
+          <div class="mt-4 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
+            <div class="h-full w-[95%] bg-gradient-to-r from-cyan-400 to-sky-400"></div>
+          </div>
         </article>
       </div>
     </section>
 
-    <!-- =========================================================
-         4. [KHU VỰC 2] // INSANE MARATHONS & OBSESSION RECORDS
-         ========================================================= -->
-    <section class="flex-section" aria-labelledby="sec-marathon-title">
-      <div class="section-header">
-        <span class="section-kicker">// SECTION 02 • ZERO-SATIATION THEOREM (r = 0.0737)</span>
-        <h2 class="section-title" id="sec-marathon-title">INSANE MARATHONS &amp; OBSESSION RECORDS</h2>
+    <!-- ================= KHU VỰC 2: REPEAT-ONE MARATHONS & ENDURANCE ================= -->
+    <section class="space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-1 px-1">
+        <div>
+          <span class="text-xs font-mono-code uppercase tracking-widest text-amber-300 font-semibold">
+            // 02 • ZERO-SATIATION THEOREM (r = 0.0737)
+          </span>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white">
+            KỶ LỤC CÀY LẶP XUYÊN ĐÊM &amp; ĐỘ BỀN THẦN KINH
+          </h2>
+        </div>
+        <span class="text-xs font-mono-code text-slate-200">326 Tracks ≥100 Plays • 49 Chains ≥30×</span>
       </div>
 
-      <div class="bento-grid-2">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <!-- Left Column: Repeat-One Marathon Leaderboard -->
-        <article class="glass-card marathon-panel tilt-card">
-          <div class="panel-header">
-            <span class="panel-badge badge-fire">🔥 ĐỊNH LÝ KHÔNG BỘI THỰC (r = 0.0737)</span>
-            <h3 class="panel-title">Kỷ Lục "Repeat-One Marathon" (Khóa 1 Bài Xuyên Đêm)</h3>
+        <article class="glass-card p-6 space-y-4">
+          <div class="flex items-center justify-between border-b border-white/15 pb-3">
+            <div>
+              <span class="text-xs font-mono-code text-rose-300 font-semibold">🔥 HYPNOTIC LOOP RECORDS</span>
+              <h3 class="text-lg font-bold text-white">Top 6 "Repeat-One Marathon" (Khóa 1 Bài Liên Tiếp)</h3>
+            </div>
+            <span class="text-xs font-mono-code px-2.5 py-1 rounded-md bg-white/10 text-white">r = 0.0737</span>
           </div>
 
-          <div class="repeat-list">
-            <!-- #1 -->
-            <div class="repeat-item">
-              <div class="repeat-meta">
-                <span class="repeat-rank">#1</span>
-                <div class="repeat-info">
-                  <strong>AIZO — King Gnu</strong>
-                  <span>Tổng 642 lượt phát • 37.4h cày sâu</span>
-                </div>
-                <span class="repeat-count"><b class="count-up" data-target="155" data-decimals="0">155</b> lần liên tiếp</span>
+          <div class="space-y-3.5 text-xs sm:text-sm">
+            <div class="space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white"><span class="text-rose-400 font-mono-code mr-1.5">#1</span>AIZO — King Gnu</span>
+                <span class="font-mono-code font-bold text-rose-300">155 lần liên tiếp (642 tổng)</span>
               </div>
-              <div class="neon-bar-track"><div class="neon-bar-fill fill-1" style="width: 100%"></div></div>
+              <div class="h-2 w-full rounded-full bg-white/10 overflow-hidden">
+                <div class="h-full w-full bg-gradient-to-r from-rose-500 to-amber-400"></div>
+              </div>
             </div>
 
-            <!-- #2 -->
-            <div class="repeat-item">
-              <div class="repeat-meta">
-                <span class="repeat-rank">#2</span>
-                <div class="repeat-info">
-                  <strong>Creep — TOGENASHI TOGEARI</strong>
-                  <span>Girls Band Cry • High-Tension Lock</span>
-                </div>
-                <span class="repeat-count"><b class="count-up" data-target="143" data-decimals="0">143</b> lần liên tiếp</span>
+            <div class="space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white"><span class="text-rose-400 font-mono-code mr-1.5">#2</span>Creep — TOGENASHI TOGEARI</span>
+                <span class="font-mono-code font-bold text-rose-200">143 lần liên tiếp (03:15 AM)</span>
               </div>
-              <div class="neon-bar-track"><div class="neon-bar-fill fill-2" style="width: 92.2%"></div></div>
+              <div class="h-2 w-full rounded-full bg-white/10 overflow-hidden">
+                <div class="h-full w-[92%] bg-gradient-to-r from-rose-400 to-fuchsia-400"></div>
+              </div>
             </div>
 
-            <!-- #3 -->
-            <div class="repeat-item">
-              <div class="repeat-meta">
-                <span class="repeat-rank">#3</span>
-                <div class="repeat-info">
-                  <strong>in the pool — kensuke ushio</strong>
-                  <span>Chainsaw Man: Reze Arc OST — Album kỷ lục 2,155 lượt</span>
-                </div>
-                <span class="repeat-count"><b class="count-up" data-target="121" data-decimals="0">121</b> lần liên tiếp</span>
+            <div class="space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white"><span class="text-sky-400 font-mono-code mr-1.5">#3</span>in the pool — kensuke ushio (Reze OST)</span>
+                <span class="font-mono-code font-bold text-sky-300">121 lần liên tiếp (349 tổng)</span>
               </div>
-              <div class="neon-bar-track"><div class="neon-bar-fill fill-3" style="width: 78.1%"></div></div>
+              <div class="h-2 w-full rounded-full bg-white/10 overflow-hidden">
+                <div class="h-full w-[78%] bg-gradient-to-r from-sky-400 to-indigo-400"></div>
+              </div>
             </div>
 
-            <!-- #4 -->
-            <div class="repeat-item">
-              <div class="repeat-meta">
-                <span class="repeat-rank">#4</span>
-                <div class="repeat-info">
-                  <strong>Bitten Girl — TAROLIN</strong>
-                  <span>Obsession Loop • Night Immersion</span>
-                </div>
-                <span class="repeat-count"><b class="count-up" data-target="106" data-decimals="0">106</b> lần liên tiếp</span>
+            <div class="space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white"><span class="text-violet-300 font-mono-code mr-1.5">#4</span>Bitten Girl — TAROLIN</span>
+                <span class="font-mono-code font-bold text-violet-200">106 lần liên tiếp</span>
               </div>
-              <div class="neon-bar-track"><div class="neon-bar-fill fill-4" style="width: 68.4%"></div></div>
+              <div class="h-2 w-full rounded-full bg-white/10 overflow-hidden">
+                <div class="h-full w-[68%] bg-gradient-to-r from-violet-400 to-purple-400"></div>
+              </div>
             </div>
 
-            <!-- #5 -->
-            <div class="repeat-item">
-              <div class="repeat-meta">
-                <span class="repeat-rank">#5</span>
-                <div class="repeat-info">
-                  <strong>39 (2018-2019 Live) — Tokyo Philharmonic</strong>
-                  <span>Miku Symphony • Orchestral Live Peak</span>
-                </div>
-                <span class="repeat-count"><b class="count-up" data-target="104" data-decimals="0">104</b> lần liên tiếp</span>
+            <div class="space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white"><span class="text-emerald-300 font-mono-code mr-1.5">#5</span>39 (2018-2019 Live) — Tokyo Philharmonic</span>
+                <span class="font-mono-code font-bold text-emerald-200">104 lần liên tiếp</span>
               </div>
-              <div class="neon-bar-track"><div class="neon-bar-fill fill-5" style="width: 67.1%"></div></div>
+              <div class="h-2 w-full rounded-full bg-white/10 overflow-hidden">
+                <div class="h-full w-[67%] bg-gradient-to-r from-emerald-400 to-cyan-400"></div>
+              </div>
             </div>
 
-            <!-- #6 -->
-            <div class="repeat-item">
-              <div class="repeat-meta">
-                <span class="repeat-rank">#6</span>
-                <div class="repeat-info">
-                  <strong>Young Girl A — Siinamota</strong>
-                  <span>Vocaloid Classic • 100× Unbroken Chain</span>
-                </div>
-                <span class="repeat-count"><b class="count-up" data-target="100" data-decimals="0">100</b> lần liên tiếp</span>
+            <div class="space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white"><span class="text-amber-300 font-mono-code mr-1.5">#6</span>Young Girl A — Siinamota</span>
+                <span class="font-mono-code font-bold text-amber-200">100 lần liên tiếp</span>
               </div>
-              <div class="neon-bar-track"><div class="neon-bar-fill fill-6" style="width: 64.5%"></div></div>
+              <div class="h-2 w-full rounded-full bg-white/10 overflow-hidden">
+                <div class="h-full w-[64.5%] bg-gradient-to-r from-amber-400 to-orange-400"></div>
+              </div>
             </div>
           </div>
         </article>
 
-        <!-- Right Column: Endless Sessions & Psychometrics -->
-        <article class="glass-card marathon-panel tilt-card">
-          <div class="panel-header">
-            <span class="panel-badge badge-volt">⚡ ENDURANCE &amp; PSYCHOMETRICS</span>
-            <h3 class="panel-title">Kỷ Lục Phiên Nghe Bất Tận &amp; Tâm Trắc Học Cực Đại</h3>
-          </div>
-
-          <div class="endurance-highlights">
-            <div class="highlight-box">
-              <div class="highlight-label">PHIÊN MARATHON #1 LỊCH SỬ (20/04/2026)</div>
-              <div class="highlight-big"><span class="count-up" data-target="40.58" data-decimals="2">40.58</span> Giờ Liên Tục</div>
-              <p class="highlight-sub">
-                Cày xuyên <strong>701 tracks</strong> không nghỉ quá 30 phút — dẫn đầu <strong>7 phiên đại marathon vượt mốc 24 giờ</strong> đồng hồ.
+        <!-- Right Column: Session Marathons & Psychometric Peaks -->
+        <article class="glass-card p-6 flex flex-col justify-between space-y-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div class="p-4 rounded-xl bg-white/10 border border-white/15">
+              <div class="text-[11px] font-mono-code text-sky-300 font-semibold">MARATHON SESSION #1</div>
+              <div class="text-2xl sm:text-3xl font-black text-white mt-1">40.58 Giờ</div>
+              <p class="text-xs text-slate-200 mt-1.5 leading-relaxed">
+                Phiên nghe xuyên ngày đêm dài nhất (<strong>701 bài liên tiếp</strong> không nghỉ quá 30 phút), dẫn đầu 7 phiên vượt mốc 24h.
               </p>
             </div>
 
-            <div class="highlight-box">
-              <div class="highlight-label">CÚ NỔ HẬU ANIME (POST-ANIME HYPERFIXATION)</div>
-              <div class="highlight-big"><span class="count-up" data-target="70.4" data-decimals="1">70.4</span>h Amagami SS &amp; <span class="count-up" data-target="36.7" data-decimals="1">36.7</span>h Euphonium</div>
-              <p class="highlight-sub">
-                Cày 70.4 giờ OST <em>Amagami SS</em> và 36.7 giờ + <strong>334 Count Lossless</strong> <em>Hibike! Euphonium</em> chỉ trong 14 ngày ngay sau khi xem phim.
+            <div class="p-4 rounded-xl bg-white/10 border border-white/15">
+              <div class="text-[11px] font-mono-code text-rose-300 font-semibold">POST-ANIME HYPERFIXATION</div>
+              <div class="text-2xl sm:text-3xl font-black text-white mt-1">70.4h &amp; 36.7h</div>
+              <p class="text-xs text-slate-200 mt-1.5 leading-relaxed">
+                Cày <strong>70.4h OST Amagami SS</strong> &amp; <strong>36.7h + 334 Count Hibike! Euphonium</strong> chỉ trong 14 ngày ngay sau khi xem phim.
               </p>
             </div>
           </div>
 
-          <div class="psych-section">
-            <h4 class="psych-heading">Cực Đại Tâm Trắc Học Quốc Tế (120 Câu Chuẩn Hóa)</h4>
+          <div class="space-y-3 pt-2 border-t border-white/15">
+            <div class="flex items-center justify-between">
+              <h4 class="text-sm font-bold text-white">⚡ Đỉnh Cực Đại Tâm Trắc Học Quốc Tế (120 Câu Chuẩn Hóa)</h4>
+              <span class="text-xs font-mono-code text-rose-200">Dual-Core 80/20</span>
+            </div>
 
-            <div class="psych-grid">
-              <div class="psych-item">
-                <div class="psych-top">
-                  <span>Strong Sensation (Sởn gai ốc Frisson • 15/15 B-MMR)</span>
-                  <strong>100%</strong>
-                </div>
-                <div class="energy-bar"><span style="width: 100%"></span></div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div class="p-3 rounded-lg bg-black/25 border border-white/10 flex items-center justify-between">
+                <span>Strong Sensation (Frisson B-MMR)</span>
+                <strong class="font-mono-code text-rose-300 text-sm">100% (15/15)</strong>
               </div>
-
-              <div class="psych-item">
-                <div class="psych-top">
-                  <span>Nostalgia Importance (Trọng ký ức &amp; Hoài niệm • 21/21 SNS)</span>
-                  <strong>100%</strong>
-                </div>
-                <div class="energy-bar"><span style="width: 100%"></span></div>
+              <div class="p-3 rounded-lg bg-black/25 border border-white/10 flex items-center justify-between">
+                <span>Nostalgia Importance (SNS)</span>
+                <strong class="font-mono-code text-amber-300 text-sm">100% (21/21)</strong>
               </div>
-
-              <div class="psych-item">
-                <div class="psych-top">
-                  <span>Emotion Evocation (Khơi gợi cảm xúc • 19/20 BMRQ)</span>
-                  <strong>95%</strong>
-                </div>
-                <div class="energy-bar"><span style="width: 95%"></span></div>
+              <div class="p-3 rounded-lg bg-black/25 border border-white/10 flex items-center justify-between">
+                <span>Emotion Evocation (BMRQ)</span>
+                <strong class="font-mono-code text-sky-300 text-sm">95.0% (19/20)</strong>
               </div>
-
-              <div class="psych-item">
-                <div class="psych-top">
-                  <span>Active Engagement (Đam mê thực chiến tự học • 52/63 Gold-MSI)</span>
-                  <strong>82.5%</strong>
-                </div>
-                <div class="energy-bar"><span style="width: 82.5%"></span></div>
+              <div class="p-3 rounded-lg bg-black/25 border border-white/10 flex items-center justify-between">
+                <span>Active Engagement (Gold-MSI)</span>
+                <strong class="font-mono-code text-emerald-300 text-sm">82.5% (52/63)</strong>
               </div>
             </div>
           </div>
@@ -375,281 +773,491 @@
       </div>
     </section>
 
-    <!-- =========================================================
-         5. [KHU VỰC 3] // THE AUDIOPHILE VAULT & BIT-PERFECT RIG
-         ========================================================= -->
-    <section class="flex-section" aria-labelledby="sec-audiophile-title">
-      <div class="section-header">
-        <span class="section-kicker">// SECTION 03 • HARDWARE &amp; LOSSLESS ARCHIVE</span>
-        <h2 class="section-title" id="sec-audiophile-title">THE AUDIOPHILE VAULT &amp; BIT-PERFECT RIG</h2>
+    <!-- ================= KHU VỰC 3: THE AUDIOPHILE VAULT & RIG ================= -->
+    <section class="space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-1 px-1">
+        <div>
+          <span class="text-xs font-mono-code uppercase tracking-widest text-sky-300 font-semibold">
+            // 03 • LOSSLESS SANCTUARY &amp; DESKTOP CHAIN
+          </span>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white">
+            THÁNH ĐƯỜNG HI-RES / DSD &amp; BÀN NGHE BIT-PERFECT
+          </h2>
+        </div>
+        <span class="text-xs font-mono-code text-slate-200">Zero EQ Philosophy • Native DSD256</span>
       </div>
 
-      <div class="bento-grid-3">
-        <!-- Showcase 1 -->
-        <article class="glass-card showcase-card tilt-card">
-          <div class="showcase-icon">💿</div>
-          <div class="card-top-tag tag-cyan">3,710 AUDIOPHILE ENTRIES</div>
-          <h3 class="showcase-title">98.0% Pure Lossless &amp; Native DSD Vault</h3>
-          <p class="showcase-body">
-            Hệ sinh thái lưu trữ chuẩn phòng thu: <strong>FLAC 24bit/96–192kHz • Native DSD64 / DSD128 / DSD256 • SACD ISO • WAV CD Làng Văn</strong>.
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <article class="glass-card p-5 space-y-2.5">
+          <div class="text-xs font-mono-code text-sky-300 font-bold">💿 3,710 FOOBAR2000 ENTRIES</div>
+          <h3 class="text-lg font-extrabold text-white">98.0% Pure Lossless &amp; Native DSD</h3>
+          <p class="text-xs text-slate-200 leading-relaxed">
+            Chuẩn lưu trữ phòng thu: <strong>FLAC 24bit/96–192kHz • Native DSD64 / DSD128 / DSD256 • SACD ISO • WAV CD Làng Văn</strong>. Tỷ lệ mở nghe nhóm DSD dẫn đầu ở mức <strong>52%</strong>.
           </p>
-          <div class="showcase-footer-pill">
-            Kích hoạt nghe nhóm DSD đạt <strong>52%</strong> &amp; Hi-Res 24bit đạt <strong>46%–51%</strong>
-          </div>
         </article>
 
-        <!-- Showcase 2 -->
-        <article class="glass-card showcase-card tilt-card">
-          <div class="showcase-icon">🎻</div>
-          <div class="card-top-tag tag-purple">100% ARCHIVE COMPLETIONIST</div>
-          <h3 class="showcase-title">100% Symphonic &amp; Collector Completionist</h3>
-          <p class="showcase-body">
-            Phát đủ <strong>191/191 files</strong> (100% trọn bộ 11 album <em>Miku Symphony 2016–2025</em> = 627 Count, gồm bản Suntory Hall DSD64), <strong>83/83 files</strong> <em>Cowboy Bebop</em>, 122 Count violin <em>Ayako Ishikawa</em>.
+        <article class="glass-card p-5 space-y-2.5">
+          <div class="text-xs font-mono-code text-rose-300 font-bold">🎻 100% ARCHIVE COMPLETIONIST</div>
+          <h3 class="text-lg font-extrabold text-white">Miku Symphony &amp; Bảo Tàng Evangelion</h3>
+          <p class="text-xs text-slate-200 leading-relaxed">
+            Phát đủ <strong>191/191 files (100%)</strong> trọn bộ 11 album <em>Miku Symphony 2016–2025</em> (gồm Suntory Hall DSD64), <strong>83/83</strong> <em>Cowboy Bebop</em>, <strong>46/47</strong> <em>Bunny Girl Senpai</em>, và <strong>1,081 files Evangelion</strong>.
           </p>
-          <div class="showcase-footer-pill">
-            Bảo tàng <strong>1,081 files Neon Genesis Evangelion</strong> chia 8 danh mục chuẩn hóa
-          </div>
         </article>
 
-        <!-- Showcase 3 -->
-        <article class="glass-card showcase-card tilt-card">
-          <div class="showcase-icon">🎛️</div>
-          <div class="card-top-tag tag-emerald">PURE SIGNAL CHAIN</div>
-          <h3 class="showcase-title">No-EQ Bit-Perfect Desktop Rig</h3>
-          <div class="rig-chain">
-            <div class="rig-node">Foobar2000 <span>(ASIO Native DSD256)</span></div>
-            <div class="rig-arrow">➔</div>
-            <div class="rig-node">FiiO K7 <span>(Dual AK4493SEQ + THX AAA 788+ | 2000mW @ 32Ω Bal 4.4mm)</span></div>
-            <div class="rig-arrow">➔</div>
-            <div class="rig-node">Moondrop Kadenz <span>(1DD Ultima + SpinFit W1) &amp; Loa rời</span></div>
-          </div>
+        <article class="glass-card p-5 space-y-2.5">
+          <div class="text-xs font-mono-code text-emerald-300 font-bold">🎛️ PURE HARDWARE SIGNAL CHAIN</div>
+          <h3 class="text-lg font-extrabold text-white">No-EQ Bit-Perfect Desktop Rig</h3>
+          <p class="text-xs text-slate-200 leading-relaxed">
+            <strong>Lenovo Lecoo Pro 14</strong> ➔ <strong>Foobar2000 (ASIO Native DSD)</strong> ➔ <strong>FiiO K7</strong> (Dual AK4493SEQ + THX AAA 788+ | 2000mW Bal 4.4mm) ➔ <strong>IEM Moondrop Kadenz</strong> (SpinFit W1) &amp; Loa rời.
+          </p>
         </article>
       </div>
     </section>
 
-    <!-- =========================================================
-         6. [KHU VỰC 4] // HALL OF FAME: ĐẾ CHẾ ĐA TÂM
-         ========================================================= -->
-    <section class="flex-section" aria-labelledby="sec-hof-title">
-      <div class="section-header">
-        <span class="section-kicker">// SECTION 04 • POLYCENTRIC EMPIRE (N_eff = 259 PILLAR ARTISTS)</span>
-        <h2 class="section-title" id="sec-hof-title">HALL OF FAME: ĐẾ CHẾ ĐA TÂM</h2>
+    <!-- ================= KHU VỰC 4: HALL OF FAME (TOP 12 ARTISTS) ================= -->
+    <section class="glass-card p-6 space-y-5">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/15 pb-3">
+        <div>
+          <span class="text-xs font-mono-code text-amber-300 font-semibold">// 04 • POLYCENTRIC UNIVERSE (N_eff = 259 PILLAR ARTISTS)</span>
+          <h2 class="text-xl font-extrabold text-white">BẢNG PHONG THẦN: TOP 12 NGHỆ SĨ &amp; SUPER LISTENER</h2>
+        </div>
+        <span class="text-xs font-mono-code px-3 py-1 rounded-full bg-white/10 text-white">Pielou Evenness J' = 0.8899</span>
       </div>
 
-      <div class="glass-card hof-container tilt-card">
-        <div class="hof-subhead">
-          <h3>🏆 Top 12 Nghệ Sĩ Mọi Thời Đại</h3>
-          <span class="hof-meta-badge">N_eff = 259 Nghệ Sĩ Trụ Cột</span>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 text-xs">
+        <div class="p-3.5 rounded-xl bg-white/10 border border-white/15">
+          <div class="font-mono-code text-rose-300 font-bold">#1 • 331.4 Giờ (5,747 lượt)</div>
+          <div class="text-base font-extrabold text-white mt-0.5">Ngọt</div>
+          <div class="text-slate-200 mt-1">Gấp 12.6× TB VN • 4 Album lọt Top 12</div>
         </div>
 
-        <div class="hof-grid-12">
-          <div class="artist-card rank-gold">
-            <span class="artist-rank">#1</span>
-            <div class="artist-main">
-              <h4>Ngọt</h4>
-              <p>331.4h • 5,747 lượt • 4 Album lọt Top 12</p>
-            </div>
-          </div>
-
-          <div class="artist-card rank-silver">
-            <span class="artist-rank">#2</span>
-            <div class="artist-main">
-              <h4>Sơn Tùng M-TP</h4>
-              <p>158.9h • 49 tháng • Album m-tp #1 74.7h</p>
-            </div>
-          </div>
-
-          <div class="artist-card rank-bronze">
-            <span class="artist-rank">#3</span>
-            <div class="artist-main">
-              <h4>YOASOBI</h4>
-              <p>154.7h • 50 tháng • Kaibutsu 470 lượt</p>
-            </div>
-          </div>
-
-          <div class="artist-card">
-            <span class="artist-rank">#4</span>
-            <div class="artist-main">
-              <h4>Tokyo Philharmonic</h4>
-              <p>149.6h + 627 Count Foobar</p>
-            </div>
-          </div>
-
-          <div class="artist-card">
-            <span class="artist-rank">#5</span>
-            <div class="artist-main">
-              <h4>Thắng</h4>
-              <p>126.4h • 2,575 lượt • 14.0× VN</p>
-            </div>
-          </div>
-
-          <div class="artist-card">
-            <span class="artist-rank">#6</span>
-            <div class="artist-main">
-              <h4>Fujii Kaze</h4>
-              <p>115.8h • 47 tháng hiện diện</p>
-            </div>
-          </div>
-
-          <div class="artist-card">
-            <span class="artist-rank">#7</span>
-            <div class="artist-main">
-              <h4>RADWIMPS</h4>
-              <p>114.2h • Your Name OST 60.8h</p>
-            </div>
-          </div>
-
-          <div class="artist-card">
-            <span class="artist-rank">#8</span>
-            <div class="artist-main">
-              <h4>Đen</h4>
-              <p>104.1h • Lyricism Pillar</p>
-            </div>
-          </div>
-
-          <div class="artist-card">
-            <span class="artist-rank">#9</span>
-            <div class="artist-main">
-              <h4>yama</h4>
-              <p>100.0h • Haru wo Tsugeru 391 lượt</p>
-            </div>
-          </div>
-
-          <div class="artist-card">
-            <span class="artist-rank">#10</span>
-            <div class="artist-main">
-              <h4>ZUTOMAYO</h4>
-              <p>99.4h • Complex Bass &amp; Groove</p>
-            </div>
-          </div>
-
-          <div class="artist-card">
-            <span class="artist-rank">#11</span>
-            <div class="artist-main">
-              <h4>Zeph</h4>
-              <p>95.4h • 'you' 539 lượt &amp; 'world' 340 lượt</p>
-            </div>
-          </div>
-
-          <div class="artist-card">
-            <span class="artist-rank">#12</span>
-            <div class="artist-main">
-              <h4>BABYMETAL</h4>
-              <p>89.7h • Trục tốc độ (Speed Axis)</p>
-            </div>
-          </div>
+        <div class="p-3.5 rounded-xl bg-white/10 border border-white/15">
+          <div class="font-mono-code text-sky-300 font-bold">#2 • 158.9 Giờ (2,507 lượt)</div>
+          <div class="text-base font-extrabold text-white mt-0.5">Sơn Tùng M-TP</div>
+          <div class="text-slate-200 mt-1">Bền bỉ 49/56 tháng • Album m-tp #1 (74.7h)</div>
         </div>
 
-        <div class="marquee-banner">
-          <div class="marquee-title">✨ 6× SPOTIFY MARQUEE SUPER LISTENER &amp; OST TITANS</div>
-          <div class="marquee-tags">
-            <span class="m-tag super">Tokyo Philharmonic Orchestra</span>
-            <span class="m-tag super">Takeshi Abo (Steins;Gate)</span>
-            <span class="m-tag super">Zwei</span>
-            <span class="m-tag super">Aiobahn +81</span>
-            <span class="m-tag super">tuki.</span>
-            <span class="m-tag super">Various Artists</span>
-            <span class="m-tag titan">kensuke ushio (2,384 lượt)</span>
-            <span class="m-tag titan">SEATBELTS</span>
-            <span class="m-tag titan">Shiro SAGISU</span>
-            <span class="m-tag titan">Kessoku Band</span>
-            <span class="m-tag titan">Ado</span>
-            <span class="m-tag titan">King Gnu</span>
-          </div>
+        <div class="p-3.5 rounded-xl bg-white/10 border border-white/15">
+          <div class="font-mono-code text-fuchsia-300 font-bold">#3 • 154.7 Giờ (2,667 lượt)</div>
+          <div class="text-base font-extrabold text-white mt-0.5">YOASOBI</div>
+          <div class="text-slate-200 mt-1">Kỷ lục 50/56 tháng • Kaibutsu 470 lượt</div>
         </div>
+
+        <div class="p-3.5 rounded-xl bg-white/10 border border-white/15">
+          <div class="font-mono-code text-emerald-300 font-bold">#4 • 149.6h + 627 Count Local</div>
+          <div class="text-base font-extrabold text-white mt-0.5">Tokyo Philharmonic</div>
+          <div class="text-slate-200 mt-1">Top 0.0057% Thế giới • Miku Symphony</div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-white/10 border border-white/15">
+          <div class="font-mono-code text-amber-300 font-bold">#5 • 126.4 Giờ (2,575 lượt)</div>
+          <div class="text-base font-extrabold text-white mt-0.5">Thắng</div>
+          <div class="text-slate-200 mt-1">Gấp 14.0× TB VN • Trước Khi Em Tồn Tại</div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-white/10 border border-white/15">
+          <div class="font-mono-code text-cyan-300 font-bold">#6 • 115.8 Giờ (1,864 lượt)</div>
+          <div class="text-base font-extrabold text-white mt-0.5">Fujii Kaze</div>
+          <div class="text-slate-200 mt-1">47 tháng • Shinunoga E-Wa 326 lượt</div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-white/10 border border-white/15">
+          <div class="font-mono-code text-indigo-300 font-bold">#7 • 114.2 Giờ (1,661 lượt)</div>
+          <div class="text-base font-extrabold text-white mt-0.5">RADWIMPS</div>
+          <div class="text-slate-200 mt-1">Your Name OST 60.8h + FLAC 24bit</div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-white/10 border border-white/15">
+          <div class="font-mono-code text-teal-300 font-bold">#8 • 104.1 Giờ (1,668 lượt)</div>
+          <div class="text-base font-extrabold text-white mt-0.5">Đen</div>
+          <div class="text-slate-200 mt-1">Gấp 6.5× TB VN • Tự sự Hip-hop Việt</div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-white/10 border border-white/15">
+          <div class="font-mono-code text-rose-200 font-bold">#9 • 100.0 Giờ (1,866 lượt)</div>
+          <div class="text-base font-extrabold text-white mt-0.5">yama</div>
+          <div class="text-slate-200 mt-1">Haru wo Tsugeru (391) &amp; Shikisai (325)</div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-white/10 border border-white/15">
+          <div class="font-mono-code text-purple-300 font-bold">#10 • 99.4 Giờ (1,524 lượt)</div>
+          <div class="text-base font-extrabold text-white mt-0.5">ZUTOMAYO</div>
+          <div class="text-slate-200 mt-1">Ai no Pegasus 40.3h • J-Rock Groove</div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-white/10 border border-white/15">
+          <div class="font-mono-code text-pink-300 font-bold">#11 • 95.4 Giờ (3,949 lượt)</div>
+          <div class="text-base font-extrabold text-white mt-0.5">Zeph</div>
+          <div class="text-slate-200 mt-1">'you' (539 lượt) &amp; 'world' (340 lượt)</div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-white/10 border border-white/15">
+          <div class="font-mono-code text-red-300 font-bold">#12 • 89.7 Giờ (1,461 lượt)</div>
+          <div class="text-base font-extrabold text-white mt-0.5">BABYMETAL</div>
+          <div class="text-slate-200 mt-1">Trục tốc độ cao cùng Kobaryo &amp; t+pazolite</div>
+        </div>
+      </div>
+
+      <!-- Marquee Super Listeners & OST Titans -->
+      <div class="pt-3 border-t border-white/15 flex flex-wrap items-center gap-2 text-xs">
+        <span class="font-mono-code font-bold text-amber-300 mr-1">★ 6× SUPER LISTENER &amp; OST TITANS:</span>
+        <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20">kensuke ushio (Reze Arc OST 2,155 lượt)</span>
+        <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20">King Gnu (AIZO 642 lượt)</span>
+        <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20">Takeshi Abo &amp; Zwei (Steins;Gate)</span>
+        <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20">SEATBELTS (Cowboy Bebop 100%)</span>
+        <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20">Shiro SAGISU (Evangelion 1,081 files)</span>
+        <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20">Kessoku Band (61.5h)</span>
+        <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20">Kitauji HS Concert Band (Hibike!)</span>
+        <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20">Aiobahn +81</span>
+        <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20">tuki.</span>
       </div>
     </section>
 
   </main>
 
-  <!-- =========================================================
-       7. FLOATING "5-TRACK GACHA" & SPINNING VINYL PLAYER
-       ========================================================= -->
-  <aside class="gacha-player-dock glass-card" aria-label="Trình phát nhạc 5-Track Gacha">
-    <audio id="audio-element" preload="metadata" crossorigin="anonymous"></audio>
+  <!-- ================= FLOATING 5-TRACK GACHA PLAYER & VINYL DISC ================= -->
+  <aside class="fixed bottom-3 inset-x-3 max-w-4xl mx-auto z-40">
+    <div class="glass-card px-4 py-3 sm:px-5 sm:py-3.5 !bg-slate-950/85 !border-white/25 shadow-2xl space-y-2.5">
+      <audio id="audio-player" preload="auto"></audio>
 
-    <div class="player-main-row">
-      <!-- Vinyl Disc -->
-      <div class="vinyl-stage">
-        <div class="vinyl-disc paused" id="vinyl-disc">
-          <div class="vinyl-grooves"></div>
-          <div class="vinyl-cover-art" id="vinyl-cover-art"></div>
-          <div class="vinyl-center-hole"></div>
-        </div>
+      <!-- Quick 5-Track Selector Pills -->
+      <div id="track-chips-row" class="flex items-center gap-1.5 overflow-x-auto pb-1 border-b border-white/10 no-scrollbar">
+        <!-- Tự động render 5 nút chọn bài bằng JS -->
       </div>
 
-      <!-- Song Info & Status -->
-      <div class="player-track-meta">
-        <div class="track-badge-row">
-          <span class="track-badge" id="track-badge">GACHA READY</span>
-          <span class="track-index-pill" id="track-index-pill">1 / 5</span>
-        </div>
-        <h4 class="track-title" id="track-title">Đang khởi tạo Gacha...</h4>
-        <p class="track-artist" id="track-artist">VuNn Sonic Vault</p>
-        <p class="track-status-note" id="track-status-note" hidden>
-          Đang chạy chế độ Visual Gacha (Chưa gắn link .mp3)
-        </p>
-      </div>
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <!-- Spinning Vinyl Disc + Track Info -->
+        <div class="flex items-center gap-3.5 min-w-[220px] flex-1">
+          <div id="vinyl-disc" class="vinyl-record" onclick="togglePlay()" title="Bấm để Phát / Tạm dừng">
+            <img id="vinyl-cover" src="https://files.catbox.moe/6yr9eo.jpg" alt="Vinyl Cover" />
+            <div class="vinyl-grooves"></div>
+            <div class="vinyl-hole"></div>
+          </div>
 
-      <!-- Controls + Gacha Button -->
-      <div class="player-controls-group">
-        <div class="player-buttons">
-          <button type="button" id="btn-prev" class="ctrl-btn" title="Bài trước" aria-label="Bài trước">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
-          </button>
-
-          <button type="button" id="btn-play" class="ctrl-btn ctrl-play" title="Phát / Tạm dừng" aria-label="Phát hoặc Tạm dừng">
-            <svg id="icon-play" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            <svg id="icon-pause" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-          </button>
-
-          <button type="button" id="btn-next" class="ctrl-btn" title="Bài tiếp theo" aria-label="Bài tiếp theo">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
-          </button>
-
-          <button type="button" id="btn-gacha" class="gacha-roll-btn" title="Bốc ngẫu nhiên bài hát khác">
-            <span class="dice-icon" id="dice-icon">🎲</span>
-            <span>Gacha Track</span>
-          </button>
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-2">
+              <span id="track-badge" class="text-[10px] font-mono-code font-bold uppercase px-2 py-0.5 rounded bg-rose-500/30 border border-rose-300/40 text-rose-100">
+                GACHA #1/5
+              </span>
+              <span id="audio-status" class="text-[11px] font-mono-code text-emerald-300 truncate">
+                Sẵn sàng phát
+              </span>
+            </div>
+            <h4 id="track-title" class="text-sm sm:text-base font-extrabold text-white truncate mt-0.5">
+              Fukashigi no Carte (不可思議のカルテ)
+            </h4>
+            <p id="track-artist" class="text-xs text-slate-300 truncate">
+              Asami Seto • Bunny Girl Senpai ED (97.9% Vault)
+            </p>
+          </div>
         </div>
 
-        <!-- Seek Bar -->
-        <div class="player-seek-row">
-          <span class="time-label" id="time-current">0:00</span>
-          <input
-            type="range"
-            id="seek-slider"
-            class="seek-slider"
-            min="0"
-            max="100"
-            value="0"
-            step="0.1"
-            aria-label="Thanh tiến trình bài hát"
-          />
-          <span class="time-label" id="time-duration">0:00</span>
-        </div>
-      </div>
+        <!-- Controls + Seekbar -->
+        <div class="flex flex-col items-center gap-1.5 flex-1 min-w-[230px]">
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="prevTrack()" title="Bài trước" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xs transition">
+              ⏮
+            </button>
+            <button type="button" id="play-btn" onclick="togglePlay()" title="Play / Pause (Space)" class="w-10 h-10 rounded-full bg-white text-slate-950 hover:scale-105 font-black flex items-center justify-center text-sm shadow-lg transition">
+              ▶
+            </button>
+            <button type="button" onclick="nextTrack()" title="Bài tiếp (N)" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xs transition">
+              ⏭
+            </button>
+            <button type="button" onclick="triggerGachaTrack()" title="Gacha ngẫu nhiên 1 trong 5 bài" class="px-3 py-1.5 rounded-full bg-gradient-to-r from-rose-500 to-violet-500 hover:brightness-110 text-white text-xs font-bold shadow-md transition flex items-center gap-1">
+              🎲 Gacha
+            </button>
+          </div>
 
-      <!-- Volume Control -->
-      <div class="player-volume-box">
-        <button type="button" id="btn-mute" class="ctrl-btn vol-btn" title="Tắt / Bật tiếng" aria-label="Tắt hoặc Bật tiếng">
-          <svg id="icon-vol-on" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-          <svg id="icon-vol-off" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="display:none"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
-        </button>
-        <input
-          type="range"
-          id="volume-slider"
-          class="volume-slider"
-          min="0"
-          max="1"
-          step="0.02"
-          value="0.8"
-          aria-label="Âm lượng"
-        />
+          <div class="w-full flex items-center gap-2 text-[11px] font-mono-code text-slate-300">
+            <span id="current-time">0:00</span>
+            <input id="seek-bar" type="range" min="0" max="100" value="0" class="w-full" />
+            <span id="duration-time">0:00</span>
+          </div>
+        </div>
+
+        <!-- Volume -->
+        <div class="hidden md:flex items-center gap-2">
+          <button type="button" id="mute-btn" onclick="toggleMute()" class="text-sm text-slate-200 hover:text-white px-1">
+            🔊
+          </button>
+          <input id="volume-bar" type="range" min="0" max="1" step="0.02" value="0.85" class="w-20" />
+        </div>
       </div>
     </div>
   </aside>
 
-  <script src="script.js"></script>
+  <!-- ================= JAVASCRIPT & PRE-FILLED CATBOX LINKS ================= -->
+  <script>
+    // ĐÃ GẮN CHÍNH XÁC 5 CẶP NHẠC .MP3 & ẢNH BÌA CATBOX CỦA BẠN
+    const GACHA_PLAYLIST = [
+      {
+        shortName: "1. Fukashigi no Carte",
+        title: "Fukashigi no Carte (不可思議のカルテ)",
+        artist: "Asami Seto • Bunny Girl Senpai ED (46/47 Files Foobar)",
+        badge: "GACHA #1 • BUNNY GIRL SENPAI",
+        audioUrl: "https://files.catbox.moe/1dp11t.mp3",
+        coverUrl: "https://files.catbox.moe/6yr9eo.jpg",
+        colors: ["#f43f5e", "#6366f1", "#fb923c", "#38bdf8"]
+      },
+      {
+        shortName: "2. Nyan Nyan Rock",
+        title: "Nyan Nyan Rock Version",
+        artist: "Black Hanekawa • Monogatari Series Rock Mix",
+        badge: "GACHA #2 • MONOGATARI ROCK",
+        audioUrl: "https://files.catbox.moe/mmsaia.mp3",
+        coverUrl: "https://files.catbox.moe/6pq8mh.png",
+        colors: ["#a855f7", "#ec4899", "#ef4444", "#6366f1"]
+      },
+      {
+        shortName: "3. Platinum Disco",
+        title: "Platinum Disco (白金ディスコ)",
+        artist: "Yuka Iguchi (Araragi Tsukihi) • Nisemonogatari OP3",
+        badge: "GACHA #3 • NISEMONOGATARI",
+        audioUrl: "https://files.catbox.moe/f6aslo.mp3",
+        coverUrl: "https://files.catbox.moe/4phbet.png",
+        colors: ["#ec4899", "#06b6d4", "#f43f5e", "#8b5cf6"]
+      },
+      {
+        shortName: "4. Renai Circulation",
+        title: "Renai Circulation (恋愛サーキュレーション)",
+        artist: "Kana Hanazawa (Sengoku Nadeko) • Bakemonogatari OP4",
+        badge: "GACHA #4 • BAKEMONOGATARI",
+        audioUrl: "https://files.catbox.moe/mzshho.mp3",
+        coverUrl: "https://files.catbox.moe/mqsu6e.jpg",
+        colors: ["#fb7185", "#f472b6", "#fbbf24", "#c084fc"]
+      },
+      {
+        shortName: "5. Rolling Girl",
+        title: "Rolling Girl (ローリンガール)",
+        artist: "wowaka feat. Hatsune Miku (初音ミク) • Vocaloid Legend",
+        badge: "GACHA #5 • WOWAKA × MIKU",
+        audioUrl: "https://files.catbox.moe/xyxjob.mp3",
+        coverUrl: "https://files.catbox.moe/wdbpfr.jpg",
+        colors: ["#0ea5e9", "#6366f1", "#14b8a6", "#ec4899"]
+      }
+    ];
+
+    let currentIndex = 0;
+    let isPlaying = false;
+    let hasInteracted = false;
+
+    const audio = document.getElementById("audio-player");
+    const vinylDisc = document.getElementById("vinyl-disc");
+    const vinylCover = document.getElementById("vinyl-cover");
+    const appleCoverBg = document.getElementById("apple-cover-bg");
+    const trackBadge = document.getElementById("track-badge");
+    const trackTitle = document.getElementById("track-title");
+    const trackArtist = document.getElementById("track-artist");
+    const audioStatus = document.getElementById("audio-status");
+    const playBtn = document.getElementById("play-btn");
+    const seekBar = document.getElementById("seek-bar");
+    const currentTimeEl = document.getElementById("current-time");
+    const durationTimeEl = document.getElementById("duration-time");
+    const volumeBar = document.getElementById("volume-bar");
+    const muteBtn = document.getElementById("mute-btn");
+    const chipsRow = document.getElementById("track-chips-row");
+
+    audio.volume = 0.85;
+
+    // Render 5 nút chọn bài nhanh
+    function renderTrackChips() {
+      chipsRow.innerHTML = "";
+      GACHA_PLAYLIST.forEach((item, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `track-chip ${idx === currentIndex ? "active" : ""}`;
+        btn.textContent = item.shortName;
+        btn.onclick = () => loadTrack(idx, true);
+        chipsRow.appendChild(btn);
+      });
+    }
+
+    // Đồng hồ thời gian thực Việt Nam UTC+7
+    function updateClock() {
+      const now = new Date();
+      const vnTime = new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Asia/Ho_Chi_Minh",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      }).format(now);
+      document.getElementById("vn-clock").textContent = `${vnTime} ICT (UTC+7)`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Thông báo Toast
+    let toastTimeout = null;
+    function showToast(msg) {
+      const box = document.getElementById("toast-box");
+      document.getElementById("toast-text").textContent = msg;
+      box.classList.remove("opacity-0", "-translate-y-3");
+      box.classList.add("opacity-100", "translate-y-0");
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        box.classList.remove("opacity-100", "translate-y-0");
+        box.classList.add("opacity-0", "-translate-y-3");
+      }, 2600);
+    }
+
+    function copyDiscordId() {
+      navigator.clipboard.writeText("vuismei").catch(() => {});
+      showToast("Đã sao chép Discord ID: vuismei");
+    }
+
+    // Nạp bài hát & Đổi màu nền Apple Music
+    function loadTrack(index, autoPlay = false) {
+      currentIndex = (index + GACHA_PLAYLIST.length) % GACHA_PLAYLIST.length;
+      const track = GACHA_PLAYLIST[currentIndex];
+
+      // 1. Đổi 4 khối màu Apple Music Live Mesh
+      const root = document.documentElement;
+      root.style.setProperty("--blob-1", track.colors[0]);
+      root.style.setProperty("--blob-2", track.colors[1]);
+      root.style.setProperty("--blob-3", track.colors[2]);
+      root.style.setProperty("--blob-4", track.colors[3]);
+      root.style.setProperty("--accent", track.colors[0]);
+
+      // 2. Đổi ảnh nền mờ Apple Music & ảnh Đĩa than
+      appleCoverBg.style.backgroundImage = `url('${track.coverUrl}')`;
+      vinylCover.src = track.coverUrl;
+
+      // 3. Cập nhật thông tin chữ
+      trackBadge.textContent = track.badge;
+      trackTitle.textContent = track.title;
+      trackArtist.textContent = track.artist;
+      renderTrackChips();
+
+      // 4. Nạp file âm thanh
+      seekBar.value = 0;
+      currentTimeEl.textContent = "0:00";
+      durationTimeEl.textContent = "...";
+      audio.src = track.audioUrl;
+      audio.load();
+
+      if (autoPlay) {
+        playAudio();
+      } else {
+        audioStatus.textContent = "Bấm ▶ hoặc chạm màn hình để phát";
+      }
+    }
+
+    function playAudio() {
+      audio.play().then(() => {
+        isPlaying = true;
+        vinylDisc.classList.add("is-playing");
+        playBtn.textContent = "⏸";
+        audioStatus.textContent = "● Đang phát nhạc";
+      }).catch(() => {
+        isPlaying = false;
+        vinylDisc.classList.remove("is-playing");
+        playBtn.textContent = "▶";
+        audioStatus.textContent = "Bấm ▶ để bắt đầu phát";
+      });
+    }
+
+    function togglePlay() {
+      hasInteracted = true;
+      if (audio.paused) {
+        playAudio();
+      } else {
+        audio.pause();
+        isPlaying = false;
+        vinylDisc.classList.remove("is-playing");
+        playBtn.textContent = "▶";
+        audioStatus.textContent = "Đã tạm dừng";
+      }
+    }
+
+    function nextTrack() {
+      hasInteracted = true;
+      loadTrack(currentIndex + 1, true);
+    }
+
+    function prevTrack() {
+      hasInteracted = true;
+      loadTrack(currentIndex - 1, true);
+    }
+
+    function triggerGachaTrack() {
+      hasInteracted = true;
+      let nextIdx = Math.floor(Math.random() * GACHA_PLAYLIST.length);
+      if (nextIdx === currentIndex && GACHA_PLAYLIST.length > 1) {
+        nextIdx = (nextIdx + 1) % GACHA_PLAYLIST.length;
+      }
+      loadTrack(nextIdx, true);
+      showToast(`🎲 Gacha: ${GACHA_PLAYLIST[nextIdx].title}`);
+    }
+
+    function formatTime(sec) {
+      if (!sec || isNaN(sec)) return "0:00";
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m}:${s < 10 ? "0" : ""}${s}`;
+    }
+
+    audio.addEventListener("loadedmetadata", () => {
+      durationTimeEl.textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener("timeupdate", () => {
+      if (audio.duration) {
+        seekBar.value = (audio.currentTime / audio.duration) * 100;
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+        durationTimeEl.textContent = formatTime(audio.duration);
+      }
+    });
+
+    audio.addEventListener("ended", () => nextTrack());
+
+    seekBar.addEventListener("input", () => {
+      if (audio.duration) {
+        audio.currentTime = (seekBar.value / 100) * audio.duration;
+      }
+    });
+
+    volumeBar.addEventListener("input", () => {
+      audio.volume = volumeBar.value;
+      muteBtn.textContent = audio.volume == 0 ? "🔇" : "🔊";
+    });
+
+    function toggleMute() {
+      audio.muted = !audio.muted;
+      muteBtn.textContent = audio.muted ? "🔇" : "🔊";
+    }
+
+    // Tự động kích hoạt phát nhạc ở cú click chuột đầu tiên vào trang (vượt chặn Autoplay trình duyệt)
+    document.addEventListener("click", (e) => {
+      if (!hasInteracted) {
+        hasInteracted = true;
+        if (audio.paused && !e.target.closest("#play-btn")) {
+          playAudio();
+        }
+      }
+    }, { once: true });
+
+    // Phím tắt bàn phím
+    window.addEventListener("keydown", (e) => {
+      if (["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) return;
+      if (e.code === "Space") {
+        e.preventDefault();
+        togglePlay();
+      } else if (e.key.toLowerCase() === "n") {
+        nextTrack();
+      } else if (e.key.toLowerCase() === "m") {
+        toggleMute();
+      } else if (e.key.toLowerCase() === "g") {
+        triggerGachaTrack();
+      }
+    });
+
+    // Khởi tạo Gacha ngẫu nhiên 1 trong 5 bài ngay khi tải trang
+    window.addEventListener("DOMContentLoaded", () => {
+      const randomStart = Math.floor(Math.random() * GACHA_PLAYLIST.length);
+      loadTrack(randomStart, false);
+    });
+  </script>
 </body>
 </html>
