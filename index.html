@@ -4,29 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VuNn // SONIC.PROFILE.V35.4</title>
-
-  <!-- Tailwind CSS (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
-
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Favicon (sakura emoji) -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>" />
 </head>
 <body>
 
-  <!-- ============================================================
-       🔝 [A] SYSTEM BAR — Thanh trạng thái trên cùng
-       ============================================================ -->
+  <!-- Sparkle particle canvas (hiệu ứng lấp lánh nền giống Discord bio) -->
+  <canvas id="sparkle-canvas"></canvas>
+
+  <!-- ═══════════════════════════════════════════════════
+       [A] SYSTEM BAR
+       ═══════════════════════════════════════════════════ -->
   <header class="system-bar">
     <div class="system-bar__left">VUNN // SONIC.PROFILE.V35.4</div>
     <div class="system-bar__right">
@@ -38,14 +31,11 @@
     </div>
   </header>
 
-  <!-- ============================================================
-       🏗️ MAIN CONTAINER
-       ============================================================ -->
   <main class="main-container">
 
-    <!-- ============================================================
-         🦸 [B] HERO PROFILE CARD
-         ============================================================ -->
+    <!-- ═══════════════════════════════════════════════════
+         [B] HERO PROFILE CARD
+         ═══════════════════════════════════════════════════ -->
     <section class="hero-section">
       <div class="corner-card hero-grid">
         <span class="corner-bl"></span>
@@ -74,7 +64,6 @@
             <span class="quote-status">— BUSY / SLEEP = NO REPLY | ocean.</span>
           </div>
 
-          <!-- Social & Action Buttons -->
           <div class="social-buttons">
             <a id="link-youtube" href="#" target="_blank" rel="noopener" class="pill-btn">
               <i data-lucide="youtube" style="width:14px;height:14px;"></i> YouTube
@@ -89,11 +78,8 @@
               <i data-lucide="message-circle" style="width:14px;height:14px;"></i> Discord: vuismei
             </button>
             <a id="link-docx" href="#" download class="pill-btn pill-btn--accent">
-              <i data-lucide="file-text" style="width:14px;height:14px;"></i> 📄 Tải Sách Hồ Sơ V35.4 (.DOCX)
+              <i data-lucide="file-text" style="width:14px;height:14px;"></i> 📄 Tải Hồ Sơ V35.4
             </a>
-            <button id="copy-brief" class="pill-btn pill-btn--cyan">
-              <i data-lucide="clipboard-copy" style="width:14px;height:14px;"></i> 📋 Copy Danh Thiếp Audition (TBL-02)
-            </button>
           </div>
         </div>
 
@@ -105,87 +91,116 @@
       </div>
     </section>
 
-    <!-- ============================================================
-         📊 [C] SECTION 1: SONIC TELEMETRY & BIOMETRICS
-         ============================================================ -->
+    <!-- ═══════════════════════════════════════════════════
+         [C] SONIC TELEMETRY & BIOMETRICS — 6 Bento Cards
+         ═══════════════════════════════════════════════════ -->
     <div class="section-header">// SONIC TELEMETRY &amp; BIOMETRICS</div>
 
     <div class="bento-grid">
-      <!-- Card 1: Streaming Hours -->
-      <div class="corner-card bento-card">
+
+      <!-- ★ Card 1: Streaming Hours (Featured — 2 cột) -->
+      <div class="corner-card bento-card bento-card--featured bento-card--wide">
         <span class="corner-bl"></span><span class="corner-br"></span>
+        <div class="bento-card__icon">🎧</div>
         <div class="bento-card__value">
           <span class="stat-number" data-target="10594.8" data-suffix=" Giờ">0</span>
         </div>
-        <div class="bento-card__label">Streaming</div>
-        <div class="bento-card__desc">207,281 sự kiện track (2022–2026) · Tương đương 441.4 ngày đêm liên tục (Top &lt;0.1% toàn cầu)</div>
+        <div class="bento-card__label">Total Streaming</div>
+        <div class="bento-card__desc">
+          <span class="stat-highlight">207,281</span> sự kiện track ghi nhận (2022–2026) · Tương đương <span class="stat-highlight">441.4 ngày đêm</span> liên tục không ngừng
+        </div>
+        <span class="stat-tag stat-tag--pink">Top &lt;0.1% toàn cầu</span>
       </div>
 
-      <!-- Card 2: Presence -->
+      <!-- Card 2: Presence Rate -->
       <div class="corner-card bento-card">
         <span class="corner-bl"></span><span class="corner-br"></span>
+        <div class="bento-card__icon">📅</div>
         <div class="bento-card__value">
           <span class="stat-number" data-target="96.19" data-suffix="%">0</span>
         </div>
         <div class="bento-card__label">Ngày Hiện Diện</div>
-        <div class="bento-card__desc">1,592 / 1,655 ngày lịch · Chuỗi kỷ lục Max Streak = 526 ngày liên tiếp không vắng tiếng nhạc</div>
+        <div class="bento-card__desc">
+          <span class="stat-highlight">1,592 / 1,655</span> ngày lịch có nhạc
+        </div>
+        <span class="stat-tag stat-tag--purple">Max Streak 526 ngày</span>
       </div>
 
       <!-- Card 3: Exam Season -->
       <div class="corner-card bento-card">
         <span class="corner-bl"></span><span class="corner-br"></span>
+        <div class="bento-card__icon">📚</div>
         <div class="bento-card__value">
-          <span class="stat-number" data-target="1120.1" data-suffix=" Giờ">0</span>
+          <span class="stat-number" data-target="1120.1" data-suffix="h">0</span>
         </div>
         <div class="bento-card__label">Mùa Ôn Thi THPT</div>
-        <div class="bento-card__desc">Đỉnh cao 03–05/2026: Trung bình 12.18h/ngày (chiếm 76.09% giờ thức) giải đề cùng Giao hưởng &amp; Rock Nhật</div>
+        <div class="bento-card__desc">
+          Đỉnh 03–05/2026: <span class="stat-highlight">12.18h/ngày</span> (76.09% giờ thức)
+        </div>
+        <span class="stat-tag stat-tag--pink">Giao hưởng &amp; Rock Nhật</span>
       </div>
 
-      <!-- Card 4: Foobar2000 -->
+      <!-- Card 4: Foobar2000 Library -->
       <div class="corner-card bento-card">
         <span class="corner-bl"></span><span class="corner-br"></span>
+        <div class="bento-card__icon">💿</div>
         <div class="bento-card__value">
-          <span class="stat-number" data-target="3710" data-suffix=" Entries">0</span>
+          <span class="stat-number" data-target="3710" data-suffix="">0</span>
         </div>
-        <div class="bento-card__label">Foobar2000 Library</div>
-        <div class="bento-card__desc">98.0% Lossless / Hi-Res (24bit/96–192kHz) / Native DSD64–256 &amp; SACD ISO · 2,039 Count thực tế</div>
+        <div class="bento-card__label">Foobar2000 Entries</div>
+        <div class="bento-card__desc">
+          <span class="stat-highlight">98.0% Lossless</span> / Hi-Res 24bit · Native DSD64–256 &amp; SACD ISO
+        </div>
+        <span class="stat-tag stat-tag--teal">2,039 Count thực tế</span>
       </div>
 
       <!-- Card 5: Cultural Diversity -->
       <div class="corner-card bento-card">
         <span class="corner-bl"></span><span class="corner-br"></span>
+        <div class="bento-card__icon">🌏</div>
         <div class="bento-card__value">
-          N<sub>eff</sub> = <span class="stat-number" data-target="259" data-suffix="">0</span>
+          N<sub style="font-size:16px;opacity:0.6;">eff</sub> = <span class="stat-number" data-target="259" data-suffix="">0</span>
         </div>
         <div class="bento-card__label">Đa Tâm Văn Hóa</div>
-        <div class="bento-card__desc">446 thể loại (Absolute Chaos) · Nhật 46% (2026) | Tây 38.7% | Việt 23.5% · Skip năm 2026 chỉ 5.0%</div>
+        <div class="bento-card__desc">
+          <span class="stat-highlight">446 thể loại</span> · Nhật 46% | Tây 38.7% | Việt 23.5%
+        </div>
+        <span class="stat-tag stat-tag--purple">Skip 2026 chỉ 5.0%</span>
       </div>
 
-      <!-- Card 6: Psychometrics -->
-      <div class="corner-card bento-card">
+      <!-- Card 6: Psychometrics (Featured — 2 cột) -->
+      <div class="corner-card bento-card bento-card--featured bento-card--wide">
         <span class="corner-bl"></span><span class="corner-br"></span>
-        <div class="bento-card__value glow-sakura" style="font-size:20px;">BMRQ 78 · B-MMR 81</div>
-        <div class="bento-card__label">Trắc Học Lưỡng Cực</div>
-        <div class="bento-card__desc">AIMS 121/170 · Strong Sensation 100% (15/15) &amp; SNS Hoài niệm 100% (21/21)</div>
+        <div class="bento-card__icon">🧠</div>
+        <div class="bento-card__value" style="font-size:28px;">
+          BMRQ 78 · B-MMR 81 · AIMS 121
+        </div>
+        <div class="bento-card__label">Cấu Trúc Tâm Trắc Học Lưỡng Cực</div>
+        <div class="bento-card__desc">
+          <span class="stat-highlight">Strong Sensation 100%</span> (15/15) &amp; <span class="stat-highlight">SNS Hoài niệm 100%</span> (21/21) — Vừa Analytical cực đoan vừa Sensation Seeking tối đa
+        </div>
+        <span class="stat-tag stat-tag--pink">BMRQ 78/100</span>
+        <span class="stat-tag stat-tag--purple">B-MMR 81/105</span>
+        <span class="stat-tag stat-tag--teal">AIMS 121/170</span>
       </div>
+
     </div>
 
-    <!-- ============================================================
-         🔗 [D] SECTION 2: HARDWARE SIGNAL CHAIN & SCORING MATRIX
-         ============================================================ -->
-    <div class="section-header">// HARDWARE SIGNAL CHAIN &amp; 80/20 SCORING MATRIX</div>
+    <!-- ═══════════════════════════════════════════════════
+         [D] HARDWARE SIGNAL CHAIN
+         ═══════════════════════════════════════════════════ -->
+    <div class="section-header">// HARDWARE SIGNAL CHAIN</div>
 
-    <!-- Khối 1: Signal Chain -->
     <div class="corner-card signal-chain">
       <span class="corner-bl"></span><span class="corner-br"></span>
-      <h3 style="font-family:var(--font-mono);font-size:13px;color:var(--accent-cyan);margin-bottom:14px;">
-        ▸ Chuỗi Tín Hiệu Phần Cứng Hiện Tại <span style="color:var(--text-muted);font-size:11px;">(64.53% giờ tại bàn · Đỉnh sinh học 21:00)</span>
+      <h3 class="chain-title">
+        ▸ Chuỗi Tín Hiệu Hiện Tại <span class="dim">(64.53% giờ tại bàn · Đỉnh sinh học 21:00)</span>
       </h3>
 
       <div class="chain-flow">
         <div class="chain-node">
           <span class="chain-node__type">Nguồn phát</span>
-          <span class="chain-node__name">Laptop Lenovo Lecoo Pro 14</span>
+          <span class="chain-node__name">Lenovo Lecoo Pro 14</span>
           <span class="chain-node__spec">Windows 11</span>
         </div>
         <span class="chain-arrow">→</span>
@@ -194,25 +209,25 @@
           <span class="chain-node__name">Foobar2000</span>
           <span class="chain-node__spec">ASIO Native DSD Bit-perfect</span>
         </div>
-        <span style="color:var(--text-muted);font-family:var(--font-mono);font-size:11px;">&</span>
+        <span class="chain-amp">&amp;</span>
         <div class="chain-node">
           <span class="chain-node__type">Phần mềm</span>
           <span class="chain-node__name">Spotify Desktop</span>
-          <span class="chain-node__spec">Very High (320kbps OGG)</span>
+          <span class="chain-node__spec">Very High 320kbps</span>
         </div>
         <span class="chain-arrow">→</span>
-        <div class="chain-node" style="border-color:var(--accent-sakura-light);">
-          <span class="chain-node__type">DAC/Amp Bàn</span>
-          <span class="chain-node__name" style="color:var(--accent-sakura-light);">FiiO K7</span>
-          <span class="chain-node__spec">Dual AK4493SEQ + THX AAA 788+<br/>2000mW @ 32Ω Balanced 4.4mm</span>
+        <div class="chain-node chain-node--primary">
+          <span class="chain-node__type">DAC / Amp bàn</span>
+          <span class="chain-node__name">FiiO K7</span>
+          <span class="chain-node__spec">Dual AK4493SEQ · THX AAA 788+<br/>2000mW @ 32Ω · Balanced 4.4mm</span>
         </div>
         <span class="chain-arrow">→</span>
-        <div class="chain-node" style="border-color:var(--accent-cyan);">
+        <div class="chain-node chain-node--secondary">
           <span class="chain-node__type">Đầu cuối</span>
-          <span class="chain-node__name" style="color:var(--accent-cyan);">Moondrop Kadenz</span>
-          <span class="chain-node__spec">1DD Ultima + SpinFit W1</span>
+          <span class="chain-node__name">Moondrop Kadenz</span>
+          <span class="chain-node__spec">1DD Ultima · SpinFit W1</span>
         </div>
-        <span style="color:var(--text-muted);font-family:var(--font-mono);font-size:11px;">&</span>
+        <span class="chain-amp">&amp;</span>
         <div class="chain-node">
           <span class="chain-node__type">Đầu cuối</span>
           <span class="chain-node__name">Hệ thống Loa rời</span>
@@ -221,93 +236,19 @@
 
       <div class="chain-branch">
         <strong>Nhánh Di Động (35% giờ):</strong> iPhone (Lightning)<br/>
-        <strong style="color:var(--accent-cyan);">Lộ trình nâng cấp:</strong> Over-ear Planar Magnetic (Closed-back / Semi-open rò âm nhỏ, tương thích đeo kính cận &gt;3h/phiên) &amp; TWS/IEM Planar di động
+        <strong class="text-lavender">Lộ trình nâng cấp:</strong> Over-ear Planar Magnetic (Closed / Semi-open, tương thích kính cận &gt;3h) &amp; TWS/IEM Planar
       </div>
     </div>
 
-    <!-- Khối 2: Scoring Matrix -->
-    <div class="corner-card scoring-section">
-      <span class="corner-bl"></span><span class="corner-br"></span>
-      <h3 style="font-family:var(--font-mono);font-size:13px;color:var(--accent-cyan);margin-bottom:14px;">
-        ▸ Công Thức Chấm Điểm V35.4 <span style="color:var(--accent-sakura-light);">80% Analytical / 20% Musicality — Không EQ</span>
-      </h3>
-
-      <div class="scoring-formula">
-        Σ Điểm = <span class="text-sakura">2.4×D</span> + <span class="text-sakura-light">2.3×C</span> + 2.2×B + 1.5×E + <span class="text-cyan">1.2×A</span> + 0.4×F
-      </div>
-
-      <!-- (D) Không gian 3D — 24% -->
-      <div class="scoring-item">
-        <div class="scoring-item__header">
-          <span class="scoring-item__label">(D) Không gian 3D, Âm trường &amp; Tách lớp</span>
-          <span class="scoring-item__weight">24% — Hạng 1</span>
-        </div>
-        <div class="scoring-item__desc">Sân khấu thoát khỏi đầu, định vị từng bè nhạc cụ trong Miku Symphony (Frisson #1: Orchestral Tutti).</div>
-        <div class="progress-bar"><div class="progress-fill progress-fill--sakura" data-value="96"></div></div>
-      </div>
-
-      <!-- (C) Chi tiết Vi mô — 23% -->
-      <div class="scoring-item">
-        <div class="scoring-item__header">
-          <span class="scoring-item__label">(C) Chi tiết Vi mô, Họa âm &amp; Độ mở Treble / Air</span>
-          <span class="scoring-item__weight">23% — Hạng 2</span>
-        </div>
-        <div class="scoring-item__desc">Mở rộng 10kHz–16kHz+, tái tạo sắc nét tiếng cọ vĩ violin &amp; kèn đồng (chịu sibilance rất cao).</div>
-        <div class="progress-bar"><div class="progress-fill progress-fill--sakura" data-value="92"></div></div>
-      </div>
-
-      <!-- (B) Vocal & Mid — 22% -->
-      <div class="scoring-item">
-        <div class="scoring-item__header">
-          <span class="scoring-item__label">(B) Độ chân thật Vocal &amp; Mid / Hợp xướng</span>
-          <span class="scoring-item__weight">22% — Hạng 3</span>
-        </div>
-        <div class="scoring-item__desc">Trung tính tuyệt đối, không làm màu để nghe hát bè/đồng ca (Frisson #3: Little Singers of Tokyo, Cendrillon).</div>
-        <div class="progress-bar"><div class="progress-fill progress-fill--sakura" data-value="88"></div></div>
-      </div>
-
-      <!-- (E) Macro–Micro Dynamics — 15% -->
-      <div class="scoring-item">
-        <div class="scoring-item__header">
-          <span class="scoring-item__label">(E) Độ động Vĩ mô–Vi mô &amp; Nền âm tĩnh</span>
-          <span class="scoring-item__weight">15% — Hạng 4</span>
-        </div>
-        <div class="scoring-item__desc">Tương phản động lực đại giao hưởng &amp; tiếng kèn/violin solo vút lên từ khoảng lặng (Frisson #2).</div>
-        <div class="progress-bar"><div class="progress-fill progress-fill--cyan" data-value="75"></div></div>
-      </div>
-
-      <!-- (A) Transient & Bass — 12% -->
-      <div class="scoring-item">
-        <div class="scoring-item__header">
-          <span class="scoring-item__label">(A) Tốc độ Transient &amp; Bass tuyến tính</span>
-          <span class="scoring-item__weight">12% + Cổng Đạt/Loại</span>
-        </div>
-        <div class="scoring-item__desc">Bản thu có bao nhiêu bass phát đúng bấy nhiêu; màng loa cực nhanh bắt kịp 220–300+ BPM Speedcore (Loại ngay nếu &lt;6/10 hoặc bass lấn mid).</div>
-        <div class="progress-bar"><div class="progress-fill progress-fill--cyan" data-value="60"></div></div>
-      </div>
-
-      <!-- (F) Non-fatigue — 4% -->
-      <div class="scoring-item">
-        <div class="scoring-item__header">
-          <span class="scoring-item__label">(F) Độ mượt tự nhiên không mỏi tai</span>
-          <span class="scoring-item__weight">4%</span>
-        </div>
-        <div class="scoring-item__desc">Không chói kim loại nhân tạo (planar glare) khi đeo kính nghe &gt;3h/phiên.</div>
-        <div class="progress-bar"><div class="progress-fill progress-fill--cyan" data-value="40"></div></div>
-      </div>
-    </div>
-
-    <!-- ============================================================
-         🗂️ [E] SECTION 3: INTERACTIVE ARCHIVE (4 Tabs)
-         ============================================================ -->
+    <!-- ═══════════════════════════════════════════════════
+         [E] INTERACTIVE ARCHIVE — 2 Tabs
+         ═══════════════════════════════════════════════════ -->
     <div class="section-header">// INTERACTIVE ARCHIVE</div>
 
     <div class="tabs-container">
       <div class="tabs-header">
         <button class="tab-btn active" data-tab="tab-1">🏆 Top Nghệ Sĩ &amp; Bản Thu Kỷ Lục</button>
-        <button class="tab-btn" data-tab="tab-2">🎧 16 Track Tham Chiếu (TBL-35)</button>
-        <button class="tab-btn" data-tab="tab-3">🎮 Rhythm Games &amp; 14 Anime</button>
-        <button class="tab-btn" data-tab="tab-4">📖 12 Chương V35.4 &amp; Niche vs. LARP</button>
+        <button class="tab-btn" data-tab="tab-2">📖 12 Chương V35.4 &amp; Niche vs. LARP</button>
       </div>
 
       <div class="tab-content-area">
@@ -320,7 +261,7 @@
               <div class="artist-rank">#1</div>
               <div class="artist-info">
                 <h4>Ngọt</h4>
-                <p>331.4h · 5,747 lượt · Gấp 12.6× trung bình VN</p>
+                <p><span class="artist-hours">331.4h</span> · 5,747 lượt · Gấp 12.6× trung bình VN</p>
               </div>
             </div>
 
@@ -328,7 +269,7 @@
               <div class="artist-rank">#2</div>
               <div class="artist-info">
                 <h4>Sơn Tùng M-TP</h4>
-                <p>158.9h · 49 tháng liên tục</p>
+                <p><span class="artist-hours">158.9h</span> · 49 tháng liên tục</p>
               </div>
             </div>
 
@@ -336,7 +277,7 @@
               <div class="artist-rank">#3</div>
               <div class="artist-info">
                 <h4>YOASOBI</h4>
-                <p>154.7h · 50 tháng · Kaibutsu 470 lượt</p>
+                <p><span class="artist-hours">154.7h</span> · 50 tháng · Kaibutsu 470 lượt</p>
               </div>
             </div>
 
@@ -344,7 +285,7 @@
               <div class="artist-rank">#4</div>
               <div class="artist-info">
                 <h4>Tokyo Philharmonic Orchestra</h4>
-                <p>149.6h Spotify + 627 Count Miku Symphony Foobar · Top 0.0057% thế giới</p>
+                <p><span class="artist-hours">149.6h</span> Spotify + 627 Count Miku Symphony · Top 0.0057%</p>
               </div>
             </div>
 
@@ -352,7 +293,7 @@
               <div class="artist-rank">#5</div>
               <div class="artist-info">
                 <h4>Thắng</h4>
-                <p>126.4h · Gấp 14× trung bình VN</p>
+                <p><span class="artist-hours">126.4h</span> · Gấp 14× trung bình VN</p>
               </div>
             </div>
 
@@ -360,7 +301,7 @@
               <div class="artist-rank">#6</div>
               <div class="artist-info">
                 <h4>Fujii Kaze</h4>
-                <p>115.8h</p>
+                <p><span class="artist-hours">115.8h</span></p>
               </div>
             </div>
 
@@ -368,7 +309,7 @@
               <div class="artist-rank">#7</div>
               <div class="artist-info">
                 <h4>RADWIMPS</h4>
-                <p>114.2h</p>
+                <p><span class="artist-hours">114.2h</span></p>
               </div>
             </div>
 
@@ -376,7 +317,7 @@
               <div class="artist-rank">#8</div>
               <div class="artist-info">
                 <h4>ZUTOMAYO</h4>
-                <p>99.4h</p>
+                <p><span class="artist-hours">99.4h</span></p>
               </div>
             </div>
 
@@ -384,7 +325,7 @@
               <div class="artist-rank">#9</div>
               <div class="artist-info">
                 <h4>Zeph</h4>
-                <p>95.4h · 'you' 539 lượt</p>
+                <p><span class="artist-hours">95.4h</span> · 'you' 539 lượt</p>
               </div>
             </div>
 
@@ -392,260 +333,52 @@
               <div class="artist-rank">#10</div>
               <div class="artist-info">
                 <h4>BABYMETAL</h4>
-                <p>89.7h</p>
+                <p><span class="artist-hours">89.7h</span></p>
               </div>
             </div>
 
-            <div class="artist-card">
-              <div class="artist-rank" style="color:var(--accent-cyan);">★</div>
+            <div class="artist-card" style="border-color:rgba(244,114,182,0.25);">
+              <div class="artist-rank">★</div>
               <div class="artist-info">
                 <h4>kensuke ushio</h4>
-                <p>Reze Arc OST: 2,155 lượt · 'in the pool' lặp 121 lần</p>
+                <p>Reze Arc OST: <span class="artist-hours">2,155 lượt</span> · 'in the pool' lặp 121 lần</p>
               </div>
             </div>
 
-            <div class="artist-card">
-              <div class="artist-rank" style="color:var(--accent-cyan);">★</div>
+            <div class="artist-card" style="border-color:rgba(244,114,182,0.25);">
+              <div class="artist-rank">★</div>
               <div class="artist-info">
                 <h4>King Gnu</h4>
-                <p>'AIZO' 642 lượt · Kỷ lục Repeat-One 155 lần liên tiếp</p>
+                <p>'AIZO' <span class="artist-hours">642 lượt</span> · Kỷ lục Repeat-One 155 lần liên tiếp</p>
               </div>
             </div>
 
           </div>
         </div>
 
-        <!-- ═══════ TAB 2: 16 Reference Tracks ═══════ -->
+        <!-- ═══════ TAB 2: 12 Chapters & Niche vs LARP ═══════ -->
         <div class="tab-panel" id="tab-2">
-          <div class="track-list">
-
-            <div class="track-item">
-              <div class="track-num">01</div>
-              <div class="track-info">
-                <h4>Medley: Happy Synthesizer / 1-2 Fanclub / Turkish March (2019 Live)</h4>
-                <p>Miku Symphony — Dàn nhạc giao hưởng</p>
-                <span class="track-tag">Không gian &amp; Tách lớp (24%)</span>
-              </div>
-            </div>
-
-            <div class="track-item">
-              <div class="track-num">02</div>
-              <div class="track-info">
-                <h4>Cantarella (2019 Live — Miku Symphony)</h4>
-                <p>Vocal nổi trên dàn nhạc giao hưởng</p>
-                <span class="track-tag">Mid &amp; Vocal (22%)</span>
-              </div>
-            </div>
-
-            <div class="track-item">
-              <div class="track-num">03</div>
-              <div class="track-info">
-                <h4>Cendrillon feat. Miku &amp; KAITO (2019 Live)</h4>
-                <p>Song ca VOCALOID — Định vị &amp; hát bè hòa quyện</p>
-                <span class="track-tag">Frisson #3 — Đa bè</span>
-              </div>
-            </div>
-
-            <div class="track-item">
-              <div class="track-num">04</div>
-              <div class="track-info">
-                <h4>SPiCa (2019 Live)</h4>
-                <p>Miku Symphony — Treble extension &amp; air</p>
-                <span class="track-tag">Độ mở Treble &amp; Air (23%)</span>
-              </div>
-            </div>
-
-            <div class="track-item">
-              <div class="track-num">05</div>
-              <div class="track-info">
-                <h4>Trọn bộ Miku Symphony (2016–2025 — 191 files)</h4>
-                <p>Kiểm tra thoải mái đeo kính &amp; độ động khán phòng</p>
-                <span class="track-tag">Endurance &amp; Dynamics</span>
-              </div>
-            </div>
-
-            <div class="track-item">
-              <div class="track-num">06</div>
-              <div class="track-info">
-                <h4>Paganini Caprice No.24 — Ayako Ishikawa</h4>
-                <p>Violin solo tốc độ cao — không chói</p>
-                <span class="track-tag">Treble Violin Speed</span>
-              </div>
-            </div>
-
-            <div class="track-item">
-              <div class="track-num">07</div>
-              <div class="track-info">
-                <h4>SENBONZAKURA — Ayako Ishikawa (FLAC 24/192)</h4>
-                <p>Tốc độ &amp; tách lớp violin khỏi ban nhạc</p>
-                <span class="track-tag">Transient &amp; Separation</span>
-              </div>
-            </div>
-
-            <div class="track-item">
-              <div class="track-num">08</div>
-              <div class="track-info">
-                <h4>Kumiko Solo Ver. — Kitauji HS Concert Band (24/96)</h4>
-                <p>Hibike! Euphonium — Kèn đồng vút lên từ nền tĩnh</p>
-                <span class="track-tag">Frisson #2 — Solo từ tĩnh lặng</span>
-              </div>
-            </div>
-
-            <div class="track-item">
-              <div class="track-num">09</div>
-              <div class="track-info">
-                <h4>AIZO — King Gnu (FLAC 24/48 vs Spotify)</h4>
-                <p>Tham chiếu thuộc lòng (642 lượt) — Kiểm tra bass &amp; mid</p>
-                <span class="track-tag">Familiar Reference</span>
-              </div>
-            </div>
-
-            <div class="track-item">
-              <div class="track-num">10</div>
-              <div class="track-info">
-                <h4>in the pool — kensuke ushio (Reze Arc OST)</h4>
-                <p>Bass synth tuyến tính &amp; chiều sâu không gian 3D</p>
-                <span class="track-tag">Bass Linearity &amp; 3D Depth</span>
-              </div>
-            </div>
-
-            <div class="track-item">
-              <div class="track-num">11</div>
-              <div class="track-info">
-                <h4>SUPER WORLD REBOOT / Mixpeed Action — Kobaryo &amp; t+pazolite</h4>
-                <p>Speedcore Transient 250+ BPM</p>
-                <span class="track-tag" style="border-color:rgba(239,68,68,0.3);color:#f87171;">⚡ Cổng Đạt/Loại</span>
-              </div>
-            </div>
-
-            <div class="track-item">
-              <div class="track-num">12</div>
-              <div class="track-info">
-                <h4>BABYMETAL Reference Tracks</h4>
-                <p>Giọng nữ giữa bức tường guitar metal &amp; trống double-kick</p>
-                <span class="track-tag">Vocal vs Wall-of-Sound</span>
-              </div>
-            </div>
-
-            <div class="track-item">
-              <div class="track-num">13</div>
-              <div class="track-info">
-                <h4>Hợp xướng thiếu nhi — The Little Singers of Tokyo</h4>
-                <p>Âm sắc đồng ca nhiều bè tự nhiên</p>
-                <span class="track-tag">Frisson #3 — Choral Timbre</span>
-              </div>
-            </div>
-
-            <div class="track-item">
-              <div class="track-num">14</div>
-              <div class="track-info">
-                <h4>Requiem K.626 (Mozart) — Giulini / John Butt (24/192)</h4>
-                <p>Macro-Dynamics đại hợp xướng</p>
-                <span class="track-tag">Macro-Dynamics</span>
-              </div>
-            </div>
-
-            <div class="track-item">
-              <div class="track-num">15</div>
-              <div class="track-info">
-                <h4>La Stravaganza (Vivaldi) — Rachel Podger (DSD64)</h4>
-                <p>Vi chi tiết đàn dây Baroque — Native DSD</p>
-                <span class="track-tag">Micro-Detail DSD</span>
-              </div>
-            </div>
-
-            <div class="track-item">
-              <div class="track-num">16</div>
-              <div class="track-info">
-                <h4>Symphony No.2 'Resurrection' (Mahler) — Otto Klemperer (24/192)</h4>
-                <p>Bài kiểm tra mù (Unfamiliar Reference)</p>
-                <span class="track-tag">Blind Test — Unfamiliar</span>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- ═══════ TAB 3: Games & Anime ═══════ -->
-        <div class="tab-panel" id="tab-3">
-
-          <div class="media-section-title">▸ Rhythm Games &amp; Visual Novels</div>
-          <div class="tag-cloud">
-            <div class="media-tag">🎵 osu! (osu!mania)</div>
-            <div class="media-tag">🎤 Hatsune Miku: Project DIVA Mega Mix+</div>
-            <div class="media-tag" style="border-color:var(--accent-sakura);color:var(--accent-sakura-light);">♥ Project Sekai (プロセカ)</div>
-            <div class="media-tag">🎶 Arcaea</div>
-            <div class="media-tag">📖 Doki Doki Literature Club!</div>
-          </div>
-
-          <div class="media-section-title">▸ 14 Bộ Anime Giải Mã Nội Tâm</div>
-
-          <div class="anime-category">
-            <div class="anime-category__title">Khởi nguyên &amp; Chiều sâu</div>
-            <div class="anime-category__list">
-              <div class="media-tag">86 (Eighty-Six) — Anime đầu tiên năm lớp 9</div>
-              <div class="media-tag">Shigatsu wa Kimi no Uso</div>
-              <div class="media-tag">Yoru no Kurage wa Oyogenai</div>
-            </div>
-          </div>
-
-          <div class="anime-category">
-            <div class="anime-category__title">Giọt nước mắt giải phóng</div>
-            <div class="anime-category__list">
-              <div class="media-tag" style="border-color:var(--accent-sakura);color:var(--accent-sakura-light);">Hibike! Euphonium — 36.7h Spotify + 334 Count Foobar</div>
-            </div>
-          </div>
-
-          <div class="anime-category">
-            <div class="anime-category__title">Phản chiếu tình cảm &amp; Đa tuyến (Multi-route)</div>
-            <div class="anime-category__list">
-              <div class="media-tag" style="border-color:var(--accent-sakura);color:var(--accent-sakura-light);">Amagami SS / SS+ — BEST ROMANCE (70.4h nghe dồn 14 ngày)</div>
-              <div class="media-tag">Giji Harem</div>
-              <div class="media-tag">Bokutachi wa Benkyou ga Dekinai</div>
-              <div class="media-tag">Mysterious Girlfriend X</div>
-              <div class="media-tag">Momokuri</div>
-            </div>
-          </div>
-
-          <div class="anime-category">
-            <div class="anime-category__title">Ám ảnh điện ảnh &amp; Siêu hình</div>
-            <div class="anime-category__list">
-              <div class="media-tag" style="border-color:var(--accent-cyan);color:var(--accent-cyan);">Chainsaw Man: Reze Arc — "i miss, i want, i need"</div>
-              <div class="media-tag">Your Name</div>
-              <div class="media-tag">Neon Genesis Evangelion — 1,081 files chia 8 danh mục</div>
-              <div class="media-tag">Steins;Gate — 130 files</div>
-              <div class="media-tag">Hellsing Ultimate</div>
-              <div class="media-tag">Youjo Senki</div>
-              <div class="media-tag" style="border-color:#4ade80;color:#4ade80;">KonoSuba — Đối trọng hài</div>
-              <div class="media-tag" style="border-color:#4ade80;color:#4ade80;">Grand Blue — Đối trọng hài</div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- ═══════ TAB 4: 12 Chapters & Niche vs LARP ═══════ -->
-        <div class="tab-panel" id="tab-4">
 
           <div class="accordion">
 
             <div class="accordion-header">
-              <span>Chương 1 — Toàn cảnh định lượng: 10,594.8 giờ streaming &amp; Hành trình 4 năm (2022–2026)</span>
+              <span>Chương 1 — Toàn cảnh định lượng: 10,594.8 giờ &amp; Hành trình 4 năm</span>
               <span class="accordion-icon">+</span>
             </div>
             <div class="accordion-content">
-              207,281 sự kiện track được ghi nhận qua Spotify + Foobar2000 trong 1,655 ngày lịch. Tương đương 441.4 ngày đêm không ngừng, Top &lt;0.1% toàn cầu. Chuỗi Max Streak 526 ngày liên tiếp. Đỉnh cao ôn thi THPT 03–05/2026 đạt trung bình 12.18h/ngày.
+              207,281 sự kiện track qua Spotify + Foobar2000 trong 1,655 ngày lịch. Tương đương 441.4 ngày đêm không ngừng. Chuỗi Max Streak 526 ngày liên tiếp. Đỉnh cao ôn thi THPT 03–05/2026 đạt trung bình 12.18h/ngày.
             </div>
 
             <div class="accordion-header">
-              <span>Chương 2 — Dấu vết văn hóa: 446 thể loại &amp; Bản đồ ngôn ngữ (N_eff = 259)</span>
+              <span>Chương 2 — Dấu vết văn hóa: 446 thể loại (N_eff = 259)</span>
               <span class="accordion-icon">+</span>
             </div>
             <div class="accordion-content">
-              Absolute Chaos — 446 thể loại trải rộng. Nhật 46% (năm 2026) | Tây 38.7% | Việt 23.5%. Skip rate năm 2026 chỉ 5.0%. Đa tâm văn hóa thật sự với chỉ số N_eff = 259 trên tổng 446 thể loại.
+              Absolute Chaos — 446 thể loại trải rộng. Nhật 46% | Tây 38.7% | Việt 23.5%. Skip rate 2026 chỉ 5.0%. Đa tâm văn hóa thật sự với N_eff = 259.
             </div>
 
             <div class="accordion-header">
-              <span>Chương 3 — Kiến trúc trụ cột: Top 12 Nghệ sĩ &amp; Cấu trúc lòng trung thành</span>
+              <span>Chương 3 — Kiến trúc trụ cột: Top 12 Nghệ sĩ &amp; Lòng trung thành</span>
               <span class="accordion-icon">+</span>
             </div>
             <div class="accordion-content">
@@ -653,35 +386,35 @@
             </div>
 
             <div class="accordion-header">
-              <span>Chương 4 — Âm vực kỷ lục: AIZO 155 lần Repeat-One &amp; in the pool 121 lần lặp</span>
+              <span>Chương 4 — Âm vực kỷ lục: AIZO 155× Repeat-One &amp; in the pool 121× lặp</span>
               <span class="accordion-icon">+</span>
             </div>
             <div class="accordion-content">
-              King Gnu 'AIZO' — 642 lượt phát, kỷ lục Repeat-One 155 lần liên tiếp trong một ngày. kensuke ushio 'in the pool' — Reze Arc OST 2,155 lượt tổng cộng, lặp liên tục 121 lần. Cả hai là tham chiếu thuộc lòng cho mọi buổi audition.
+              King Gnu 'AIZO' — 642 lượt phát, kỷ lục Repeat-One 155 lần liên tiếp. kensuke ushio 'in the pool' — 2,155 lượt tổng, lặp liên tục 121 lần. Cả hai là tham chiếu thuộc lòng cho mọi buổi audition.
             </div>
 
             <div class="accordion-header">
-              <span>Chương 5 — Miku Symphony &amp; Giao hưởng Anime: Trụ cột Classical đặc biệt</span>
+              <span>Chương 5 — Miku Symphony &amp; Giao hưởng Anime: Trụ cột Classical</span>
               <span class="accordion-icon">+</span>
             </div>
             <div class="accordion-content">
-              191 files Miku Symphony (2016–2025) chiếm trọng lượng lớn nhất trong thư viện Classical. Tokyo Philharmonic Orchestra — Top 0.0057% thế giới. 83.5% lượt phát Classical có nguồn gốc từ giao hưởng Anime/Vocaloid, tạo nên danh hiệu "Anime-Bridged Orchestral Seeker".
+              191 files Miku Symphony (2016–2025). Tokyo Philharmonic Orchestra — Top 0.0057% thế giới. 83.5% lượt phát Classical có nguồn gốc từ giao hưởng Anime/Vocaloid.
             </div>
 
             <div class="accordion-header">
-              <span>Chương 6 — Foobar2000 Library: 3,710 entries &amp; 98% Lossless/DSD</span>
+              <span>Chương 6 — Foobar2000: 3,710 entries &amp; 98% Lossless/DSD</span>
               <span class="accordion-icon">+</span>
             </div>
             <div class="accordion-content">
-              3,710 entries — 2,039 Count thực tế. 98.0% Lossless, Hi-Res (24bit/96–192kHz), Native DSD64–256 &amp; SACD ISO. Bộ sưu tập Evangelion (1,081 files chia 8 danh mục), Steins;Gate (130 files), Hibike! Euphonium (334 Count). Chuẩn bit-perfect ASIO Native DSD xuyên suốt.
+              3,710 entries — 2,039 Count thực tế. 98.0% Lossless, Hi-Res 24bit/96–192kHz, Native DSD64–256 &amp; SACD ISO. Bộ sưu tập Evangelion (1,081 files chia 8 danh mục), Steins;Gate (130 files), Hibike! Euphonium (334 Count).
             </div>
 
             <div class="accordion-header">
-              <span>Chương 7 — Chuỗi Phần Cứng &amp; Ma Trận Chấm Điểm 80/20</span>
+              <span>Chương 7 — Chuỗi Phần Cứng &amp; Phong cách nghe 80/20</span>
               <span class="accordion-icon">+</span>
             </div>
             <div class="accordion-content">
-              FiiO K7 (Dual AK4493SEQ + THX AAA 788+) → Moondrop Kadenz (1DD Ultima + SpinFit W1). Công thức: Σ = 2.4D + 2.3C + 2.2B + 1.5E + 1.2A + 0.4F. 80% Analytical / 20% Musicality, tuyệt đối không EQ. Frisson trigger: (1) Orchestral Tutti, (2) Solo vút từ tĩnh, (3) Đa bè hòa quyện.
+              FiiO K7 (Dual AK4493SEQ + THX AAA 788+) → Moondrop Kadenz (1DD Ultima + SpinFit W1). 80% Analytical / 20% Musicality. Frisson trigger: (1) Orchestral Tutti, (2) Solo vút từ tĩnh, (3) Đa bè hòa quyện.
             </div>
 
             <div class="accordion-header">
@@ -689,15 +422,15 @@
               <span class="accordion-icon">+</span>
             </div>
             <div class="accordion-content">
-              16 bản thu chuẩn hóa bao phủ đầy đủ 6 tiêu chí D-C-B-E-A-F. Từ Miku Symphony (không gian) đến Kobaryo Speedcore (cổng đạt/loại), từ Ayako Ishikawa violin (treble tốc độ) đến Mahler 'Resurrection' (bài kiểm tra mù). Mỗi track gắn tiêu chí rõ ràng, phục vụ audition tại Xuân Vũ Audio / SLAudio.
+              16 bản thu chuẩn hóa bao phủ đầy đủ 6 tiêu chí. Từ Miku Symphony (không gian) đến Kobaryo Speedcore (cổng đạt/loại), từ Ayako Ishikawa violin đến Mahler 'Resurrection' (bài kiểm tra mù). Phục vụ audition tại Xuân Vũ Audio / SLAudio.
             </div>
 
             <div class="accordion-header">
-              <span>Chương 9 — Tâm Trắc Học Âm Nhạc: BMRQ, B-MMR, AIMS &amp; Strong Sensation 100%</span>
+              <span>Chương 9 — Tâm Trắc Học: BMRQ, B-MMR, AIMS &amp; Sensation 100%</span>
               <span class="accordion-icon">+</span>
             </div>
             <div class="accordion-content">
-              BMRQ 78/100 | B-MMR 81/105 | AIMS 121/170. Strong Sensation 100% (15/15), SNS Hoài niệm 100% (21/21). Cấu trúc lưỡng cực: vừa Analytical cực đoan (80%) vừa Sensation Seeking tối đa. Điều này giải thích song song giữa Speedcore 300 BPM và giao hưởng Mahler trong cùng playlist.
+              BMRQ 78/100 | B-MMR 81/105 | AIMS 121/170. Strong Sensation 100% (15/15), SNS Hoài niệm 100% (21/21). Cấu trúc lưỡng cực: vừa Analytical cực đoan vừa Sensation Seeking tối đa.
             </div>
 
             <div class="accordion-header">
@@ -705,56 +438,50 @@
               <span class="accordion-icon">+</span>
             </div>
             <div class="accordion-content">
-              86 (Eighty-Six) là anime đầu tiên năm lớp 9, khởi nguyên cả hành trình. Hibike! Euphonium — giọt nước mắt giải phóng (36.7h + 334 Count). Amagami SS/SS+ — BEST ROMANCE (70.4h dồn 14 ngày). Chainsaw Man Reze Arc — "i miss, i want, i need". Evangelion — 1,081 files bộ sưu tập kỷ vật. Rhythm: osu!mania, Project DIVA, Project Sekai, Arcaea.
+              86 (Eighty-Six) khởi nguyên năm lớp 9. Hibike! Euphonium — 36.7h + 334 Count. Amagami SS/SS+ — BEST ROMANCE (70.4h dồn 14 ngày). Chainsaw Man Reze Arc — "i miss, i want, i need". Evangelion — 1,081 files bộ sưu tập.
             </div>
 
             <div class="accordion-header">
-              <span>Chương 11 — Biểu đồ thời gian &amp; Dự báo xu hướng 2027</span>
+              <span>Chương 11 — Biểu đồ thời gian &amp; Dự báo 2027</span>
               <span class="accordion-icon">+</span>
             </div>
             <div class="accordion-content">
-              Lộ trình nâng cấp phần cứng: Over-ear Planar Magnetic (Closed-back / Semi-open, tương thích kính cận &gt;3h/phiên) &amp; TWS/IEM Planar di động. Dự báo vượt 12,000h streaming tổng cộng trước cuối 2027. Mục tiêu: hoàn thiện bộ sưu tập Hi-Res Miku Symphony &amp; mở rộng Classical thuần túy.
+              Lộ trình: Over-ear Planar Magnetic &amp; TWS/IEM Planar di động. Dự báo vượt 12,000h tổng trước cuối 2027. Mục tiêu: hoàn thiện Hi-Res Miku Symphony &amp; mở rộng Classical thuần túy.
             </div>
 
             <div class="accordion-header">
-              <span>Chương 12 — Kết luận: "Chỉ có chính mình mới có thể giải quyết vấn đề."</span>
+              <span>Chương 12 — "Chỉ có chính mình mới có thể giải quyết vấn đề."</span>
               <span class="accordion-icon">+</span>
             </div>
             <div class="accordion-content">
-              Hồ sơ V35.4 không phải để khoe — mà là bản thiết kế kỹ thuật để bất kỳ ai (chuyên gia âm thanh, bạn bè, hay chính mình trong tương lai) có thể hiểu chính xác mình cần gì khi chọn thiết bị, tìm nhạc, hay đánh giá trải nghiệm nghe. Mọi con số đều có nguồn, mọi nhận định đều có phản biện.
+              Hồ sơ V35.4 không phải để khoe — mà là bản thiết kế kỹ thuật để bất kỳ ai có thể hiểu chính xác mình cần gì khi chọn thiết bị, tìm nhạc, hay đánh giá trải nghiệm nghe. Mọi con số đều có nguồn, mọi nhận định đều có phản biện.
             </div>
 
           </div>
 
           <!-- Niche vs. LARP Audit -->
           <div class="niche-audit">
-            <div class="niche-audit__title">▸ Kiểm Định Niche vs. LARP Audit</div>
+            <div class="niche-audit__title">▸ Kiểm Định Niche vs. LARP</div>
 
             <div style="margin-bottom:14px;">
               <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:8px;">✅ 100% AUTHENTIC OUTLIER</div>
-              <div>
-                <span class="audit-tag audit-tag--authentic">Ambient Life-Streamer</span>
-                <span class="audit-tag audit-tag--authentic">The Symphonic Otaku Specialist</span>
-                <span class="audit-tag audit-tag--authentic">V-Indie Anchor Loyalist</span>
-                <span class="audit-tag audit-tag--authentic">The Low-Entropy Omnivore</span>
-                <span class="audit-tag audit-tag--authentic">High-BPM Transient Hunter</span>
-              </div>
+              <span class="audit-tag audit-tag--authentic">Ambient Life-Streamer</span>
+              <span class="audit-tag audit-tag--authentic">The Symphonic Otaku Specialist</span>
+              <span class="audit-tag audit-tag--authentic">V-Indie Anchor Loyalist</span>
+              <span class="audit-tag audit-tag--authentic">The Low-Entropy Omnivore</span>
+              <span class="audit-tag audit-tag--authentic">High-BPM Transient Hunter</span>
             </div>
 
             <div>
               <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-bottom:8px;">⚠️ PHẢN BIỆN SÒNG PHẲNG</div>
-              <div>
-                <span class="audit-tag audit-tag--fair">Anime-Bridged Orchestral Seeker — 83.5% Classical là giao hưởng Anime/Miku</span>
-              </div>
-              <div>
-                <span class="audit-tag audit-tag--fair">The Trophy Discography Curator — Sưu tầm kỷ vật Evangelion/Steins;Gate</span>
-              </div>
-              <div>
-                <span class="audit-tag audit-tag--fair">Single-Anchor Signal Purist — Bit-perfect phần mềm, đang chuẩn bị audition phần cứng</span>
-              </div>
+              <span class="audit-tag audit-tag--fair">Anime-Bridged Orchestral Seeker — 83.5% Classical là giao hưởng Anime/Miku</span>
+              <br/>
+              <span class="audit-tag audit-tag--fair">The Trophy Discography Curator — Sưu tầm kỷ vật Evangelion/Steins;Gate</span>
+              <br/>
+              <span class="audit-tag audit-tag--fair">Single-Anchor Signal Purist — Bit-perfect phần mềm, đang chuẩn bị audition phần cứng</span>
             </div>
-
           </div>
+
         </div>
 
       </div>
@@ -762,9 +489,9 @@
 
   </main>
 
-  <!-- ============================================================
-       🎵 [F] FLOATING AUDIO PLAYER
-       ============================================================ -->
+  <!-- ═══════════════════════════════════════════════════
+       [F] FLOATING AUDIO PLAYER
+       ═══════════════════════════════════════════════════ -->
   <div class="floating-player" id="audio-player">
     <div class="disc-container">
       <img id="disc-art" src="https://i.pinimg.com/736x/a7/cc/52/a7cc52585bff1ed587eef90e6e3e54ba.jpg" alt="Album Art" />
@@ -783,20 +510,16 @@
     </div>
   </div>
 
-  <!-- ============================================================
-       🦶 FOOTER — Keyboard Shortcuts
-       ============================================================ -->
+  <!-- Footer -->
   <footer class="footer-bar">
     <span><kbd>SPACE</kbd> PLAY / PAUSE</span>
     <span><kbd>M</kbd> MUTE / UNMUTE</span>
     <span><kbd>N</kbd> NEXT TRACK</span>
-    <span><kbd>C</kbd> COPY AUDITION BRIEF</span>
   </footer>
 
-  <!-- Toast Container -->
+  <!-- Toast -->
   <div id="toast" class="toast"></div>
 
-  <!-- Script -->
   <script src="script.js"></script>
 </body>
 </html>
