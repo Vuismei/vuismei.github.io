@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VuNn // All-Time Wrapped & Apple Music Replay V35.4</title>
+  <title>VuNn // Sonic Telemetry & Replay V35.4</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,14 +27,24 @@
 
     body {
       font-family: 'Inter', 'Noto Sans JP', sans-serif;
-      background-color: #080a11;
+      background-color: #070910;
       color: #f8fafc;
       overflow-x: hidden;
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
 
     .font-mono-code {
       font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Ẩn triệt để mọi thanh cuộn xấu trên mọi hệ điều hành */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
 
     /* ========== GPU-OPTIMIZED 120FPS APPLE MUSIC FLUID BACKGROUND ========== */
@@ -43,7 +53,7 @@
       inset: 0;
       z-index: -2;
       overflow: hidden;
-      background: #070910;
+      background: #06080f;
       contain: strict;
       pointer-events: none;
     }
@@ -65,7 +75,7 @@
       height: 115vmax;
       top: -20vmax;
       left: -15vmax;
-      filter: blur(48px) saturate(240%) brightness(0.92);
+      filter: blur(48px) saturate(240%) brightness(0.9);
       opacity: 0.72;
       transform-origin: 45% 55%;
       animation: orbitClockwise 24s linear infinite;
@@ -76,7 +86,7 @@
       height: 105vmax;
       bottom: -22vmax;
       right: -15vmax;
-      filter: blur(52px) saturate(260%) brightness(1.05);
+      filter: blur(52px) saturate(260%) brightness(1.04);
       opacity: 0.65;
       transform-origin: 55% 45%;
       animation: orbitCounterClockwise 18s linear infinite;
@@ -85,7 +95,7 @@
     .mesh-blob {
       position: absolute;
       border-radius: 50%;
-      opacity: 0.78;
+      opacity: 0.76;
       mix-blend-mode: screen;
       will-change: transform;
       backface-visibility: hidden;
@@ -140,7 +150,7 @@
       position: fixed;
       inset: 0;
       z-index: -1;
-      background: radial-gradient(circle at 50% 25%, rgba(10, 12, 22, 0.2) 0%, rgba(7, 9, 16, 0.62) 100%);
+      background: radial-gradient(circle at 50% 25%, rgba(10, 12, 22, 0.22) 0%, rgba(6, 8, 15, 0.65) 100%);
       pointer-events: none;
     }
 
@@ -183,55 +193,152 @@
     /* ========== GLASSMORPHISM & HUD CORNERS ========== */
     .glass-card {
       position: relative;
-      background: rgba(13, 16, 28, 0.52);
+      background: rgba(12, 15, 26, 0.56);
       backdrop-filter: blur(20px) saturate(170%);
       -webkit-backdrop-filter: blur(20px) saturate(170%);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.22);
-      border-radius: 1.25rem;
-      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      border-radius: 1.15rem;
+      transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease;
     }
 
     .hud-corner {
       position: absolute;
-      width: 10px;
-      height: 10px;
-      border-color: rgba(255, 255, 255, 0.42);
+      width: 9px;
+      height: 9px;
+      border-color: rgba(255, 255, 255, 0.35);
       pointer-events: none;
-      transition: border-color 0.3s ease;
+      transition: border-color 0.25s ease;
     }
     .glass-card:hover .hud-corner {
       border-color: var(--accent);
     }
-    .hud-tl { top: 10px; left: 10px; border-top: 2px solid; border-left: 2px solid; }
-    .hud-tr { top: 10px; right: 10px; border-top: 2px solid; border-right: 2px solid; }
-    .hud-bl { bottom: 10px; left: 10px; border-bottom: 2px solid; border-left: 2px solid; }
-    .hud-br { bottom: 10px; right: 10px; border-bottom: 2px solid; border-right: 2px solid; }
+    .hud-tl { top: 10px; left: 10px; border-top: 1.5px solid; border-left: 1.5px solid; }
+    .hud-tr { top: 10px; right: 10px; border-top: 1.5px solid; border-right: 1.5px solid; }
+    .hud-bl { bottom: 10px; left: 10px; border-bottom: 1.5px solid; border-left: 1.5px solid; }
+    .hud-br { bottom: 10px; right: 10px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
 
-    /* ========== INTERACTIVE WRAPPED / REPLAY LEADERBOARD ROWS ========== */
+    /* ========== PRO SEGMENTED COMMAND BAR (NO SCROLLBAR) ========== */
+    .cmd-dock {
+      background: rgba(9, 11, 20, 0.82);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      border-radius: 0.9rem;
+      padding: 0.45rem;
+    }
+
+    .seg-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.25rem;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.22rem;
+      border-radius: 0.65rem;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .seg-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.78rem;
+      border-radius: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.18s ease, background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .seg-btn:hover {
+      color: #f8fafc;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .seg-btn.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.13);
+      border-color: rgba(255, 255, 255, 0.24);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .switch-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.4rem 0.78rem;
+      border-radius: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #cbd5e1;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+    }
+
+    .switch-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+
+    .switch-btn.is-on {
+      color: #ffffff;
+      background: rgba(244, 63, 94, 0.18);
+      border-color: rgba(251, 113, 133, 0.5);
+    }
+
+    .led-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #64748b;
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .switch-btn.is-on .led-dot {
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    /* ========== INTERACTIVE TELEMETRY NODES (ZERO LAYOUT JANK) ========== */
     .stat-node {
       position: relative;
-      background: rgba(15, 19, 34, 0.58);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 1rem;
+      background: rgba(14, 18, 32, 0.62);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 0.9rem;
       overflow: hidden;
-      transition: all 0.26s cubic-bezier(0.22, 1, 0.36, 1);
       cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease;
     }
 
     .stat-node:hover,
     .stat-node.is-pinned,
     .stat-node.is-open {
-      background: rgba(23, 29, 52, 0.82);
-      border-color: rgba(251, 113, 133, 0.58);
-      box-shadow: 0 14px 34px -8px rgba(0, 0, 0, 0.52), 0 0 22px rgba(244, 63, 94, 0.15);
-      transform: translateY(-2px);
+      background: rgba(20, 26, 46, 0.86);
+      border-color: rgba(251, 113, 133, 0.5);
+      box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.55);
+      transform: translateY(-1px);
     }
 
     .stat-branch-wrapper {
       display: grid;
       grid-template-rows: 0fr;
-      transition: grid-template-rows 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: grid-template-rows 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     body.hover-expand-enabled .stat-node:hover .stat-branch-wrapper,
@@ -245,13 +352,32 @@
     }
 
     .stat-branch-content {
-      border-top: 1px dashed rgba(255, 255, 255, 0.15);
-      background: rgba(7, 9, 18, 0.62);
-      padding: 0.95rem 1.15rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(6, 8, 16, 0.65);
+      padding: 0.85rem 1rem;
+    }
+
+    .ext-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      transition: color 0.2s ease;
+    }
+
+    .stat-node:hover .ext-indicator,
+    .stat-node.is-pinned .ext-indicator,
+    .stat-node.is-open .ext-indicator {
+      color: #fb7185;
     }
 
     .branch-chevron {
-      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     body.hover-expand-enabled .stat-node:hover .branch-chevron,
@@ -269,56 +395,53 @@
 
     .tree-subitem {
       position: relative;
-      padding-left: 0.85rem;
-      border-left: 2px solid rgba(251, 113, 133, 0.5);
-      transition: border-color 0.2s ease, background-color 0.2s ease;
+      padding-left: 0.8rem;
+      border-left: 2px solid rgba(251, 113, 133, 0.45);
+      transition: border-color 0.18s ease;
     }
     .tree-subitem:hover {
       border-left-color: #38bdf8;
-      background: rgba(255, 255, 255, 0.05);
     }
 
-    /* Rank Badge Styling */
+    /* Rank Badge */
     .rank-badge {
-      width: 2.25rem;
-      height: 2.25rem;
-      border-radius: 0.65rem;
+      width: 2.15rem;
+      height: 2.15rem;
+      border-radius: 0.55rem;
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: 'JetBrains Mono', monospace;
-      font-weight: 900;
-      font-size: 0.85rem;
+      font-weight: 800;
+      font-size: 0.78rem;
       flex-shrink: 0;
     }
     .rank-1 {
       background: linear-gradient(135deg, #f43f5e, #f59e0b);
       color: #ffffff;
-      box-shadow: 0 0 16px rgba(244, 63, 94, 0.45);
+      box-shadow: 0 0 14px rgba(244, 63, 94, 0.4);
     }
     .rank-2 {
       background: linear-gradient(135deg, #38bdf8, #6366f1);
       color: #ffffff;
-      box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
     }
     .rank-3 {
       background: linear-gradient(135deg, #a855f7, #ec4899);
       color: #ffffff;
-      box-shadow: 0 0 14px rgba(168, 85, 247, 0.35);
     }
     .rank-other {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      color: #e2e8f0;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
     }
 
     /* ========== FIX TRIỆT ĐỂ CON MÈO ASCII ========== */
     .neko-frame {
-      background: rgba(10, 12, 22, 0.48);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 1rem;
-      padding: 1rem 1.25rem;
-      min-width: 225px;
+      background: rgba(10, 12, 22, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 0.9rem;
+      padding: 0.95rem 1.2rem;
+      min-width: 220px;
       text-align: left !important;
     }
 
@@ -353,11 +476,11 @@
 
     .vinyl-record {
       position: relative;
-      width: 62px;
-      height: 62px;
+      width: 58px;
+      height: 58px;
       border-radius: 50%;
       background: radial-gradient(circle, #1e293b 0%, #090a0f 65%, #1e293b 67%, #090a0f 100%);
-      box-shadow: 0 0 22px rgba(0, 0, 0, 0.65), 0 0 0 2px rgba(255, 255, 255, 0.24);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.65), 0 0 0 1.5px rgba(255, 255, 255, 0.24);
       animation: spinVinyl 7.5s linear infinite;
       animation-play-state: paused;
       flex-shrink: 0;
@@ -394,8 +517,8 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 14px;
-      height: 14px;
+      width: 13px;
+      height: 13px;
       transform: translate(-50%, -50%);
       background: #0f172a;
       border: 2px solid rgba(255, 255, 255, 0.75);
@@ -404,114 +527,91 @@
       pointer-events: none;
     }
 
-    /* Pill & Filter Buttons */
+    /* Pro Action Buttons */
     .social-pill {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.55rem 1.05rem;
-      border-radius: 9999px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      background: rgba(255, 255, 255, 0.11);
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      color: #ffffff;
-      transition: all 0.22s ease;
+      gap: 0.45rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 0.6rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #f1f5f9;
+      transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
       cursor: pointer;
       text-decoration: none;
     }
 
     .social-pill:hover {
-      background: rgba(255, 255, 255, 0.24);
-      border-color: rgba(255, 255, 255, 0.5);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
-    }
-
-    .filter-tab {
-      padding: 0.45rem 0.9rem;
-      border-radius: 9999px;
-      font-size: 0.76rem;
-      font-weight: 700;
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #cbd5e1;
-      transition: all 0.2s ease;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-    .filter-tab:hover {
       background: rgba(255, 255, 255, 0.16);
-      color: #ffffff;
-    }
-    .filter-tab.active {
-      background: linear-gradient(135deg, rgba(244, 63, 94, 0.48), rgba(99, 102, 241, 0.48));
-      border-color: rgba(251, 113, 133, 0.8);
-      color: #ffffff;
-      box-shadow: 0 0 18px rgba(244, 63, 94, 0.3);
+      border-color: rgba(255, 255, 255, 0.38);
+      transform: translateY(-1px);
     }
 
     .track-chip {
-      padding: 0.28rem 0.65rem;
-      border-radius: 9999px;
-      font-size: 11px;
+      padding: 0.24rem 0.6rem;
+      border-radius: 0.45rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
       font-weight: 600;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      color: #e2e8f0;
-      transition: all 0.2s ease;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #cbd5e1;
+      transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
       cursor: pointer;
-      white-space: nowrap;
     }
     .track-chip:hover {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.15);
       color: #ffffff;
     }
     .track-chip.active {
-      background: rgba(244, 63, 94, 0.35);
-      border-color: rgba(251, 113, 133, 0.75);
+      background: rgba(244, 63, 94, 0.28);
+      border-color: rgba(251, 113, 133, 0.65);
       color: #ffffff;
-      box-shadow: 0 0 12px rgba(244, 63, 94, 0.35);
     }
 
     input[type="range"] {
       -webkit-appearance: none;
       appearance: none;
-      background: rgba(255, 255, 255, 0.22);
-      height: 5px;
+      background: rgba(255, 255, 255, 0.2);
+      height: 4px;
       border-radius: 999px;
       cursor: pointer;
     }
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 13px;
-      height: 13px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
       background: #ffffff;
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
     }
   </style>
 </head>
 
-<body class="pb-48 selection:bg-rose-500 selection:text-white hover-expand-enabled">
-  <!-- MÀN HÌNH CHÀO TỰ ĐỘNG PHÁT NHẠC (CLICK TO ENTER) -->
-  <div id="intro-overlay" onclick="enterSite()" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#090b14]/90 backdrop-blur-2xl cursor-pointer transition-opacity duration-700">
-    <div class="text-center space-y-4 select-none p-6">
-      <div class="w-16 h-16 mx-auto rounded-full border-2 border-rose-400/60 bg-rose-500/10 flex items-center justify-center animate-pulse text-rose-300 shadow-[0_0_25px_rgba(244,63,94,0.4)]">
-        <svg class="w-7 h-7 fill-current translate-x-0.5" viewBox="0 0 24 24">
+<body class="pb-44 selection:bg-rose-500 selection:text-white hover-expand-enabled">
+  <!-- INTRO OVERLAY -->
+  <div id="intro-overlay" onclick="enterSite()" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#070912]/90 backdrop-blur-2xl cursor-pointer transition-opacity duration-500">
+    <div class="text-center space-y-3.5 select-none p-6">
+      <div class="w-14 h-14 mx-auto rounded-full border border-rose-400/60 bg-rose-500/10 flex items-center justify-center animate-pulse text-rose-300 shadow-[0_0_24px_rgba(244,63,94,0.35)]">
+        <svg class="w-6 h-6 fill-current translate-x-0.5" viewBox="0 0 24 24">
           <path d="M8 5.14v14l11-7-11-7z"/>
         </svg>
       </div>
-      <p class="font-mono-code text-sm sm:text-base font-bold text-white tracking-widest uppercase">
-        [ CLICK ANYWHERE TO OPEN WRAPPED &amp; REPLAY ]
+      <p class="font-mono-code text-xs sm:text-sm font-bold text-white tracking-[0.2em] uppercase">
+        INITIALIZE SONIC TELEMETRY
       </p>
-      <p class="text-xs font-mono-code text-slate-400">
-        [ ヴン・センパイ // 635,685 MINUTES • 10,594.8 HOURS ]_
+      <p class="text-[11px] font-mono-code text-slate-400">
+        VUNN // 635,685 MIN • 207,281 EVENTS
       </p>
     </div>
   </div>
 
-  <!-- 1. GPU-ACCELERATED APPLE MUSIC FLUID BACKGROUND -->
+  <!-- GPU FLUID BACKGROUND -->
   <div class="apple-bg-wrapper" aria-hidden="true">
     <div class="apple-art-layer art-layer-1"></div>
     <div class="apple-art-layer art-layer-2"></div>
@@ -523,44 +623,44 @@
   <div class="apple-frost-overlay" aria-hidden="true"></div>
 
   <!-- TOAST NOTIFICATION -->
-  <div id="toast-box" class="fixed top-5 right-5 z-50 pointer-events-none opacity-0 -translate-y-3 transition-all duration-300">
-    <div class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-900/95 border border-rose-400/50 text-white text-sm font-medium shadow-2xl backdrop-blur-xl">
-      <span class="text-rose-400">✦</span>
-      <span id="toast-text">Đã sao chép Discord ID: vuismei</span>
+  <div id="toast-box" class="fixed top-4 right-4 z-50 pointer-events-none opacity-0 -translate-y-2 transition-all duration-200">
+    <div class="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-slate-950/90 border border-white/20 text-white text-xs font-mono-code shadow-2xl backdrop-blur-xl">
+      <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+      <span id="toast-text">COPIED: vuismei</span>
     </div>
   </div>
 
-  <!-- TOP TELEMETRY BAR -->
-  <header class="max-w-6xl mx-auto px-4 pt-5 pb-2 flex flex-wrap items-center justify-between gap-3 text-xs font-mono-code text-slate-200">
-    <div class="flex items-center gap-2 bg-white/10 border border-white/15 px-3.5 py-1.5 rounded-full backdrop-blur-md">
-      <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
-      <span class="font-bold tracking-wider">VUNN // WRAPPED × REPLAY ALL-TIME (2022–2026)</span>
+  <!-- TOP STATUS BAR -->
+  <header class="max-w-6xl mx-auto px-4 pt-4 pb-1 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono-code text-slate-300">
+    <div class="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1 rounded-md backdrop-blur-md">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span class="font-bold tracking-wider text-white">VUNN // TELEMETRY.V35.4</span>
     </div>
-    <div class="flex flex-wrap items-center gap-2.5">
-      <div id="vn-clock" class="bg-white/10 border border-white/15 px-3.5 py-1.5 rounded-full backdrop-blur-md">
+    <div class="flex flex-wrap items-center gap-2">
+      <div id="vn-clock" class="bg-white/5 border border-white/10 px-3 py-1 rounded-md backdrop-blur-md">
         00:00:00 ICT (UTC+7)
       </div>
-      <div class="bg-gradient-to-r from-rose-500/30 to-violet-500/30 border border-rose-300/40 text-white px-3.5 py-1.5 rounded-full font-semibold shadow-sm">
-        ★ TOP 0.0057% GLOBAL LISTENER
+      <div class="bg-rose-500/20 border border-rose-400/35 text-rose-100 px-3 py-1 rounded-md font-bold">
+        TOP 0.0057% GLOBAL
       </div>
     </div>
   </header>
 
   <!-- MAIN CONTAINER -->
-  <main class="max-w-6xl mx-auto px-4 space-y-7 mt-3">
+  <main id="telemetry-root" class="max-w-6xl mx-auto px-4 space-y-6 mt-2">
 
     <!-- ================= HERO PROFILE CARD ================= -->
-    <section class="glass-card p-6 md:p-8">
+    <section class="glass-card p-5 sm:p-7">
       <span class="hud-corner hud-tl"></span>
       <span class="hud-corner hud-tr"></span>
       <span class="hud-corner hud-bl"></span>
       <span class="hud-corner hud-br"></span>
 
       <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 flex-1">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5 flex-1">
           <div class="relative group shrink-0">
-            <div class="absolute -inset-1 rounded-full bg-gradient-to-tr from-rose-500 via-fuchsia-500 to-sky-400 opacity-85 blur-md group-hover:opacity-100 transition duration-500"></div>
-            <div class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-2 border-white/60 bg-slate-900 shadow-2xl">
+            <div class="absolute -inset-1 rounded-full bg-gradient-to-tr from-rose-500 via-fuchsia-500 to-sky-400 opacity-75 blur-md"></div>
+            <div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border border-white/50 bg-slate-900 shadow-2xl">
               <img
                 id="hero-avatar"
                 src="https://files.catbox.moe/0r6ro8.jpg"
@@ -568,34 +668,34 @@
                 class="w-full h-full object-cover"
               />
             </div>
-            <span title="BUSY / SLEEP = NO REPLY" class="absolute bottom-1 right-1 w-6 h-6 rounded-full bg-rose-500 border-4 border-[#141624] shadow-lg flex items-center justify-center">
-              <span class="w-2.5 h-0.5 bg-white rounded-full"></span>
+            <span title="BUSY / SLEEP = NO REPLY" class="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-rose-500 border-[3px] border-[#0c0f1a] flex items-center justify-center">
+              <span class="w-2 h-0.5 bg-white rounded-full"></span>
             </span>
           </div>
 
-          <div class="space-y-2.5">
-            <div class="flex flex-wrap items-center gap-2.5">
-              <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-white drop-shadow">VuNn</h1>
-              <span class="text-sm sm:text-base text-rose-200 font-medium">V u N n （詠ノな）</span>
-              <span class="px-2.5 py-0.5 text-xs font-semibold rounded-md bg-rose-500/25 border border-rose-300/40 text-rose-100">
-                [ ♥ プロセカ ]
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">VuNn</h1>
+              <span class="text-xs sm:text-sm text-rose-200 font-medium">V u N n （詠ノな）</span>
+              <span class="px-2 py-0.5 text-[11px] font-mono-code font-semibold rounded bg-rose-500/20 border border-rose-400/30 text-rose-200">
+                プロセカ
               </span>
-              <span class="text-xs font-mono-code text-sky-300 bg-sky-500/15 border border-sky-400/30 px-2.5 py-0.5 rounded-md">
+              <span class="text-[11px] font-mono-code text-sky-300 bg-sky-500/15 border border-sky-400/25 px-2 py-0.5 rounded">
                 @vuismei
               </span>
             </div>
 
-            <div class="font-mono-code text-xs sm:text-sm text-sky-200 font-medium">
-              <span>&gt; Spotify Wrapped × Apple Music Replay • 635,685 Minutes Streamed</span><span class="animate-pulse">_</span>
+            <div class="font-mono-code text-xs text-sky-200/90">
+              <span>&gt; THE SPATIAL &amp; SPEED PURIST // 80:20 ANALYTICAL</span><span class="animate-pulse">_</span>
             </div>
 
-            <blockquote class="p-3.5 rounded-xl bg-black/30 border-l-4 border-rose-400 space-y-1">
-              <p class="text-sm sm:text-base font-semibold text-white italic leading-relaxed">
+            <blockquote class="p-3 rounded-lg bg-black/35 border-l-2 border-rose-400 space-y-1">
+              <p class="text-xs sm:text-sm font-medium text-slate-100 italic">
                 “Người ta chỉ tự mình cứu lấy bản thân thôi. Chẳng ai có thể cứu được ai cả.”
                 <span class="not-italic font-bold text-rose-300 ml-1">— Oshino Meme</span>
               </p>
-              <p class="text-xs font-mono-code text-slate-300">
-                "what are you looking at me for" — <span class="text-rose-300 font-semibold">BUSY / SLEEP = NO REPLY</span> | 𝑜𝒸𝑒𝒶𝓃.
+              <p class="text-[11px] font-mono-code text-slate-400">
+                "what are you looking at me for" • <span class="text-rose-300 font-semibold">BUSY / SLEEP = NO REPLY</span> | 𝑜𝒸𝑒𝒶𝓃.
               </p>
             </blockquote>
           </div>
@@ -603,10 +703,10 @@
 
         <!-- Starry Neko Box -->
         <div class="neko-frame self-stretch sm:self-auto flex flex-col justify-between shrink-0">
-          <div class="flex items-center justify-between text-[10px] font-mono-code text-slate-300 border-b border-white/10 pb-1.5 mb-2">
+          <div class="flex items-center justify-between text-[10px] font-mono-code text-slate-400 border-b border-white/10 pb-1.5 mb-2">
             <span class="flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-              DISCORD BIO ART
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              DISCORD.BIO
             </span>
             <span>22 JUN 2021</span>
           </div>
@@ -625,35 +725,35 @@
         </div>
       </div>
 
-      <!-- Social & Action Links Row -->
-      <div class="mt-6 pt-5 border-t border-white/15 flex flex-wrap items-center gap-2.5">
+      <!-- Clean Monochrome SVG Action Bar -->
+      <div class="mt-5 pt-4 border-t border-white/10 flex flex-wrap items-center gap-2">
         <a href="https://www.youtube.com/channel/UCYABwsH3KS9BPi8rD63wPUw" target="_blank" rel="noopener noreferrer" class="social-pill">
-          <svg class="w-4 h-4 text-rose-400 fill-current" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7z"/></svg>
-          <span>YouTube</span>
+          <svg class="w-3.5 h-3.5 text-rose-400 fill-current" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7z"/></svg>
+          <span>YOUTUBE</span>
         </a>
 
         <a href="https://open.spotify.com/user/31d3h322skpdkzylnfqctdik6bku" target="_blank" rel="noopener noreferrer" class="social-pill">
-          <span class="text-emerald-400">🎧</span>
-          <span>Spotify — VuNn</span>
+          <svg class="w-3.5 h-3.5 text-emerald-400 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.59 14.42c-.18.3-.56.39-.86.21-2.35-1.44-5.31-1.76-8.8-0.96-.34.08-.67-.13-.75-.47-.08-.34.13-.67.47-.75 3.82-.87 7.1-.5 9.73 1.11.3.18.39.56.21.86zm1.22-2.72c-.23.37-.71.49-1.08.26-2.69-1.65-6.79-2.13-9.97-1.16-.42.13-.86-.11-.99-.52-.13-.42.11-.86.52-.99 3.63-1.1 8.15-.57 11.26 1.34.37.23.49.71.26 1.07zm.11-2.83c-3.22-1.91-8.54-2.09-11.62-1.15-.49.15-1.01-.13-1.16-.62-.15-.49.13-1.01.62-1.16 3.54-1.07 9.41-.86 13.11 1.33.44.26.59.83.33 1.27-.26.44-.83.59-1.28.33z"/></svg>
+          <span>SPOTIFY</span>
         </a>
 
         <a href="https://steamcommunity.com/profiles/76561199201898657" target="_blank" rel="noopener noreferrer" class="social-pill">
-          <span class="text-sky-400">🎮</span>
-          <span>Steam</span>
+          <svg class="w-3.5 h-3.5 text-sky-400 fill-current" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-9.95 9.04l5.36 2.21a2.83 2.83 0 0 1 2.75-.52l2.42-3.51a3.96 3.96 0 1 1 3.96 3.96h-.09l-3.46 2.46a2.84 2.84 0 0 1-5.58.65L3.63 14.7A10 10 0 1 0 12 2z"/></svg>
+          <span>STEAM</span>
         </a>
 
         <button type="button" onclick="copyDiscordId()" class="social-pill">
-          <span class="text-indigo-300">💬</span>
-          <span>Discord: <strong>vuismei</strong></span>
-        </button>
-
-        <a href="./Ho_So_Ban_Than_Book_Edition_V35_4.docx" download class="social-pill !bg-gradient-to-r !from-rose-500/35 !to-violet-500/35 !border-rose-300/50">
-          <span>📄</span>
-          <span>Full Data Book V35.4 (.DOCX)</span>
+          <svg class="w-3.5 h-3.5 text-indigo-300 fill-current" viewBox="0 0 24 24"><path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09-.01-.02-.04-.03-.07-.03-1.5.26-2.93.71-4.27 1.33-.01 0-.02.01-.03.02-2.72 4.07-3.47 8.03-3.1 11.95 0 .02.01.04.03.05 1.8 1.32 3.53 2.12 5.24 2.65.03.01.06 0 .07-.02.4-.55.76-1.13 1.07-1.74.02-.04 0-.08-.04-.09-.57-.22-1.11-.48-1.64-.78-.04-.02-.04-.08-.01-.11.11-.08.22-.17.33-.25.02-.02.05-.02.07-.01 3.44 1.57 7.15 1.57 10.55 0 .02-.01.05-.01.07.01.11.09.22.17.33.26.04.03.04.09-.01.11-.52.31-1.07.56-1.64.78-.04.01-.05.06-.04.09.32.61.68 1.19 1.07 1.74.03.01.06.02.09.01 1.72-.53 3.45-1.33 5.25-2.65.02-.01.03-.03.03-.05.44-4.53-.73-8.46-3.1-11.95-.01-.01-.02-.02-.04-.02z"/></svg>
+          <span>DISCORD // vuismei</span>
         </a>
 
-        <button type="button" onclick="triggerGachaTrack()" class="social-pill ml-auto !bg-white/20 !border-white/40">
-          <svg class="w-4 h-4 text-rose-300 fill-none stroke-current" stroke-width="2" viewBox="0 0 24 24">
+        <a href="./Ho_So_Ban_Than_Book_Edition_V35_4.docx" download class="social-pill !bg-rose-500/20 !border-rose-400/40">
+          <svg class="w-3.5 h-3.5 text-rose-300 fill-none stroke-current" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          <span>ARCHIVE V35.4 (.DOCX)</span>
+        </a>
+
+        <button type="button" onclick="triggerGachaTrack()" class="social-pill ml-auto !bg-white/15 !border-white/30">
+          <svg class="w-3.5 h-3.5 text-rose-300 fill-none stroke-current" stroke-width="2" viewBox="0 0 24 24">
             <rect x="3" y="3" width="18" height="18" rx="4"/>
             <circle cx="8.5" cy="8.5" r="1.2" fill="currentColor"/>
             <circle cx="15.5" cy="8.5" r="1.2" fill="currentColor"/>
@@ -661,480 +761,443 @@
             <circle cx="8.5" cy="15.5" r="1.2" fill="currentColor"/>
             <circle cx="15.5" cy="15.5" r="1.2" fill="currentColor"/>
           </svg>
-          <span>Gacha Nhạc &amp; Đổi Màu Nền</span>
+          <span>SHUFFLE THEME</span>
         </button>
       </div>
     </section>
 
-    <!-- ================= SPOTIFY WRAPPED × APPLE MUSIC REPLAY HERO SUMMARY CARDS ================= -->
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <!-- Big Card 1: Total Minutes & Hours -->
-      <div class="glass-card p-5 bg-gradient-to-br from-rose-500/20 via-transparent to-transparent border-rose-400/30">
-        <div class="flex items-center justify-between text-[11px] font-mono-code text-rose-300 font-bold">
-          <span>ALL-TIME LISTENING TIME</span>
-          <span class="px-2 py-0.5 rounded bg-rose-500/30 text-white">TOP &lt;0.1%</span>
+    <!-- ================= ALL-TIME WRAPPED × REPLAY HERO SUMMARY CARDS ================= -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+      <div class="glass-card p-4 sm:p-5 border-rose-400/25">
+        <div class="flex items-center justify-between text-[10px] font-mono-code text-rose-300 font-bold tracking-wider">
+          <span>TOTAL STREAMING TIME</span>
+          <span class="px-1.5 py-0.5 rounded bg-rose-500/25 text-white">TOP &lt;0.1%</span>
         </div>
-        <div class="text-3xl sm:text-4xl font-black text-white tracking-tight mt-2 font-mono-code">
-          635.685 <span class="text-base font-bold text-rose-300">PHÚT</span>
+        <div class="text-2xl sm:text-3xl font-black text-white tracking-tight mt-1.5 font-mono-code">
+          635,685 <span class="text-xs font-bold text-rose-300">MIN</span>
         </div>
-        <div class="text-sm font-extrabold text-rose-100 mt-1">
-          = 10.594,8 Giờ (441,4 Ngày Liên Tục)
+        <div class="text-xs font-bold text-rose-100 mt-0.5">
+          10,594.8 Giờ • 441.4 Ngày Liên Tục
         </div>
-        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-          207.281 lượt phát bài hát • Trung bình <strong>6,40 giờ/ngày</strong> (Đỉnh mùa thi: <strong>12,18h/ngày</strong> • Tuần kỷ lục: <strong>126,0h/tuần</strong>).
+        <p class="text-[11px] text-slate-300 mt-2 leading-relaxed">
+          207,281 sự kiện • TB <strong>6.40h/ngày</strong> • Đỉnh mùa thi: <strong>12.18h/ngày</strong> • Tuần kỷ lục: <strong>126.0h/tuần</strong>.
         </p>
       </div>
 
-      <!-- Big Card 2: Top Fan Percentile -->
-      <div class="glass-card p-5 bg-gradient-to-br from-amber-500/20 via-transparent to-transparent border-amber-400/30">
-        <div class="flex items-center justify-between text-[11px] font-mono-code text-amber-300 font-bold">
-          <span>SPOTIFY WRAPPED #1 FAN</span>
-          <span class="px-2 py-0.5 rounded bg-amber-500/30 text-white">~1 / 18.000</span>
+      <div class="glass-card p-4 sm:p-5 border-amber-400/25">
+        <div class="flex items-center justify-between text-[10px] font-mono-code text-amber-300 font-bold tracking-wider">
+          <span>GLOBAL #1 FAN RANK</span>
+          <span class="px-1.5 py-0.5 rounded bg-amber-500/25 text-white">~1 / 18,000</span>
         </div>
-        <div class="text-3xl sm:text-4xl font-black text-white tracking-tight mt-2 font-mono-code">
-          0,0057% <span class="text-base font-bold text-amber-300">WORLD</span>
+        <div class="text-2xl sm:text-3xl font-black text-white tracking-tight mt-1.5 font-mono-code">
+          0.0057% <span class="text-xs font-bold text-amber-300">WORLD</span>
         </div>
-        <div class="text-sm font-extrabold text-amber-100 mt-1">
+        <div class="text-xs font-bold text-amber-100 mt-0.5">
           Tokyo Philharmonic Orchestra
         </div>
-        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-          6× Marquee Super Listener • <strong>149,6h</strong> trên Spotify + phát đủ 100% (<strong>191/191 files • 627 Count</strong>) <em>Miku Symphony</em> Lossless/DSD.
+        <p class="text-[11px] text-slate-300 mt-2 leading-relaxed">
+          6× Marquee Super Listener • <strong>149.6h</strong> Spotify + 100% (<strong>191/191 files • 627 Count</strong>) <em>Miku Symphony</em> DSD/FLAC.
         </p>
       </div>
 
-      <!-- Big Card 3: Discovery & Diversity -->
-      <div class="glass-card p-5 bg-gradient-to-br from-sky-500/20 via-transparent to-transparent border-sky-400/30">
-        <div class="flex items-center justify-between text-[11px] font-mono-code text-sky-300 font-bold">
-          <span>REPLAY DIVERSITY ATLAS</span>
-          <span class="px-2 py-0.5 rounded bg-sky-500/30 text-white">446 GENRES</span>
+      <div class="glass-card p-4 sm:p-5 border-sky-400/25">
+        <div class="flex items-center justify-between text-[10px] font-mono-code text-sky-300 font-bold tracking-wider">
+          <span>SONIC SPECTRUM</span>
+          <span class="px-1.5 py-0.5 rounded bg-sky-500/25 text-white">446 GENRES</span>
         </div>
-        <div class="text-3xl sm:text-4xl font-black text-white tracking-tight mt-2 font-mono-code">
-          31.102 <span class="text-base font-bold text-sky-300">BÀI HÁT</span>
+        <div class="text-2xl sm:text-3xl font-black text-white tracking-tight mt-1.5 font-mono-code">
+          31,102 <span class="text-xs font-bold text-sky-300">TRACKS</span>
         </div>
-        <div class="text-sm font-extrabold text-sky-100 mt-1">
-          8.897 Nghệ Sĩ • Skip Rate Đáy 5,0%
+        <div class="text-xs font-bold text-sky-100 mt-0.5">
+          8,897 Nghệ Sĩ • Skip Rate 5.0%
         </div>
-        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-          Nghe Thắng gấp <strong>14,0×</strong> &amp; Ngọt gấp <strong>12,6×</strong> TB Việt Nam • Hạng <strong>#59 First to Discover</strong> tại VN (<em>Kaseijin</em>).
+        <p class="text-[11px] text-slate-300 mt-2 leading-relaxed">
+          Nghe Thắng gấp <strong>14.0×</strong> &amp; Ngọt gấp <strong>12.6×</strong> TB Việt Nam • Hạng <strong>#59 First to Discover</strong> tại VN (<em>Kaseijin</em>).
         </p>
       </div>
 
-      <!-- Big Card 4: Unbroken Streak & Loop -->
-      <div class="glass-card p-5 bg-gradient-to-br from-emerald-500/20 via-transparent to-transparent border-emerald-400/30">
-        <div class="flex items-center justify-between text-[11px] font-mono-code text-emerald-300 font-bold">
-          <span>STREAK &amp; REPEAT-ONE RECORD</span>
-          <span class="px-2 py-0.5 rounded bg-emerald-500/30 text-white">96,19% DAYS</span>
+      <div class="glass-card p-4 sm:p-5 border-emerald-400/25">
+        <div class="flex items-center justify-between text-[10px] font-mono-code text-emerald-300 font-bold tracking-wider">
+          <span>CONSISTENCY &amp; LOOP</span>
+          <span class="px-1.5 py-0.5 rounded bg-emerald-500/25 text-white">96.19% DAYS</span>
         </div>
-        <div class="text-3xl sm:text-4xl font-black text-white tracking-tight mt-2 font-mono-code">
-          526 <span class="text-base font-bold text-emerald-300">NGÀY STREAK</span>
+        <div class="text-2xl sm:text-3xl font-black text-white tracking-tight mt-1.5 font-mono-code">
+          526 <span class="text-xs font-bold text-emerald-300">DAYS STREAK</span>
         </div>
-        <div class="text-sm font-extrabold text-emerald-100 mt-1">
-          1.592 / 1.655 Ngày Sống Có Nhạc
+        <div class="text-xs font-bold text-emerald-100 mt-0.5">
+          1,592 / 1,655 Ngày Sống Có Nhạc
         </div>
-        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-          Khóa lặp 1 bài <strong>155 lần liên tiếp</strong> trong 1 đêm (<em>AIZO</em>) • Phiên nghe dài nhất <strong>40,58 giờ liên tục</strong> (701 bài liền).
+        <p class="text-[11px] text-slate-300 mt-2 leading-relaxed">
+          Khóa lặp 1 bài <strong>155 vòng liên tiếp</strong> (<em>AIZO</em>) • Phiên nghe dài nhất <strong>40.58 giờ liên tục</strong> (701 bài liền).
         </p>
       </div>
     </section>
 
-    <!-- ================= NAVIGATION FILTER & HOVER/PIN CONTROLS ================= -->
-    <section class="glass-card p-4 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3 sticky top-2 z-30 !bg-slate-950/85">
-      <div class="flex items-center gap-1.5 overflow-x-auto w-full lg:w-auto pb-1 lg:pb-0 no-scrollbar">
-        <button type="button" onclick="filterSection('all', this)" class="filter-tab active">🔥 Tất Cả Wrapped</button>
-        <button type="button" onclick="filterSection('artists', this)" class="filter-tab">👑 Top Nghệ Sĩ (#1–#20)</button>
-        <button type="button" onclick="filterSection('songs', this)" class="filter-tab">🎵 Top Bài Hát (#1–#16)</button>
-        <button type="button" onclick="filterSection('albums', this)" class="filter-tab">💿 Top Album &amp; OST</button>
-        <button type="button" onclick="filterSection('years', this)" class="filter-tab">📅 Replay 2022–2026</button>
-        <button type="button" onclick="filterSection('vault', this)" class="filter-tab">🏆 Kỷ Lục &amp; Hi-Res Vault</button>
+    <!-- ================= PRO SEGMENTED COMMAND DOCK (NO SCROLLBAR, INSTANT CLICK) ================= -->
+    <nav class="cmd-dock sticky top-2 z-30 flex flex-wrap items-center justify-between gap-2" aria-label="Telemetry Controls">
+      <!-- Left: View Filter Segmented Tabs -->
+      <div class="seg-group" id="view-filter-group">
+        <button type="button" data-filter="all" class="seg-btn active">ALL</button>
+        <button type="button" data-filter="artists" class="seg-btn">ARTISTS</button>
+        <button type="button" data-filter="songs" class="seg-btn">TRACKS</button>
+        <button type="button" data-filter="albums" class="seg-btn">ALBUMS</button>
+        <button type="button" data-filter="years" class="seg-btn">REPLAY</button>
+        <button type="button" data-filter="vault" class="seg-btn">VAULT</button>
       </div>
 
-      <div class="flex items-center gap-2 self-end lg:self-auto shrink-0">
-        <button type="button" id="btn-hover-mode" onclick="toggleHoverMode()" class="filter-tab active" title="Rê chuột vào từng thẻ để tự động bung nhánh con">
-          🖱️ Đè Chuột Bung Nhánh: BẬT
+      <!-- Right: English Telemetry Switches (HOVER & EXTEND) -->
+      <div class="flex flex-wrap items-center gap-1.5">
+        <button type="button" id="btn-hover-mode" onclick="toggleHoverMode()" class="switch-btn is-on" title="Toggle Auto-Extend on Mouse Hover">
+          <span class="led-dot"></span>
+          <span id="hover-label">HOVER: ON</span>
         </button>
-        <button type="button" id="btn-expand-all" onclick="toggleExpandAll()" class="filter-tab">
-          📂 Bung Tất Cả Nhánh
+
+        <button type="button" id="btn-expand-all" onclick="toggleExpandAll()" class="switch-btn" title="Extend or Collapse All Telemetry Nodes">
+          <svg id="extend-icon" class="w-3.5 h-3.5 fill-none stroke-current" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4"/>
+          </svg>
+          <span id="extend-label">EXTEND ALL</span>
+          <span id="extend-count" class="text-[10px] px-1.5 py-0.2 rounded bg-white/10 text-slate-300">0/25</span>
         </button>
       </div>
-    </section>
+    </nav>
 
-    <!-- ================= KHU VỰC 1: TOP ARTISTS LEADERBOARD (WRAPPED & REPLAY) ================= -->
-    <section id="sec-artists" class="wrapped-section space-y-3.5">
+    <!-- ================= 01. TOP ARTISTS LEADERBOARD ================= -->
+    <section id="sec-artists" class="wrapped-section space-y-3">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-1 px-1">
         <div>
-          <span class="text-xs font-mono-code uppercase tracking-widest text-rose-300 font-semibold">
-            // 01 • TOP ARTISTS ALL-TIME LEADERBOARD (8.897 NGHỆ SĨ • N_eff = 259 TRỤ CỘT)
+          <span class="text-[11px] font-mono-code uppercase tracking-widest text-rose-300 font-bold">
+            // 01 • TOP ARTISTS LEADERBOARD (8,897 ARTISTS • N_eff = 259 PILLARS)
           </span>
-          <h2 class="text-xl sm:text-2xl font-extrabold text-white">
-            NGHỆ SĨ NGHE NHIỀU NHẤT: ĐÈ CHUỘT / ẤN ĐỂ XEM TOP BÀI &amp; ALBUM CỦA HỌ
+          <h2 class="text-lg sm:text-xl font-extrabold text-white">
+            NGHỆ SĨ NGHE NHIỀU NHẤT MỌI THỜI ĐẠI
           </h2>
         </div>
-        <span class="text-xs font-mono-code text-slate-300">Rê chuột hoặc Click vào nghệ sĩ để mở nhánh ▾</span>
+        <span class="text-[11px] font-mono-code text-slate-400">HOVER OR CLICK TO EXTEND NODE</span>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
 
         <!-- Artist #1: Ngọt -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
+        <div class="stat-node p-4">
           <div class="flex items-center gap-3.5">
             <div class="rank-badge rank-1">#1</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">Ngọt</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-rose-300 shrink-0">331,4 Giờ (19.886 Phút)</span>
+                <div class="flex items-center gap-2 truncate">
+                  <h3 class="text-base font-black text-white truncate">Ngọt</h3>
+                  <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 border border-rose-400/50 text-rose-200 font-bold">PINNED</span>
+                </div>
+                <span class="font-mono-code text-sm font-extrabold text-rose-300 shrink-0">331.4h (19,886m)</span>
               </div>
               <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span><strong>5.747 lượt phát</strong> • 39/56 tháng • Indie Việt</span>
-                <span class="font-mono-code text-amber-300 font-bold">Gấp 12,6× TB VN ▾</span>
+                <span><strong>5,747 plays</strong> • 39/56 mos • V-Indie</span>
+                <span class="ext-indicator">12.6× VN • EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
               </div>
               <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                 <div class="h-full w-full bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400"></div>
               </div>
             </div>
           </div>
-          <!-- Nhánh con #1 -->
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-rose-300 font-bold">↳ DỮ LIỆU NHÁNH — NGỌT (#1 NGHỆ SĨ MỌI THỜI ĐẠI • 3,13% TỔNG GIỜ):</div>
-                <div class="tree-subitem"><strong>Top Bài Hát Của Ngọt:</strong> <em>Đá tan</em> (<strong>309 lượt</strong> / 243 ngày), <em>Cho Tôi Lang Thang</em> (<strong>239 lượt</strong>), <em>01 Chuyện Dở Dang</em> (<strong>233 lượt</strong> • 7 ngày mở đầu ngày mới), <em>Cho</em> (<strong>232 lượt</strong>), <em>Xanh</em> (<strong>173 lượt</strong> / 30 tháng).</div>
-                <div class="tree-subitem"><strong>4 Album Lọt Top 12 Lịch Sử:</strong> <em>Gieo</em> (<strong>#2: 72,0h</strong>), <em>3 - tuyển tập Ngọt 2019</em> (<strong>#3: 70,7h</strong>), <em>Ng'bthg</em> (<strong>#8: 49,4h</strong>), <em>Suýt 1</em> (<strong>#11: 39,0h</strong>).</div>
-                <div class="tree-subitem"><strong>Kỷ Lục Tháng &amp; Kho Local:</strong> Nghệ sĩ #1 cả năm 2024 (174h) &amp; 2025 (89,6h); đỉnh tháng 05/2024 chiếm <strong>27% tổng giờ tháng</strong> • Lưu 67 files FLAC + CAM Concert trong Foobar2000.</div>
+                <div class="font-mono-code text-[11px] text-rose-300 font-bold">NODE.EXT // NGỌT (#1 ALL-TIME • 3.13% SHARE):</div>
+                <div class="tree-subitem"><strong>Top Tracks:</strong> <em>Đá tan</em> (<strong>309 plays</strong> / 243d), <em>Cho Tôi Lang Thang</em> (<strong>239 plays</strong>), <em>01 Chuyện Dở Dang</em> (<strong>233 plays</strong>), <em>Cho</em> (<strong>232 plays</strong>), <em>Xanh</em> (<strong>173 plays</strong> / 30 mos).</div>
+                <div class="tree-subitem"><strong>4 Albums in Top 12:</strong> <em>Gieo</em> (<strong>#2: 72.0h</strong>), <em>3</em> (<strong>#3: 70.7h</strong>), <em>Ng'bthg</em> (<strong>#8: 49.4h</strong>), <em>Suýt 1</em> (<strong>#11: 39.0h</strong>).</div>
+                <div class="tree-subitem"><strong>Peak &amp; Local Vault:</strong> #1 Artist 2024 (174h) &amp; 2025 (89.6h); chiếm 27% giờ tháng 05/2024 • 67 files FLAC + CAM Concert trên Foobar2000.</div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Artist #2: Sơn Tùng M-TP -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
+        <div class="stat-node p-4">
           <div class="flex items-center gap-3.5">
             <div class="rank-badge rank-2">#2</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">Sơn Tùng M-TP</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-sky-300 shrink-0">158,9 Giờ (9.531 Phút)</span>
+                <div class="flex items-center gap-2 truncate">
+                  <h3 class="text-base font-black text-white truncate">Sơn Tùng M-TP</h3>
+                  <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 border border-rose-400/50 text-rose-200 font-bold">PINNED</span>
+                </div>
+                <span class="font-mono-code text-sm font-extrabold text-sky-300 shrink-0">158.9h (9,531m)</span>
               </div>
               <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span><strong>2.507 lượt phát</strong> • Bền bỉ 49/56 tháng</span>
-                <span class="font-mono-code text-sky-300 font-bold">Album #1 (74,7h) ▾</span>
+                <span><strong>2,507 plays</strong> • 49/56 mos • V-Pop</span>
+                <span class="ext-indicator">ALBUM #1 • EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
               </div>
               <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                 <div class="h-full w-[48%] bg-gradient-to-r from-sky-400 to-indigo-400"></div>
               </div>
             </div>
           </div>
-          <!-- Nhánh con #2 -->
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-sky-300 font-bold">↳ DỮ LIỆU NHÁNH — SƠN TÙNG M-TP (#2 MỌI THỜI ĐẠI • 1,50% TỔNG GIỜ):</div>
-                <div class="tree-subitem"><strong>Sở Hữu Album #1 Toàn Tài Khoản:</strong> Album <em>m-tp M-TP</em> đạt <strong>74,70 giờ</strong> — vượt qua mọi album khác trong 4,5 năm.</div>
-                <div class="tree-subitem"><strong>Hạng #1 Lưu Thư Viện:</strong> Nghệ sĩ có nhiều bài hát được nhấn lưu nhất trong Spotify Library (<strong>16 bài</strong>).</div>
-                <div class="tree-subitem"><strong>Độ Đều Tuyệt Đối:</strong> Hiện diện suốt <strong>49 / 56 tháng</strong>, tháng cao nhất chỉ chiếm 8% tổng giờ (không cần cày đột biến vẫn giữ ngôi Á quân).</div>
+                <div class="font-mono-code text-[11px] text-sky-300 font-bold">NODE.EXT // SƠN TÙNG M-TP (#2 ALL-TIME • 1.50% SHARE):</div>
+                <div class="tree-subitem"><strong>#1 All-Time Album:</strong> Album <em>m-tp M-TP</em> đạt <strong>74.70 giờ</strong> — đứng số 1 toàn tài khoản suốt 4,5 năm.</div>
+                <div class="tree-subitem"><strong>Library &amp; Consistency:</strong> #1 nghệ sĩ được lưu nhiều bài nhất trong Spotify Standard Library (<strong>16 bài</strong>); hiện diện bền bỉ 49/56 tháng.</div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Artist #3: YOASOBI -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
+        <div class="stat-node p-4">
           <div class="flex items-center gap-3.5">
             <div class="rank-badge rank-3">#3</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">YOASOBI</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-fuchsia-300 shrink-0">154,7 Giờ (9.280 Phút)</span>
+                <div class="flex items-center gap-2 truncate">
+                  <h3 class="text-base font-black text-white truncate">YOASOBI</h3>
+                  <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 border border-rose-400/50 text-rose-200 font-bold">PINNED</span>
+                </div>
+                <span class="font-mono-code text-sm font-extrabold text-fuchsia-300 shrink-0">154.7h (9,280m)</span>
               </div>
               <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span><strong>2.667 lượt phát</strong> • Kỷ lục 50/56 tháng</span>
-                <span class="font-mono-code text-fuchsia-300 font-bold">#1 J-Pop All-Time ▾</span>
+                <span><strong>2,667 plays</strong> • Record 50/56 mos</span>
+                <span class="ext-indicator">#1 J-POP • EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
               </div>
               <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                 <div class="h-full w-[46.7%] bg-gradient-to-r from-fuchsia-400 to-pink-400"></div>
               </div>
             </div>
           </div>
-          <!-- Nhánh con #3 -->
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-fuchsia-300 font-bold">↳ DỮ LIỆU NHÁNH — YOASOBI (KỶ LỤC HIỆN DIỆN 50/56 THÁNG):</div>
-                <div class="tree-subitem"><strong>Cặp Bài Hát Điểm Neo Lịch Sử:</strong> <em>怪物 (Kaibutsu)</em> đạt <strong>470 lượt (24,3h — xuất hiện ở 281 ngày khác nhau, kỷ lục số 1 toàn tài khoản)</strong> &amp; <em>夜に駆ける (Yoru ni Kakeru)</em> đạt <strong>374 lượt (23,2h — 276 ngày)</strong>.</div>
-                <div class="tree-subitem"><strong>Album &amp; Ngôi Vương Năm:</strong> Album <em>THE BOOK</em> đạt <strong>62,10 giờ (#4 mọi thời đại)</strong>; Nghệ sĩ #1 của cả năm 2023 (105 giờ).</div>
+                <div class="font-mono-code text-[11px] text-fuchsia-300 font-bold">NODE.EXT // YOASOBI (RECORD 50/56 ACTIVE MONTHS):</div>
+                <div class="tree-subitem"><strong>Evergreen Anchors:</strong> <em>怪物 (Kaibutsu)</em> đạt <strong>470 plays (24.3h — hiện diện 281 ngày, kỷ lục #1 toàn tài khoản)</strong> &amp; <em>夜に駆ける (Yoru ni Kakeru)</em> đạt <strong>374 plays (23.2h — 276 ngày)</strong>.</div>
+                <div class="tree-subitem"><strong>Top Album:</strong> <em>THE BOOK</em> đạt <strong>62.10 giờ (#4 mọi thời đại)</strong>; Nghệ sĩ #1 của cả năm 2023 (105h).</div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Artist #4: Tokyo Philharmonic Orchestra -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
+        <div class="stat-node p-4">
           <div class="flex items-center gap-3.5">
-            <div class="rank-badge rank-other !bg-emerald-500/30 !border-emerald-300/50 !text-emerald-200">#4</div>
+            <div class="rank-badge rank-other !bg-emerald-500/25 !border-emerald-400/40 !text-emerald-200">#4</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">Tokyo Philharmonic Orchestra</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-emerald-300 shrink-0">149,6h + 627 Count</span>
+                <div class="flex items-center gap-2 truncate">
+                  <h3 class="text-base font-black text-white truncate">Tokyo Philharmonic Orchestra</h3>
+                  <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 border border-rose-400/50 text-rose-200 font-bold">PINNED</span>
+                </div>
+                <span class="font-mono-code text-sm font-extrabold text-emerald-300 shrink-0">149.6h + 627×</span>
               </div>
               <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span><strong>2.076 lượt Spotify</strong> + 191/191 files DSD/FLAC</span>
-                <span class="font-mono-code text-emerald-300 font-bold">Top 0,0057% World ▾</span>
+                <span><strong>2,076 Spotify plays</strong> + 191/191 DSD/FLAC</span>
+                <span class="ext-indicator">0.0057% • EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
               </div>
               <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                 <div class="h-full w-[45.2%] bg-gradient-to-r from-emerald-400 to-teal-300"></div>
               </div>
             </div>
           </div>
-          <!-- Nhánh con #4 -->
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-emerald-300 font-bold">↳ DỮ LIỆU NHÁNH — TOKYO PHILHARMONIC (NGHỆ SĨ #1 NĂM 2026):</div>
-                <div class="tree-subitem"><strong>Phân Vị Độc Tôn Toàn Cầu:</strong> <strong>Top 0,0057% Fan Thế Giới</strong> (~1 / 18.000 người nghe) + Huy hiệu <strong>Spotify Marquee Super Listener</strong>.</div>
-                <div class="tree-subitem"><strong>Top Bài &amp; Khóa Lặp:</strong> <em>39 (2018-2019 Live)</em> đạt <strong>218 lượt</strong> (khóa lặp <strong>104 lần liên tiếp</strong> trưa 11/03/2026); <em>Cantarella</em> (36 lượt), <em>Cendrillon</em> (35 lượt), <em>SPiCa</em> (38 lượt).</div>
-                <div class="tree-subitem"><strong>100% Kho Lossless/DSD64:</strong> Phát đủ <strong>191/191 files (627 Count)</strong> trọn bộ 11 album <em>Miku Symphony (2016–2025)</em> trên Foobar2000.</div>
+                <div class="font-mono-code text-[11px] text-emerald-300 font-bold">NODE.EXT // TOKYO PHILHARMONIC (#1 ARTIST OF 2026):</div>
+                <div class="tree-subitem"><strong>Global Outlier:</strong> <strong>Top 0.0057% Fan Thế Giới</strong> (~1 / 18,000 người) + <strong>Spotify Marquee Super Listener</strong>.</div>
+                <div class="tree-subitem"><strong>Top Track &amp; Loop:</strong> <em>39 (2018-2019 Live)</em> đạt <strong>218 plays</strong> (khóa lặp <strong>104 lần liên tiếp</strong> trưa 11/03/2026); <em>Cantarella</em> (36), <em>Cendrillon</em> (35), <em>SPiCa</em> (38).</div>
+                <div class="tree-subitem"><strong>100% Lossless Vault:</strong> Phát đủ <strong>191/191 files (627 Count)</strong> trọn bộ 11 album <em>Miku Symphony (2016–2025)</em> trên Foobar2000.</div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Artist #5: Thắng -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
+        <div class="stat-node p-4">
           <div class="flex items-center gap-3.5">
             <div class="rank-badge rank-other">#5</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">Thắng</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-amber-300 shrink-0">126,4 Giờ (7.585 Phút)</span>
+                <div class="flex items-center gap-2 truncate">
+                  <h3 class="text-base font-black text-white truncate">Thắng</h3>
+                  <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 border border-rose-400/50 text-rose-200 font-bold">PINNED</span>
+                </div>
+                <span class="font-mono-code text-sm font-extrabold text-amber-300 shrink-0">126.4h (7,585m)</span>
               </div>
               <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span><strong>2.575 lượt phát</strong> • 44/56 tháng hiện diện</span>
-                <span class="font-mono-code text-amber-300 font-bold">Gấp 14,0× TB VN ▾</span>
+                <span><strong>2,575 plays</strong> • 44/56 mos hiện diện</span>
+                <span class="ext-indicator">14.0× VN • EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
               </div>
               <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                 <div class="h-full w-[38.1%] bg-gradient-to-r from-amber-400 to-orange-400"></div>
               </div>
             </div>
           </div>
-          <!-- Nhánh con #5 -->
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-amber-300 font-bold">↳ DỮ LIỆU NHÁNH — THẮNG (14,0× SOUND CAPSULE VIETNAM):</div>
-                <div class="tree-subitem"><strong>Bài Neo Tự Sự:</strong> <em>Trước Khi Em Tồn Tại</em> (<strong>273 lượt / 13,50 giờ</strong> qua 33 tháng; lần đầu nghe lúc 04:32 sáng ngày 07/09/2023) &amp; <em>Hình Trái Tim</em> (5 lần mở đầu ngày mới).</div>
-                <div class="tree-subitem"><strong>Top Album:</strong> Album <em>Cái Thứ Hai</em> đạt <strong>43,80 giờ (#9 mọi thời đại)</strong> + 40 files Lossless trên Foobar2000.</div>
+                <div class="font-mono-code text-[11px] text-amber-300 font-bold">NODE.EXT // THẮNG (14.0× VIETNAM BENCHMARK):</div>
+                <div class="tree-subitem"><strong>Anchor Track:</strong> <em>Trước Khi Em Tồn Tại</em> (<strong>273 plays / 13.50h</strong> qua 33 tháng; phát lần đầu lúc 04:32:33 sáng ngày 07/09/2023).</div>
+                <div class="tree-subitem"><strong>Top Album &amp; Local:</strong> Album <em>Cái Thứ Hai</em> đạt <strong>43.80 giờ (#9 mọi thời đại)</strong> + 40 files Lossless trên Foobar2000.</div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Artist #6: Fujii Kaze -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
+        <div class="stat-node p-4">
           <div class="flex items-center gap-3.5">
             <div class="rank-badge rank-other">#6</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">Fujii Kaze</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-cyan-300 shrink-0">115,8 Giờ (6.949 Phút)</span>
+                <div class="flex items-center gap-2 truncate">
+                  <h3 class="text-base font-black text-white truncate">Fujii Kaze</h3>
+                  <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 border border-rose-400/50 text-rose-200 font-bold">PINNED</span>
+                </div>
+                <span class="font-mono-code text-sm font-extrabold text-cyan-300 shrink-0">115.8h (6,949m)</span>
               </div>
               <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span><strong>1.864 lượt phát</strong> • 47/56 tháng hiện diện</span>
-                <span class="font-mono-code text-cyan-300 font-bold">Shinunoga E-Wa (326×) ▾</span>
+                <span><strong>1,864 plays</strong> • 47/56 mos hiện diện</span>
+                <span class="ext-indicator">326× TOP • EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
               </div>
               <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                 <div class="h-full w-[34.9%] bg-gradient-to-r from-cyan-400 to-sky-400"></div>
               </div>
             </div>
           </div>
-          <!-- Nhánh con #6 -->
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-cyan-300 font-bold">↳ DỮ LIỆU NHÁNH — FUJII KAZE (#2 NĂM 2025):</div>
-                <div class="tree-subitem"><strong>Top Bài Hát:</strong> <em>Shinunoga E-Wa</em> đứng <strong>#10 mọi thời đại (326 lượt / 15,4h — hiện diện 245 ngày)</strong>.</div>
-                <div class="tree-subitem"><strong>Đỉnh Tháng &amp; Live Vault:</strong> Nghệ sĩ #1 tháng 07/2025 (chiếm 12% tổng giờ tháng); phát đủ <strong>100% (22/22 files)</strong> album <em>Fujii Kaze Stadium Live "Feelin' Good"</em> trên Foobar2000.</div>
+                <div class="font-mono-code text-[11px] text-cyan-300 font-bold">NODE.EXT // FUJII KAZE (#2 ARTIST OF 2025):</div>
+                <div class="tree-subitem"><strong>Top Track:</strong> <em>Shinunoga E-Wa</em> đứng <strong>#10 mọi thời đại (326 plays / 15.4h — 245 ngày)</strong>.</div>
+                <div class="tree-subitem"><strong>100% Live Vault:</strong> Nghệ sĩ #1 tháng 07/2025 (12% giờ tháng); phát đủ <strong>100% (22/22 files)</strong> album <em>Stadium Live "Feelin' Good"</em> trên Foobar2000.</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Artist #7: RADWIMPS -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
+        <!-- Artist #7 & #8: RADWIMPS & Đen -->
+        <div class="stat-node p-4">
           <div class="flex items-center gap-3.5">
-            <div class="rank-badge rank-other">#7</div>
+            <div class="rank-badge rank-other">#7–8</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">RADWIMPS</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-indigo-300 shrink-0">114,2 Giờ (6.851 Phút)</span>
+                <div class="flex items-center gap-2 truncate">
+                  <h3 class="text-base font-black text-white truncate">RADWIMPS (#7) &amp; Đen (#8)</h3>
+                  <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 border border-rose-400/50 text-rose-200 font-bold">PINNED</span>
+                </div>
+                <span class="font-mono-code text-sm font-extrabold text-indigo-300 shrink-0">114.2h &amp; 104.1h</span>
               </div>
               <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span><strong>1.661 lượt phát</strong> • J-Rock &amp; Anime OST</span>
-                <span class="font-mono-code text-indigo-300 font-bold">Your Name OST (60,8h) ▾</span>
+                <span><strong>1,661 plays</strong> (RADWIMPS) • <strong>1,668 plays</strong> (Đen)</span>
+                <span class="ext-indicator">13,099m • EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
               </div>
               <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
-                <div class="h-full w-[34.5%] bg-gradient-to-r from-indigo-400 to-violet-400"></div>
+                <div class="h-full w-[34.5%] bg-gradient-to-r from-indigo-400 to-teal-400"></div>
               </div>
             </div>
           </div>
-          <!-- Nhánh con #7 -->
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-indigo-300 font-bold">↳ DỮ LIỆU NHÁNH — RADWIMPS (#3 NĂM 2023):</div>
-                <div class="tree-subitem"><strong>Top Album:</strong> <em>Your Name. (Kimi no Na wa OST)</em> đạt <strong>60,80 giờ (#7 mọi thời đại)</strong>.</div>
-                <div class="tree-subitem"><strong>Kho Hi-Res Local:</strong> Lưu trữ trọn bộ <strong>27 files FLAC 24bit/48kHz</strong> bản thu gốc Nhật Bản trong thư mục <code>D:\Playist\Japan</code>.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Artist #8: Đen -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
-          <div class="flex items-center gap-3.5">
-            <div class="rank-badge rank-other">#8</div>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">Đen</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-teal-300 shrink-0">104,1 Giờ (6.248 Phút)</span>
-              </div>
-              <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span><strong>1.668 lượt phát</strong> • Tự sự Hip-hop Việt</span>
-                <span class="font-mono-code text-teal-300 font-bold">Gấp 6,5× TB VN ▾</span>
-              </div>
-              <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
-                <div class="h-full w-[31.4%] bg-gradient-to-r from-teal-400 to-emerald-400"></div>
-              </div>
-            </div>
-          </div>
-          <!-- Nhánh con #8 -->
-          <div class="stat-branch-wrapper">
-            <div class="stat-branch-inner">
-              <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-teal-300 font-bold">↳ DỮ LIỆU NHÁNH — ĐEN (6,5× SOUND CAPSULE VIETNAM):</div>
-                <div class="tree-subitem"><strong>Vượt Chuẩn Quốc Gia:</strong> Thời lượng nghe gấp <strong>6,5 lần</strong> mức trung bình người nghe tại Việt Nam (5.402s vs 825s); đồng hạng #4 về số bài lưu trong Spotify Library (11 bài).</div>
+                <div class="font-mono-code text-[11px] text-indigo-300 font-bold">NODE.EXT // RADWIMPS &amp; ĐEN:</div>
+                <div class="tree-subitem"><strong>#7 RADWIMPS (114.19h):</strong> Album <em>Your Name. (Kimi no Na wa OST)</em> đạt <strong>60.80h (#7 lịch sử)</strong> + 27 files FLAC 24bit/48kHz trên Foobar2000.</div>
+                <div class="tree-subitem"><strong>#8 Đen (104.13h):</strong> Gấp <strong>6.5×</strong> mức trung bình người nghe tại Việt Nam (Sound Capsule Verified).</div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Artist #9 & #10: yama & ZUTOMAYO -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
+        <div class="stat-node p-4">
           <div class="flex items-center gap-3.5">
             <div class="rank-badge rank-other">#9–10</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">yama (#9) &amp; ZUTOMAYO (#10)</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-purple-300 shrink-0">100,0h &amp; 99,4h</span>
+                <div class="flex items-center gap-2 truncate">
+                  <h3 class="text-base font-black text-white truncate">yama (#9) &amp; ZUTOMAYO (#10)</h3>
+                  <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 border border-rose-400/50 text-rose-200 font-bold">PINNED</span>
+                </div>
+                <span class="font-mono-code text-sm font-extrabold text-purple-300 shrink-0">100.0h &amp; 99.4h</span>
               </div>
               <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span><strong>1.866 lượt</strong> (yama) • <strong>1.524 lượt</strong> (ZUTOMAYO)</span>
-                <span class="font-mono-code text-purple-300 font-bold">11.964 Phút Gộp ▾</span>
+                <span><strong>1,866 plays</strong> (yama) • <strong>1,524 plays</strong> (ZUTOMAYO)</span>
+                <span class="ext-indicator">11,964m • EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
               </div>
               <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                 <div class="h-full w-[30.1%] bg-gradient-to-r from-purple-400 to-fuchsia-400"></div>
               </div>
             </div>
           </div>
-          <!-- Nhánh con #9-10 -->
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-purple-300 font-bold">↳ DỮ LIỆU NHÁNH — YAMA &amp; ZUTOMAYO:</div>
-                <div class="tree-subitem"><strong>yama (100,0h):</strong> Sở hữu 2 siêu hit trong Top 11 lịch sử: <em>Haru wo Tsugeru</em> (<strong>#5: 391 lượt / 254 ngày</strong> — Bài hát #1 của năm 2023) &amp; <em>色彩 (Shikisai)</em> (<strong>#11: 325 lượt</strong>).</div>
-                <div class="tree-subitem"><strong>ZUTOMAYO (99,4h):</strong> Album <em>本格中華喫茶・愛のペガサス (Ai no Pegasus)</em> đứng <strong>#10 mọi thời đại (40,30 giờ)</strong>.</div>
+                <div class="font-mono-code text-[11px] text-purple-300 font-bold">NODE.EXT // YAMA &amp; ZUTOMAYO:</div>
+                <div class="tree-subitem"><strong>yama (100.0h):</strong> 2 bài trong Top 11 lịch sử: <em>Haru wo Tsugeru</em> (<strong>#5: 391 plays / 254d</strong> — #1 Track 2023) &amp; <em>色彩 (Shikisai)</em> (<strong>#11: 325 plays</strong>).</div>
+                <div class="tree-subitem"><strong>ZUTOMAYO (99.4h):</strong> Album <em>Ai no Pegasus</em> đứng <strong>#10 mọi thời đại (40.30 giờ)</strong>.</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Artist #11 & #12: Zeph & bbno$ -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
+        <!-- Artist #11 to #15: Zeph, bbno$, BABYMETAL, Eve, Michael Jackson -->
+        <div class="stat-node p-4">
           <div class="flex items-center gap-3.5">
-            <div class="rank-badge rank-other">#11–12</div>
+            <div class="rank-badge rank-other">#11–15</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">Zeph (#11) &amp; bbno$ (#12)</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-pink-300 shrink-0">95,4h &amp; 94,3h</span>
+                <div class="flex items-center gap-2 truncate">
+                  <h3 class="text-base font-black text-white truncate">Zeph • bbno$ • BABYMETAL • Eve • MJ</h3>
+                  <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 border border-rose-400/50 text-rose-200 font-bold">PINNED</span>
+                </div>
+                <span class="font-mono-code text-sm font-extrabold text-pink-300 shrink-0">443.8h Combined</span>
               </div>
               <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span><strong>3.949 lượt</strong> (Zeph - #2 Lượt) • <strong>2.377 lượt</strong> (bbno$)</span>
-                <span class="font-mono-code text-pink-300 font-bold">6.326 Lượt Gộp ▾</span>
+                <span>Zeph (3,949 plays) • BABYMETAL (89.7h) • MJ (78.3h)</span>
+                <span class="ext-indicator">5 ARTISTS • EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
               </div>
               <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                 <div class="h-full w-[28.8%] bg-gradient-to-r from-pink-400 to-rose-400"></div>
               </div>
             </div>
           </div>
-          <!-- Nhánh con #11-12 -->
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-pink-300 font-bold">↳ DỮ LIỆU NHÁNH — ZEPH &amp; BBNO$:</div>
-                <div class="tree-subitem"><strong>Zeph (95,41h — 3.949 lượt phát, đứng #2 toàn tài khoản về số lượt):</strong> Sở hữu bài <em>you</em> (<strong>#2 mọi thời đại: 539 lượt</strong>) và <em>world</em> (<strong>#8 mọi thời đại: 340 lượt</strong>); Nghệ sĩ #1 tháng 12/2024.</div>
-                <div class="tree-subitem"><strong>bbno$ (94,34h — 2.377 lượt):</strong> Trụ cột US-UK giai đoạn 2022–2023 + dự án <em>BABY GRAVY</em> (26,26h).</div>
+                <div class="font-mono-code text-[11px] text-pink-300 font-bold">NODE.EXT // RANK #11 TO #15 ALL-TIME:</div>
+                <div class="tree-subitem"><strong>#11 Zeph (95.41h • 3,949 plays — #2 toàn tài khoản về số lượt):</strong> Bài <em>you</em> (<strong>#2: 539 plays</strong>) &amp; <em>world</em> (<strong>#8: 340 plays</strong>).</div>
+                <div class="tree-subitem"><strong>#12 bbno$ (94.34h • 2,377 plays)</strong> &amp; <strong>#14 Eve (86.00h • 1,452 plays)</strong>.</div>
+                <div class="tree-subitem"><strong>#13 BABYMETAL (89.74h • 1,461 plays):</strong> #1 nghệ sĩ mở đầu ngày mới (9 ngày) • Playlist riêng 70 bài.</div>
+                <div class="tree-subitem"><strong>#15 Michael Jackson (78.33h • 1,109 plays):</strong> Chiếm <strong>39.3% tổng giờ tuần 27/04–03/05/2026</strong>.</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Artist #13 to #16: BABYMETAL, Eve, Michael Jackson, Kessoku Band -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
+        <!-- Artist #16 to #23: Kessoku Band, Imagine Dragons, kensuke ushio, SEATBELTS, Ado, King Gnu, Shiro SAGISU -->
+        <div class="stat-node p-4">
           <div class="flex items-center gap-3.5">
-            <div class="rank-badge rank-other">#13–16</div>
+            <div class="rank-badge rank-other">#16–23</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">BABYMETAL • Eve • MJ • Kessoku Band</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-red-300 shrink-0">330,6 Giờ Gộp</span>
+                <div class="flex items-center gap-2 truncate">
+                  <h3 class="text-base font-black text-white truncate">Kessoku • ushio • SEATBELTS • King Gnu</h3>
+                  <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 border border-rose-400/50 text-rose-200 font-bold">PINNED</span>
+                </div>
+                <span class="font-mono-code text-sm font-extrabold text-red-300 shrink-0">468.2h Combined</span>
               </div>
               <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span>BABYMETAL (89,7h) • Eve (86h) • MJ (78,3h) • Kessoku (76,6h)</span>
-                <span class="font-mono-code text-red-300 font-bold">Chi tiết 4 NS ▾</span>
+                <span>Kessoku (76.6h) • ushio (2,384 plays) • SEATBELTS • SAGISU</span>
+                <span class="ext-indicator">7 ARTISTS • EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
               </div>
               <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
-                <div class="h-full w-[27.1%] bg-gradient-to-r from-red-500 to-amber-500"></div>
+                <div class="h-full w-[23.1%] bg-gradient-to-r from-red-400 to-amber-400"></div>
               </div>
             </div>
           </div>
-          <!-- Nhánh con #13-16 -->
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-red-300 font-bold">↳ DỮ LIỆU NHÁNH — HẠNG #13 ĐẾN #16 MỌI THỜI ĐẠI:</div>
-                <div class="tree-subitem"><strong>#13 BABYMETAL (89,74h • 1.461 lượt):</strong> Nghệ sĩ mở đầu ngày mới nhiều nhất (9 ngày, T-080) • Nghệ sĩ #1 tháng 06/2026 • Playlist riêng 70 bài.</div>
-                <div class="tree-subitem"><strong>#14 Eve (86,00h • 1.452 lượt):</strong> Nghệ sĩ #5 của năm 2023 • Trụ cột J-Rock / Anime OP.</div>
-                <div class="tree-subitem"><strong>#15 Michael Jackson (78,33h • 1.109 lượt):</strong> Nghệ sĩ #1 tháng 05/2026; riêng tuần 27/04–03/05/2026 chiếm tới <strong>39,3% tổng giờ nghe cả tuần</strong>.</div>
-                <div class="tree-subitem"><strong>#16 結束バンド / Kessoku Band (76,60h • 1.265 lượt):</strong> Album <em>結束バンド (Bocchi the Rock!)</em> đạt <strong>61,50 giờ (#6 lịch sử)</strong> + 20 files FLAC 24bit/48kHz.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Artist #17 to #20+: Imagine Dragons, kensuke ushio, SEATBELTS, Ado, King Gnu, Shiro SAGISU -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
-          <div class="flex items-center gap-3.5">
-            <div class="rank-badge rank-other">#17–23</div>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">ushio • SEATBELTS • Ado • King Gnu • SAGISU</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-indigo-300 shrink-0">391,6 Giờ Gộp</span>
-              </div>
-              <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span>Imagine Dragons (72,6h) • ushio (67,9h) • SEATBELTS (66,8h) • Ado (64h)</span>
-                <span class="font-mono-code text-indigo-300 font-bold">Chi tiết 6 NS ▾</span>
-              </div>
-              <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
-                <div class="h-full w-[22.0%] bg-gradient-to-r from-indigo-400 to-sky-400"></div>
-              </div>
-            </div>
-          </div>
-          <!-- Nhánh con #17-23 -->
-          <div class="stat-branch-wrapper">
-            <div class="stat-branch-inner">
-              <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-indigo-300 font-bold">↳ DỮ LIỆU NHÁNH — HẠNG #17 ĐẾN #23 MỌI THỜI ĐẠI:</div>
-                <div class="tree-subitem"><strong>#17 Imagine Dragons (72,60h • 1.539 lượt):</strong> Nghệ sĩ #1 của năm khởi đầu 2022.</div>
-                <div class="tree-subitem"><strong>#18 kensuke ushio (67,92h • 2.384 lượt):</strong> Giữ kỷ lục <strong>Album nhiều lượt phát nhất lịch sử (CHAINSAW MAN: REZE ARC OST — 2.155 lượt)</strong>.</div>
-                <div class="tree-subitem"><strong>#19 SEATBELTS (66,84h • 1.327 lượt):</strong> Phát đủ <strong>100% (83/83 files)</strong> OST <em>Cowboy Bebop</em> trên Foobar2000.</div>
-                <div class="tree-subitem"><strong>#20 Ado (64,00h • 1.205 lượt) • King Gnu (59,6h — Bài #1 AIZO 642 lượt) • #23 Shiro SAGISU (60,66h + 1.081 files Evangelion).</strong></div>
+                <div class="font-mono-code text-[11px] text-red-300 font-bold">NODE.EXT // RANK #16 TO #23 ALL-TIME:</div>
+                <div class="tree-subitem"><strong>#16 Kessoku Band (76.60h):</strong> Album <em>結束バンド</em> đạt <strong>61.50h (#6 lịch sử)</strong> + 20 files FLAC 24bit/48kHz.</div>
+                <div class="tree-subitem"><strong>#17 Imagine Dragons (72.60h — #1 năm 2022)</strong> • <strong>#20 Ado (64.00h)</strong> • <strong>King Gnu (59.6h — #1 Track AIZO 642 plays)</strong>.</div>
+                <div class="tree-subitem"><strong>#18 kensuke ushio (67.92h • 2,384 plays):</strong> Kỷ lục <strong>Reze Arc OST (2,155 plays)</strong> • <strong>#19 SEATBELTS (66.84h + 83/83 Cowboy Bebop)</strong> • <strong>#23 Shiro SAGISU (60.66h + 1,081 files Evangelion)</strong>.</div>
               </div>
             </div>
           </div>
@@ -1143,34 +1206,37 @@
       </div>
     </section>
 
-    <!-- ================= KHU VỰC 2: TOP SONGS & REPEAT-ONE MARATHON LEADERBOARD ================= -->
-    <section id="sec-songs" class="wrapped-section space-y-3.5">
+    <!-- ================= 02. TOP TRACKS & REPEAT-ONE LEADERBOARD ================= -->
+    <section id="sec-songs" class="wrapped-section space-y-3">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-1 px-1">
         <div>
-          <span class="text-xs font-mono-code uppercase tracking-widest text-amber-300 font-semibold">
-            // 02 • TOP SONGS ALL-TIME &amp; HYPNOTIC LOOP RECORDS (326 BÀI ≥100 LƯỢT • 49 CHUỖI LẶP ≥30×)
+          <span class="text-[11px] font-mono-code uppercase tracking-widest text-amber-300 font-bold">
+            // 02 • TOP TRACKS &amp; HYPNOTIC LOOP RECORDS (326 TRACKS ≥100 PLAYS • r = 0.0737)
           </span>
-          <h2 class="text-xl sm:text-2xl font-extrabold text-white">
-            BÀI HÁT NGHE NHIỀU NHẤT &amp; KỶ LỤC CÀY LẶP XUYÊN ĐÊM
+          <h2 class="text-lg sm:text-xl font-extrabold text-white">
+            BÀI HÁT NGHE NHIỀU NHẤT &amp; KỶ LỤC KHÓA LẶP 1 BÀI
           </h2>
         </div>
-        <span class="text-xs font-mono-code text-slate-300">Định lý Không Bội Thực: r = 0,0737 ▾</span>
+        <span class="text-[11px] font-mono-code text-slate-400">HOVER OR CLICK TO EXTEND NODE</span>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
 
-        <!-- Song #1: AIZO -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
+        <!-- Track #1: AIZO -->
+        <div class="stat-node p-4">
           <div class="flex items-center gap-3.5">
             <div class="rank-badge rank-1">#1</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">AIZO — King Gnu</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-rose-300 shrink-0">642 Lượt (37,39h)</span>
+                <div class="flex items-center gap-2 truncate">
+                  <h3 class="text-base font-black text-white truncate">AIZO — King Gnu</h3>
+                  <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 border border-rose-400/50 text-rose-200 font-bold">PINNED</span>
+                </div>
+                <span class="font-mono-code text-sm font-extrabold text-rose-300 shrink-0">642 Plays (37.4h)</span>
               </div>
               <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span>Mật độ: <strong>15,7 lượt/ngày</strong> (41 ngày)</span>
-                <span class="font-mono-code text-rose-300 font-bold">Lặp 155× Liên Tiếp (#1) ▾</span>
+                <span><strong>15.7 plays/day</strong> (41 days) • FLAC 24/48</span>
+                <span class="ext-indicator">155× LOOP • EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
               </div>
               <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                 <div class="h-full w-full bg-gradient-to-r from-rose-500 to-amber-400"></div>
@@ -1180,27 +1246,29 @@
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-rose-300 font-bold">↳ HỒ SƠ BÀI HÁT #1 LỊCH SỬ — AIZO (KING GNU):</div>
-                <div class="tree-subitem"><strong>Kỷ Lục Repeat-One #1 Toàn Tài Khoản:</strong> Khóa lặp <strong>155 lần liên tiếp không đổi bài</strong> bắt đầu lúc <strong>20:26 tối ngày 05/05/2026</strong> xuyên đêm ôn thi THPT.</div>
-                <div class="tree-subitem"><strong>Vòng Đời 2 Đỉnh (T-010):</strong> Xuất hiện ngày 17/01/2026; tháng 02/2026 nổ <strong>400 lượt (62,31%)</strong>, tháng 03 (53 lượt), tháng 05 bùng nổ đợt hai với <strong>159 lượt (24,77%)</strong>.</div>
-                <div class="tree-subitem"><strong>Hi-Res Reference:</strong> Lưu bản chuẩn <strong>FLAC 24bit/48kHz</strong> trên Foobar2000 làm bài test tốc độ bass số 1.</div>
+                <div class="font-mono-code text-[11px] text-rose-300 font-bold">NODE.EXT // AIZO — KING GNU (#1 TRACK ALL-TIME):</div>
+                <div class="tree-subitem"><strong>Repeat-One Record #1:</strong> Khóa lặp <strong>155 lần liên tiếp</strong> bắt đầu lúc <strong>20:26 ngày 05/05/2026</strong> xuyên đêm ôn thi THPT.</div>
+                <div class="tree-subitem"><strong>Two-Peak Trajectory:</strong> Tháng 02/2026 cày <strong>400 lượt (62.31%)</strong>; tháng 05/2026 bùng nổ đợt hai với <strong>159 lượt (24.77%)</strong>.</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Song #2: you — Zeph -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
+        <!-- Track #2: you — Zeph -->
+        <div class="stat-node p-4">
           <div class="flex items-center gap-3.5">
             <div class="rank-badge rank-2">#2</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">you — Zeph</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-sky-300 shrink-0">539 Lượt (9,86h)</span>
+                <div class="flex items-center gap-2 truncate">
+                  <h3 class="text-base font-black text-white truncate">you — Zeph</h3>
+                  <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 border border-rose-400/50 text-rose-200 font-bold">PINNED</span>
+                </div>
+                <span class="font-mono-code text-sm font-extrabold text-sky-300 shrink-0">539 Plays (9.9h)</span>
               </div>
               <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span>106 ngày có nghe • 20 tháng hiện diện</span>
-                <span class="font-mono-code text-sky-300 font-bold">#1 Bài Hát Năm 2025 (420×) ▾</span>
+                <span>106 days active • 20 mos span</span>
+                <span class="ext-indicator">#1 OF 2025 • EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
               </div>
               <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                 <div class="h-full w-[84%] bg-gradient-to-r from-sky-400 to-fuchsia-400"></div>
@@ -1210,26 +1278,29 @@
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-sky-300 font-bold">↳ HỒ SƠ BÀI HÁT #2 LỊCH SỬ — YOU (ZEPH):</div>
-                <div class="tree-subitem"><strong>Đỉnh Bùng Nổ Mùa Đông – Xuân:</strong> 111 lượt (2024) ➔ <strong>420 lượt (2025 — Bài hát #1 năm 2025)</strong>; riêng tháng 01/2025 đạt <strong>189 lượt</strong>, tuần 20/01/2025 đạt 93 lượt.</div>
-                <div class="tree-subitem"><strong>Cặp Bài Song Hành:</strong> Đi cùng bài <em>world — Zeph</em> (<strong>#8 mọi thời đại: 340 lượt</strong> / 107 ngày nghe).</div>
+                <div class="font-mono-code text-[11px] text-sky-300 font-bold">NODE.EXT // YOU — ZEPH (#2 TRACK ALL-TIME):</div>
+                <div class="tree-subitem"><strong>Peak Era:</strong> 111 plays (2024) ➔ <strong>420 plays (2025 — #1 Track of 2025)</strong>; đỉnh tháng 01/2025 đạt <strong>189 plays</strong>.</div>
+                <div class="tree-subitem"><strong>Companion Track:</strong> Đi cặp cùng <em>world — Zeph</em> (<strong>#8 mọi thời đại: 340 plays</strong> / 107 ngày).</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Song #3: Kaibutsu — YOASOBI -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
+        <!-- Track #3: Kaibutsu — YOASOBI -->
+        <div class="stat-node p-4">
           <div class="flex items-center gap-3.5">
             <div class="rank-badge rank-3">#3</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">怪物 (Kaibutsu) — YOASOBI</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-fuchsia-300 shrink-0">470 Lượt (24,30h)</span>
+                <div class="flex items-center gap-2 truncate">
+                  <h3 class="text-base font-black text-white truncate">怪物 (Kaibutsu) — YOASOBI</h3>
+                  <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 border border-rose-400/50 text-rose-200 font-bold">PINNED</span>
+                </div>
+                <span class="font-mono-code text-sm font-extrabold text-fuchsia-300 shrink-0">470 Plays (24.3h)</span>
               </div>
               <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span>Kỷ lục số 1 về độ bền ngày: <strong>281 ngày</strong></span>
-                <span class="font-mono-code text-fuchsia-300 font-bold">Evergreen Anchor #1 ▾</span>
+                <span>Record Longevity: <strong>281 active days</strong></span>
+                <span class="ext-indicator">ANCHOR #1 • EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
               </div>
               <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                 <div class="h-full w-[73.2%] bg-gradient-to-r from-fuchsia-400 to-purple-400"></div>
@@ -1239,25 +1310,28 @@
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-fuchsia-300 font-bold">↳ HỒ SƠ BÀI HÁT #3 LỊCH SỬ — KAIBUTSU (YOASOBI):</div>
-                <div class="tree-subitem"><strong>Quán Quân Độ Bền Ngày Nghe:</strong> Xuất hiện trong <strong>281 ngày lịch khác nhau</strong> suốt 4 năm (mật độ 1,3 lượt/ngày, tuần cao nhất chỉ chiếm 3% tổng lượt — không bao giờ cũ).</div>
+                <div class="font-mono-code text-[11px] text-fuchsia-300 font-bold">NODE.EXT // KAIBUTSU — YOASOBI:</div>
+                <div class="tree-subitem"><strong>#1 Active Days Record:</strong> Xuất hiện trong <strong>281 ngày lịch khác nhau</strong> suốt 4 năm (1.3 plays/day, không có hiện tượng chán bài).</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Song #4: A Cruel Angel's Thesis (Japanese + Vietnamese Twin) -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
+        <!-- Track #4: Cruel Angel's Thesis (JP + VN Twin) -->
+        <div class="stat-node p-4">
           <div class="flex items-center gap-3.5">
             <div class="rank-badge rank-other">#4</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">残酷な天使のテーゼ — Yoko Takahashi</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-amber-300 shrink-0">461 Lượt (27,40h)</span>
+                <div class="flex items-center gap-2 truncate">
+                  <h3 class="text-base font-black text-white truncate">残酷な天使のテーゼ — Yoko Takahashi</h3>
+                  <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 border border-rose-400/50 text-rose-200 font-bold">PINNED</span>
+                </div>
+                <span class="font-mono-code text-sm font-extrabold text-amber-300 shrink-0">461 Plays (27.4h)</span>
               </div>
               <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span>Cùng bản lời Việt Ragakov (<strong>322 lượt</strong>)</span>
-                <span class="font-mono-code text-amber-300 font-bold">783 Lượt Song Ngữ ▾</span>
+                <span>+ Bản lời Việt Ragakov (<strong>322 plays</strong>)</span>
+                <span class="ext-indicator">783× DUAL • EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
               </div>
               <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                 <div class="h-full w-[71.8%] bg-gradient-to-r from-amber-400 to-rose-400"></div>
@@ -1267,26 +1341,29 @@
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-amber-300 font-bold">↳ HIỆN TƯỢNG SONG KIẾM HỢP BÍCH EVANGELION (THÁNG 08/2024):</div>
-                <div class="tree-subitem"><strong>Cộng Hưởng Nhật – Việt:</strong> Bản gốc Nhật đạt <strong>461 lượt</strong> (#1 năm 2024) + Bản lời Việt <em>Khúc Hoan Ca Thiên Sứ Nghiệt Ngã — Ragakov</em> đạt <strong>322 lượt (#12 mọi thời đại)</strong> = Tổng cộng <strong>783 lượt phát</strong>!</div>
-                <div class="tree-subitem"><strong>Tuần Đỉnh 12/08/2024:</strong> Cày đồng thời <strong>170 lượt bản Nhật</strong> và <strong>169 lượt bản Việt</strong> chỉ trong đúng 1 tuần lễ.</div>
+                <div class="font-mono-code text-[11px] text-amber-300 font-bold">NODE.EXT // EVANGELION DUAL-LANGUAGE SURGE:</div>
+                <div class="tree-subitem"><strong>783 Combined Plays:</strong> Bản gốc Nhật (<strong>461 plays — #1 năm 2024</strong>) + Bản Việt <em>Khúc Hoan Ca Thiên Sứ Nghiệt Ngã</em> (<strong>322 plays — #12 lịch sử</strong>).</div>
+                <div class="tree-subitem"><strong>Twin-Peak Week (12/08/2024):</strong> Cày song song <strong>170 lượt bản Nhật</strong> &amp; <strong>169 lượt bản Việt</strong> trong cùng 1 tuần.</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Song #5 & #6: Haru wo Tsugeru & Yoru ni Kakeru -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
+        <!-- Track #5, #6, #7: Haru wo Tsugeru, Yoru ni Kakeru, in the pool -->
+        <div class="stat-node p-4">
           <div class="flex items-center gap-3.5">
-            <div class="rank-badge rank-other">#5–6</div>
+            <div class="rank-badge rank-other">#5–7</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">Haru wo Tsugeru (#5) &amp; 夜に駆ける (#6)</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-emerald-300 shrink-0">391× &amp; 374× (43,1h)</span>
+                <div class="flex items-center gap-2 truncate">
+                  <h3 class="text-base font-black text-white truncate">Haru wo Tsugeru • 夜に駆ける • in the pool</h3>
+                  <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 border border-rose-400/50 text-rose-200 font-bold">PINNED</span>
+                </div>
+                <span class="font-mono-code text-sm font-extrabold text-emerald-300 shrink-0">391× • 374× • 349×</span>
               </div>
               <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span>Hiện diện <strong>254 ngày</strong> (yama) &amp; <strong>276 ngày</strong> (YOASOBI)</span>
-                <span class="font-mono-code text-emerald-300 font-bold">Top 1 &amp; 2 Năm 2023 ▾</span>
+                <span>yama (#5) • YOASOBI (#6) • kensuke ushio (#7)</span>
+                <span class="ext-indicator">65.6h • EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
               </div>
               <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                 <div class="h-full w-[60.9%] bg-gradient-to-r from-emerald-400 to-cyan-400"></div>
@@ -1296,99 +1373,41 @@
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-emerald-300 font-bold">↳ HAI ĐIỂM NEO BẤT DIỆT CỦA KỶ NGUYÊN J-POP:</div>
-                <div class="tree-subitem"><strong>#5 Haru wo Tsugeru — yama (391 lượt / 19,9h):</strong> Bài hát #1 của cả năm 2023 (271 lượt), hiện diện 254 ngày.</div>
-                <div class="tree-subitem"><strong>#6 夜に駆ける (Yoru ni Kakeru) — YOASOBI (374 lượt / 23,2h):</strong> Hiện diện 276 ngày (cao thứ 2 lịch sử sau Kaibutsu).</div>
+                <div class="font-mono-code text-[11px] text-emerald-300 font-bold">NODE.EXT // RANK #5 TO #7 ALL-TIME:</div>
+                <div class="tree-subitem"><strong>#5 Haru wo Tsugeru — yama (391 plays / 254d)</strong> &amp; <strong>#6 夜に駆ける — YOASOBI (374 plays / 276d)</strong>.</div>
+                <div class="tree-subitem"><strong>#7 in the pool — kensuke ushio (349 plays / 22.5h):</strong> Khóa lặp <strong>121 lần liên tiếp</strong> lúc 03:50 sáng ngày 04/04/2026 (Reze Arc OST).</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Song #7: in the pool — kensuke ushio -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
+        <!-- Track #8 to #16 & Top 6 Repeat-One Marathon -->
+        <div class="stat-node p-4">
           <div class="flex items-center gap-3.5">
-            <div class="rank-badge rank-other">#7</div>
+            <div class="rank-badge !bg-rose-500/25 !border-rose-400/40 !text-rose-200">LOOP</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">in the pool — kensuke ushio</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-cyan-300 shrink-0">349 Lượt (22,50h)</span>
-              </div>
-              <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span>Chainsaw Man: Reze Arc OST • 46 ngày</span>
-                <span class="font-mono-code text-cyan-300 font-bold">Lặp 121× Liên Tiếp (#3) ▾</span>
-              </div>
-              <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
-                <div class="h-full w-[54.4%] bg-gradient-to-r from-cyan-400 to-blue-500"></div>
-              </div>
-            </div>
-          </div>
-          <div class="stat-branch-wrapper">
-            <div class="stat-branch-inner">
-              <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-cyan-300 font-bold">↳ TÂM ĐIỂM CHAINSAW MAN: REZE ARC OST:</div>
-                <div class="tree-subitem"><strong>Repeat-One Marathon #3:</strong> Khóa lặp <strong>121 lần liên tiếp</strong> bắt đầu lúc <strong>03:50 rạng sáng ngày 04/04/2026</strong>; riêng tuần 30/03/2026 đạt 153 lượt (44% tổng lượt).</div>
-                <div class="tree-subitem"><strong>Playlist Kỷ Vật:</strong> Nằm trong playlist <em>Reze</em> (4 bài) với dòng mô tả tự viết: <code>"i miss, i want, i need"</code>.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Song #8 to #16: world, NIGHT DANCER, Shinunoga E-Wa, Shikisai, As It Was, Overdose, Đá tan, Hikaru Nara -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
-          <div class="flex items-center gap-3.5">
-            <div class="rank-badge rank-other">#8–16</div>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">world • NIGHT DANCER • Shinunoga • Đá tan</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-violet-300 shrink-0">302 ➔ 340 Lượt/Bài</span>
-              </div>
-              <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
-                <span>9 Bài hát vượt mốc 300+ lượt phát toàn kỳ</span>
-                <span class="font-mono-code text-violet-300 font-bold">Xem Bảng #8–#16 ▾</span>
-              </div>
-              <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
-                <div class="h-full w-[51.0%] bg-gradient-to-r from-violet-400 to-rose-400"></div>
-              </div>
-            </div>
-          </div>
-          <div class="stat-branch-wrapper">
-            <div class="stat-branch-inner">
-              <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-violet-300 font-bold">↳ DANH SÁCH BÀI HÁT HẠNG #8 ĐẾN #16 MỌI THỜI ĐẠI (&gt;300 LƯỢT):</div>
-                <div class="tree-subitem"><strong>#8 world — Zeph:</strong> <strong>340 lượt</strong> (107 ngày nghe) • <strong>#9 NIGHT DANCER — imase:</strong> <strong>330 lượt</strong> (17,6h) • <strong>#10 Shinunoga E-Wa — Fujii Kaze:</strong> <strong>326 lượt</strong> (245 ngày).</div>
-                <div class="tree-subitem"><strong>#11 色彩 (Shikisai) — yama:</strong> <strong>325 lượt</strong> • <strong>#12 Khúc Hoan Ca Thiên Sứ Nghiệt Ngã — Ragakov:</strong> <strong>322 lượt</strong> • <strong>#13 As It Was — Harry Styles:</strong> <strong>313 lượt</strong>.</div>
-                <div class="tree-subitem"><strong>#14 Overdose — natori:</strong> <strong>312 lượt</strong> • <strong>#15 Đá tan — Ngọt:</strong> <strong>309 lượt</strong> (243 ngày) • <strong>#16 光るなら (Hikaru Nara) — Goose house:</strong> <strong>302 lượt</strong> (197 ngày • OST Tháng Tư Là Lời Nói Dối Của Em).</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Repeat-One Marathon Special Card (#2, #4, #5, #6) -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
-          <div class="flex items-center gap-3.5">
-            <div class="rank-badge !bg-rose-500/30 !border-rose-300/50 !text-rose-200">LOOP</div>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center justify-between gap-2">
-                <h3 class="text-base sm:text-lg font-black text-white truncate">Top 6 Kỷ Lục Khóa Lặp 1 Bài (100× ➔ 155×)</h3>
-                <span class="font-mono-code text-sm sm:text-base font-extrabold text-rose-300 shrink-0">49 Chuỗi ≥30 Vòng</span>
+                <div class="flex items-center gap-2 truncate">
+                  <h3 class="text-base font-black text-white truncate">Top 6 Repeat-One Loops &amp; Rank #8–#16</h3>
+                  <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 border border-rose-400/50 text-rose-200 font-bold">PINNED</span>
+                </div>
+                <span class="font-mono-code text-sm font-extrabold text-rose-300 shrink-0">100× ➔ 155× Loop</span>
               </div>
               <div class="flex items-center justify-between text-xs text-slate-300 mt-0.5">
                 <span>Creep (143×) • Bitten Girl (106×) • 39 Live (104×) • Young Girl A (100×)</span>
-                <span class="font-mono-code text-rose-300 font-bold">Mốc Giờ Khóa Lặp ▾</span>
+                <span class="ext-indicator">49 CHAINS • EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
               </div>
               <div class="mt-2 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
-                <div class="h-full w-[92%] bg-gradient-to-r from-rose-500 via-amber-400 to-emerald-400"></div>
+                <div class="h-full w-[90%] bg-gradient-to-r from-rose-500 via-fuchsia-400 to-sky-400"></div>
               </div>
             </div>
           </div>
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg text-xs space-y-1.5">
-                <div class="font-mono-code text-rose-300 font-bold">↳ BẢNG VÀNG 6 PHA KHÓA CỨNG 1 BÀI LIÊN TIẾP TRONG 1 ĐÊM:</div>
-                <div class="tree-subitem"><strong>#1 AIZO — King Gnu:</strong> <strong>155 lần liên tiếp</strong> (05/05/2026 lúc 20:26 tối).</div>
-                <div class="tree-subitem"><strong>#2 Creep — TOGENASHI TOGEARI:</strong> <strong>143 lần liên tiếp</strong> (05/11/2025 lúc 03:15 rạng sáng).</div>
-                <div class="tree-subitem"><strong>#3 in the pool — kensuke ushio:</strong> <strong>121 lần liên tiếp</strong> (04/04/2026 lúc 03:50 rạng sáng).</div>
-                <div class="tree-subitem"><strong>#4 Bitten Girl — TAROLIN:</strong> <strong>106 lần liên tiếp</strong> (19/02/2026 lúc 11:30 trưa) • <strong>#5 39 (Live) — Tokyo Phil:</strong> <strong>104 lần liên tiếp</strong> (11/03/2026 lúc 12:46 trưa) • <strong>#6 Young Girl A — Siinamota:</strong> <strong>100 lần liên tiếp</strong> (28/08/2025 lúc 18:58 tối).</div>
+                <div class="font-mono-code text-[11px] text-rose-300 font-bold">NODE.EXT // TOP 6 SINGLE-SESSION LOOPS &amp; TRACKS #8–#16:</div>
+                <div class="tree-subitem"><strong>Top 6 Repeat-One Chains:</strong> <strong>#1 AIZO (155×)</strong> • <strong>#2 Creep — TOGENASHI (143× @ 03:15 AM)</strong> • <strong>#3 in the pool (121× @ 03:50 AM)</strong> • <strong>#4 Bitten Girl (106×)</strong> • <strong>#5 39 Live (104×)</strong> • <strong>#6 Young Girl A (100×)</strong>.</div>
+                <div class="tree-subitem"><strong>Tracks #8–#16 (&gt;300 Plays):</strong> #8 <em>world</em> (340) • #9 <em>NIGHT DANCER</em> (330) • #10 <em>Shinunoga E-Wa</em> (326) • #11 <em>Shikisai</em> (325) • #12 <em>Khúc Hoan Ca...</em> (322) • #13 <em>As It Was</em> (313) • #14 <em>Overdose</em> (312) • #15 <em>Đá tan</em> (309) • #16 <em>Hikaru Nara</em> (302).</div>
               </div>
             </div>
           </div>
@@ -1397,119 +1416,131 @@
       </div>
     </section>
 
-    <!-- ================= KHU VỰC 3: TOP ALBUMS & OST LEADERBOARD ================= -->
-    <section id="sec-albums" class="wrapped-section space-y-3.5">
+    <!-- ================= 03. TOP ALBUMS & OST LEADERBOARD ================= -->
+    <section id="sec-albums" class="wrapped-section space-y-3">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-1 px-1">
         <div>
-          <span class="text-xs font-mono-code uppercase tracking-widest text-sky-300 font-semibold">
-            // 03 • TOP ALBUMS &amp; SOUNDTRACKS ALL-TIME (156 EVENTS IN A SINGLE ALBUM RUN)
+          <span class="text-[11px] font-mono-code uppercase tracking-widest text-sky-300 font-bold">
+            // 03 • TOP ALBUMS &amp; SOUNDTRACKS ALL-TIME (MAX CONTINUOUS RUN: 156 TRACKS)
           </span>
-          <h2 class="text-xl sm:text-2xl font-extrabold text-white">
-            ALBUM &amp; OST NGHE NHIỀU NHẤT: ĐÈ CHUỘT / ẤN ĐỂ XEM CHI TIẾT
+          <h2 class="text-lg sm:text-xl font-extrabold text-white">
+            ALBUM &amp; NHẠC PHIM (OST) NGHE NHIỀU NHẤT
           </h2>
         </div>
-        <span class="text-xs font-mono-code text-slate-300">Top 12 Album + 3 Siêu Dự Án OST ▾</span>
+        <span class="text-[11px] font-mono-code text-slate-400">HOVER OR CLICK TO EXTEND NODE</span>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
 
-        <!-- Album #1: m-tp M-TP -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
-          <div class="flex items-center justify-between text-xs font-mono-code text-rose-300 font-bold">
-            <span>ALBUM #1 ALL-TIME (GIỜ)</span>
-            <span>4.482 PHÚT</span>
+        <div class="stat-node p-4">
+          <div class="flex items-center justify-between text-[11px] font-mono-code text-rose-300 font-bold">
+            <span>ALBUM #1 ALL-TIME (HOURS)</span>
+            <span class="pin-badge text-[9px] px-1.5 py-0.5 rounded bg-rose-500/30 text-rose-200">PINNED</span>
           </div>
           <h3 class="text-base font-black text-white mt-1">m-tp M-TP — Sơn Tùng M-TP</h3>
-          <div class="text-xl font-black font-mono-code text-rose-300 mt-0.5">74,70 Giờ</div>
+          <div class="flex items-baseline justify-between mt-1">
+            <span class="text-xl font-black font-mono-code text-rose-300">74.70 Giờ</span>
+            <span class="ext-indicator">EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
+          </div>
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 !p-2.5 rounded-lg text-xs">
-                • Album có tổng số giờ phát cao nhất trên toàn bộ lịch sử Spotify (2022–2026), nghe bền bỉ suốt 49 tháng.
+                • Album có tổng số giờ phát cao nhất toàn lịch sử Spotify (4,482 phút), duy trì bền bỉ qua 49/56 tháng.
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Album #2 & #3: Gieo & 3 (Ngọt) -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
-          <div class="flex items-center justify-between text-xs font-mono-code text-amber-300 font-bold">
-            <span>ALBUM #2 &amp; #3 (+ #8 &amp; #11)</span>
-            <span>4 ALBUM NGỌT</span>
+        <div class="stat-node p-4">
+          <div class="flex items-center justify-between text-[11px] font-mono-code text-amber-300 font-bold">
+            <span>ALBUM #2, #3, #8 &amp; #11</span>
+            <span class="pin-badge text-[9px] px-1.5 py-0.5 rounded bg-rose-500/30 text-rose-200">PINNED</span>
           </div>
-          <h3 class="text-base font-black text-white mt-1">Gieo (72h) &amp; 3 (70,7h) — Ngọt</h3>
-          <div class="text-xl font-black font-mono-code text-amber-300 mt-0.5">231,10 Giờ (4 Albums)</div>
+          <h3 class="text-base font-black text-white mt-1">Gieo (72h) &amp; 3 (70.7h) — Ngọt</h3>
+          <div class="flex items-baseline justify-between mt-1">
+            <span class="text-xl font-black font-mono-code text-amber-300">231.10 Giờ (4 Albums)</span>
+            <span class="ext-indicator">EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
+          </div>
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 !p-2.5 rounded-lg text-xs">
-                • Ngọt chiếm tới 4 vị trí trong Top 12 Album: <strong>#2 Gieo (72,0h)</strong>, <strong>#3 Tuyển tập 3 (70,7h)</strong>, <strong>#8 Ng'bthg (49,4h)</strong> và <strong>#11 Suýt 1 (39,0h)</strong>.
+                • Bộ tứ Album Ngọt thống trị Top 12: <strong>#2 Gieo (72.0h)</strong>, <strong>#3 Tuyển tập 3 (70.7h)</strong>, <strong>#8 Ng'bthg (49.4h)</strong> và <strong>#11 Suýt 1 (39.0h)</strong>.
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Album #4 & #6: THE BOOK & Kessoku Band -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
-          <div class="flex items-center justify-between text-xs font-mono-code text-fuchsia-300 font-bold">
-            <span>ALBUM #4 &amp; #6 ALL-TIME</span>
-            <span>J-POP &amp; ANIME ROCK</span>
-          </div>
-          <h3 class="text-base font-black text-white mt-1">THE BOOK &amp; 結束バンド (Kessoku)</h3>
-          <div class="text-xl font-black font-mono-code text-fuchsia-300 mt-0.5">62,1h &amp; 61,5h</div>
-          <div class="stat-branch-wrapper">
-            <div class="stat-branch-inner">
-              <div class="stat-branch-content mt-3 !p-2.5 rounded-lg text-xs">
-                • <strong>#4 THE BOOK — YOASOBI (62,10h)</strong> &amp; <strong>#6 結束バンド — Bocchi the Rock! (61,50h</strong> + 20 files FLAC 24bit/48kHz trên Foobar2000).
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Album #5: Chainsaw Man Reze Arc OST -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
-          <div class="flex items-center justify-between text-xs font-mono-code text-sky-300 font-bold">
-            <span>ALBUM #1 VỀ SỐ LƯỢT PHÁT</span>
-            <span>2.155 LƯỢT (#1)</span>
+        <div class="stat-node p-4">
+          <div class="flex items-center justify-between text-[11px] font-mono-code text-sky-300 font-bold">
+            <span>ALBUM #1 ALL-TIME (PLAYS)</span>
+            <span class="pin-badge text-[9px] px-1.5 py-0.5 rounded bg-rose-500/30 text-rose-200">PINNED</span>
           </div>
           <h3 class="text-base font-black text-white mt-1">CHAINSAW MAN: REZE ARC OST</h3>
-          <div class="text-xl font-black font-mono-code text-sky-300 mt-0.5">61,90 Giờ (2.155×)</div>
+          <div class="flex items-baseline justify-between mt-1">
+            <span class="text-xl font-black font-mono-code text-sky-300">2,155 Plays (61.9h)</span>
+            <span class="ext-indicator">EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
+          </div>
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 !p-2.5 rounded-lg text-xs">
-                • Tác phẩm của <strong>kensuke ushio</strong> giữ kỷ lục <strong>Album có số lượt phát cao nhất lịch sử (2.155 lượt)</strong> + 29 files Lossless trong Foobar2000.
+                • Album OST của <strong>kensuke ushio</strong> giữ kỷ lục số lượt phát cao nhất lịch sử tài khoản (<strong>2,155 plays</strong>) + 29 files Lossless trên Foobar2000.
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Album #7, #9, #10, #12 -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
-          <div class="flex items-center justify-between text-xs font-mono-code text-emerald-300 font-bold">
+        <div class="stat-node p-4">
+          <div class="flex items-center justify-between text-[11px] font-mono-code text-fuchsia-300 font-bold">
+            <span>ALBUM #4 &amp; #6 ALL-TIME</span>
+            <span class="pin-badge text-[9px] px-1.5 py-0.5 rounded bg-rose-500/30 text-rose-200">PINNED</span>
+          </div>
+          <h3 class="text-base font-black text-white mt-1">THE BOOK &amp; 結束バンド (Kessoku)</h3>
+          <div class="flex items-baseline justify-between mt-1">
+            <span class="text-xl font-black font-mono-code text-fuchsia-300">62.1h &amp; 61.5h</span>
+            <span class="ext-indicator">EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
+          </div>
+          <div class="stat-branch-wrapper">
+            <div class="stat-branch-inner">
+              <div class="stat-branch-content mt-3 !p-2.5 rounded-lg text-xs">
+                • <strong>#4 THE BOOK — YOASOBI (62.10h)</strong> &amp; <strong>#6 結束バンド — Bocchi the Rock! (61.50h</strong> + 20 files FLAC 24bit/48kHz).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-node p-4">
+          <div class="flex items-center justify-between text-[11px] font-mono-code text-emerald-300 font-bold">
             <span>ALBUM #7, #9, #10 &amp; #12</span>
-            <span>182,3 GIỜ GỘP</span>
+            <span class="pin-badge text-[9px] px-1.5 py-0.5 rounded bg-rose-500/30 text-rose-200">PINNED</span>
           </div>
           <h3 class="text-base font-black text-white mt-1">Your Name • Cái Thứ Hai • Pegasus</h3>
-          <div class="text-xl font-black font-mono-code text-emerald-300 mt-0.5">60,8h • 43,8h • 40,3h</div>
+          <div class="flex items-baseline justify-between mt-1">
+            <span class="text-xl font-black font-mono-code text-emerald-300">60.8h • 43.8h • 40.3h</span>
+            <span class="ext-indicator">EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
+          </div>
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 !p-2.5 rounded-lg text-xs">
-                • <strong>#7 Your Name. — RADWIMPS (60,8h)</strong> • <strong>#9 Cái Thứ Hai — Thắng (43,8h)</strong> • <strong>#10 Ai no Pegasus — ZUTOMAYO (40,3h)</strong> • <strong>#12 AIZO — King Gnu (37,4h)</strong>.
+                • <strong>#7 Your Name. — RADWIMPS (60.8h)</strong> • <strong>#9 Cái Thứ Hai — Thắng (43.8h)</strong> • <strong>#10 Ai no Pegasus — ZUTOMAYO (40.3h)</strong> • <strong>#12 AIZO (37.4h)</strong>.
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Special OST Surge: Amagami SS & Hibike! Euphonium -->
-        <div class="stat-node p-4" onclick="togglePinNode(this)">
-          <div class="flex items-center justify-between text-xs font-mono-code text-violet-300 font-bold">
-            <span>SIÊU DỰ ÁN OST 14 NGÀY</span>
-            <span>POST-ANIME SURGE</span>
+        <div class="stat-node p-4">
+          <div class="flex items-center justify-between text-[11px] font-mono-code text-violet-300 font-bold">
+            <span>14-DAY OST HYPERFIXATION</span>
+            <span class="pin-badge text-[9px] px-1.5 py-0.5 rounded bg-rose-500/30 text-rose-200">PINNED</span>
           </div>
           <h3 class="text-base font-black text-white mt-1">Amagami SS &amp; Hibike! Euphonium</h3>
-          <div class="text-xl font-black font-mono-code text-violet-300 mt-0.5">70,4h &amp; 36,7h (+334×)</div>
+          <div class="flex items-baseline justify-between mt-1">
+            <span class="text-xl font-black font-mono-code text-violet-300">70.4h &amp; 36.7h (+334×)</span>
+            <span class="ext-indicator">EXTEND <svg class="w-3.5 h-3.5 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
+          </div>
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 !p-2.5 rounded-lg text-xs">
-                • Cày <strong>70,4 giờ OST Amagami SS</strong> chỉ trong 14 ngày sau khi xem phim (15/07/2026) &amp; <strong>36,7 giờ Spotify + 334 Count (10 albums Lossless) Hibike! Euphonium</strong>.
+                • Cày <strong>70.4h OST Amagami SS</strong> trong 14 ngày sau ngày 15/07/2026 &amp; <strong>36.7h Spotify + 334 Count (10 albums Lossless) Hibike! Euphonium</strong>.
               </div>
             </div>
           </div>
@@ -1518,53 +1549,57 @@
       </div>
     </section>
 
-    <!-- ================= KHU VỰC 4: APPLE MUSIC REPLAY BY YEAR (2022 ➔ 2026) ================= -->
-    <section id="sec-years" class="wrapped-section space-y-3.5">
+    <!-- ================= 04. APPLE MUSIC REPLAY BY YEAR (2022 ➔ 2026) ================= -->
+    <section id="sec-years" class="wrapped-section space-y-3">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-1 px-1">
         <div>
-          <span class="text-xs font-mono-code uppercase tracking-widest text-fuchsia-300 font-semibold">
-            // 04 • YEARLY REPLAY CAPSULES (2022 ➔ 2023 ➔ 2024 ➔ 2025 ➔ 2026)
+          <span class="text-[11px] font-mono-code uppercase tracking-widest text-fuchsia-300 font-bold">
+            // 04 • YEARLY REPLAY CAPSULES (2022 ➔ 2026 CHRONICLE)
           </span>
-          <h2 class="text-xl sm:text-2xl font-extrabold text-white">
-            REPLAY TỪNG NĂM: HÀNH TRÌNH TỪ LỚP 8 ĐẾN TÂN SINH VIÊN ĐẠI HỌC
+          <h2 class="text-lg sm:text-xl font-extrabold text-white">
+            APPLE MUSIC REPLAY QUA TỪNG NĂM (LỚP 8 ➔ ĐẠI HỌC)
           </h2>
         </div>
-        <span class="text-xs font-mono-code text-slate-300">Rê chuột vào từng năm để xem Top 5 Nghệ sĩ &amp; Bài hát năm đó ▾</span>
+        <span class="text-[11px] font-mono-code text-slate-400">HOVER OR CLICK TO EXTEND NODE</span>
       </div>
 
-      <div class="space-y-3">
+      <div class="space-y-2.5">
 
         <!-- REPLAY 2026 -->
-        <div class="stat-node p-4 sm:p-5" onclick="togglePinNode(this)">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div class="stat-node p-4">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
             <div>
-              <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 rounded bg-rose-500 text-white font-mono-code text-xs font-black">REPLAY 2026 (ĐẾN 08/09)</span>
-                <span class="text-xs font-mono-code text-rose-300 font-bold">LỚP 12 ÔN THI THPT &amp; TUỔI 18 • MẬT ĐỘ KỶ LỤC 8,40H/NGÀY</span>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-rose-500 text-white font-mono-code text-[11px] font-black">REPLAY 2026</span>
+                <span class="text-xs font-mono-code text-rose-300 font-bold">PEAK DENSITY: 8.40H/DAY • SKIP RATE: 5.0%</span>
+                <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 text-rose-200 font-bold">PINNED</span>
               </div>
-              <h3 class="text-base sm:text-lg font-extrabold text-white mt-1">
-                #1 Nghệ Sĩ: <span class="text-rose-300">Tokyo Philharmonic Orchestra</span> • #1 Bài Hát: <span class="text-amber-300">AIZO — King Gnu (642 lượt)</span>
+              <h3 class="text-sm sm:text-base font-extrabold text-white mt-1">
+                #1 Artist: <span class="text-rose-300">Tokyo Philharmonic Orchestra</span> • #1 Track: <span class="text-amber-300">AIZO — King Gnu (642 plays)</span>
               </h3>
             </div>
-            <div class="text-right font-mono-code shrink-0">
-              <div class="text-2xl font-black text-white">126.571 <span class="text-xs text-rose-300">PHÚT</span></div>
-              <div class="text-xs text-slate-300">2.109,51 Giờ • 36.410 Lượt • Skip 5,0%</div>
+            <div class="flex items-center justify-between md:justify-end gap-4 font-mono-code shrink-0">
+              <div class="text-right">
+                <div class="text-lg sm:text-xl font-black text-white">126,571 <span class="text-xs text-rose-300">MIN</span></div>
+                <div class="text-[11px] text-slate-400">2,109.5h • 36,410 plays</div>
+              </div>
+              <span class="ext-indicator">EXTEND <svg class="w-4 h-4 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
             </div>
           </div>
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
                 <div class="tree-subitem">
-                  <div class="font-mono-code text-rose-300 font-bold">TOP 5 NGHỆ SĨ 2026</div>
-                  <div class="mt-1">1. Tokyo Philharmonic Orchestra (149,6h)<br/>2. kensuke ushio<br/>3. Thắng<br/>4. King Gnu<br/>5. Michael Jackson</div>
+                  <div class="font-mono-code text-rose-300 font-bold">TOP 5 ARTISTS (2026)</div>
+                  <div class="mt-1">1. Tokyo Philharmonic Orchestra (149.6h)<br/>2. kensuke ushio<br/>3. Thắng<br/>4. King Gnu<br/>5. Michael Jackson</div>
                 </div>
                 <div class="tree-subitem">
-                  <div class="font-mono-code text-amber-300 font-bold">TOP 3 BÀI HÁT 2026</div>
-                  <div class="mt-1">1. <em>AIZO</em> — King Gnu (<strong>642 lượt</strong>)<br/>2. <em>in the pool</em> — kensuke ushio (<strong>330 lượt</strong>)<br/>3. <em>39 (2018-2019 Live)</em> — Tokyo Phil (<strong>218 lượt</strong>)</div>
+                  <div class="font-mono-code text-amber-300 font-bold">TOP 3 TRACKS (2026)</div>
+                  <div class="mt-1">1. <em>AIZO</em> — King Gnu (<strong>642 plays</strong>)<br/>2. <em>in the pool</em> — kensuke ushio (<strong>330 plays</strong>)<br/>3. <em>39 (2018-2019 Live)</em> — Tokyo Phil (<strong>218 plays</strong>)</div>
                 </div>
                 <div class="tree-subitem">
-                  <div class="font-mono-code text-sky-300 font-bold">DẤU ẤN ĐẶC BIỆT 2026</div>
-                  <div class="mt-1">• Cú nổ ôn thi THPT (03–05/2026): <strong>1.120,11 giờ / 92 ngày (12,18h/ngày)</strong>.<br/>• Xây dựng kho <strong>3.710 entries Hi-Res/DSD</strong> trên Foobar2000.</div>
+                  <div class="font-mono-code text-sky-300 font-bold">2026 HIGHLIGHTS</div>
+                  <div class="mt-1">• Cao điểm ôn thi THPT (03–05/2026): <strong>1,120.11h / 92 ngày (12.18h/ngày)</strong>.<br/>• Di cư sang kho <strong>3,710 entries Hi-Res/DSD</strong> trên Foobar2000.</div>
                 </div>
               </div>
             </div>
@@ -1572,36 +1607,40 @@
         </div>
 
         <!-- REPLAY 2025 -->
-        <div class="stat-node p-4 sm:p-5" onclick="togglePinNode(this)">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div class="stat-node p-4">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
             <div>
-              <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 rounded bg-fuchsia-500 text-white font-mono-code text-xs font-black">WRAPPED 2025 (ĐỦ NĂM)</span>
-                <span class="text-xs font-mono-code text-fuchsia-300 font-bold">LỚP 11 &amp; ĐẦU LỚP 12 • 8,01 GIỜ/NGÀY • 446 GENRES</span>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-fuchsia-500 text-white font-mono-code text-[11px] font-black">REPLAY 2025</span>
+                <span class="text-xs font-mono-code text-fuchsia-300 font-bold">8.01H/DAY • 446 GENRES EXPLORED</span>
+                <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 text-rose-200 font-bold">PINNED</span>
               </div>
-              <h3 class="text-base sm:text-lg font-extrabold text-white mt-1">
-                #1 Nghệ Sĩ: <span class="text-fuchsia-300">Ngọt (89,6h)</span> • #1 Bài Hát: <span class="text-sky-300">you — Zeph (420 lượt)</span>
+              <h3 class="text-sm sm:text-base font-extrabold text-white mt-1">
+                #1 Artist: <span class="text-fuchsia-300">Ngọt (89.6h)</span> • #1 Track: <span class="text-sky-300">you — Zeph (420 plays)</span>
               </h3>
             </div>
-            <div class="text-right font-mono-code shrink-0">
-              <div class="text-2xl font-black text-white">175.389 <span class="text-xs text-fuchsia-300">PHÚT</span></div>
-              <div class="text-xs text-slate-300">2.923,16 Giờ • 56.128 Lượt • Skip 11,3%</div>
+            <div class="flex items-center justify-between md:justify-end gap-4 font-mono-code shrink-0">
+              <div class="text-right">
+                <div class="text-lg sm:text-xl font-black text-white">175,389 <span class="text-xs text-fuchsia-300">MIN</span></div>
+                <div class="text-[11px] text-slate-400">2,923.2h • 56,128 plays</div>
+              </div>
+              <span class="ext-indicator">EXTEND <svg class="w-4 h-4 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
             </div>
           </div>
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
                 <div class="tree-subitem">
-                  <div class="font-mono-code text-fuchsia-300 font-bold">TOP 5 NGHỆ SĨ 2025</div>
-                  <div class="mt-1">1. Ngọt (89,61h)<br/>2. Fujii Kaze<br/>3. ZUTOMAYO<br/>4. Zeph<br/>5. BABYMETAL</div>
+                  <div class="font-mono-code text-fuchsia-300 font-bold">TOP 5 ARTISTS (2025)</div>
+                  <div class="mt-1">1. Ngọt (89.61h)<br/>2. Fujii Kaze<br/>3. ZUTOMAYO<br/>4. Zeph<br/>5. BABYMETAL</div>
                 </div>
                 <div class="tree-subitem">
-                  <div class="font-mono-code text-sky-300 font-bold">TOP 3 BÀI HÁT 2025</div>
-                  <div class="mt-1">1. <em>you</em> — Zeph (<strong>420 lượt</strong>)<br/>2. <em>Tương Tư</em> — Clow (<strong>196 lượt</strong>)<br/>3. <em>Khiêu Vũ Dưới Trăng</em> (<strong>188 lượt</strong>)</div>
+                  <div class="font-mono-code text-sky-300 font-bold">TOP 3 TRACKS (2025)</div>
+                  <div class="mt-1">1. <em>you</em> — Zeph (<strong>420 plays</strong>)<br/>2. <em>Tương Tư</em> — Clow (<strong>196 plays</strong>)<br/>3. <em>Khiêu Vũ Dưới Trăng</em> (<strong>188 plays</strong>)</div>
                 </div>
                 <div class="tree-subitem">
-                  <div class="font-mono-code text-emerald-300 font-bold">DẤU ẤN ĐẶC BIỆT 2025</div>
-                  <div class="mt-1">• Đỉnh điểm kỷ niệm gắn với bài <em>you</em> (tháng 01/2025 đạt 189 lượt).<br/>• 88% giờ nghe thuộc về các nghệ sĩ trụ cột gắn bó lâu dài.</div>
+                  <div class="font-mono-code text-emerald-300 font-bold">2025 HIGHLIGHTS</div>
+                  <div class="mt-1">• Đỉnh điểm bài <em>you</em> (tháng 01/2025 đạt 189 lượt).<br/>• 88% thời lượng thuộc về nhóm nghệ sĩ trụ cột gắn bó dài hạn.</div>
                 </div>
               </div>
             </div>
@@ -1609,110 +1648,77 @@
         </div>
 
         <!-- REPLAY 2024 -->
-        <div class="stat-node p-4 sm:p-5" onclick="togglePinNode(this)">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div class="stat-node p-4">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
             <div>
-              <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 rounded bg-emerald-500 text-white font-mono-code text-xs font-black">WRAPPED 2024 (ĐỦ NĂM)</span>
-                <span class="text-xs font-mono-code text-emerald-300 font-bold">LỚP 10 &amp; ĐẦU LỚP 11 • ĐỈNH CAO INDIE VIỆT &amp; EVANGELION</span>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-emerald-500 text-white font-mono-code text-[11px] font-black">REPLAY 2024</span>
+                <span class="text-xs font-mono-code text-emerald-300 font-bold">V-INDIE GOLDEN ERA &amp; EVANGELION SURGE</span>
+                <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 text-rose-200 font-bold">PINNED</span>
               </div>
-              <h3 class="text-base sm:text-lg font-extrabold text-white mt-1">
-                #1 Nghệ Sĩ: <span class="text-emerald-300">Ngọt (174,0h)</span> • #1 Bài Hát: <span class="text-amber-300">残酷な天使のテーゼ (292 lượt)</span>
+              <h3 class="text-sm sm:text-base font-extrabold text-white mt-1">
+                #1 Artist: <span class="text-emerald-300">Ngọt (174.0h)</span> • #1 Track: <span class="text-amber-300">残酷な天使のテーゼ (292 plays)</span>
               </h3>
             </div>
-            <div class="text-right font-mono-code shrink-0">
-              <div class="text-2xl font-black text-white">118.541 <span class="text-xs text-emerald-300">PHÚT</span></div>
-              <div class="text-xs text-slate-300">1.975,69 Giờ • 42.497 Lượt • 5,40h/ngày</div>
+            <div class="flex items-center justify-between md:justify-end gap-4 font-mono-code shrink-0">
+              <div class="text-right">
+                <div class="text-lg sm:text-xl font-black text-white">118,541 <span class="text-xs text-emerald-300">MIN</span></div>
+                <div class="text-[11px] text-slate-400">1,975.7h • 42,497 plays</div>
+              </div>
+              <span class="ext-indicator">EXTEND <svg class="w-4 h-4 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
             </div>
           </div>
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
                 <div class="tree-subitem">
-                  <div class="font-mono-code text-emerald-300 font-bold">TOP 5 NGHỆ SĨ 2024</div>
-                  <div class="mt-1">1. Ngọt (174h — chiếm 27% giờ tháng 5)<br/>2. Zeph<br/>3. Sơn Tùng M-TP<br/>4. Thắng<br/>5. Yoko Takahashi</div>
+                  <div class="font-mono-code text-emerald-300 font-bold">TOP 5 ARTISTS (2024)</div>
+                  <div class="mt-1">1. Ngọt (174h — 27% giờ tháng 5)<br/>2. Zeph<br/>3. Sơn Tùng M-TP<br/>4. Thắng<br/>5. Yoko Takahashi</div>
                 </div>
                 <div class="tree-subitem">
-                  <div class="font-mono-code text-amber-300 font-bold">TOP 3 BÀI HÁT 2024</div>
-                  <div class="mt-1">1. <em>残酷な天使のテーゼ</em> (<strong>292 lượt</strong>)<br/>2. <em>Khúc Hoan Ca Thiên Sứ Nghiệt Ngã</em> (<strong>272 lượt</strong>)<br/>3. <em>world</em> — Zeph (<strong>235 lượt</strong>)</div>
+                  <div class="font-mono-code text-amber-300 font-bold">TOP 3 TRACKS (2024)</div>
+                  <div class="mt-1">1. <em>残酷な天使のテーゼ</em> (<strong>292 plays</strong>)<br/>2. <em>Khúc Hoan Ca Thiên Sứ Nghiệt Ngã</em> (<strong>272 plays</strong>)<br/>3. <em>world</em> — Zeph (<strong>235 plays</strong>)</div>
                 </div>
                 <div class="tree-subitem">
-                  <div class="font-mono-code text-sky-300 font-bold">DẤU ẤN ĐẶC BIỆT 2024</div>
-                  <div class="mt-1">• Chuyển từ điện thoại Android sang iPhone ngày 23/08/2024.<br/>• Cơn sốt Evangelion song ngữ Nhật–Việt tháng 08/2024.</div>
+                  <div class="font-mono-code text-sky-300 font-bold">2024 HIGHLIGHTS</div>
+                  <div class="mt-1">• Chuyển sang iPhone iOS từ ngày 23/08/2024.<br/>• Cơn sốt Evangelion song ngữ Nhật–Việt tháng 08/2024.</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- REPLAY 2023 -->
-        <div class="stat-node p-4 sm:p-5" onclick="togglePinNode(this)">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <!-- REPLAY 2023 & 2022 -->
+        <div class="stat-node p-4">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
             <div>
-              <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 rounded bg-sky-500 text-white font-mono-code text-xs font-black">WRAPPED 2023 (ĐỦ NĂM)</span>
-                <span class="text-xs font-mono-code text-sky-300 font-bold">LỚP 9 &amp; THI LỚP 10 • BÙNG NỔ KHÁM PHÁ 4.081 NGHỆ SĨ (8,02H/NGÀY)</span>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-sky-500 text-white font-mono-code text-[11px] font-black">REPLAY 2023 &amp; 2022</span>
+                <span class="text-xs font-mono-code text-sky-300 font-bold">4,081 ARTISTS DISCOVERED IN 2023 (8.02H/DAY)</span>
+                <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 text-rose-200 font-bold">PINNED</span>
               </div>
-              <h3 class="text-base sm:text-lg font-extrabold text-white mt-1">
-                #1 Nghệ Sĩ: <span class="text-sky-300">YOASOBI (105,0h)</span> • #1 Bài Hát: <span class="text-rose-300">Haru wo Tsugeru — yama (271 lượt)</span>
+              <h3 class="text-sm sm:text-base font-extrabold text-white mt-1">
+                2023 #1: <span class="text-sky-300">YOASOBI (105h)</span> &amp; <span class="text-rose-300">Haru wo Tsugeru (271×)</span> • 2022 #1: <span class="text-amber-300">Imagine Dragons</span>
               </h3>
             </div>
-            <div class="text-right font-mono-code shrink-0">
-              <div class="text-2xl font-black text-white">175.544 <span class="text-xs text-sky-300">PHÚT</span></div>
-              <div class="text-xs text-slate-300">2.925,73 Giờ • 56.461 Lượt • Đêm 77,11%</div>
+            <div class="flex items-center justify-between md:justify-end gap-4 font-mono-code shrink-0">
+              <div class="text-right">
+                <div class="text-lg sm:text-xl font-black text-white">215,184 <span class="text-xs text-sky-300">MIN</span></div>
+                <div class="text-[11px] text-slate-400">2,925.7h (23) + 660.7h (22)</div>
+              </div>
+              <span class="ext-indicator">EXTEND <svg class="w-4 h-4 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
             </div>
           </div>
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
-              <div class="stat-branch-content mt-3 rounded-lg grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+              <div class="stat-branch-content mt-3 rounded-lg grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                 <div class="tree-subitem">
-                  <div class="font-mono-code text-sky-300 font-bold">TOP 5 NGHỆ SĨ 2023</div>
-                  <div class="mt-1">1. YOASOBI (105h)<br/>2. yama<br/>3. RADWIMPS<br/>4. Sơn Tùng M-TP<br/>5. Eve</div>
+                  <div class="font-mono-code text-sky-300 font-bold">REPLAY 2023 (175,544 MIN • 56,461 PLAYS)</div>
+                  <div class="mt-1">• <strong>Top 5 Artists:</strong> 1. YOASOBI (105h) • 2. yama • 3. RADWIMPS • 4. Sơn Tùng M-TP • 5. Eve.<br/>• <strong>Top 3 Tracks:</strong> 1. <em>Haru wo Tsugeru</em> (271) • 2. <em>Yoru ni Kakeru</em> (248) • 3. <em>Kaibutsu</em> (224).</div>
                 </div>
                 <div class="tree-subitem">
-                  <div class="font-mono-code text-rose-300 font-bold">TOP 3 BÀI HÁT 2023</div>
-                  <div class="mt-1">1. <em>Haru wo Tsugeru</em> — yama (<strong>271 lượt</strong>)<br/>2. <em>夜に駆ける</em> — YOASOBI (<strong>248 lượt</strong>)<br/>3. <em>怪物 (Kaibutsu)</em> — YOASOBI (<strong>224 lượt</strong>)</div>
-                </div>
-                <div class="tree-subitem">
-                  <div class="font-mono-code text-amber-300 font-bold">DẤU ẤN ĐẶC BIỆT 2023</div>
-                  <div class="mt-1">• Bước ngoặt lớp 9 xem bộ anime đầu tiên (<em>86 - Eighty-Six</em>), giờ nghe tăng gấp <strong>4,4 lần</strong>.<br/>• Khám phá <strong>8.979 bài hát mới</strong> trong năm.</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- REPLAY 2022 -->
-        <div class="stat-node p-4 sm:p-5" onclick="togglePinNode(this)">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 rounded bg-slate-600 text-white font-mono-code text-xs font-black">WRAPPED 2022 (TỪ 27/02)</span>
-                <span class="text-xs font-mono-code text-slate-300 font-bold">CUỐI LỚP 8 – ĐẦU LỚP 9 • KHỞI NGUYÊN US-UK &amp; EDM (79,33% NGHE ĐÊM)</span>
-              </div>
-              <h3 class="text-base sm:text-lg font-extrabold text-white mt-1">
-                #1 Nghệ Sĩ: <span class="text-amber-300">Imagine Dragons</span> • #1 Bài Hát: <span class="text-sky-300">Bella Ciao — Manu Pilas (193 lượt)</span>
-              </h3>
-            </div>
-            <div class="text-right font-mono-code shrink-0">
-              <div class="text-2xl font-black text-white">39.640 <span class="text-xs text-slate-300">PHÚT</span></div>
-              <div class="text-xs text-slate-300">660,67 Giờ • 15.785 Lượt • 2,15h/ngày</div>
-            </div>
-          </div>
-          <div class="stat-branch-wrapper">
-            <div class="stat-branch-inner">
-              <div class="stat-branch-content mt-3 rounded-lg grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-                <div class="tree-subitem">
-                  <div class="font-mono-code text-amber-300 font-bold">TOP 5 NGHỆ SĨ 2022</div>
-                  <div class="mt-1">1. Imagine Dragons<br/>2. Bruno Mars<br/>3. bbno$<br/>4. TheFatRat<br/>5. Rainych</div>
-                </div>
-                <div class="tree-subitem">
-                  <div class="font-mono-code text-sky-300 font-bold">TOP 3 BÀI HÁT 2022</div>
-                  <div class="mt-1">1. <em>Bella Ciao</em> — Manu Pilas (<strong>193 lượt</strong>)<br/>2. <em>Cha Cha</em> — Freddie Dredd (<strong>62 lượt</strong>)<br/>3. <em>My Ordinary Life</em> — The Living Tombstone (<strong>55 lượt</strong>)</div>
-                </div>
-                <div class="tree-subitem">
-                  <div class="font-mono-code text-emerald-300 font-bold">DẤU ẤN ĐẶC BIỆT 2022</div>
-                  <div class="mt-1">• Giai đoạn tuổi 13,5: 85% thời lượng là Pop/EDM/Rock Âu Mỹ, gần như chỉ nghe vào ban đêm (79,33%).</div>
+                  <div class="font-mono-code text-amber-300 font-bold">REPLAY 2022 (39,640 MIN • 15,785 PLAYS)</div>
+                  <div class="mt-1">• <strong>Top 5 Artists:</strong> 1. Imagine Dragons • 2. Bruno Mars • 3. bbno$ • 4. TheFatRat • 5. Rainych.<br/>• <strong>Top 3 Tracks:</strong> 1. <em>Bella Ciao</em> (193) • 2. <em>Cha Cha</em> (62) • 3. <em>My Ordinary Life</em> (55).</div>
                 </div>
               </div>
             </div>
@@ -1722,133 +1728,142 @@
       </div>
     </section>
 
-    <!-- ================= KHU VỰC 5: EXTREME MILESTONES & HI-RES AUDIO VAULT ================= -->
-    <section id="sec-vault" class="wrapped-section space-y-3.5">
+    <!-- ================= 05. EXTREME MILESTONES & HI-RES VAULT ================= -->
+    <section id="sec-vault" class="wrapped-section space-y-3">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-1 px-1">
         <div>
-          <span class="text-xs font-mono-code uppercase tracking-widest text-emerald-300 font-semibold">
-            // 05 • EXTREME MILESTONES, 24H CLOCK &amp; HI-RES / DSD256 AUDIOPHILE VAULT
+          <span class="text-[11px] font-mono-code uppercase tracking-widest text-emerald-300 font-bold">
+            // 05 • EXTREME TELEMETRY MILESTONES &amp; FOOBAR2000 HI-RES / DSD256 VAULT
           </span>
-          <h2 class="text-xl sm:text-2xl font-extrabold text-white">
-            KỶ LỤC ĐỘC BẢN &amp; THÁNH ĐƯỜNG FOOBAR2000 (3.710 ENTRIES)
+          <h2 class="text-lg sm:text-xl font-extrabold text-white">
+            KỶ LỤC ĐỘC BẢN &amp; THÁNH ĐƯỜNG FOOBAR2000 (3,710 ENTRIES)
           </h2>
         </div>
-        <span class="text-xs font-mono-code text-slate-300">Rê chuột hoặc Click để bung bảng kiểm toán ▾</span>
+        <span class="text-[11px] font-mono-code text-slate-400">HOVER OR CLICK TO EXTEND NODE</span>
       </div>
 
-      <div class="space-y-3">
+      <div class="space-y-2.5">
 
-        <!-- Milestone 1: 7 Sessions >24h & Exam Overdrive -->
-        <div class="stat-node p-4 sm:p-5" onclick="togglePinNode(this)">
-          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        <!-- Vault Node 1: 7 Marathon Sessions >24h & Exam Overdrive -->
+        <div class="stat-node p-4">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-2">
             <div>
               <div class="flex flex-wrap items-center gap-2">
-                <span class="px-2 py-0.5 rounded bg-rose-500/30 border border-rose-300/40 text-xs font-mono-code font-bold text-white">7 PHIÊN MARATHON &gt;24H</span>
-                <span class="px-2 py-0.5 rounded bg-amber-500/30 text-xs font-mono-code font-bold text-amber-200">TUẦN ĐỈNH: 126,0 GIỜ (18H/NGÀY)</span>
-                <span class="pin-badge text-[10px] font-mono-code px-2 py-0.5 rounded bg-amber-500/30 text-amber-200 font-bold">📌 ĐÃ GHIM</span>
+                <span class="px-2 py-0.5 rounded bg-rose-500/25 border border-rose-400/40 text-[11px] font-mono-code font-bold text-rose-200">7 SESSIONS &gt;24H</span>
+                <span class="px-2 py-0.5 rounded bg-amber-500/25 text-[11px] font-mono-code font-bold text-amber-200">PEAK WEEK: 126.0H (18H/DAY)</span>
+                <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 text-rose-200 font-bold">PINNED</span>
               </div>
-              <h3 class="text-base sm:text-lg font-extrabold text-white mt-1">
-                Phiên Nghe Bất Tử: <span class="text-rose-300 font-mono-code">40,58 Giờ Liên Tục (701 Bài)</span> &amp; Mùa Thi 1.120,1 Giờ / 92 Ngày
+              <h3 class="text-sm sm:text-base font-extrabold text-white mt-1">
+                Longest Continuous Session: <span class="text-rose-300 font-mono-code">40.58 Hours (701 Tracks)</span> &amp; Exam Overdrive 1,120.1h / 92 Days
               </h3>
             </div>
-            <div class="text-right font-mono-code shrink-0">
-              <div class="text-2xl font-black text-white">40,58 <span class="text-xs text-rose-300">GIỜ LIỀN</span></div>
-              <div class="text-xs text-slate-300">548 ngày ≥8h • 170 ngày ≥12h</div>
+            <div class="flex items-center justify-between lg:justify-end gap-4 font-mono-code shrink-0">
+              <div class="text-right">
+                <div class="text-lg sm:text-xl font-black text-white">40.58 <span class="text-xs text-rose-300">HOURS</span></div>
+                <div class="text-[11px] text-slate-400">548 days ≥8h • 170 days ≥12h</div>
+              </div>
+              <span class="ext-indicator">EXTEND <svg class="w-4 h-4 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
             </div>
           </div>
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                 <div class="tree-subitem space-y-1">
-                  <div class="font-mono-code text-rose-300 font-bold">7 PHIÊN NGHE VƯỢT 24 GIỜ LIÊN TỤC (NGƯỠNG NGHỈ 30P)</div>
-                  <div>• <strong>#1 (20/04/2026):</strong> <strong>40,58h Wall</strong> (39,88h Play • 701 bài liên tiếp)</div>
-                  <div>• <strong>#2 (22/10/2023):</strong> <strong>34,83h Wall</strong> (34,73h Play • 662 bài liên tiếp)</div>
-                  <div>• <strong>#3 &amp; #4 (18/02 &amp; 20/02/2026):</strong> <strong>30,31h</strong> (457 bài) &amp; <strong>30,09h</strong> (457 bài)</div>
-                  <div>• <strong>#5, #6, #7:</strong> <strong>29,41h</strong> (33,17h Play) • <strong>27,45h</strong> • <strong>25,87h</strong></div>
+                  <div class="font-mono-code text-rose-300 font-bold">7 MARATHON SESSIONS &gt;24H (30-MIN GAP THRESHOLD)</div>
+                  <div>• <strong>#1 (20/04/2026):</strong> <strong>40.58h Wall</strong> (39.88h Play • 701 tracks liên tiếp)</div>
+                  <div>• <strong>#2 (22/10/2023):</strong> <strong>34.83h Wall</strong> (34.73h Play • 662 tracks liên tiếp)</div>
+                  <div>• <strong>#3 &amp; #4 (18/02 &amp; 20/02/2026):</strong> <strong>30.31h</strong> (457) &amp; <strong>30.09h</strong> (457)</div>
+                  <div>• <strong>#5, #6, #7:</strong> <strong>29.41h</strong> (33.17h Play) • <strong>27.45h</strong> • <strong>25.87h</strong></div>
                 </div>
                 <div class="tree-subitem space-y-1">
-                  <div class="font-mono-code text-amber-300 font-bold">KỶ LỤC NGÀY, TUẦN &amp; LÒ LUYỆN ĐỀ THPT (03–05/2026)</div>
-                  <div>• <strong>Top 5 Ngày Kỷ Lục:</strong> 26,5h (20/03/26) • 26,4h (01/04/26) • 25,0h (08/04/26) • 23,9h • 23,8h (do đồng bộ 2 thiết bị Windows + iOS).</div>
-                  <div>• <strong>92 Ngày Ôn Thi THPT:</strong> 1.120,11 giờ (TB <strong>12,18h/ngày = 76,09% giờ thức</strong>, P90 = <strong>19,05h/ngày</strong>, Trackdone tự chuyển <strong>93,06%</strong>).</div>
+                  <div class="font-mono-code text-amber-300 font-bold">EXAM OVERDRIVE (03–05/2026) &amp; DUAL-SYNC DAYS</div>
+                  <div>• <strong>Top 5 Days:</strong> 26.5h (20/03/26) • 26.4h (01/04/26) • 25.0h (08/04/26) • 23.9h • 23.8h (đồng bộ Windows + iOS).</div>
+                  <div>• <strong>92 Ngày Ôn Thi THPT:</strong> 1,120.11h (TB <strong>12.18h/ngày = 76.09% giờ thức</strong>, P90 = <strong>19.05h/ngày</strong>, Trackdone tự chuyển <strong>93.06%</strong>).</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Milestone 2: 24-Hour Clock & Fateful Night 4h33m -->
-        <div class="stat-node p-4 sm:p-5" onclick="togglePinNode(this)">
-          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        <!-- Vault Node 2: 24-Hour Circadian & Fateful Night 4h33m -->
+        <div class="stat-node p-4">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-2">
             <div>
               <div class="flex flex-wrap items-center gap-2">
-                <span class="px-2 py-0.5 rounded bg-cyan-500/30 border border-cyan-300/40 text-xs font-mono-code font-bold text-white">ĐỒNG HỒ SINH HỌC 24H</span>
-                <span class="px-2 py-0.5 rounded bg-purple-500/30 text-xs font-mono-code font-bold text-purple-200">ĐÊM ĐỊNH MỆNH 4 GIỜ 33 PHÚT</span>
-                <span class="pin-badge text-[10px] font-mono-code px-2 py-0.5 rounded bg-amber-500/30 text-amber-200 font-bold">📌 ĐÃ GHIM</span>
+                <span class="px-2 py-0.5 rounded bg-cyan-500/25 border border-cyan-400/40 text-[11px] font-mono-code font-bold text-cyan-200">24H CIRCADIAN RHYTHM</span>
+                <span class="px-2 py-0.5 rounded bg-purple-500/25 text-[11px] font-mono-code font-bold text-purple-200">4H 33M FATEFUL NIGHT</span>
+                <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 text-rose-200 font-bold">PINNED</span>
               </div>
-              <h3 class="text-base sm:text-lg font-extrabold text-white mt-1">
-                Đỉnh Nghe Tối <span class="text-cyan-300 font-mono-code">21:00 (805,8 Giờ)</span> • 60,33% Giờ Đêm &amp; Sự Trùng Hợp Đêm 06–07/09/2023
+              <h3 class="text-sm sm:text-base font-extrabold text-white mt-1">
+                Peak Hour <span class="text-cyan-300 font-mono-code">21:00 (805.8h)</span> • 60.33% Night Share &amp; Đêm Định Mệnh 06–07/09/2023
               </h3>
             </div>
-            <div class="text-right font-mono-code shrink-0">
-              <div class="text-2xl font-black text-white">6.837,2 <span class="text-xs text-cyan-300">H ON PC</span></div>
-              <div class="text-xs text-slate-300">64,53% Windows • 20,57% iPhone</div>
+            <div class="flex items-center justify-between lg:justify-end gap-4 font-mono-code shrink-0">
+              <div class="text-right">
+                <div class="text-lg sm:text-xl font-black text-white">6,837.2 <span class="text-xs text-cyan-300">H ON PC</span></div>
+                <div class="text-[11px] text-slate-400">64.53% Windows • 20.57% iOS</div>
+              </div>
+              <span class="ext-indicator">EXTEND <svg class="w-4 h-4 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
             </div>
           </div>
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                 <div class="tree-subitem space-y-1">
-                  <div class="font-mono-code text-cyan-300 font-bold">PHÂN BỔ 24 GIỜ TRONG NGÀY (UTC+7)</div>
-                  <div>• <strong>Khung Đêm (20:00–04:59):</strong> <strong>6.391,99 giờ (60,33%)</strong> — Đỉnh tuyệt đối lúc <strong>21:00 (805,77h)</strong>, 22:00 (785,65h), 23:00 (773,25h), 00:00 (730,32h).</div>
-                  <div>• <strong>Khung Nghỉ Trưa (12:00–15:59):</strong> <strong>1.630,99 giờ (15,39%)</strong> — Đỉnh phụ lúc 12:00 trưa (450,85h). Đáy trong ngày lúc 18:00 chiều (136,12h).</div>
+                  <div class="font-mono-code text-cyan-300 font-bold">24-HOUR DISTRIBUTION (UTC+7)</div>
+                  <div>• <strong>Khung Đêm (20:00–04:59):</strong> <strong>6,391.99h (60.33%)</strong> — Đỉnh lúc <strong>21:00 (805.77h)</strong>, gấp 5.91 lần đáy 18:00 chiều (136.12h).</div>
+                  <div>• <strong>Khung Trưa (12:00–15:59):</strong> <strong>1,630.99h (15.39%)</strong> — Đỉnh phụ lúc 12:00 trưa (450.85h).</div>
                 </div>
                 <div class="tree-subitem space-y-1">
-                  <div class="font-mono-code text-amber-300 font-bold">ĐÊM ĐỊNH MỆNH 06–07/09/2023 &amp; KHÁNG K-POP</div>
-                  <div>• Hai bản nhạc neo tự sự Việt lớn nhất là <em>Xanh — Ngọt</em> (<strong>06/09/2023 23:59:14</strong>) và <em>Trước Khi Em Tồn Tại — Thắng</em> (<strong>07/09/2023 04:32:33</strong>) được nghe lần đầu tiên trong đời chỉ cách nhau đúng <strong>4 giờ 33 phút</strong>!</div>
-                  <div>• <strong>Tỷ trọng K-Pop:</strong> Chỉ <strong>0,2556%</strong> toàn kỳ (27,08h / 10.594,8h).</div>
+                  <div class="font-mono-code text-amber-300 font-bold">FATEFUL NIGHT (06–07/09/2023) &amp; K-POP IMMUNITY</div>
+                  <div>• Hai bài neo tự sự Việt <em>Xanh — Ngọt</em> (<strong>06/09/2023 23:59:14</strong>) và <em>Trước Khi Em Tồn Tại — Thắng</em> (<strong>07/09/2023 04:32:33</strong>) xuất hiện lần đầu chỉ cách nhau đúng <strong>4 giờ 33 phút</strong>!</div>
+                  <div>• <strong>Tỷ trọng K-Pop:</strong> Chỉ <strong>0.2556%</strong> toàn kỳ (27.08h / 10,594.8h).</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Milestone 3: Foobar2000 Hi-Res / DSD256 Vault & FiiO K7 Rig -->
-        <div class="stat-node p-4 sm:p-5" onclick="togglePinNode(this)">
-          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        <!-- Vault Node 3: Foobar2000 Hi-Res / DSD256 Vault & FiiO K7 Rig -->
+        <div class="stat-node p-4">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-2">
             <div>
               <div class="flex flex-wrap items-center gap-2">
-                <span class="px-2 py-0.5 rounded bg-emerald-500/30 border border-emerald-300/40 text-xs font-mono-code font-bold text-white">FOOBAR2000 VAULT (3.710 MỤC)</span>
-                <span class="px-2 py-0.5 rounded bg-sky-500/30 text-xs font-mono-code font-bold text-sky-200">ASIO NATIVE DSD256 • FIIO K7 + KADENZ</span>
-                <span class="pin-badge text-[10px] font-mono-code px-2 py-0.5 rounded bg-amber-500/30 text-amber-200 font-bold">📌 ĐÃ GHIM</span>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/25 border border-emerald-400/40 text-[11px] font-mono-code font-bold text-emerald-200">FOOBAR2000 VAULT (3,710)</span>
+                <span class="px-2 py-0.5 rounded bg-sky-500/25 text-[11px] font-mono-code font-bold text-sky-200">ASIO NATIVE DSD256 • FIIO K7</span>
+                <span class="pin-badge text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-rose-500/30 text-rose-200 font-bold">PINNED</span>
               </div>
-              <h3 class="text-base sm:text-lg font-extrabold text-white mt-1">
-                98,0% Pure Lossless / DSD • <span class="text-emerald-300 font-mono-code">1.081 Files Evangelion</span> &amp; Bàn Nghe Bit-Perfect Không EQ
+              <h3 class="text-sm sm:text-base font-extrabold text-white mt-1">
+                98.0% Pure Lossless / DSD • <span class="text-emerald-300 font-mono-code">1,081 Files Evangelion</span> &amp; Bit-Perfect Hardware Rig
               </h3>
             </div>
-            <div class="text-right font-mono-code shrink-0">
-              <div class="text-2xl font-black text-white">2.039 <span class="text-xs text-emerald-300">COUNT LOCAL</span></div>
-              <div class="text-xs text-slate-300">52% DSD Active • 65% mở trong 24h</div>
+            <div class="flex items-center justify-between lg:justify-end gap-4 font-mono-code shrink-0">
+              <div class="text-right">
+                <div class="text-lg sm:text-xl font-black text-white">2,039 <span class="text-xs text-emerald-300">LOCAL PLAYS</span></div>
+                <div class="text-[11px] text-slate-400">52% DSD Active • Zero EQ</div>
+              </div>
+              <span class="ext-indicator">EXTEND <svg class="w-4 h-4 fill-current branch-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></span>
             </div>
           </div>
           <div class="stat-branch-wrapper">
             <div class="stat-branch-inner">
               <div class="stat-branch-content mt-3 rounded-lg grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
                 <div class="tree-subitem space-y-1">
-                  <div class="font-mono-code text-emerald-300 font-bold">THƯ VIỆN HI-RES / NATIVE DSD</div>
-                  <div>• <strong>1.924 FLAC</strong> (24bit/96–192kHz) • <strong>624 WAV</strong> (CD Làng Văn: Tuấn Ngọc, Trịnh Công Sơn) • <strong>264 DSD64/128/256 &amp; SACD ISO</strong>.</div>
-                  <div>• Tỷ lệ mở nghe nhóm DSD đạt <strong>52%</strong> (gấp 4 lần CD 16bit 13%).</div>
+                  <div class="font-mono-code text-emerald-300 font-bold">HI-RES &amp; NATIVE DSD VAULT</div>
+                  <div>• <strong>1,924 FLAC</strong> (24bit/96–192kHz) • <strong>624 WAV</strong> (CD Làng Văn: Tuấn Ngọc, Trịnh Công Sơn) • <strong>264 DSD64/128/256 &amp; SACD ISO</strong>.</div>
+                  <div>• Nhóm DSD dẫn đầu tỷ lệ mở nghe ở mức <strong>52%</strong>; 65% file mới tải được nghe ngay trong 24h.</div>
                 </div>
                 <div class="tree-subitem space-y-1">
-                  <div class="font-mono-code text-rose-300 font-bold">HOÀN THÀNH 100% DISCOGRAPHY</div>
+                  <div class="font-mono-code text-rose-300 font-bold">100% ARCHIVE COMPLETION</div>
                   <div>• <strong>Miku Symphony (11 Albums):</strong> 191/191 files (627 Count)</div>
                   <div>• <strong>Cowboy Bebop:</strong> 83/83 files • <strong>Bunny Girl:</strong> 46/47</div>
                   <div>• <strong>Ayako Ishikawa Violin:</strong> 51/51 (122 Count)</div>
                   <div>• <strong>Rachel Podger Vivaldi DSD64:</strong> 37/37 files</div>
                 </div>
                 <div class="tree-subitem space-y-1">
-                  <div class="font-mono-code text-sky-300 font-bold">CHUỖI PHẦN CỨNG &amp; CHẤM ĐIỂM 80/20</div>
-                  <div>• <strong>Lecoo Pro 14</strong> ➔ <strong>Foobar2000 (ASIO DSD)</strong> ➔ <strong>FiiO K7</strong> (Dual AK4493SEQ + THX AAA 788+ 2000mW) ➔ <strong>IEM Moondrop Kadenz</strong> &amp; Loa rời.</div>
-                  <div>• <strong>Công thức V35.4:</strong> <code>2,4D (Stage) + 2,3C (Treble) + 2,2B (Mid) + 1,5E (Dyn) + 1,2A (Fast Bass) + 0,4F</code>.</div>
+                  <div class="font-mono-code text-sky-300 font-bold">SIGNAL CHAIN &amp; V35.4 FORMULA</div>
+                  <div>• <strong>Lecoo Pro 14</strong> ➔ <strong>Foobar2000 (ASIO DSD)</strong> ➔ <strong>FiiO K7</strong> (Dual AK4493SEQ + THX AAA 788+ 2000mW) ➔ <strong>Moondrop Kadenz</strong> &amp; Loa rời.</div>
+                  <div>• <strong>Formula:</strong> <code>2.4D (Stage) + 2.3C (Treble) + 2.2B (Mid) + 1.5E (Dyn) + 1.2A (Fast Bass) + 0.4F</code>.</div>
                 </div>
               </div>
             </div>
@@ -1862,18 +1877,16 @@
 
   <!-- ================= FLOATING 5-TRACK GACHA PLAYER & VINYL DISC ================= -->
   <aside class="fixed bottom-3 inset-x-3 max-w-4xl mx-auto z-40">
-    <div class="glass-card px-4 py-3 sm:px-5 sm:py-3.5 !bg-slate-950/90 !border-white/25 shadow-2xl space-y-2.5">
+    <div class="glass-card px-4 py-2.5 sm:px-5 sm:py-3 !bg-slate-950/90 !border-white/20 shadow-2xl space-y-2">
       <audio id="audio-player" preload="auto"></audio>
 
-      <!-- Quick 5-Track Selector Pills -->
-      <div id="track-chips-row" class="flex items-center gap-1.5 overflow-x-auto pb-1 border-b border-white/10 no-scrollbar">
-        <!-- Tự động render 5 nút chọn bài bằng JS -->
-      </div>
+      <!-- Track Selector Row (Flex-Wrap, No Ugly Scrollbar) -->
+      <div id="track-chips-row" class="flex flex-wrap items-center gap-1.5 pb-1.5 border-b border-white/10"></div>
 
-      <div class="flex flex-wrap items-center justify-between gap-4">
+      <div class="flex flex-wrap items-center justify-between gap-3">
         <!-- Spinning Vinyl Disc + Track Info -->
-        <div class="flex items-center gap-3.5 min-w-[220px] flex-1">
-          <div id="vinyl-disc" class="vinyl-record" onclick="togglePlay()" title="Bấm để Phát / Tạm dừng">
+        <div class="flex items-center gap-3 min-w-[210px] flex-1">
+          <div id="vinyl-disc" class="vinyl-record" onclick="togglePlay()" title="Play / Pause">
             <img id="vinyl-cover" src="https://files.catbox.moe/6yr9eo.jpg" alt="Vinyl Cover" />
             <div class="vinyl-grooves"></div>
             <div class="vinyl-hole"></div>
@@ -1881,48 +1894,48 @@
 
           <div class="min-w-0 flex-1">
             <div class="flex items-center gap-2">
-              <span id="track-badge" class="text-[10px] font-mono-code font-bold uppercase px-2 py-0.5 rounded bg-rose-500/30 border border-rose-300/40 text-rose-100">
-                GACHA #1/5
+              <span id="track-badge" class="text-[10px] font-mono-code font-bold uppercase px-1.5 py-0.5 rounded bg-rose-500/25 border border-rose-400/35 text-rose-200">
+                TRACK #1/5
               </span>
-              <span id="audio-status" class="text-[11px] font-mono-code text-emerald-300 truncate">
-                Sẵn sàng phát
+              <span id="audio-status" class="text-[10px] font-mono-code text-emerald-300 truncate">
+                READY
               </span>
             </div>
-            <h4 id="track-title" class="text-sm sm:text-base font-extrabold text-white truncate mt-0.5">
+            <h4 id="track-title" class="text-xs sm:text-sm font-extrabold text-white truncate mt-0.5">
               Fukashigi no Carte (不可思議のカルテ)
             </h4>
-            <p id="track-artist" class="text-xs text-slate-300 truncate">
+            <p id="track-artist" class="text-[11px] text-slate-400 truncate">
               Asami Seto • Bunny Girl Senpai ED (97.9% Vault)
             </p>
           </div>
         </div>
 
-        <!-- Controls + Seekbar (PURE MONOCHROME VECTOR SVG ICONS) -->
-        <div class="flex flex-col items-center gap-1.5 flex-1 min-w-[230px]">
-          <div class="flex items-center gap-2.5">
-            <button type="button" onclick="prevTrack()" title="Bài trước" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 border border-white/10 flex items-center justify-center text-white transition active:scale-95">
-              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+        <!-- Controls + Seekbar -->
+        <div class="flex flex-col items-center gap-1.5 flex-1 min-w-[220px]">
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="prevTrack()" title="Previous" class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white transition active:scale-95">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                 <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/>
               </svg>
             </button>
 
-            <button type="button" id="play-btn" onclick="togglePlay()" title="Play / Pause" class="w-10 h-10 rounded-full bg-white text-slate-950 hover:scale-105 active:scale-95 flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.35)] transition">
-              <svg id="play-icon-svg" class="w-5 h-5 fill-current translate-x-[1px]" viewBox="0 0 24 24">
+            <button type="button" id="play-btn" onclick="togglePlay()" title="Play / Pause" class="w-9 h-9 rounded-full bg-white text-slate-950 hover:scale-105 active:scale-95 flex items-center justify-center shadow-[0_0_16px_rgba(255,255,255,0.3)] transition">
+              <svg id="play-icon-svg" class="w-4 h-4 fill-current translate-x-[1px]" viewBox="0 0 24 24">
                 <path d="M8 5.14v14l11-7-11-7z"/>
               </svg>
-              <svg id="pause-icon-svg" class="w-5 h-5 fill-current hidden" viewBox="0 0 24 24">
+              <svg id="pause-icon-svg" class="w-4 h-4 fill-current hidden" viewBox="0 0 24 24">
                 <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
               </svg>
             </button>
 
-            <button type="button" onclick="nextTrack()" title="Bài tiếp" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 border border-white/10 flex items-center justify-center text-white transition active:scale-95">
-              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <button type="button" onclick="nextTrack()" title="Next" class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white transition active:scale-95">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                 <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
               </svg>
             </button>
 
-            <button type="button" onclick="triggerGachaTrack()" title="Gacha ngẫu nhiên 1 trong 5 bài" class="px-3 py-1.5 rounded-full bg-gradient-to-r from-rose-500 to-violet-500 hover:brightness-110 active:scale-95 text-white text-xs font-bold shadow-md transition flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24">
+            <button type="button" onclick="triggerGachaTrack()" title="Random Track & Theme" class="px-2.5 py-1 rounded-md bg-rose-500/25 hover:bg-rose-500/40 border border-rose-400/40 active:scale-95 text-white text-[11px] font-mono-code font-bold transition flex items-center gap-1">
+              <svg class="w-3 h-3 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24">
                 <rect x="3" y="3" width="18" height="18" rx="4"/>
                 <circle cx="8.5" cy="8.5" r="1" fill="currentColor"/>
                 <circle cx="15.5" cy="8.5" r="1" fill="currentColor"/>
@@ -1930,20 +1943,20 @@
                 <circle cx="8.5" cy="15.5" r="1" fill="currentColor"/>
                 <circle cx="15.5" cy="15.5" r="1" fill="currentColor"/>
               </svg>
-              <span>Gacha</span>
+              <span>GACHA</span>
             </button>
           </div>
 
-          <div class="w-full flex items-center gap-2 text-[11px] font-mono-code text-slate-300">
+          <div class="w-full flex items-center gap-2 text-[10px] font-mono-code text-slate-400">
             <span id="current-time">0:00</span>
             <input id="seek-bar" type="range" min="0" max="100" value="0" class="w-full" />
             <span id="duration-time">0:00</span>
           </div>
         </div>
 
-        <!-- Volume (SVG Speaker) -->
+        <!-- Volume -->
         <div class="hidden md:flex items-center gap-2">
-          <button type="button" id="mute-btn" onclick="toggleMute()" class="text-slate-200 hover:text-white p-1 transition" title="Bật / Tắt tiếng">
+          <button type="button" id="mute-btn" onclick="toggleMute()" class="text-slate-300 hover:text-white p-1 transition" title="Mute / Unmute">
             <svg id="vol-on-svg" class="w-4 h-4 fill-current" viewBox="0 0 24 24">
               <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
             </svg>
@@ -1951,17 +1964,17 @@
               <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
             </svg>
           </button>
-          <input id="volume-bar" type="range" min="0" max="1" step="0.02" value="0.85" class="w-20" />
+          <input id="volume-bar" type="range" min="0" max="1" step="0.02" value="0.85" class="w-16" />
         </div>
       </div>
     </div>
   </aside>
 
-  <!-- ================= JAVASCRIPT & WRAPPED INTERACTIVE ENGINE ================= -->
+  <!-- ================= OPTIMIZED TELEMETRY & AUDIO SCRIPT ================= -->
   <script>
     const GACHA_PLAYLIST = [
       {
-        shortName: "1. Fukashigi no Carte",
+        shortName: "01 // Fukashigi no Carte",
         title: "Fukashigi no Carte (不可思議のカルテ)",
         artist: "Asami Seto • Bunny Girl Senpai ED (46/47 Files Foobar)",
         badge: "GACHA #1 • BUNNY GIRL SENPAI",
@@ -1970,7 +1983,7 @@
         colors: ["#f43f5e", "#6366f1", "#fb923c", "#38bdf8"]
       },
       {
-        shortName: "2. Nyan Nyan Rock",
+        shortName: "02 // Nyan Nyan Rock",
         title: "Nyan Nyan Rock Version",
         artist: "Black Hanekawa • Monogatari Series Rock Mix",
         badge: "GACHA #2 • MONOGATARI ROCK",
@@ -1979,7 +1992,7 @@
         colors: ["#a855f7", "#ec4899", "#ef4444", "#6366f1"]
       },
       {
-        shortName: "3. Platinum Disco",
+        shortName: "03 // Platinum Disco",
         title: "Platinum Disco (白金ディスコ)",
         artist: "Yuka Iguchi (Araragi Tsukihi) • Nisemonogatari OP3",
         badge: "GACHA #3 • NISEMONOGATARI",
@@ -1988,7 +2001,7 @@
         colors: ["#ec4899", "#06b6d4", "#f43f5e", "#8b5cf6"]
       },
       {
-        shortName: "4. Renai Circulation",
+        shortName: "04 // Renai Circulation",
         title: "Renai Circulation (恋愛サーキュレーション)",
         artist: "Kana Hanazawa (Sengoku Nadeko) • Bakemonogatari OP4",
         badge: "GACHA #4 • BAKEMONOGATARI",
@@ -1997,7 +2010,7 @@
         colors: ["#fb7185", "#f472b6", "#fbbf24", "#c084fc"]
       },
       {
-        shortName: "5. Rolling Girl",
+        shortName: "05 // Rolling Girl",
         title: "Rolling Girl (ローリンガール)",
         artist: "wowaka feat. Hatsune Miku (初音ミク) • Vocaloid Legend",
         badge: "GACHA #5 • WOWAKA × MIKU",
@@ -2008,10 +2021,9 @@
     ];
 
     let currentIndex = 0;
-    let isPlaying = false;
-    let hasInteracted = false;
     let hoverModeEnabled = true;
     let allExpanded = false;
+    let rafPending = false;
 
     const audio = document.getElementById("audio-player");
     const vinylDisc = document.getElementById("vinyl-disc");
@@ -2029,93 +2041,87 @@
     const durationTimeEl = document.getElementById("duration-time");
     const volumeBar = document.getElementById("volume-bar");
     const chipsRow = document.getElementById("track-chips-row");
+    const allStatNodes = Array.from(document.querySelectorAll(".stat-node"));
+
+    const sectionMap = {
+      artists: document.getElementById("sec-artists"),
+      songs: document.getElementById("sec-songs"),
+      albums: document.getElementById("sec-albums"),
+      years: document.getElementById("sec-years"),
+      vault: document.getElementById("sec-vault")
+    };
 
     audio.volume = 0.85;
 
-    // ====== FILTER TABS & BRANCH INTERACTION ======
-    function filterSection(target, btnEl) {
-      const parent = btnEl.parentElement;
-      parent.querySelectorAll(".filter-tab").forEach((b) => b.classList.remove("active"));
-      btnEl.classList.add("active");
+    // ====== EVENT DELEGATION FOR FILTER TABS & STAT NODES ======
+    document.getElementById("view-filter-group").addEventListener("click", (e) => {
+      const btn = e.target.closest(".seg-btn");
+      if (!btn) return;
+      const target = btn.dataset.filter;
 
-      const sections = {
-        artists: document.getElementById("sec-artists"),
-        songs: document.getElementById("sec-songs"),
-        albums: document.getElementById("sec-albums"),
-        years: document.getElementById("sec-years"),
-        vault: document.getElementById("sec-vault")
-      };
-
-      Object.keys(sections).forEach((key) => {
-        if (target === "all" || target === key) {
-          sections[key].classList.remove("hidden");
-        } else {
-          sections[key].classList.add("hidden");
-        }
+      document.querySelectorAll("#view-filter-group .seg-btn").forEach((b) => {
+        b.classList.toggle("active", b === btn);
       });
-    }
 
-    function togglePinNode(nodeEl) {
-      nodeEl.classList.toggle("is-pinned");
-      updateExpandCounter();
-    }
+      Object.keys(sectionMap).forEach((key) => {
+        sectionMap[key].classList.toggle("hidden", target !== "all" && target !== key);
+      });
+    });
+
+    document.getElementById("telemetry-root").addEventListener("click", (e) => {
+      const node = e.target.closest(".stat-node");
+      if (!node) return;
+      node.classList.toggle("is-pinned");
+      updateExtendStatus();
+    });
 
     function toggleHoverMode() {
       hoverModeEnabled = !hoverModeEnabled;
       document.body.classList.toggle("hover-expand-enabled", hoverModeEnabled);
       const btn = document.getElementById("btn-hover-mode");
-      btn.classList.toggle("active", hoverModeEnabled);
-      btn.textContent = hoverModeEnabled
-        ? "🖱️ Đè Chuột Bung Nhánh: BẬT"
-        : "🖱️ Đè Chuột Bung Nhánh: TẮT (Chỉ Click)";
-      showToast(hoverModeEnabled ? "Đã bật tự bung nhánh khi rê chuột" : "Chế độ Chỉ Click để mở nhánh");
+      const label = document.getElementById("hover-label");
+      btn.classList.toggle("is-on", hoverModeEnabled);
+      label.textContent = hoverModeEnabled ? "HOVER: ON" : "HOVER: OFF";
+      showToast(hoverModeEnabled ? "HOVER MODE: ENABLED" : "HOVER MODE: CLICK ONLY");
     }
 
     function toggleExpandAll() {
       allExpanded = !allExpanded;
-      const nodes = document.querySelectorAll(".stat-node");
-      nodes.forEach((n) => {
+      allStatNodes.forEach((n) => {
         n.classList.toggle("is-open", allExpanded);
         if (!allExpanded) n.classList.remove("is-pinned");
       });
-      updateExpandCounter();
-      showToast(allExpanded ? "Đã bung toàn bộ nhánh dữ liệu Wrapped" : "Đã thu gọn toàn bộ nhánh");
+      updateExtendStatus();
+      showToast(allExpanded ? "EXTENDED ALL NODES" : "COLLAPSED ALL NODES");
     }
 
-    function updateExpandCounter() {
-      const nodes = document.querySelectorAll(".stat-node");
+    function updateExtendStatus() {
+      const total = allStatNodes.length;
       let activeCount = 0;
-      nodes.forEach((n) => {
-        if (n.classList.contains("is-open") || n.classList.contains("is-pinned")) {
+      for (let i = 0; i < total; i++) {
+        if (allStatNodes[i].classList.contains("is-open") || allStatNodes[i].classList.contains("is-pinned")) {
           activeCount++;
         }
-      });
+      }
       const btn = document.getElementById("btn-expand-all");
-      btn.classList.toggle("active", allExpanded || activeCount === nodes.length);
-      btn.textContent = allExpanded
-        ? `📂 Thu Gọn Tất Cả (${nodes.length}/${nodes.length})`
-        : `📂 Bung Tất Cả Nhánh (${activeCount}/${nodes.length})`;
+      const label = document.getElementById("extend-label");
+      const countEl = document.getElementById("extend-count");
+
+      const isFullyOpen = allExpanded || activeCount === total;
+      btn.classList.toggle("is-on", isFullyOpen);
+      label.textContent = isFullyOpen ? "COLLAPSE" : "EXTEND ALL";
+      countEl.textContent = `${activeCount}/${total}`;
     }
 
-    // ====== AUDIO PLAYER & UI SYNC ======
+    // ====== AUDIO ENGINE ======
     function setPlayButtonUI(playing) {
-      if (playing) {
-        playIconSvg.classList.add("hidden");
-        pauseIconSvg.classList.remove("hidden");
-      } else {
-        playIconSvg.classList.remove("hidden");
-        pauseIconSvg.classList.add("hidden");
-      }
+      playIconSvg.classList.toggle("hidden", playing);
+      pauseIconSvg.classList.toggle("hidden", !playing);
     }
 
     function setMuteButtonUI(muted) {
-      if (muted) {
-        volOnSvg.classList.add("hidden");
-        volOffSvg.classList.remove("hidden");
-      } else {
-        volOnSvg.classList.remove("hidden");
-        volOffSvg.classList.add("hidden");
-      }
+      volOnSvg.classList.toggle("hidden", muted);
+      volOffSvg.classList.toggle("hidden", !muted);
     }
 
     function formatTime(sec) {
@@ -2138,14 +2144,13 @@
     }
 
     function updateClock() {
-      const now = new Date();
       const vnTime = new Intl.DateTimeFormat("en-GB", {
         timeZone: "Asia/Ho_Chi_Minh",
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
         hour12: false
-      }).format(now);
+      }).format(new Date());
       document.getElementById("vn-clock").textContent = `${vnTime} ICT (UTC+7)`;
     }
     setInterval(updateClock, 1000);
@@ -2155,43 +2160,40 @@
     function showToast(msg) {
       const box = document.getElementById("toast-box");
       document.getElementById("toast-text").textContent = msg;
-      box.classList.remove("opacity-0", "-translate-y-3");
+      box.classList.remove("opacity-0", "-translate-y-2");
       box.classList.add("opacity-100", "translate-y-0");
       clearTimeout(toastTimeout);
       toastTimeout = setTimeout(() => {
         box.classList.remove("opacity-100", "translate-y-0");
-        box.classList.add("opacity-0", "-translate-y-3");
-      }, 2600);
+        box.classList.add("opacity-0", "-translate-y-2");
+      }, 2200);
     }
 
     function copyDiscordId() {
       navigator.clipboard.writeText("vuismei").catch(() => {});
-      showToast("Đã sao chép Discord ID: vuismei");
+      showToast("COPIED DISCORD ID: vuismei");
     }
 
     audio.addEventListener("play", () => {
-      isPlaying = true;
       vinylDisc.classList.add("is-playing");
       setPlayButtonUI(true);
-      audioStatus.textContent = "● Đang phát nhạc";
+      audioStatus.textContent = "● PLAYING";
     });
 
     audio.addEventListener("playing", () => {
-      isPlaying = true;
       vinylDisc.classList.add("is-playing");
       setPlayButtonUI(true);
-      audioStatus.textContent = "● Đang phát nhạc";
+      audioStatus.textContent = "● PLAYING";
     });
 
     audio.addEventListener("pause", () => {
-      isPlaying = false;
       vinylDisc.classList.remove("is-playing");
       setPlayButtonUI(false);
-      audioStatus.textContent = "Đã tạm dừng";
+      audioStatus.textContent = "PAUSED";
     });
 
     audio.addEventListener("waiting", () => {
-      audioStatus.textContent = "Đang tải đệm...";
+      audioStatus.textContent = "BUFFERING...";
     });
 
     audio.addEventListener("loadedmetadata", () => {
@@ -2199,16 +2201,17 @@
     });
 
     audio.addEventListener("timeupdate", () => {
-      if (audio.duration) {
+      if (rafPending || !audio.duration) return;
+      rafPending = true;
+      requestAnimationFrame(() => {
         seekBar.value = (audio.currentTime / audio.duration) * 100;
         currentTimeEl.textContent = formatTime(audio.currentTime);
         durationTimeEl.textContent = formatTime(audio.duration);
-      }
+        rafPending = false;
+      });
     });
 
-    audio.addEventListener("ended", () => {
-      nextTrack();
-    });
+    audio.addEventListener("ended", nextTrack);
 
     seekBar.addEventListener("input", () => {
       if (audio.duration) {
@@ -2254,53 +2257,44 @@
       }
 
       if (autoPlay) {
-        audioStatus.textContent = "Đang nạp dữ liệu...";
+        audioStatus.textContent = "LOADING...";
         audio.play().catch((err) => {
           if (err.name !== "AbortError") {
-            audioStatus.textContent = "Bấm Play để phát";
+            audioStatus.textContent = "PRESS PLAY";
           }
         });
       } else {
-        audioStatus.textContent = "Sẵn sàng • Bấm Play để phát";
+        audioStatus.textContent = "READY";
       }
     }
 
     function togglePlay() {
-      hasInteracted = true;
       const track = GACHA_PLAYLIST[currentIndex];
-      if (!audio.src || audio.src === "" || audio.src !== track.audioUrl) {
+      if (!audio.src || audio.src !== track.audioUrl) {
         audio.src = track.audioUrl;
       }
-
       if (audio.paused) {
-        audio.play().catch((err) => {
-          if (err.name !== "AbortError") {
-            audioStatus.textContent = "Bấm Play để thử lại";
-          }
-        });
+        audio.play().catch(() => {});
       } else {
         audio.pause();
       }
     }
 
     function nextTrack() {
-      hasInteracted = true;
       loadTrack(currentIndex + 1, true);
     }
 
     function prevTrack() {
-      hasInteracted = true;
       loadTrack(currentIndex - 1, true);
     }
 
     function triggerGachaTrack() {
-      hasInteracted = true;
       let nextIdx = Math.floor(Math.random() * GACHA_PLAYLIST.length);
       if (nextIdx === currentIndex && GACHA_PLAYLIST.length > 1) {
         nextIdx = (nextIdx + 1) % GACHA_PLAYLIST.length;
       }
       loadTrack(nextIdx, true);
-      showToast(`🎲 Gacha: ${GACHA_PLAYLIST[nextIdx].title}`);
+      showToast(`GACHA // ${GACHA_PLAYLIST[nextIdx].title}`);
     }
 
     function enterSite() {
@@ -2308,16 +2302,15 @@
       if (overlay) {
         overlay.style.opacity = "0";
         overlay.style.pointerEvents = "none";
-        setTimeout(() => overlay.remove(), 700);
+        setTimeout(() => overlay.remove(), 500);
       }
-      hasInteracted = true;
       audio.play().catch(() => {});
     }
 
     window.addEventListener("DOMContentLoaded", () => {
       const randomStart = Math.floor(Math.random() * GACHA_PLAYLIST.length);
       loadTrack(randomStart, false);
-      updateExpandCounter();
+      updateExtendStatus();
 
       audio.play().then(() => {
         const overlay = document.getElementById("intro-overlay");
