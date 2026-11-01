@@ -68,31 +68,16 @@
     }
 
     /* ========== SILENT AUTO ECO-MODE & WEAK DEVICE OPTIMIZATIONS ========== */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-      .apple-art-layer, .mesh-blob { display: none !important; }
-      #sakura-global-layer { display: none !important; }
-    }
-
-    body.on-page-2 .apple-art-layer,
-    body.on-page-2 .mesh-blob,
     body.on-page-2 #sakura-global-layer .sakura-leaf,
     body.on-page-2 #sakura-global-layer .sakura-sway,
     body.on-page-2 #sakura-global-layer svg {
       animation-play-state: paused !important;
     }
 
-    body.eco-mode .apple-art-layer { animation-duration: 52s !important; }
-    body.eco-mode .mesh-blob { animation-duration: 26s !important; }
-    body.eco-mode .sakura-leaf { animation-duration: 16s !important; }
-    body.eco-mode .sakura-sway { animation-play-state: paused !important; }
-    body.eco-mode .sakura-leaf svg { animation-play-state: paused !important; }
-    body.eco-mode .avatar-deco-ring .ring-orbit { animation-duration: 64s !important; }
-    body.eco-mode .bar-fill::after { animation-play-state: paused !important; }
+    body.eco-mode .apple-art-layer { animation-duration: 38s !important; }
+    body.eco-mode .mesh-blob { animation-duration: 22s !important; }
+    body.eco-mode .sakura-leaf { animation-duration: 14s !important; }
+    body.eco-mode .avatar-deco-ring .ring-orbit { animation-duration: 54s !important; }
 
     body.eco-mode #page-2 .wrapped-section {
       content-visibility: auto;
@@ -161,7 +146,7 @@
 
     body {
       font-family: 'Inter', 'Noto Sans JP', sans-serif;
-      background-color: #070910;
+      background-color: transparent;
       color: #f8fafc;
       overflow-x: hidden;
       min-height: 100vh;
@@ -186,9 +171,10 @@
     #persona-transition-layer {
       position: fixed;
       inset: 0;
-      z-index: 60;
+      z-index: 9999;
       pointer-events: none;
       opacity: 0;
+      visibility: hidden;
       overflow: hidden;
       will-change: opacity, transform;
     }
@@ -276,26 +262,27 @@
     /* Active persona transition animation */
     body.is-persona-shifting #persona-transition-layer {
       opacity: 1;
+      visibility: visible;
     }
 
     body.is-persona-shifting .persona-curtain-dark {
-      animation: personaDarkSlash 0.72s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation: personaDarkSlash 0.72s cubic-bezier(0.16, 1, 0.3, 1) both !important;
     }
 
     body.is-persona-shifting .persona-curtain-crimson {
-      animation: personaCrimsonSlash 0.72s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+      animation: personaCrimsonSlash 0.72s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both !important;
     }
 
     body.is-persona-shifting .persona-speedlines {
-      animation: personaSpeedlinesFlash 0.72s ease both;
+      animation: personaSpeedlinesFlash 0.72s ease both !important;
     }
 
     body.is-persona-shifting .persona-center-badge {
-      animation: personaBadgePop 0.72s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation: personaBadgePop 0.72s cubic-bezier(0.16, 1, 0.3, 1) both !important;
     }
 
     body.is-persona-shifting main:not(.is-hidden) {
-      animation: personaPageEnter 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
+      animation: personaPageEnter 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both !important;
     }
 
     @keyframes personaDarkSlash {
@@ -332,13 +319,13 @@
       100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: none; }
     }
 
-    /* ========== EYE-SOOTHING APPLE MUSIC DARK ROOM FLUID BACKGROUND ========== */
+    /* ========== VIBRANT & EYE-SOOTHING APPLE MUSIC FLUID BACKGROUND ========== */
     .apple-bg-wrapper {
       position: fixed;
       inset: 0;
       z-index: -3;
       overflow: hidden;
-      background: radial-gradient(ellipse 130% 110% at 50% 25%, #0e0c1a 0%, #070914 55%, #030408 100%);
+      background: radial-gradient(ellipse 130% 110% at 50% 25%, #161129 0%, #090b18 58%, #04050b 100%);
       contain: strict;
       pointer-events: none;
     }
@@ -356,35 +343,35 @@
     }
 
     .art-layer-1 {
-      width: 86vmax;
-      height: 86vmax;
+      width: 88vmax;
+      height: 88vmax;
       top: -16vmax;
       left: -12vmax;
-      filter: blur(46px) saturate(160%) brightness(0.68);
-      opacity: 0.58;
+      filter: blur(42px) saturate(205%) brightness(0.84);
+      opacity: 0.76;
       transform-origin: 46% 54%;
-      animation: orbitClockwise 26s linear infinite;
+      animation: orbitClockwise 24s linear infinite;
     }
 
     .art-layer-2 {
-      width: 82vmax;
-      height: 82vmax;
+      width: 84vmax;
+      height: 84vmax;
       bottom: -16vmax;
       right: -12vmax;
-      filter: blur(48px) saturate(165%) brightness(0.64);
-      opacity: 0.52;
+      filter: blur(44px) saturate(210%) brightness(0.80);
+      opacity: 0.70;
       transform-origin: 54% 46%;
-      animation: orbitCounterClockwise 21s linear infinite;
+      animation: orbitCounterClockwise 20s linear infinite;
     }
 
     .art-layer-3 {
-      width: 68vmax;
-      height: 68vmax;
-      top: 12vh;
-      left: calc(50% - 34vmax);
-      filter: blur(52px) saturate(150%) brightness(0.58);
-      opacity: 0.32;
-      animation: pulseCenterArt 15s ease-in-out infinite alternate;
+      width: 70vmax;
+      height: 70vmax;
+      top: 10vh;
+      left: calc(50% - 35vmax);
+      filter: blur(48px) saturate(195%) brightness(0.76);
+      opacity: 0.52;
+      animation: pulseCenterArt 14s ease-in-out infinite alternate;
     }
 
     @keyframes pulseCenterArt {
@@ -395,7 +382,7 @@
     .mesh-blob {
       position: absolute;
       border-radius: 50%;
-      opacity: 0.42;
+      opacity: 0.64;
       mix-blend-mode: screen;
       will-change: transform;
       backface-visibility: hidden;
@@ -452,8 +439,8 @@
       inset: 0;
       z-index: -2;
       background:
-        radial-gradient(ellipse at 50% 18%, rgba(251, 113, 133, 0.04) 0%, transparent 55%),
-        radial-gradient(ellipse at 50% 60%, rgba(10, 12, 24, 0.35) 0%, rgba(4, 5, 10, 0.75) 100%);
+        radial-gradient(ellipse at 50% 18%, rgba(251, 113, 133, 0.08) 0%, transparent 58%),
+        radial-gradient(ellipse at 50% 60%, rgba(10, 12, 24, 0.18) 0%, rgba(4, 5, 12, 0.46) 100%);
       pointer-events: none;
       contain: strict;
     }
@@ -3475,8 +3462,8 @@
     </div>
   </div>
 
-  <!-- ================= PERSONA-STYLE MINIMIZED VINYL ORB (CORNER HUD) ================= -->
-  <div id="persona-mini-player" class="persona-mini-orb" title="Nhấp vào đĩa để Play/Pause • Nhấp nút mở rộng để bật toàn bộ bảng Gacha">
+  <!-- ================= PERSONA-STYLE MINIMIZED VINYL ORB (DEFAULT ACTIVE CORNER HUD) ================= -->
+  <div id="persona-mini-player" class="persona-mini-orb is-active" title="Nhấp vào đĩa để Play/Pause • Nhấp nút mở rộng để bật toàn bộ bảng Gacha">
     <div id="mini-vinyl-disc" onclick="togglePlay()" class="vinyl-record !w-11 !h-11 shrink-0" title="Play / Pause">
       <img id="mini-vinyl-cover" src="https://files.catbox.moe/6yr9eo.jpg" alt="Mini Vinyl" decoding="async" />
       <div class="vinyl-grooves"></div>
@@ -3502,8 +3489,8 @@
     </button>
   </div>
 
-  <!-- ================= FLOATING 5-DECK INSTANT GACHA PLAYER + REALTIME SPECTRUM ANALYZER ================= -->
-  <aside id="gacha-player-dock" class="gacha-dock-panel fixed bottom-3 inset-x-3 max-w-4xl mx-auto z-40">
+  <!-- ================= FLOATING 5-DECK INSTANT GACHA PLAYER (MINIMIZED BY DEFAULT) ================= -->
+  <aside id="gacha-player-dock" class="gacha-dock-panel is-minimized fixed bottom-3 inset-x-3 max-w-4xl mx-auto z-40">
     <div class="glass-card px-4 py-2.5 sm:px-5 sm:py-3 !bg-slate-950/90 !border-white/20 shadow-2xl space-y-2">
       <div class="flex items-center justify-between gap-2 pb-1.5 border-b border-white/10">
         <div id="track-chips-row" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar flex-1"></div>
@@ -3669,7 +3656,7 @@
     let rafPending = false;
     let isSeeking = false;
     let userVolume = 0.70;
-    let playerMinimized = false;
+    let playerMinimized = true;
     let userMuted = false;
     let bgWarmStarted = false;
     let currentPage = 1;
@@ -3920,7 +3907,7 @@
       });
     }
 
-    // ====== PERSONA-STYLE MINIMIZE / EXPAND GACHA PLAYER ======
+    // ====== PERSONA-STYLE MINIMIZE / EXPAND GACHA PLAYER (DEFAULT MINIMIZED) ======
     let userManuallyToggledPlayer = false;
     function togglePlayerMinimize(minimize, isManual = true) {
       if (isManual) userManuallyToggledPlayer = true;
@@ -3933,11 +3920,8 @@
     }
 
     window.addEventListener("scroll", () => {
-      if (userManuallyToggledPlayer) return;
-      if (window.scrollY > 220 && !playerMinimized) {
+      if (window.scrollY > 220 && !playerMinimized && !userManuallyToggledPlayer) {
         togglePlayerMinimize(true, false);
-      } else if (window.scrollY <= 80 && playerMinimized) {
-        togglePlayerMinimize(false, false);
       }
     }, { passive: true });
 
@@ -5317,4 +5301,3 @@
   </script>
 </body>
 </html>
-
