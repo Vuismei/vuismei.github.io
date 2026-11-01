@@ -235,7 +235,7 @@
       inset: 0;
       z-index: -3;
       overflow: hidden;
-      background: #06080f;
+      background: radial-gradient(circle at 50% 35%, #161124 0%, #090b16 58%, #05070e 100%);
       contain: strict;
       pointer-events: none;
     }
@@ -253,42 +253,60 @@
     }
 
     .art-layer-1 {
-      width: 115vmax;
-      height: 115vmax;
-      top: -20vmax;
-      left: -15vmax;
-      filter: blur(46px) saturate(240%) brightness(0.92);
-      opacity: 0.74;
-      transform-origin: 45% 55%;
+      width: 120vmax;
+      height: 120vmax;
+      top: -24vmax;
+      left: -18vmax;
+      filter: blur(54px) saturate(265%) brightness(1.02) contrast(1.08);
+      opacity: 0.82;
+      transform-origin: 46% 54%;
       animation: orbitClockwise 24s linear infinite;
     }
 
     .art-layer-2 {
-      width: 105vmax;
-      height: 105vmax;
-      bottom: -22vmax;
-      right: -15vmax;
-      filter: blur(50px) saturate(260%) brightness(1.05);
-      opacity: 0.68;
-      transform-origin: 55% 45%;
-      animation: orbitCounterClockwise 18s linear infinite;
+      width: 112vmax;
+      height: 112vmax;
+      bottom: -24vmax;
+      right: -16vmax;
+      filter: blur(58px) saturate(280%) brightness(1.12) contrast(1.06);
+      opacity: 0.76;
+      transform-origin: 54% 46%;
+      animation: orbitCounterClockwise 19s linear infinite;
+    }
+
+    .art-layer-3 {
+      width: 82vmax;
+      height: 82vmax;
+      top: 8vh;
+      left: calc(50% - 41vmax);
+      filter: blur(64px) saturate(290%) brightness(1.15);
+      opacity: 0.52;
+      mix-blend-mode: screen;
+      animation: pulseCenterArt 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseCenterArt {
+      0% { transform: translate3d(-4vw, -2vh, 0) scale(0.92) rotate(0deg); }
+      100% { transform: translate3d(4vw, 3vh, 0) scale(1.14) rotate(25deg); }
     }
 
     .mesh-blob {
       position: absolute;
       border-radius: 50%;
-      opacity: 0.78;
+      opacity: 0.84;
       mix-blend-mode: screen;
+      filter: blur(18px);
       will-change: transform;
       backface-visibility: hidden;
       transform: translate3d(0, 0, 0);
+      transition: background 1.2s ease;
     }
 
     .blob-1 {
-      width: 68vw;
-      height: 68vw;
-      max-width: 820px;
-      max-height: 820px;
+      width: 72vw;
+      height: 72vw;
+      max-width: 860px;
+      max-height: 860px;
       top: -18%;
       left: -12%;
       background: radial-gradient(circle, var(--blob-1) 0%, transparent 68%);
@@ -296,10 +314,10 @@
     }
 
     .blob-2 {
-      width: 65vw;
-      height: 65vw;
-      max-width: 780px;
-      max-height: 780px;
+      width: 68vw;
+      height: 68vw;
+      max-width: 820px;
+      max-height: 820px;
       bottom: -18%;
       right: -12%;
       background: radial-gradient(circle, var(--blob-2) 0%, transparent 68%);
@@ -307,23 +325,23 @@
     }
 
     .blob-3 {
-      width: 58vw;
-      height: 58vw;
-      max-width: 700px;
-      max-height: 700px;
-      top: 10%;
-      right: 10%;
+      width: 60vw;
+      height: 60vw;
+      max-width: 740px;
+      max-height: 740px;
+      top: 8%;
+      right: 8%;
       background: radial-gradient(circle, var(--blob-3) 0%, transparent 66%);
       animation: flowBlob3 11s ease-in-out infinite alternate;
     }
 
     .blob-4 {
-      width: 55vw;
-      height: 55vw;
-      max-width: 660px;
-      max-height: 660px;
-      bottom: 8%;
-      left: 10%;
+      width: 58vw;
+      height: 58vw;
+      max-width: 700px;
+      max-height: 700px;
+      bottom: 6%;
+      left: 8%;
       background: radial-gradient(circle, var(--blob-4) 0%, transparent 66%);
       animation: flowBlob4 13.5s ease-in-out infinite alternate;
     }
@@ -332,7 +350,9 @@
       position: fixed;
       inset: 0;
       z-index: -2;
-      background: radial-gradient(circle at 50% 25%, rgba(10, 12, 22, 0.20) 0%, rgba(6, 8, 15, 0.65) 100%);
+      background:
+        radial-gradient(circle at 50% 18%, rgba(251, 113, 133, 0.10) 0%, transparent 55%),
+        radial-gradient(circle at 50% 30%, rgba(10, 12, 24, 0.14) 0%, rgba(6, 8, 16, 0.56) 100%);
       pointer-events: none;
       contain: strict;
     }
@@ -1483,6 +1503,7 @@
   <div class="apple-bg-wrapper" aria-hidden="true">
     <div class="apple-art-layer art-layer-1"></div>
     <div class="apple-art-layer art-layer-2"></div>
+    <div class="apple-art-layer art-layer-3"></div>
     <div class="mesh-blob blob-1"></div>
     <div class="mesh-blob blob-2"></div>
     <div class="mesh-blob blob-3"></div>
@@ -3825,6 +3846,61 @@
         if (box) box.classList.remove("neko-jump");
       }, 380);
     }
+
+    // ====== MODAL CONTROLS (ARCHIVE & GUESTBOOK) ======
+    function openArchiveModal() {
+      const modal = document.getElementById("archive-modal");
+      if (modal) modal.classList.remove("hidden");
+    }
+
+    function closeArchiveModal() {
+      const modal = document.getElementById("archive-modal");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    let selectedGuestbookVibe = "🌸 Ghé thăm bio";
+    function openGuestbookModal() {
+      const modal = document.getElementById("guestbook-modal");
+      if (modal) modal.classList.remove("hidden");
+    }
+
+    function closeGuestbookModal() {
+      const modal = document.getElementById("guestbook-modal");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    const gbVibesContainer = document.getElementById("guestbook-vibes");
+    if (gbVibesContainer) {
+      gbVibesContainer.addEventListener("click", (e) => {
+        const chip = e.target.closest(".vibe-chip");
+        if (!chip) return;
+        selectedGuestbookVibe = chip.dataset.vibe || "🌸 Ghé thăm bio";
+        gbVibesContainer.querySelectorAll(".vibe-chip").forEach((c) => {
+          c.classList.toggle("active", c === chip);
+        });
+      });
+    }
+
+    const gbMessageInput = document.getElementById("gb-message");
+    const gbCharCount = document.getElementById("gb-char-count");
+    if (gbMessageInput && gbCharCount) {
+      gbMessageInput.addEventListener("input", () => {
+        gbCharCount.textContent = `${gbMessageInput.value.length} / 280`;
+      });
+    }
+
+    // ====== PERSONA-STYLE MINIMIZE / EXPAND GACHA PLAYER ======
+    let userManuallyToggledPlayer = false;
+    function togglePlayerMinimize(minimize, isManual = true) {
+      if (isManual) userManuallyToggledPlayer = true;
+      playerMinimized = minimize;
+      if (gachaPlayerDock) gachaPlayerDock.classList.toggle("is-minimized", minimize);
+      if (personaMiniPlayer) personaMiniPlayer.classList.toggle("is-active", minimize);
+      if (!minimize && typeof window.wakeSpectrumLoop === "function") {
+        window.wakeSpectrumLoop();
+      }
+    }
+
     window.addEventListener("scroll", () => {
       if (userManuallyToggledPlayer) return;
       if (window.scrollY > 220 && !playerMinimized) {
@@ -3972,6 +4048,63 @@
             page1.classList.remove("is-entering");
           });
         }
+      });
+    }
+
+    function triggerPage2Animations(scopeEl = document.getElementById("page-2")) {
+      if (!scopeEl) return;
+
+      const bars = scopeEl.querySelectorAll(".bar-fill");
+      for (let i = 0; i < bars.length; i++) {
+        bars[i].classList.remove("is-animated");
+        bars[i].style.transition = "none";
+      }
+
+      const counters = Array.from(scopeEl.querySelectorAll(".count-up")).map((el) => {
+        const decimals = parseInt(el.dataset.decimals || "0", 10);
+        return {
+          el,
+          target: parseFloat(el.dataset.val || "0"),
+          decimals,
+          formatter: getNumberFormatter(decimals),
+          suffix: el.dataset.suffix || "",
+          lastText: ""
+        };
+      });
+
+      if (countRafId) cancelAnimationFrame(countRafId);
+
+      requestAnimationFrame(() => {
+        for (let idx = 0; idx < bars.length; idx++) {
+          bars[idx].style.transition = `transform ${1.12 + (idx % 6) * 0.07}s cubic-bezier(0.16, 1, 0.3, 1)`;
+          bars[idx].classList.add("is-animated");
+        }
+
+        const duration = 1350;
+        const startTime = performance.now();
+
+        function step(now) {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+
+          for (let i = 0; i < counters.length; i++) {
+            const item = counters[i];
+            const currentVal = item.target * eased;
+            const numVal = item.decimals === 0 ? Math.round(currentVal) : currentVal;
+            const nextText = item.formatter.format(numVal) + item.suffix;
+            if (nextText !== item.lastText) {
+              item.lastText = nextText;
+              item.el.textContent = nextText;
+            }
+          }
+
+          if (progress < 1) {
+            countRafId = requestAnimationFrame(step);
+          }
+        }
+
+        countRafId = requestAnimationFrame(step);
       });
     }
 
@@ -5116,7 +5249,11 @@
         }
       };
 
-      dispatchTelemetry("init");
+      if ("requestIdleCallback" in window) {
+        requestIdleCallback(() => dispatchTelemetry("init"), { timeout: 2500 });
+      } else {
+        setTimeout(() => dispatchTelemetry("init"), 1500);
+      }
 
       document.addEventListener("click", (e) => {
         const target = e.target.closest("button, a, .stat-node, #intro-overlay");
@@ -5156,3 +5293,4 @@
   </script>
 </body>
 </html>
+
