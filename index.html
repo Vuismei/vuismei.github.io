@@ -460,16 +460,29 @@
     /* Cụm hoa anh đào trang trí góc dưới thẻ chuẩn Discord Profile Frame */
     .bottom-sakura-corner {
       position: absolute;
-      bottom: -6px;
-      width: 150px;
-      height: 46px;
+      bottom: -8px;
+      width: 210px;
+      height: 85px;
       pointer-events: none;
       z-index: 15;
-      opacity: 0.9;
-      filter: drop-shadow(0 4px 10px rgba(15, 6, 16, 0.65));
+      opacity: 0.96;
+      filter: drop-shadow(0 5px 12px rgba(12, 4, 14, 0.78));
     }
-    .bottom-sakura-left { left: -4px; }
-    .bottom-sakura-right { right: -4px; transform: scaleX(-1); }
+    .bottom-sakura-left { left: -6px; }
+    .bottom-sakura-right { right: -6px; transform: scaleX(-1); }
+
+    /* Khung vòm hoa anh đào 2D Anime ôm viền góc trên của Card */
+    .top-corner-sakura {
+      position: absolute;
+      top: -10px;
+      width: 250px;
+      height: 185px;
+      pointer-events: none;
+      z-index: 16;
+      filter: drop-shadow(0 6px 14px rgba(18, 4, 15, 0.75));
+    }
+    .top-corner-sakura-left { left: -10px; }
+    .top-corner-sakura-right { right: -10px; transform: scaleX(-1); }
 
     /* ========== ANTI-PIXELATION DUAL-LAYER GIF BANNER + REAL SAKURA CANOPY ========== */
     .discord-sakura-banner {
@@ -540,7 +553,7 @@
       pointer-events: none;
     }
 
-    /* Lớp 4: Cành Hoa Anh Đào 5 Cánh Chuẩn Discord Profile Frame */
+    /* Lớp 4: Cành Hoa Anh Đào 2D Anime Cel-Shaded Chuẩn Discord Profile Frame */
     .sakura-canopy-svg {
       position: absolute;
       inset: 0;
@@ -548,17 +561,44 @@
       height: 100%;
       z-index: 4;
       pointer-events: none;
-      filter: drop-shadow(0 6px 14px rgba(15, 6, 16, 0.7));
+      filter: drop-shadow(0 6px 12px rgba(24, 4, 18, 0.72));
     }
 
     @keyframes blossomBreeze {
       0%, 100% { transform: rotate(0deg) translate3d(0, 0, 0); }
-      50% { transform: rotate(1.6deg) translate3d(0, 1.5px, 0); }
+      50% { transform: rotate(1.8deg) translate3d(1.5px, 2px, 0); }
     }
+    @keyframes animeVinePendulum {
+      0%, 100% { transform: rotate(-2.2deg) translate3d(0, 0, 0); }
+      50% { transform: rotate(2.6deg) translate3d(2px, 1.5px, 0); }
+    }
+    @keyframes animePetalPulse {
+      0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+      50% { transform: translate3d(-3px, 4px, 0) rotate(12deg) scale(0.95); }
+    }
+
     .sakura-cluster-sway {
       transform-origin: top center;
       will-change: transform;
-      animation: blossomBreeze 5.5s ease-in-out infinite;
+      animation: blossomBreeze 5.2s ease-in-out infinite;
+    }
+    .sakura-vine-hang {
+      transform-box: fill-box;
+      transform-origin: top center;
+      will-change: transform;
+      animation: animeVinePendulum 4.2s ease-in-out infinite;
+    }
+    .sakura-vine-hang-delayed {
+      transform-box: fill-box;
+      transform-origin: top center;
+      will-change: transform;
+      animation: animeVinePendulum 4.8s ease-in-out -1.9s infinite;
+    }
+    .sakura-float-accent {
+      transform-box: fill-box;
+      transform-origin: center;
+      will-change: transform;
+      animation: animePetalPulse 3.6s ease-in-out infinite;
     }
 
     @keyframes spinSlowFrame {
@@ -1072,70 +1112,131 @@
 </head>
 
 <body class="pb-44 selection:bg-rose-500 selection:text-white hover-expand-enabled">
-  <!-- GLOBAL SHARED SVG DEFINITIONS (Dùng chung cho toàn bộ Hoa Anh Đào để tối ưu bộ nhớ DOM) -->
+  <!-- GLOBAL SHARED SVG DEFINITIONS (2D ANIME CEL-SHADED SAKURA ENGINE) -->
   <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
     <defs>
-      <radialGradient id="sakuraPetalGrad" cx="50%" cy="65%" r="65%">
-        <stop offset="0%" stop-color="#e11d48" />
-        <stop offset="35%" stop-color="#fb7185" />
-        <stop offset="75%" stop-color="#fecdd3" />
-        <stop offset="100%" stop-color="#fff1f2" />
-      </radialGradient>
-      <radialGradient id="sakuraDeepGrad" cx="50%" cy="60%" r="65%">
-        <stop offset="0%" stop-color="#9f1239" />
-        <stop offset="45%" stop-color="#f43f5e" />
-        <stop offset="85%" stop-color="#fda4af" />
-        <stop offset="100%" stop-color="#ffe4e6" />
+      <!-- Bảng màu Cel-Shaded 2D Anime (Hồng Phấn Sáng, Hồng Đào Trung Gian & Đỏẫm Bóng Đổ) -->
+      <linearGradient id="sakuraPetalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#ffffff" />
+        <stop offset="28%" stop-color="#ffe4ec" />
+        <stop offset="68%" stop-color="#ff8fab" />
+        <stop offset="100%" stop-color="#e11d48" />
+      </linearGradient>
+      <linearGradient id="sakuraMidGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#fff0f5" />
+        <stop offset="45%" stop-color="#ffb3c6" />
+        <stop offset="85%" stop-color="#fb6f92" />
+        <stop offset="100%" stop-color="#be123c" />
+      </linearGradient>
+      <radialGradient id="sakuraDeepGrad" cx="50%" cy="65%" r="65%">
+        <stop offset="0%" stop-color="#881337" />
+        <stop offset="48%" stop-color="#e11d48" />
+        <stop offset="85%" stop-color="#fb7185" />
+        <stop offset="100%" stop-color="#fecdd3" />
       </radialGradient>
       <linearGradient id="crimsonBrush" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stop-color="#4c0519" />
         <stop offset="50%" stop-color="#e11d48" />
         <stop offset="100%" stop-color="#fda4af" />
       </linearGradient>
+      <linearGradient id="animeBranchGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#2b0616" />
+        <stop offset="55%" stop-color="#4c0b26" />
+        <stop offset="100%" stop-color="#70163c" />
+      </linearGradient>
 
-      <!-- 1 Cánh Hoa Anh Đào có khấc chữ V ở đỉnh và vân giữa -->
+      <!-- 1 Cánh Hoa Anh Đào 2D Anime (Viền Line-Art sắc nét + Mảng bóng Cel-Shading + Highlight trắng) -->
       <g id="single-sakura-petal">
-        <path d="M 0,0 C -7,-6 -12,-18 -6,-27 C -3,-31 -1,-31 0,-26 C 1,-31 3,-31 6,-27 C 12,-18 7,-6 0,0 Z" />
-        <path d="M 0,-3 L 0,-21 M -2,-7 L -4,-16 M 2,-7 L 4,-16" stroke="#be123c" stroke-width="0.6" opacity="0.45" fill="none" stroke-linecap="round"/>
+        <path d="M 0,0 C -8,-6 -13,-18 -6.5,-27.5 C -3.5,-31.5 -1.2,-31 0,-25.5 C 1.2,-31 3.5,-31.5 6.5,-27.5 C 13,-18 8,-6 0,0 Z" />
+        <!-- Mảng Cel-Shade đậm ở gốc cánh hoa -->
+        <path d="M 0,0 C -4.5,-4 -6.5,-11 -3,-16.5 C -1,-13 0,-11 0,-11 C 0,-11 1,-13 3,-16.5 C 6.5,-11 4.5,-4 0,0 Z" fill="#e11d48" opacity="0.32" stroke="none" />
+        <!-- Vệt sáng Cel-Highlight 2D Anime trên rìa cánh -->
+        <path d="M -5.2,-24.5 C -8,-19 -7,-12 -4.5,-8" stroke="#ffffff" stroke-width="1.2" opacity="0.75" fill="none" stroke-linecap="round" />
+        <!-- Gân cánh hoa nét mảnh Anime -->
+        <path d="M 0,-2.5 L 0,-21 M -1.8,-6.5 L -4.2,-16.5 M 1.8,-6.5 L 4.2,-16.5" stroke="#9f1239" stroke-width="0.65" opacity="0.45" fill="none" stroke-linecap="round"/>
       </g>
 
-      <!-- Bông Hoa Anh Đào 5 Cánh Hoàn Chỉnh (Kèm Nhụy Hoa) -->
+      <!-- Bông Hoa Anh Đào 5 Cánh Tiền Cảnh (2D Anime Cel-Shaded + Nhụy Vàng Phát Sáng) -->
       <g id="sakura-flower-full">
-        <g fill="url(#sakuraPetalGrad)" stroke="#fda4af" stroke-width="0.4">
+        <!-- Lớp bóng đổ nhẹ phía dưới bông hoa tạo độ nổi 2D -->
+        <circle cx="0" cy="2" r="24" fill="#4c0519" opacity="0.28" />
+        <g fill="url(#sakuraPetalGrad)" stroke="#700a2e" stroke-width="1.05" stroke-linejoin="round">
           <use href="#single-sakura-petal" transform="rotate(0)" />
           <use href="#single-sakura-petal" transform="rotate(72)" />
           <use href="#single-sakura-petal" transform="rotate(144)" />
           <use href="#single-sakura-petal" transform="rotate(216)" />
           <use href="#single-sakura-petal" transform="rotate(288)" />
         </g>
-        <circle cx="0" cy="0" r="3.2" fill="#9f1239" opacity="0.85" />
-        <g stroke="#fff1f2" stroke-width="0.75" stroke-linecap="round">
-          <line x1="0" y1="0" x2="0" y2="-8" /><circle cx="0" cy="-8.5" r="1.1" fill="#fde047" stroke="none"/>
-          <line x1="0" y1="0" x2="7.5" y2="-2.5" /><circle cx="8" cy="-2.7" r="1.1" fill="#fde047" stroke="none"/>
-          <line x1="0" y1="0" x2="4.6" y2="6.5" /><circle cx="5" cy="7" r="1.1" fill="#fde047" stroke="none"/>
-          <line x1="0" y1="0" x2="-4.6" y2="6.5" /><circle cx="-5" cy="7" r="1.1" fill="#fde047" stroke="none"/>
-          <line x1="0" y1="0" x2="-7.5" y2="-2.5" /><circle cx="-8" cy="-2.7" r="1.1" fill="#fde047" stroke="none"/>
-          <line x1="0" y1="0" x2="4" y2="-6.5" /><circle cx="4.3" cy="-7" r="0.9" fill="#fff1f2" stroke="none"/>
-          <line x1="0" y1="0" x2="-4" y2="-6.5" /><circle cx="-4.3" cy="-7" r="0.9" fill="#fff1f2" stroke="none"/>
+        <!-- Tâm hoa đỏ thẫm kiểu Anime -->
+        <circle cx="0" cy="0" r="4.5" fill="#be123c" opacity="0.85" />
+        <circle cx="0" cy="0" r="2.5" fill="#881337" />
+        <!-- Nhụy hoa tỏa tròn đính hạt phấn vàng/trắng -->
+        <g stroke="#fff0f5" stroke-width="0.9" stroke-linecap="round">
+          <line x1="0" y1="0" x2="0" y2="-9.5" /><circle cx="0" cy="-10" r="1.4" fill="#fde047" stroke="#9f1239" stroke-width="0.35"/>
+          <line x1="0" y1="0" x2="9" y2="-3" /><circle cx="9.5" cy="-3.2" r="1.4" fill="#fde047" stroke="#9f1239" stroke-width="0.35"/>
+          <line x1="0" y1="0" x2="5.6" y2="7.8" /><circle cx="6" cy="8.3" r="1.4" fill="#fde047" stroke="#9f1239" stroke-width="0.35"/>
+          <line x1="0" y1="0" x2="-5.6" y2="7.8" /><circle cx="-6" cy="8.3" r="1.4" fill="#fde047" stroke="#9f1239" stroke-width="0.35"/>
+          <line x1="0" y1="0" x2="-9" y2="-3" /><circle cx="-9.5" cy="-3.2" r="1.4" fill="#fde047" stroke="#9f1239" stroke-width="0.35"/>
+          <line x1="0" y1="0" x2="5.2" y2="-7.2" /><circle cx="5.6" cy="-7.6" r="1.1" fill="#ffffff" stroke="none"/>
+          <line x1="0" y1="0" x2="-5.2" y2="-7.2" /><circle cx="-5.6" cy="-7.6" r="1.1" fill="#ffffff" stroke="none"/>
+          <line x1="0" y1="0" x2="8.2" y2="3.2" /><circle cx="8.6" cy="3.5" r="1.1" fill="#ffffff" stroke="none"/>
+          <line x1="0" y1="0" x2="-8.2" y2="3.2" /><circle cx="-8.6" cy="3.5" r="1.1" fill="#ffffff" stroke="none"/>
         </g>
       </g>
 
-      <!-- Bông Hoa Lớp Dưới (Đậm màu hơn để tạo chiều sâu 3D) -->
+      <!-- Bông Hoa Anh Đào Trung Cảnh (Màu hồng đào dịu, xếp xen kẽ tạo độ dày) -->
+      <g id="sakura-flower-mid">
+        <g fill="url(#sakuraMidGrad)" stroke="#881337" stroke-width="0.95" stroke-linejoin="round">
+          <use href="#single-sakura-petal" transform="rotate(18)" />
+          <use href="#single-sakura-petal" transform="rotate(90)" />
+          <use href="#single-sakura-petal" transform="rotate(162)" />
+          <use href="#single-sakura-petal" transform="rotate(234)" />
+          <use href="#single-sakura-petal" transform="rotate(306)" />
+        </g>
+        <circle cx="0" cy="0" r="3.8" fill="#9f1239" />
+        <g stroke="#ffe4ec" stroke-width="0.8" stroke-linecap="round">
+          <line x1="0" y1="0" x2="3" y2="-8" /><circle cx="3.2" cy="-8.4" r="1.2" fill="#fde047" stroke="none"/>
+          <line x1="0" y1="0" x2="-6" y2="-6" /><circle cx="-6.4" cy="-6.4" r="1.2" fill="#fde047" stroke="none"/>
+          <line x1="0" y1="0" x2="7" y2="4" /><circle cx="7.4" cy="4.2" r="1.2" fill="#fde047" stroke="none"/>
+          <line x1="0" y1="0" x2="-4" y2="7" /><circle cx="-4.2" cy="7.4" r="1.2" fill="#fde047" stroke="none"/>
+        </g>
+      </g>
+
+      <!-- Bông Hoa Lớp Nền Sâu (Tạo khối 3D dày đặc phía sau tán cây) -->
       <g id="sakura-flower-back">
-        <g fill="url(#sakuraDeepGrad)" stroke="#fb7185" stroke-width="0.4">
+        <g fill="url(#sakuraDeepGrad)" stroke="#4c0519" stroke-width="0.9">
           <use href="#single-sakura-petal" transform="rotate(36)" />
           <use href="#single-sakura-petal" transform="rotate(108)" />
           <use href="#single-sakura-petal" transform="rotate(180)" />
           <use href="#single-sakura-petal" transform="rotate(252)" />
           <use href="#single-sakura-petal" transform="rotate(324)" />
         </g>
-        <circle cx="0" cy="0" r="3" fill="#881337" />
+        <circle cx="0" cy="0" r="3.5" fill="#4c0519" />
       </g>
 
-      <!-- Nụ Hoa Anh Đào -->
+      <!-- Bông Hoa Nghiêng Góc 2D Anime (Dành cho dây hoa rủ dọc viền) -->
+      <g id="sakura-side-bloom">
+        <g fill="url(#sakuraPetalGrad)" stroke="#700a2e" stroke-width="0.95">
+          <use href="#single-sakura-petal" transform="rotate(-48) scale(0.92, 0.85)" />
+          <use href="#single-sakura-petal" transform="rotate(-14) scale(0.98, 0.95)" />
+          <use href="#single-sakura-petal" transform="rotate(22) scale(0.98, 0.95)" />
+          <use href="#single-sakura-petal" transform="rotate(56) scale(0.88, 0.82)" />
+        </g>
+        <path d="M-4,1 C-2,6 2,6 4,1 L0,9 Z" fill="#4c0519" />
+        <line x1="0" y1="-1" x2="-3" y2="-10" stroke="#fff" stroke-width="0.8"/><circle cx="-3.2" cy="-10.5" r="1.2" fill="#fde047"/>
+        <line x1="0" y1="-1" x2="3" y2="-11" stroke="#fff" stroke-width="0.8"/><circle cx="3.2" cy="-11.5" r="1.2" fill="#fde047"/>
+      </g>
+
+      <!-- Nụ Hoa & Đài Hoa 2D Anime -->
       <g id="sakura-bud">
-        <path d="M0,0 C-5,-5 -6,-14 0,-20 C6,-14 5,-5 0,0 Z" fill="url(#sakuraDeepGrad)" />
-        <path d="M-3,-2 L0,2 L3,-2" fill="none" stroke="#4c0519" stroke-width="1.5" />
+        <path d="M0,0 C-5.5,-5 -6.5,-15 0,-22 C6.5,-15 5.5,-5 0,0 Z" fill="url(#sakuraMidGrad)" stroke="#700a2e" stroke-width="0.9" />
+        <path d="M-2,-15 C-3,-11 -2,-7 -1,-4" stroke="#ffffff" stroke-width="1" opacity="0.75" fill="none" stroke-linecap="round"/>
+        <path d="M-3.5,-2 L0,3.5 L3.5,-2" fill="#4c0519" stroke="#2b0616" stroke-width="1" />
+      </g>
+
+      <!-- Cánh Hoa Lẻ Bay Lơ Lửng Quanh Viền -->
+      <g id="sakura-loose-petal">
+        <path d="M0,0 C-4,-3 -6,-10 -2.5,-15 C-1,-17 0,-15 0,-13.5 C0,-15 1,-17 2.5,-15 C6,-10 4,-3 0,0 Z" fill="url(#sakuraPetalGrad)" stroke="#881337" stroke-width="0.7" />
       </g>
     </defs>
   </svg>
@@ -1186,58 +1287,9 @@
       <span class="font-bold tracking-wider text-white">VUNN // TELEMETRY.V35.4</span>
     </div>
     <div class="flex flex-wrap items-center gap-2">
-      <button type="button" onclick="openWebhookModal()" class="bg-indigo-500/25 hover:bg-indigo-500/40 border border-indigo-400/50 text-indigo-100 px-2.5 py-1 rounded-md font-bold transition cursor-pointer flex items-center gap-1.5" title="Kiểm tra & Fix lỗi Discord Webhook">
-        <span id="sync-led" class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-        <span>WEBHOOK DIAGNOSTIC</span>
-      </button>
       <div id="vn-clock" class="bg-white/5 border border-white/10 px-3 py-1 rounded-md backdrop-blur-md">
         00:00:00 ICT (UTC+7)
       </div>
-      <button type="button" id="top-page-switch-btn" onclick="switchPage(2)" class="bg-rose-500/25 hover:bg-rose-500/40 border border-rose-400/50 text-rose-100 px-3 py-1 rounded-md font-bold transition cursor-pointer">
-        WRAPPED × REPLAY →
-      </button>
-    </div>
-  </header>
-
-  <!-- WEBHOOK & CLOUDFLARE WORKER DIAGNOSTIC MODAL -->
-  <div id="webhook-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/80 backdrop-blur-xl p-4">
-    <div class="glass-card max-w-3xl w-full p-5 sm:p-6 border border-rose-400/40 space-y-4 max-h-[90vh] flex flex-col">
-      <div class="flex items-center justify-between border-b border-white/10 pb-3">
-        <div>
-          <span class="text-[10px] font-mono-code text-rose-300 font-bold uppercase tracking-widest">// CLOUDFLARE WORKER × DISCORD WEBHOOK FIXER</span>
-          <h3 class="text-base sm:text-lg font-black text-white">Chẩn Đoán &amp; Khắc Phục Lỗi Mất Thông Báo Discord</h3>
-        </div>
-        <button type="button" onclick="closeWebhookModal()" class="px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-xs font-mono-code text-white cursor-pointer">✕ ĐÓNG</button>
-      </div>
-
-      <div class="overflow-y-auto space-y-3 pr-1 text-xs text-slate-200 leading-relaxed">
-        <div class="p-3 rounded-lg bg-rose-500/15 border border-rose-400/30 space-y-1.5">
-          <div class="font-mono-code font-bold text-rose-300">🔍 4 NGUYÊN NHÂN KHIẾN WORKER CÓ 26 REQUESTS NHƯNG DISCORD KHÔNG NHẬN ĐƯỢC TIN NHẮN:</div>
-          <div>1. <strong>Lỗi giới hạn 25 Fields của Discord:</strong> Mỗi Embed của Discord chỉ cho phép tối đa <strong>25 fields</strong> và không được có field nào rỗng (<code>""</code> hoặc <code>undefined</code>). Nếu vượt quá, Discord trả về lỗi <code>400 Bad Request</code> nhưng Cloudflare vẫn tính là Worker chạy thành công (<code>0 Errors</code>).</div>
-          <div>2. <strong>Lỗi Dấu Ngoặc Kép trong Biến Môi Trường:</strong> Nếu trong mục <em>Variables</em> của Cloudflare, giá trị <code>DISCORD_WEBHOOK_URL</code> bị dính dấu ngoặc kép <code>"https://..."</code> hoặc khoảng trắng, lệnh gửi sẽ thất bại.</div>
-          <div>3. <strong>Lỗi CORS Preflight &amp; Chặn Localhost:</strong> Bản cũ chặn <code>localhost</code> / <code>file://</code> và dùng header <code>application/json</code> khiến trình duyệt gửi gói <code>OPTIONS</code> làm rớt kết nối khi thoát trang. (Đã được sửa tự động trong file HTML này bằng Simple Request <code>text/plain</code>).</div>
-          <div>4. <strong>Lỗi Treo <code>requestAnimationFrame</code>:</strong> Khi mở web ở tab ẩn, hàm đo tần số quét màn hình đợi mãi không xong khiến <code>Promise.all</code> bị treo. (Đã thêm bộ ngắt tự động 1.5s).</div>
-        </div>
-
-        <div class="flex flex-wrap items-center gap-2 pt-1">
-          <button type="button" onclick="copyWorkerCode()" class="cta-wrapped-btn !py-2 !px-3.5 text-xs">
-            <span>📋 1. COPY CODE CLOUDFLARE WORKER CHUẨN</span>
-          </button>
-          <button type="button" onclick="window.sendTestWebhook && window.sendTestWebhook()" class="social-pill !bg-emerald-500/25 !border-emerald-400/50 text-emerald-100 !py-2">
-            <span>🚀 2. BẤM TEST GỬI THÔNG BÁO NGAY</span>
-          </button>
-          <span id="webhook-test-status" class="font-mono-code text-[11px] text-amber-300">Trạng thái: Sẵn sàng kiểm tra</span>
-        </div>
-
-        <div class="space-y-1.5">
-          <div class="flex items-center justify-between text-[11px] font-mono-code text-sky-300">
-            <span>MÃ NGUỒN WORKER.JS (Dán vào nút "&lt;/&gt; Edit code" trên Cloudflare Worker vunn-sync rồi bấm Deploy):</span>
-          </div>
-          <textarea id="worker-code-box" readonly class="w-full h-56 p-3 rounded-lg bg-slate-950/95 border border-white/15 font-mono-code text-[11px] text-emerald-300 focus:outline-none"></textarea>
-        </div>
-      </div>
-    </div>
-  </div>
       <button type="button" id="top-page-switch-btn" onclick="switchPage(2)" class="bg-rose-500/25 hover:bg-rose-500/40 border border-rose-400/50 text-rose-100 px-3 py-1 rounded-md font-bold transition cursor-pointer">
         WRAPPED × REPLAY →
       </button>
@@ -1254,23 +1306,70 @@
       <span class="hud-corner hud-bl"></span>
       <span class="hud-corner hud-br"></span>
 
-      <!-- Cụm hoa anh đào ôm 2 góc dưới thẻ Profile đồng bộ Discord Frame -->
-      <svg class="bottom-sakura-corner bottom-sakura-left" viewBox="0 0 180 60" aria-hidden="true">
-        <path d="M-5,52 Q55,44 125,56" fill="none" stroke="#3b0718" stroke-width="3.5" stroke-linecap="round"/>
-        <use href="#sakura-flower-back" transform="translate(18, 42) scale(0.62) rotate(-12)" />
-        <use href="#sakura-flower-full" transform="translate(46, 46) scale(0.72) rotate(14)" />
-        <use href="#sakura-flower-full" transform="translate(82, 50) scale(0.58) rotate(-20)" />
-        <use href="#sakura-bud" transform="translate(112, 52) rotate(75) scale(0.6)" />
-      </svg>
-      <svg class="bottom-sakura-corner bottom-sakura-right" viewBox="0 0 180 60" aria-hidden="true">
-        <path d="M-5,52 Q55,44 125,56" fill="none" stroke="#3b0718" stroke-width="3.5" stroke-linecap="round"/>
-        <use href="#sakura-flower-back" transform="translate(18, 42) scale(0.62) rotate(-12)" />
-        <use href="#sakura-flower-full" transform="translate(46, 46) scale(0.72) rotate(14)" />
-        <use href="#sakura-flower-full" transform="translate(82, 50) scale(0.58) rotate(-20)" />
-        <use href="#sakura-bud" transform="translate(112, 52) rotate(75) scale(0.6)" />
+      <!-- Cụm Hoa Anh Đào 2D Anime Ôm Góc Viền Trên Trái & Phải Của Card -->
+      <svg class="top-corner-sakura top-corner-sakura-left" viewBox="0 0 260 200" aria-hidden="true">
+        <g class="sakura-vine-hang">
+          <!-- Cành rủ dọc theo mép viền trái -->
+          <path d="M 4,4 C 14,48 8,98 20,152 C 25,172 18,185 12,194" fill="none" stroke="url(#animeBranchGrad)" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M 12,62 C 34,78 48,96 56,118" fill="none" stroke="url(#animeBranchGrad)" stroke-width="2.6" stroke-linecap="round"/>
+          <use href="#sakura-flower-back" transform="translate(18, 52) scale(0.86) rotate(-18)" />
+          <use href="#sakura-flower-mid" transform="translate(14, 88) scale(0.82) rotate(22)" />
+          <use href="#sakura-flower-full" transform="translate(24, 34) scale(0.95) rotate(12)" />
+          <use href="#sakura-flower-full" transform="translate(32, 72) scale(0.78) rotate(-14)" />
+          <use href="#sakura-side-bloom" transform="translate(48, 108) scale(0.75) rotate(-35)" />
+          <use href="#sakura-flower-mid" transform="translate(18, 128) scale(0.72) rotate(15)" />
+          <use href="#sakura-flower-full" transform="translate(22, 156) scale(0.64) rotate(-20)" />
+          <use href="#sakura-bud" transform="translate(14, 184) rotate(168) scale(0.78)" />
+          <use href="#sakura-bud" transform="translate(60, 126) rotate(135) scale(0.7)" />
+          <use href="#sakura-loose-petal" class="sakura-float-accent" transform="translate(46, 152) rotate(35) scale(0.9)" />
+          <use href="#sakura-loose-petal" class="sakura-float-accent" transform="translate(68, 88) rotate(-25) scale(0.75)" />
+        </g>
       </svg>
 
-      <!-- BANNER GIF ĐÔI MẮT ANIME CHỐNG VỠ HẠT + VÒM HOA ANH ĐÀO 5 CÁNH CHUẨN DISCORD -->
+      <svg class="top-corner-sakura top-corner-sakura-right" viewBox="0 0 260 200" aria-hidden="true">
+        <g class="sakura-vine-hang-delayed">
+          <path d="M 4,4 C 14,48 8,98 20,152 C 25,172 18,185 12,194" fill="none" stroke="url(#animeBranchGrad)" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M 12,62 C 34,78 48,96 56,118" fill="none" stroke="url(#animeBranchGrad)" stroke-width="2.6" stroke-linecap="round"/>
+          <use href="#sakura-flower-back" transform="translate(18, 52) scale(0.86) rotate(-18)" />
+          <use href="#sakura-flower-mid" transform="translate(14, 88) scale(0.82) rotate(22)" />
+          <use href="#sakura-flower-full" transform="translate(24, 34) scale(0.95) rotate(12)" />
+          <use href="#sakura-flower-full" transform="translate(32, 72) scale(0.78) rotate(-14)" />
+          <use href="#sakura-side-bloom" transform="translate(48, 108) scale(0.75) rotate(-35)" />
+          <use href="#sakura-flower-mid" transform="translate(18, 128) scale(0.72) rotate(15)" />
+          <use href="#sakura-flower-full" transform="translate(22, 156) scale(0.64) rotate(-20)" />
+          <use href="#sakura-bud" transform="translate(14, 184) rotate(168) scale(0.78)" />
+          <use href="#sakura-bud" transform="translate(60, 126) rotate(135) scale(0.7)" />
+          <use href="#sakura-loose-petal" class="sakura-float-accent" transform="translate(46, 152) rotate(35) scale(0.9)" />
+        </g>
+      </svg>
+
+      <!-- Cụm hoa anh đào 2D Anime ôm 2 góc dưới thẻ Profile đồng bộ Discord Frame -->
+      <svg class="bottom-sakura-corner bottom-sakura-left" viewBox="0 0 220 90" aria-hidden="true">
+        <path d="M-8,82 C25,68 75,64 165,84 M12,76 C22,52 45,38 72,32" fill="none" stroke="url(#animeBranchGrad)" stroke-width="4" stroke-linecap="round"/>
+        <use href="#sakura-flower-back" transform="translate(16, 56) scale(0.78) rotate(-18)" />
+        <use href="#sakura-flower-mid" transform="translate(44, 48) scale(0.74) rotate(22)" />
+        <use href="#sakura-flower-full" transform="translate(24, 72) scale(0.86) rotate(10)" />
+        <use href="#sakura-flower-full" transform="translate(62, 68) scale(0.78) rotate(-16)" />
+        <use href="#sakura-flower-mid" transform="translate(96, 74) scale(0.68) rotate(18)" />
+        <use href="#sakura-flower-full" transform="translate(126, 78) scale(0.58) rotate(-24)" />
+        <use href="#sakura-bud" transform="translate(76, 30) rotate(55) scale(0.68)" />
+        <use href="#sakura-bud" transform="translate(154, 80) rotate(78) scale(0.64)" />
+        <use href="#sakura-loose-petal" class="sakura-float-accent" transform="translate(52, 24) rotate(-30) scale(0.85)" />
+      </svg>
+      <svg class="bottom-sakura-corner bottom-sakura-right" viewBox="0 0 220 90" aria-hidden="true">
+        <path d="M-8,82 C25,68 75,64 165,84 M12,76 C22,52 45,38 72,32" fill="none" stroke="url(#animeBranchGrad)" stroke-width="4" stroke-linecap="round"/>
+        <use href="#sakura-flower-back" transform="translate(16, 56) scale(0.78) rotate(-18)" />
+        <use href="#sakura-flower-mid" transform="translate(44, 48) scale(0.74) rotate(22)" />
+        <use href="#sakura-flower-full" transform="translate(24, 72) scale(0.86) rotate(10)" />
+        <use href="#sakura-flower-full" transform="translate(62, 68) scale(0.78) rotate(-16)" />
+        <use href="#sakura-flower-mid" transform="translate(96, 74) scale(0.68) rotate(18)" />
+        <use href="#sakura-flower-full" transform="translate(126, 78) scale(0.58) rotate(-24)" />
+        <use href="#sakura-bud" transform="translate(76, 30) rotate(55) scale(0.68)" />
+        <use href="#sakura-bud" transform="translate(154, 80) rotate(78) scale(0.64)" />
+        <use href="#sakura-loose-petal" class="sakura-float-accent" transform="translate(52, 24) rotate(-30) scale(0.85)" />
+      </svg>
+
+      <!-- BANNER GIF ĐÔI MẮT ANIME CHỐNG VỠ HẠT + VÒM HOA ANH ĐÀO 2D ANIME DÀY ÔM GÓC VIỀN -->
       <div class="discord-sakura-banner mb-4">
         <!-- Lớp 1: Ambient Blur lấp đầy 2 bên cánh -->
         <div class="banner-ambient-backdrop" aria-hidden="true"></div>
@@ -1289,37 +1388,137 @@
         <!-- Lớp 3: Halftone & Vignette điện ảnh -->
         <div class="banner-cinema-overlay" aria-hidden="true"></div>
 
-        <!-- Lớp 4: Cành Hoa Anh Đào 5 Cánh Có Khấc (Notched 5-Petal Sakura) Chuẩn Discord Frame -->
-        <svg class="sakura-canopy-svg" viewBox="0 0 900 200" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
-          <!-- Cành cây gỗ anh đào uốn lượn 2 góc trên -->
-          <path d="M-10,18 C65,32 140,8 235,28 C290,38 330,12 390,4" fill="none" stroke="#3b0718" stroke-width="5" stroke-linecap="round"/>
-          <path d="M85,22 C115,48 155,58 195,52" fill="none" stroke="#3b0718" stroke-width="3" stroke-linecap="round"/>
-          <path d="M910,16 C830,34 750,10 660,26 C600,36 555,12 505,4" fill="none" stroke="#3b0718" stroke-width="5" stroke-linecap="round"/>
-          <path d="M810,22 C775,50 735,58 695,48" fill="none" stroke="#3b0718" stroke-width="3" stroke-linecap="round"/>
+        <!-- Lớp 4: Tán Hoa Anh Đào 2D Anime Đa Tầng (Sakura-Gumo) Dày Ở Trên & Treo Rủ Ôm Trọn 2 Góc Viền -->
+        <svg class="sakura-canopy-svg" viewBox="0 0 900 210" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+          <!-- Hệ thống thân cành gỗ anh đào uốn lượn ở đỉnh và rủ sâu xuống 2 góc trái/phải -->
+          <g stroke="url(#animeBranchGrad)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Cành chính & nhánh rủ bên Trái -->
+            <path d="M-15,8 C55,22 135,4 225,22 C295,35 350,12 425,2" stroke-width="6.5"/>
+            <path d="M-8,28 C38,46 85,78 118,124 C132,144 142,165 148,184" stroke-width="4.2"/>
+            <path d="M42,18 C48,68 35,120 52,175" stroke-width="3.6"/>
+            <path d="M135,16 C165,48 195,72 238,86" stroke-width="3.2"/>
+            <path d="M225,22 C255,44 282,52 318,48" stroke-width="2.5"/>
 
-          <!-- Cụm Hoa Anh Đào Góc Trái & Viền Trên -->
-          <g class="sakura-cluster-sway">
-            <use href="#sakura-flower-back" transform="translate(22, 34) scale(0.95) rotate(-15)" />
-            <use href="#sakura-flower-back" transform="translate(95, 28) scale(1.05) rotate(12)" />
-            <use href="#sakura-flower-full" transform="translate(48, 20) scale(1.12) rotate(8)" />
-            <use href="#sakura-flower-full" transform="translate(122, 24) scale(0.92) rotate(-22)" />
-            <use href="#sakura-flower-back" transform="translate(168, 36) scale(0.78) rotate(18)" />
-            <use href="#sakura-flower-full" transform="translate(198, 22) scale(0.98) rotate(-8)" />
-            <use href="#sakura-flower-full" transform="translate(258, 16) scale(0.76) rotate(25)" />
-            <use href="#sakura-bud" transform="translate(150, 56) rotate(125) scale(0.85)" />
-            <use href="#sakura-bud" transform="translate(292, 24) rotate(110) scale(0.75)" />
+            <!-- Cành chính & nhánh rủ bên Phải -->
+            <path d="M915,8 C845,22 765,4 675,22 C605,35 550,12 475,2" stroke-width="6.5"/>
+            <path d="M908,28 C862,46 815,78 782,124 C768,144 758,165 752,184" stroke-width="4.2"/>
+            <path d="M858,18 C852,68 865,120 848,175" stroke-width="3.6"/>
+            <path d="M765,16 C735,48 705,72 662,86" stroke-width="3.2"/>
+            <path d="M675,22 C645,44 618,52 582,48" stroke-width="2.5"/>
           </g>
 
-          <!-- Cụm Hoa Anh Đào Góc Phải & Viền Trên -->
-          <g class="sakura-cluster-sway" style="animation-delay: -2.2s;">
-            <use href="#sakura-flower-back" transform="translate(878, 34) scale(0.95) rotate(18)" />
-            <use href="#sakura-flower-full" transform="translate(848, 20) scale(1.1) rotate(-14)" />
-            <use href="#sakura-flower-back" transform="translate(790, 32) scale(0.88) rotate(22)" />
-            <use href="#sakura-flower-full" transform="translate(762, 22) scale(1.02) rotate(6)" />
-            <use href="#sakura-flower-full" transform="translate(698, 26) scale(0.86) rotate(-19)" />
-            <use href="#sakura-flower-back" transform="translate(642, 18) scale(0.75) rotate(15)" />
-            <use href="#sakura-bud" transform="translate(730, 52) rotate(-130) scale(0.85)" />
-            <use href="#sakura-bud" transform="translate(608, 22) rotate(-105) scale(0.75)" />
+          <!-- ==================== TÁN HOA DÀY GÓC TRÊN & VIỀN TRÁI (3 TẦNG 2D ANIME) ==================== -->
+          <g class="sakura-cluster-sway">
+            <!-- Tầng 1 (Back Silhouette): Tạo khối mây hoa anh đào dày phía sau -->
+            <use href="#sakura-flower-back" transform="translate(12, 14) scale(1.25) rotate(-12)" />
+            <use href="#sakura-flower-back" transform="translate(58, 10) scale(1.3) rotate(18)" />
+            <use href="#sakura-flower-back" transform="translate(108, 14) scale(1.2) rotate(-24)" />
+            <use href="#sakura-flower-back" transform="translate(158, 12) scale(1.15) rotate(15)" />
+            <use href="#sakura-flower-back" transform="translate(212, 16) scale(1.05) rotate(-18)" />
+            <use href="#sakura-flower-back" transform="translate(268, 12) scale(0.95) rotate(22)" />
+            <use href="#sakura-flower-back" transform="translate(325, 10) scale(0.85) rotate(-14)" />
+            <use href="#sakura-flower-back" transform="translate(22, 58) scale(1.15) rotate(25)" />
+            <use href="#sakura-flower-back" transform="translate(76, 48) scale(1.08) rotate(-16)" />
+            <use href="#sakura-flower-back" transform="translate(132, 44) scale(0.96) rotate(12)" />
+
+            <!-- Tầng 2 (Mid-Tone Pink): Lớp hoa trung cảnh đan xen -->
+            <use href="#sakura-flower-mid" transform="translate(34, 28) scale(1.15) rotate(14)" />
+            <use href="#sakura-flower-mid" transform="translate(84, 22) scale(1.18) rotate(-19)" />
+            <use href="#sakura-flower-mid" transform="translate(138, 24) scale(1.08) rotate(24)" />
+            <use href="#sakura-flower-mid" transform="translate(188, 22) scale(1.02) rotate(-11)" />
+            <use href="#sakura-flower-mid" transform="translate(242, 24) scale(0.92) rotate(16)" />
+            <use href="#sakura-flower-mid" transform="translate(296, 18) scale(0.82) rotate(-22)" />
+            <use href="#sakura-flower-mid" transform="translate(352, 14) scale(0.72) rotate(8)" />
+            <use href="#sakura-flower-mid" transform="translate(48, 66) scale(1.02) rotate(-20)" />
+            <use href="#sakura-flower-mid" transform="translate(105, 58) scale(0.94) rotate(18)" />
+            <use href="#sakura-flower-mid" transform="translate(168, 48) scale(0.86) rotate(-15)" />
+            <use href="#sakura-flower-mid" transform="translate(405, 8) scale(0.62) rotate(19)" />
+
+            <!-- Tầng 3 (Foreground Crisp 2D Anime Blooms): Bông hoa sắc nét tiền cảnh -->
+            <use href="#sakura-flower-full" transform="translate(18, 36) scale(1.18) rotate(-8)" />
+            <use href="#sakura-flower-full" transform="translate(64, 34) scale(1.24) rotate(16)" />
+            <use href="#sakura-flower-full" transform="translate(116, 30) scale(1.12) rotate(-18)" />
+            <use href="#sakura-flower-full" transform="translate(164, 28) scale(1.06) rotate(12)" />
+            <use href="#sakura-flower-full" transform="translate(216, 26) scale(0.96) rotate(-14)" />
+            <use href="#sakura-flower-full" transform="translate(272, 22) scale(0.88) rotate(20)" />
+            <use href="#sakura-flower-full" transform="translate(328, 18) scale(0.76) rotate(-10)" />
+            <use href="#sakura-flower-full" transform="translate(378, 12) scale(0.66) rotate(15)" />
+          </g>
+
+          <!-- Dây Hoa Anh Đào Rủ Sâu Ôm Góc Trái (Đung đưa như hoạt ảnh 2D Anime) -->
+          <g class="sakura-vine-hang">
+            <use href="#sakura-flower-back" transform="translate(28, 96) scale(0.98) rotate(-15)" />
+            <use href="#sakura-flower-mid" transform="translate(68, 88) scale(0.92) rotate(22)" />
+            <use href="#sakura-flower-full" transform="translate(36, 82) scale(1.06) rotate(12)" />
+            <use href="#sakura-flower-full" transform="translate(92, 82) scale(0.88) rotate(-18)" />
+            <use href="#sakura-flower-mid" transform="translate(44, 118) scale(0.88) rotate(-24)" />
+            <use href="#sakura-flower-full" transform="translate(24, 128) scale(0.94) rotate(16)" />
+            <use href="#sakura-side-bloom" transform="translate(115, 112) scale(0.84) rotate(-28)" />
+            <use href="#sakura-flower-full" transform="translate(52, 148) scale(0.8) rotate(-14)" />
+            <use href="#sakura-flower-mid" transform="translate(136, 142) scale(0.74) rotate(20)" />
+            <use href="#sakura-side-bloom" transform="translate(38, 174) scale(0.72) rotate(15)" />
+            <use href="#sakura-bud" transform="translate(54, 192) rotate(165) scale(0.82)" />
+            <use href="#sakura-bud" transform="translate(152, 176) rotate(145) scale(0.78)" />
+            <use href="#sakura-bud" transform="translate(238, 86) rotate(118) scale(0.76)" />
+            <use href="#sakura-loose-petal" class="sakura-float-accent" transform="translate(88, 145) rotate(42) scale(0.95)" />
+            <use href="#sakura-loose-petal" class="sakura-float-accent" transform="translate(178, 108) rotate(-32) scale(0.85)" />
+          </g>
+
+          <!-- ==================== TÁN HOA DÀY GÓC TRÊN & VIỀN PHẢI (3 TẦNG 2D ANIME) ==================== -->
+          <g class="sakura-cluster-sway" style="animation-delay: -2.4s;">
+            <!-- Tầng 1 (Back Silhouette) -->
+            <use href="#sakura-flower-back" transform="translate(888, 14) scale(1.25) rotate(14)" />
+            <use href="#sakura-flower-back" transform="translate(842, 10) scale(1.3) rotate(-18)" />
+            <use href="#sakura-flower-back" transform="translate(792, 14) scale(1.2) rotate(22)" />
+            <use href="#sakura-flower-back" transform="translate(742, 12) scale(1.15) rotate(-15)" />
+            <use href="#sakura-flower-back" transform="translate(688, 16) scale(1.05) rotate(18)" />
+            <use href="#sakura-flower-back" transform="translate(632, 12) scale(0.95) rotate(-22)" />
+            <use href="#sakura-flower-back" transform="translate(575, 10) scale(0.85) rotate(14)" />
+            <use href="#sakura-flower-back" transform="translate(878, 58) scale(1.15) rotate(-25)" />
+            <use href="#sakura-flower-back" transform="translate(824, 48) scale(1.08) rotate(16)" />
+            <use href="#sakura-flower-back" transform="translate(768, 44) scale(0.96) rotate(-12)" />
+
+            <!-- Tầng 2 (Mid-Tone Pink) -->
+            <use href="#sakura-flower-mid" transform="translate(866, 28) scale(1.15) rotate(-14)" />
+            <use href="#sakura-flower-mid" transform="translate(816, 22) scale(1.18) rotate(19)" />
+            <use href="#sakura-flower-mid" transform="translate(762, 24) scale(1.08) rotate(-24)" />
+            <use href="#sakura-flower-mid" transform="translate(712, 22) scale(1.02) rotate(11)" />
+            <use href="#sakura-flower-mid" transform="translate(658, 24) scale(0.92) rotate(-16)" />
+            <use href="#sakura-flower-mid" transform="translate(604, 18) scale(0.82) rotate(22)" />
+            <use href="#sakura-flower-mid" transform="translate(548, 14) scale(0.72) rotate(-8)" />
+            <use href="#sakura-flower-mid" transform="translate(852, 66) scale(1.02) rotate(20)" />
+            <use href="#sakura-flower-mid" transform="translate(795, 58) scale(0.94) rotate(-18)" />
+            <use href="#sakura-flower-mid" transform="translate(732, 48) scale(0.86) rotate(15)" />
+            <use href="#sakura-flower-mid" transform="translate(495, 8) scale(0.62) rotate(-19)" />
+
+            <!-- Tầng 3 (Foreground Crisp 2D Anime Blooms) -->
+            <use href="#sakura-flower-full" transform="translate(882, 36) scale(1.18) rotate(8)" />
+            <use href="#sakura-flower-full" transform="translate(836, 34) scale(1.24) rotate(-16)" />
+            <use href="#sakura-flower-full" transform="translate(784, 30) scale(1.12) rotate(18)" />
+            <use href="#sakura-flower-full" transform="translate(736, 28) scale(1.06) rotate(-12)" />
+            <use href="#sakura-flower-full" transform="translate(684, 26) scale(0.96) rotate(14)" />
+            <use href="#sakura-flower-full" transform="translate(628, 22) scale(0.88) rotate(-20)" />
+            <use href="#sakura-flower-full" transform="translate(572, 18) scale(0.76) rotate(10)" />
+            <use href="#sakura-flower-full" transform="translate(522, 12) scale(0.66) rotate(-15)" />
+          </g>
+
+          <!-- Dây Hoa Anh Đào Rủ Sâu Ôm Góc Phải -->
+          <g class="sakura-vine-hang-delayed">
+            <use href="#sakura-flower-back" transform="translate(872, 96) scale(0.98) rotate(15)" />
+            <use href="#sakura-flower-mid" transform="translate(832, 88) scale(0.92) rotate(-22)" />
+            <use href="#sakura-flower-full" transform="translate(864, 82) scale(1.06) rotate(-12)" />
+            <use href="#sakura-flower-full" transform="translate(808, 82) scale(0.88) rotate(18)" />
+            <use href="#sakura-flower-mid" transform="translate(856, 118) scale(0.88) rotate(24)" />
+            <use href="#sakura-flower-full" transform="translate(876, 128) scale(0.94) rotate(-16)" />
+            <use href="#sakura-side-bloom" transform="translate(785, 112) scale(0.84) rotate(28)" />
+            <use href="#sakura-flower-full" transform="translate(848, 148) scale(0.8) rotate(14)" />
+            <use href="#sakura-flower-mid" transform="translate(764, 142) scale(0.74) rotate(-20)" />
+            <use href="#sakura-side-bloom" transform="translate(862, 174) scale(0.72) rotate(-15)" />
+            <use href="#sakura-bud" transform="translate(846, 192) rotate(-165) scale(0.82)" />
+            <use href="#sakura-bud" transform="translate(748, 176) rotate(-145) scale(0.78)" />
+            <use href="#sakura-bud" transform="translate(662, 86) rotate(-118) scale(0.76)" />
+            <use href="#sakura-loose-petal" class="sakura-float-accent" transform="translate(812, 145) rotate(-42) scale(0.95)" />
+            <use href="#sakura-loose-petal" class="sakura-float-accent" transform="translate(722, 108) rotate(32) scale(0.85)" />
           </g>
         </svg>
       </div>
