@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VuNn // Sonic Telemetry & Wrapped Replay V35.4</title>
+  <title>VuNn // Profile & Wrapped Replay</title>
 
   <!-- OPENGRAPH & DISCORD EMBED META TAGS -->
-  <meta name="description" content="VuNn (@vuismei) — 635,685 Minutes Streamed (10,594.8h) • Top 0.0057% Global Fan • 526 Days Streak • Sonic Telemetry & Wrapped V35.4" />
-  <meta name="theme-color" content="#fb7185" />
+  <meta name="description" content="VuNn (@vuismei) — 635,685 Minutes Streamed (10,594.8h) • Top 0.0057% Global Fan • 526 Days Streak • Profile & Wrapped Replay" />
+  <meta name="theme-color" content="#070910" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://vuismei.github.io/" />
-  <meta property="og:title" content="VuNn // Sonic Telemetry & Wrapped V35.4" />
+  <meta property="og:title" content="VuNn // Profile & Wrapped Replay" />
   <meta property="og:description" content="635,685 MIN (10,594.8h) • Top 0.0057% World • 31,102 Tracks • 526 Days Streak • The Spatial & Speed Purist" />
   <meta property="og:image" content="https://files.catbox.moe/0r6ro8.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -36,6 +36,10 @@
       --accent: #fb7185;
       --cover-url: url('https://files.catbox.moe/6yr9eo.jpg');
       --banner-gif: url('https://files.catbox.moe/15yqoj.gif');
+      --parallax-x: 0px;
+      --parallax-y: 0px;
+      --tilt-rx: 0deg;
+      --tilt-ry: 0deg;
     }
 
     * {
@@ -47,6 +51,8 @@
     html {
       scroll-behavior: smooth;
       -webkit-text-size-adjust: 100%;
+      background-color: #070910;
+      color-scheme: dark;
     }
 
     /* CRITICAL FOUC GUARD: Khóa cứng bố cục ngay từ mili-giây 0 trước khi Tailwind kịp chạy */
@@ -61,6 +67,43 @@
       animation-play-state: paused !important;
     }
 
+    /* ========== SILENT AUTO ECO-MODE & WEAK DEVICE OPTIMIZATIONS ========== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .apple-art-layer, .mesh-blob { display: none !important; }
+      #sakura-global-layer { display: none !important; }
+    }
+
+    body.on-page-2 .apple-art-layer,
+    body.on-page-2 .mesh-blob,
+    body.on-page-2 #sakura-global-layer .sakura-leaf,
+    body.on-page-2 #sakura-global-layer .sakura-sway,
+    body.on-page-2 #sakura-global-layer svg {
+      animation-play-state: paused !important;
+    }
+
+    body.eco-mode .apple-art-layer { animation-duration: 52s !important; }
+    body.eco-mode .mesh-blob { animation-duration: 26s !important; }
+    body.eco-mode .sakura-leaf { animation-duration: 16s !important; }
+    body.eco-mode .sakura-sway { animation-play-state: paused !important; }
+    body.eco-mode .sakura-leaf svg { animation-play-state: paused !important; }
+    body.eco-mode .avatar-deco-ring .ring-orbit { animation-duration: 64s !important; }
+    body.eco-mode .bar-fill::after { animation-play-state: paused !important; }
+
+    body.eco-mode #page-2 .wrapped-section {
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 520px;
+    }
+
+    body.eco-mode #page-2 .stat-node {
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 130px;
+    }
+
     #intro-overlay {
       position: fixed;
       inset: 0;
@@ -69,12 +112,27 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background-color: rgba(7, 9, 18, 0.92);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      background: radial-gradient(circle at 50% 40%, rgba(18, 14, 32, 0.94) 0%, rgba(7, 9, 18, 0.98) 100%);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       cursor: pointer;
-      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: opacity;
+      transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+
+    .typewriter-cursor {
+      display: inline-block;
+      width: 7px;
+      height: 13px;
+      background-color: #fb7185;
+      vertical-align: -2px;
+      margin-left: 3px;
+      animation: blinkCursor 0.75s step-end infinite;
+    }
+
+    @keyframes blinkCursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
     }
 
     .intro-play-btn {
@@ -95,7 +153,7 @@
       position: fixed;
       top: 1rem;
       right: 1rem;
-      z-index: 50;
+      z-index: 60;
       pointer-events: none;
       opacity: 0;
       will-change: transform, opacity;
@@ -124,16 +182,165 @@
       scrollbar-width: none;
     }
 
-    /* ========== GPU-OPTIMIZED 120FPS APPLE MUSIC FLUID BACKGROUND ========== */
+    /* ========== PERSONA 5 / PERSONA 3R CINEMATIC COMIC TRANSITION (0.72S SMOOTH) ========== */
+    #persona-transition-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      pointer-events: none;
+      opacity: 0;
+      overflow: hidden;
+      will-change: opacity, transform;
+    }
+
+    .persona-curtain {
+      position: absolute;
+      top: -30%;
+      bottom: -30%;
+      left: -35%;
+      right: -35%;
+      pointer-events: none;
+      transform: translate3d(-125%, 0, 0) skewX(-18deg);
+      will-change: transform;
+    }
+
+    .persona-curtain-dark {
+      background: #070910;
+      border-right: 4px solid #fde047;
+      z-index: 1;
+    }
+
+    .persona-curtain-crimson {
+      background: linear-gradient(135deg, #e11d48 0%, #be123c 60%, #881337 100%);
+      box-shadow: 0 0 50px rgba(244, 63, 94, 0.75);
+      border-right: 5px solid #ffffff;
+      z-index: 2;
+    }
+
+    .persona-speedlines {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        -18deg,
+        rgba(255, 255, 255, 0.08) 0px,
+        rgba(255, 255, 255, 0.08) 2px,
+        transparent 2px,
+        transparent 14px
+      );
+      opacity: 0;
+    }
+
+    .persona-center-badge {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) skewX(-14deg) scale(0.85);
+      z-index: 4;
+      pointer-events: none;
+      text-align: center;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    .persona-badge-sub {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.35em;
+      color: #fde047;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(253, 224, 71, 0.6);
+      margin-bottom: 2px;
+    }
+
+    .persona-badge-main {
+      font-family: 'JetBrains Mono', 'Inter', sans-serif;
+      font-size: clamp(1.6rem, 5vw, 3.4rem);
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      color: #ffffff;
+      text-transform: uppercase;
+      text-shadow: 4px 4px 0px #be123c, -2px -2px 0px #070910, 0 0 24px rgba(251, 113, 133, 0.8);
+      white-space: nowrap;
+    }
+
+    .persona-badge-deco {
+      width: 80%;
+      height: 4px;
+      margin: 6px auto 0 auto;
+      background: linear-gradient(90deg, transparent 0%, #fde047 30%, #ffffff 50%, #fde047 70%, transparent 100%);
+      box-shadow: 0 0 12px #fde047;
+    }
+
+    /* Active persona transition animation */
+    body.is-persona-shifting #persona-transition-layer {
+      opacity: 1;
+    }
+
+    body.is-persona-shifting .persona-curtain-dark {
+      animation: personaDarkSlash 0.72s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    body.is-persona-shifting .persona-curtain-crimson {
+      animation: personaCrimsonSlash 0.72s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+    }
+
+    body.is-persona-shifting .persona-speedlines {
+      animation: personaSpeedlinesFlash 0.72s ease both;
+    }
+
+    body.is-persona-shifting .persona-center-badge {
+      animation: personaBadgePop 0.72s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    body.is-persona-shifting main:not(.is-hidden) {
+      animation: personaPageEnter 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
+    }
+
+    @keyframes personaDarkSlash {
+      0% { transform: translate3d(-125%, 0, 0) skewX(-18deg); }
+      38% { transform: translate3d(0%, 0, 0) skewX(-18deg); }
+      62% { transform: translate3d(0%, 0, 0) skewX(-18deg); }
+      100% { transform: translate3d(125%, 0, 0) skewX(-18deg); }
+    }
+
+    @keyframes personaCrimsonSlash {
+      0% { transform: translate3d(-125%, 0, 0) skewX(-18deg); }
+      40% { transform: translate3d(0%, 0, 0) skewX(-18deg); }
+      60% { transform: translate3d(0%, 0, 0) skewX(-18deg); }
+      100% { transform: translate3d(125%, 0, 0) skewX(-18deg); }
+    }
+
+    @keyframes personaSpeedlinesFlash {
+      0% { opacity: 0; }
+      28% { opacity: 0.95; }
+      72% { opacity: 0.95; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes personaBadgePop {
+      0% { opacity: 0; transform: translate(-50%, -50%) skewX(-14deg) scale(0.68); }
+      34% { opacity: 1; transform: translate(-50%, -50%) skewX(-14deg) scale(1.04); }
+      66% { opacity: 1; transform: translate(-50%, -50%) skewX(-14deg) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -50%) skewX(-14deg) scale(1.16); filter: blur(4px); }
+    }
+
+    @keyframes personaPageEnter {
+      0% { opacity: 0.2; transform: translate3d(0, 18px, 0) scale(0.985); filter: brightness(1.15); }
+      60% { opacity: 1; transform: translate3d(0, -2px, 0) scale(1.002); filter: brightness(1.03); }
+      100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: none; }
+    }
+
+    /* ========== EYE-SOOTHING APPLE MUSIC DARK ROOM FLUID BACKGROUND ========== */
     .apple-bg-wrapper {
       position: fixed;
       inset: 0;
       z-index: -3;
       overflow: hidden;
-      background: #06080f;
+      background: radial-gradient(ellipse 130% 110% at 50% 25%, #0e0c1a 0%, #070914 55%, #030408 100%);
       contain: strict;
       pointer-events: none;
-      transform: translateZ(0);
     }
 
     .apple-art-layer {
@@ -149,42 +356,58 @@
     }
 
     .art-layer-1 {
-      width: 115vmax;
-      height: 115vmax;
-      top: -20vmax;
-      left: -15vmax;
-      filter: blur(46px) saturate(240%) brightness(0.9);
-      opacity: 0.72;
-      transform-origin: 45% 55%;
-      animation: orbitClockwise 24s linear infinite;
+      width: 86vmax;
+      height: 86vmax;
+      top: -16vmax;
+      left: -12vmax;
+      filter: blur(46px) saturate(160%) brightness(0.68);
+      opacity: 0.58;
+      transform-origin: 46% 54%;
+      animation: orbitClockwise 26s linear infinite;
     }
 
     .art-layer-2 {
-      width: 105vmax;
-      height: 105vmax;
-      bottom: -22vmax;
-      right: -15vmax;
-      filter: blur(50px) saturate(260%) brightness(1.04);
-      opacity: 0.65;
-      transform-origin: 55% 45%;
-      animation: orbitCounterClockwise 18s linear infinite;
+      width: 82vmax;
+      height: 82vmax;
+      bottom: -16vmax;
+      right: -12vmax;
+      filter: blur(48px) saturate(165%) brightness(0.64);
+      opacity: 0.52;
+      transform-origin: 54% 46%;
+      animation: orbitCounterClockwise 21s linear infinite;
+    }
+
+    .art-layer-3 {
+      width: 68vmax;
+      height: 68vmax;
+      top: 12vh;
+      left: calc(50% - 34vmax);
+      filter: blur(52px) saturate(150%) brightness(0.58);
+      opacity: 0.32;
+      animation: pulseCenterArt 15s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseCenterArt {
+      0% { transform: translate3d(-4vw, -2vh, 0) scale(0.95) rotate(0deg); }
+      100% { transform: translate3d(4vw, 3vh, 0) scale(1.16) rotate(22deg); }
     }
 
     .mesh-blob {
       position: absolute;
       border-radius: 50%;
-      opacity: 0.76;
+      opacity: 0.42;
       mix-blend-mode: screen;
       will-change: transform;
       backface-visibility: hidden;
       transform: translate3d(0, 0, 0);
+      transition: background 1.2s ease;
     }
 
     .blob-1 {
-      width: 68vw;
-      height: 68vw;
-      max-width: 820px;
-      max-height: 820px;
+      width: 72vw;
+      height: 72vw;
+      max-width: 860px;
+      max-height: 860px;
       top: -18%;
       left: -12%;
       background: radial-gradient(circle, var(--blob-1) 0%, transparent 68%);
@@ -192,10 +415,10 @@
     }
 
     .blob-2 {
-      width: 65vw;
-      height: 65vw;
-      max-width: 780px;
-      max-height: 780px;
+      width: 68vw;
+      height: 68vw;
+      max-width: 820px;
+      max-height: 820px;
       bottom: -18%;
       right: -12%;
       background: radial-gradient(circle, var(--blob-2) 0%, transparent 68%);
@@ -203,23 +426,23 @@
     }
 
     .blob-3 {
-      width: 58vw;
-      height: 58vw;
-      max-width: 700px;
-      max-height: 700px;
-      top: 10%;
-      right: 10%;
+      width: 60vw;
+      height: 60vw;
+      max-width: 740px;
+      max-height: 740px;
+      top: 8%;
+      right: 8%;
       background: radial-gradient(circle, var(--blob-3) 0%, transparent 66%);
       animation: flowBlob3 11s ease-in-out infinite alternate;
     }
 
     .blob-4 {
-      width: 55vw;
-      height: 55vw;
-      max-width: 660px;
-      max-height: 660px;
-      bottom: 8%;
-      left: 10%;
+      width: 58vw;
+      height: 58vw;
+      max-width: 700px;
+      max-height: 700px;
+      bottom: 6%;
+      left: 8%;
       background: radial-gradient(circle, var(--blob-4) 0%, transparent 66%);
       animation: flowBlob4 13.5s ease-in-out infinite alternate;
     }
@@ -228,12 +451,14 @@
       position: fixed;
       inset: 0;
       z-index: -2;
-      background: radial-gradient(circle at 50% 25%, rgba(10, 12, 22, 0.22) 0%, rgba(6, 8, 15, 0.68) 100%);
+      background:
+        radial-gradient(ellipse at 50% 18%, rgba(251, 113, 133, 0.04) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 60%, rgba(10, 12, 24, 0.35) 0%, rgba(4, 5, 10, 0.75) 100%);
       pointer-events: none;
       contain: strict;
     }
 
-    /* ========== 100% GPU COMPOSITOR SAKURA PETAL RAIN (ZERO REFLOW / ZERO TOP ANIMATION) ========== */
+    /* ========== NATURAL MULTI-DEPTH SAKURA PETAL RAIN (55 MOBILE / 88 DESKTOP) ========== */
     #sakura-global-layer {
       position: fixed;
       inset: 0;
@@ -241,14 +466,12 @@
       pointer-events: none;
       overflow: hidden;
       contain: strict;
-      transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.5s;
-      will-change: opacity;
+      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.45s;
     }
     #sakura-global-layer.is-hidden-rain {
       opacity: 0;
       visibility: hidden;
     }
-    /* Ngắt hoàn toàn chu kỳ tính toán cánh hoa khi sang Page 2 */
     #sakura-global-layer.is-hidden-rain .sakura-leaf,
     #sakura-global-layer.is-hidden-rain .sakura-sway,
     #sakura-global-layer.is-hidden-rain svg {
@@ -339,13 +562,12 @@
 
     /* ========== PAGE TRANSITION & INACTIVE PAGE PAUSE ========== */
     .page-view {
-      transition: opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1), transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: opacity, transform;
+      transition: opacity 0.28s ease, transform 0.28s ease;
     }
     .page-view.is-hidden {
       display: none !important;
       opacity: 0;
-      transform: translate3d(0, 12px, 0);
+      transform: translate3d(0, 8px, 0);
     }
     .page-view.is-hidden *,
     .page-view.is-hidden *::after {
@@ -353,20 +575,20 @@
     }
     .page-view.is-entering {
       opacity: 0;
-      transform: translate3d(0, 12px, 0);
+      transform: translate3d(0, 8px, 0);
     }
 
     /* ========== GLASSMORPHISM & HUD CORNERS ========== */
     .glass-card {
       position: relative;
-      background: rgba(12, 15, 26, 0.62);
-      backdrop-filter: blur(18px) saturate(165%);
-      -webkit-backdrop-filter: blur(18px) saturate(165%);
+      background: rgba(12, 15, 26, 0.56);
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
       border: 1px solid rgba(255, 255, 255, 0.16);
       box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.18);
       border-radius: 1.15rem;
       transform: translateZ(0);
-      transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease;
+      transition: border-color 0.22s ease;
     }
 
     .hud-corner {
@@ -386,11 +608,17 @@
     .hud-bl { bottom: 10px; left: 10px; border-bottom: 1.5px solid; border-left: 1.5px solid; }
     .hud-br { bottom: 10px; right: 10px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
 
-    /* ========== PAGE 1 INTERACTIVE GLASS SPOTLIGHT & DISCORD NAME STYLE ========== */
+    /* ========== PAGE 1 TRANSLUCENT GLASS SO FALLING SAKURA SHINES THROUGH ========== */
     .hero-glass-card {
       position: relative;
       isolation: isolate;
-      contain: layout style;
+      contain: layout style paint;
+      transform: translateZ(0);
+      background: rgba(8, 10, 20, 0.42) !important;
+      backdrop-filter: blur(8px) saturate(125%) !important;
+      -webkit-backdrop-filter: blur(8px) saturate(125%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.24);
     }
 
     .hero-glass-card::before {
@@ -399,26 +627,24 @@
       inset: 0;
       border-radius: inherit;
       background: radial-gradient(
-        520px circle at var(--mouse-x, 50%) var(--mouse-y, 20%),
-        rgba(251, 113, 133, 0.13),
-        rgba(56, 189, 248, 0.05) 45%,
-        transparent 75%
+        460px circle at 50% 15%,
+        rgba(251, 113, 133, 0.09),
+        rgba(56, 189, 248, 0.02) 45%,
+        transparent 72%
       );
       pointer-events: none;
       z-index: 0;
     }
 
-    /* Hiệu ứng chữ VuNn phát sáng hồng phấn chuẩn Discord Display Name Style */
     .vunn-display-name {
       background: linear-gradient(180deg, #ffffff 15%, #fecdd3 65%, #fb7185 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      filter: drop-shadow(0 0 12px rgba(244, 63, 94, 0.52));
+      text-shadow: 0 0 16px rgba(244, 63, 94, 0.35);
       letter-spacing: -0.02em;
     }
 
-    /* Huy hiệu Discord Badges bên cạnh tag プロセカ */
     .discord-badges-group {
       display: inline-flex;
       align-items: center;
@@ -430,7 +656,6 @@
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
 
-    /* Sóng nhạc Equalizer động cho thẻ Live Spotify */
     .eq-bars {
       display: inline-flex;
       align-items: flex-end;
@@ -446,7 +671,6 @@
       border-radius: 999px;
       transform-origin: bottom;
       animation: eqBounce 0.85s ease-in-out infinite alternate;
-      will-change: transform;
     }
     .eq-bar:nth-child(2) { animation-duration: 0.65s; animation-delay: -0.25s; background: #6ee7b7; }
     .eq-bar:nth-child(3) { animation-duration: 0.95s; animation-delay: -0.45s; background: #10b981; }
@@ -457,7 +681,6 @@
       100% { transform: scaleY(1); }
     }
 
-    /* Cụm hoa anh đào trang trí góc dưới thẻ chuẩn Discord Profile Frame */
     .bottom-sakura-corner {
       position: absolute;
       bottom: -8px;
@@ -466,12 +689,11 @@
       pointer-events: none;
       z-index: 15;
       opacity: 0.96;
-      filter: drop-shadow(0 5px 12px rgba(12, 4, 14, 0.78));
+      contain: layout style paint;
     }
     .bottom-sakura-left { left: -6px; }
     .bottom-sakura-right { right: -6px; transform: scaleX(-1); }
 
-    /* Khung vòm hoa anh đào 2D Anime ôm viền góc trên của Card */
     .top-corner-sakura {
       position: absolute;
       top: -10px;
@@ -479,7 +701,7 @@
       height: 185px;
       pointer-events: none;
       z-index: 16;
-      filter: drop-shadow(0 6px 14px rgba(18, 4, 15, 0.75));
+      contain: layout style paint;
     }
     .top-corner-sakura-left { left: -10px; }
     .top-corner-sakura-right { right: -10px; transform: scaleX(-1); }
@@ -505,19 +727,17 @@
       }
     }
 
-    /* Lớp 1: Nền Ambient Blur lấp đầy khung ngang, triệt tiêu viền trống */
     .banner-ambient-backdrop {
       position: absolute;
       inset: -18px;
       background-image: var(--banner-gif);
       background-size: cover;
       background-position: center;
-      filter: blur(18px) saturate(165%) brightness(0.52);
-      transform: scale(1.08) translateZ(0);
+      filter: blur(14px) saturate(150%) brightness(0.5);
+      transform: scale(1.06) translateZ(0);
       pointer-events: none;
     }
 
-    /* Lớp 2: Khung Trung Tâm giữ nguyên tỷ lệ gốc của GIF (540x302) giúp mắt nét căng không bị phóng đại vỡ hạt */
     .banner-crisp-stage {
       position: relative;
       z-index: 1;
@@ -530,6 +750,7 @@
       overflow: hidden;
       mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
       -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+      transform: translateZ(0);
     }
 
     .banner-crisp-img {
@@ -537,11 +758,9 @@
       height: 100%;
       object-fit: cover;
       object-position: center 45%;
-      filter: contrast(1.04) saturate(1.08);
-      transform: translateZ(0);
+      transform: scale(1.04) translateZ(0);
     }
 
-    /* Lớp 3: Mặt nạ lưới Anime CRT/Halftone siêu mịn + Vignette giúp giấu hoàn toàn hạt nén GIF */
     .banner-cinema-overlay {
       position: absolute;
       inset: 0;
@@ -553,7 +772,6 @@
       pointer-events: none;
     }
 
-    /* Lớp 4: Cành Hoa Anh Đào 2D Anime Cel-Shaded Chuẩn Discord Profile Frame */
     .sakura-canopy-svg {
       position: absolute;
       inset: 0;
@@ -561,7 +779,7 @@
       height: 100%;
       z-index: 4;
       pointer-events: none;
-      filter: drop-shadow(0 6px 12px rgba(24, 4, 18, 0.72));
+      transform: translateZ(0);
     }
 
     @keyframes blossomBreeze {
@@ -625,7 +843,6 @@
       inset: -12px;
       pointer-events: none;
       z-index: 3;
-      filter: drop-shadow(0 4px 10px rgba(244, 63, 94, 0.48));
     }
 
     .avatar-deco-ring .ring-orbit {
@@ -634,7 +851,7 @@
       animation: spinSlowFrame 32s linear infinite;
     }
 
-    /* ========== PROGRESS BARS (GPU COMPOSITED) ========== */
+    /* ========== PROGRESS BARS (GPU COMPOSITED + INFINITE SHIMMER) ========== */
     .bar-track {
       position: relative;
       height: 0.42rem;
@@ -669,11 +886,11 @@
       background: linear-gradient(
         90deg,
         transparent 0%,
-        rgba(255, 255, 255, 0.38) 50%,
+        rgba(255, 255, 255, 0.42) 50%,
         transparent 100%
       );
       transform: translate3d(-110%, 0, 0);
-      animation: barShimmerSlide 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      animation: barShimmerSlide 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
       will-change: transform;
     }
 
@@ -682,13 +899,12 @@
       100% { transform: translate3d(110%, 0, 0); }
     }
 
-    /* ========== COMMAND BAR ========== */
     .cmd-dock {
-      background: rgba(9, 11, 20, 0.84);
-      backdrop-filter: blur(22px) saturate(180%);
-      -webkit-backdrop-filter: blur(22px) saturate(180%);
+      background: rgba(9, 11, 20, 0.88);
+      backdrop-filter: blur(14px) saturate(150%);
+      -webkit-backdrop-filter: blur(14px) saturate(150%);
       border: 1px solid rgba(255, 255, 255, 0.16);
-      box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.55);
       border-radius: 0.9rem;
       padding: 0.45rem;
       transform: translateZ(0);
@@ -780,9 +996,11 @@
       box-shadow: 0 0 8px #10b981;
     }
 
-    /* ========== STAT NODES (CONTAINED LAYOUT FOR 120FPS SCROLL) ========== */
+    /* ========== STAT NODES ========== */
     .wrapped-section {
       contain: layout style;
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 480px;
     }
 
     .stat-node {
@@ -875,7 +1093,6 @@
       border-left-color: #38bdf8;
     }
 
-    /* Rank Badges */
     .rank-badge {
       width: 2.15rem;
       height: 2.15rem;
@@ -909,8 +1126,8 @@
 
     /* ========== ASCII NEKO BOX ========== */
     .neko-frame {
-      background: rgba(10, 12, 22, 0.52);
-      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(10, 12, 22, 0.34);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: 0.9rem;
       padding: 0.95rem 1.2rem;
       min-width: 220px;
@@ -918,8 +1135,8 @@
     }
 
     @keyframes twinkleStar {
-      0%, 100% { opacity: 0.72; }
-      50% { opacity: 1; }
+      0%, 100% { opacity: 0.48; filter: brightness(0.95); }
+      50% { opacity: 1; filter: brightness(1.35) drop-shadow(0 0 6px rgba(253, 224, 71, 0.65)); }
     }
 
     .star-sky {
@@ -930,8 +1147,8 @@
       letter-spacing: 1px;
       user-select: none;
       margin-bottom: 2px;
-      will-change: opacity;
-      animation: twinkleStar 3.2s ease-in-out infinite;
+      will-change: opacity, filter;
+      animation: twinkleStar 2.4s ease-in-out infinite;
     }
 
     .cat-art {
@@ -1110,12 +1327,6 @@
     }
 
     /* ========== MASTER AUDIOPHILE TYPOGRAPHY & BADGE ========== */
-    @keyframes audiophileShine {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
     .master-audiophile-badge {
       display: inline-flex;
       align-items: center;
@@ -1124,7 +1335,7 @@
       border-radius: 9999px;
       background: linear-gradient(135deg, rgba(244, 63, 94, 0.16) 0%, rgba(15, 23, 42, 0.85) 50%, rgba(251, 191, 36, 0.16) 100%);
       border: 1px solid rgba(251, 191, 36, 0.45);
-      box-shadow: 0 0 22px rgba(251, 113, 133, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 18px rgba(251, 113, 133, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.22);
     }
 
     .master-audiophile-text {
@@ -1133,19 +1344,16 @@
       font-size: 0.74rem;
       letter-spacing: 0.24em;
       text-transform: uppercase;
-      background: linear-gradient(90deg, #fff1f2 0%, #fde047 25%, #fb7185 50%, #38bdf8 75%, #fff1f2 100%);
-      background-size: 220% auto;
+      background: linear-gradient(90deg, #fff1f2 0%, #fde047 35%, #fb7185 70%, #38bdf8 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      animation: audiophileShine 5.5s linear infinite;
-      filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.35));
     }
 
     /* ========== INTERACTIVE NEKO EASTER EGG ========== */
     .neko-interactive {
       cursor: pointer;
-      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+      transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease, box-shadow 0.2s ease;
     }
     .neko-interactive:hover {
       transform: translate3d(0, -3px, 0) scale(1.015);
@@ -1153,16 +1361,17 @@
       box-shadow: 0 12px 30px -8px rgba(244, 63, 94, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.22);
     }
     .neko-interactive:active {
-      transform: scale(0.97);
+      transform: scale(0.96);
     }
 
     @keyframes nekoBounce {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      30% { transform: translateY(-7px) rotate(-4deg); }
-      60% { transform: translateY(-3px) rotate(4deg); }
+      0% { transform: translateY(0) rotate(0deg); }
+      35% { transform: translateY(-7px) rotate(-4deg); }
+      70% { transform: translateY(-2px) rotate(3deg); }
+      100% { transform: translateY(0) rotate(0deg); }
     }
     .neko-jump {
-      animation: nekoBounce 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+      animation: nekoBounce 0.38s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .meow-bubble {
@@ -1179,7 +1388,7 @@
       box-shadow: 0 4px 14px rgba(244, 63, 94, 0.55);
       opacity: 0;
       transform: translateY(6px) scale(0.85);
-      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: all 0.16s cubic-bezier(0.22, 1, 0.36, 1);
       pointer-events: none;
       z-index: 25;
     }
@@ -1228,14 +1437,53 @@
       opacity: 0;
       pointer-events: none;
     }
+
+    /* ========== GUESTBOOK VIBE PILLS ========== */
+    .vibe-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 0.6rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #cbd5e1;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      user-select: none;
+    }
+    .vibe-chip:hover {
+      background: rgba(251, 113, 133, 0.16);
+      border-color: rgba(251, 113, 133, 0.45);
+      color: #ffffff;
+    }
+    .vibe-chip.active {
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.35), rgba(168, 85, 247, 0.35));
+      border-color: #fb7185;
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(244, 63, 94, 0.35);
+    }
   </style>
 </head>
 
-<body class="pb-44 selection:bg-rose-500 selection:text-white hover-expand-enabled">
+<body class="selection:bg-rose-500 selection:text-white hover-expand-enabled">
+  <!-- PERSONA 5 / PERSONA 3R CINEMATIC COMIC TRANSITION LAYER -->
+  <div id="persona-transition-layer" aria-hidden="true">
+    <div class="persona-curtain persona-curtain-dark"></div>
+    <div class="persona-curtain persona-curtain-crimson"></div>
+    <div class="persona-speedlines"></div>
+    <div class="persona-center-badge">
+      <div class="persona-badge-sub font-mono-code">// SYSTEM SHIFT</div>
+      <div id="persona-badge-title" class="persona-badge-main">WRAPPED × REPLAY</div>
+      <div class="persona-badge-deco"></div>
+    </div>
+  </div>
+
   <!-- GLOBAL SHARED SVG DEFINITIONS (2D ANIME CEL-SHADED SAKURA ENGINE) -->
   <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
     <defs>
-      <!-- Bảng màu Cel-Shaded 2D Anime (Hồng Phấn Sáng, Hồng Đào Trung Gian & Đỏẫm Bóng Đổ) -->
       <linearGradient id="sakuraPetalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
         <stop offset="0%" stop-color="#ffffff" />
         <stop offset="28%" stop-color="#ffe4ec" />
@@ -1265,20 +1513,14 @@
         <stop offset="100%" stop-color="#70163c" />
       </linearGradient>
 
-      <!-- 1 Cánh Hoa Anh Đào 2D Anime (Viền Line-Art sắc nét + Mảng bóng Cel-Shading + Highlight trắng) -->
       <g id="single-sakura-petal">
         <path d="M 0,0 C -8,-6 -13,-18 -6.5,-27.5 C -3.5,-31.5 -1.2,-31 0,-25.5 C 1.2,-31 3.5,-31.5 6.5,-27.5 C 13,-18 8,-6 0,0 Z" />
-        <!-- Mảng Cel-Shade đậm ở gốc cánh hoa -->
         <path d="M 0,0 C -4.5,-4 -6.5,-11 -3,-16.5 C -1,-13 0,-11 0,-11 C 0,-11 1,-13 3,-16.5 C 6.5,-11 4.5,-4 0,0 Z" fill="#e11d48" opacity="0.32" stroke="none" />
-        <!-- Vệt sáng Cel-Highlight 2D Anime trên rìa cánh -->
         <path d="M -5.2,-24.5 C -8,-19 -7,-12 -4.5,-8" stroke="#ffffff" stroke-width="1.2" opacity="0.75" fill="none" stroke-linecap="round" />
-        <!-- Gân cánh hoa nét mảnh Anime -->
         <path d="M 0,-2.5 L 0,-21 M -1.8,-6.5 L -4.2,-16.5 M 1.8,-6.5 L 4.2,-16.5" stroke="#9f1239" stroke-width="0.65" opacity="0.45" fill="none" stroke-linecap="round"/>
       </g>
 
-      <!-- Bông Hoa Anh Đào 5 Cánh Tiền Cảnh (2D Anime Cel-Shaded + Nhụy Vàng Phát Sáng) -->
       <g id="sakura-flower-full">
-        <!-- Lớp bóng đổ nhẹ phía dưới bông hoa tạo độ nổi 2D -->
         <circle cx="0" cy="2" r="24" fill="#4c0519" opacity="0.28" />
         <g fill="url(#sakuraPetalGrad)" stroke="#700a2e" stroke-width="1.05" stroke-linejoin="round">
           <use href="#single-sakura-petal" transform="rotate(0)" />
@@ -1287,10 +1529,8 @@
           <use href="#single-sakura-petal" transform="rotate(216)" />
           <use href="#single-sakura-petal" transform="rotate(288)" />
         </g>
-        <!-- Tâm hoa đỏ thẫm kiểu Anime -->
         <circle cx="0" cy="0" r="4.5" fill="#be123c" opacity="0.85" />
         <circle cx="0" cy="0" r="2.5" fill="#881337" />
-        <!-- Nhụy hoa tỏa tròn đính hạt phấn vàng/trắng -->
         <g stroke="#fff0f5" stroke-width="0.9" stroke-linecap="round">
           <line x1="0" y1="0" x2="0" y2="-9.5" /><circle cx="0" cy="-10" r="1.4" fill="#fde047" stroke="#9f1239" stroke-width="0.35"/>
           <line x1="0" y1="0" x2="9" y2="-3" /><circle cx="9.5" cy="-3.2" r="1.4" fill="#fde047" stroke="#9f1239" stroke-width="0.35"/>
@@ -1304,7 +1544,6 @@
         </g>
       </g>
 
-      <!-- Bông Hoa Anh Đào Trung Cảnh (Màu hồng đào dịu, xếp xen kẽ tạo độ dày) -->
       <g id="sakura-flower-mid">
         <g fill="url(#sakuraMidGrad)" stroke="#881337" stroke-width="0.95" stroke-linejoin="round">
           <use href="#single-sakura-petal" transform="rotate(18)" />
@@ -1322,7 +1561,6 @@
         </g>
       </g>
 
-      <!-- Bông Hoa Lớp Nền Sâu (Tạo khối 3D dày đặc phía sau tán cây) -->
       <g id="sakura-flower-back">
         <g fill="url(#sakuraDeepGrad)" stroke="#4c0519" stroke-width="0.9">
           <use href="#single-sakura-petal" transform="rotate(36)" />
@@ -1334,7 +1572,6 @@
         <circle cx="0" cy="0" r="3.5" fill="#4c0519" />
       </g>
 
-      <!-- Bông Hoa Nghiêng Góc 2D Anime (Dành cho dây hoa rủ dọc viền) -->
       <g id="sakura-side-bloom">
         <g fill="url(#sakuraPetalGrad)" stroke="#700a2e" stroke-width="0.95">
           <use href="#single-sakura-petal" transform="rotate(-48) scale(0.92, 0.85)" />
@@ -1347,41 +1584,40 @@
         <line x1="0" y1="-1" x2="3" y2="-11" stroke="#fff" stroke-width="0.8"/><circle cx="3.2" cy="-11.5" r="1.2" fill="#fde047"/>
       </g>
 
-      <!-- Nụ Hoa & Đài Hoa 2D Anime -->
       <g id="sakura-bud">
         <path d="M0,0 C-5.5,-5 -6.5,-15 0,-22 C6.5,-15 5.5,-5 0,0 Z" fill="url(#sakuraMidGrad)" stroke="#700a2e" stroke-width="0.9" />
         <path d="M-2,-15 C-3,-11 -2,-7 -1,-4" stroke="#ffffff" stroke-width="1" opacity="0.75" fill="none" stroke-linecap="round"/>
         <path d="M-3.5,-2 L0,3.5 L3.5,-2" fill="#4c0519" stroke="#2b0616" stroke-width="1" />
       </g>
 
-      <!-- Cánh Hoa Lẻ Bay Lơ Lửng Quanh Viền -->
       <g id="sakura-loose-petal">
         <path d="M0,0 C-4,-3 -6,-10 -2.5,-15 C-1,-17 0,-15 0,-13.5 C0,-15 1,-17 2.5,-15 C6,-10 4,-3 0,0 Z" fill="url(#sakuraPetalGrad)" stroke="#881337" stroke-width="0.7" />
       </g>
     </defs>
   </svg>
 
-  <!-- INTRO OVERLAY -->
-  <div id="intro-overlay" onclick="enterSite()" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#070912]/90 backdrop-blur-2xl cursor-pointer transition-opacity duration-500">
+  <!-- INTRO OVERLAY (CLICK OR TAP ANYWHERE FOR INSTANT 70% VOLUME PLAYBACK) -->
+  <div id="intro-overlay" onclick="enterSite()" class="fixed inset-0 z-50 flex flex-col items-center justify-center cursor-pointer">
     <div class="text-center space-y-3.5 select-none p-6" style="text-align: center; padding: 1.5rem;">
-      <div class="intro-play-btn w-14 h-14 mx-auto rounded-full border border-rose-400/60 bg-rose-500/10 flex items-center justify-center animate-pulse text-rose-300 shadow-[0_0_24px_rgba(244,63,94,0.35)]">
+      <div class="intro-play-btn w-14 h-14 mx-auto rounded-full border border-rose-400/60 bg-rose-500/10 flex items-center justify-center text-rose-300 shadow-[0_0_24px_rgba(244,63,94,0.35)] transition-transform duration-200 hover:scale-110 active:scale-95 animate-pulse">
         <svg width="24" height="24" style="width: 24px; height: 24px; transform: translateX(1px);" class="w-6 h-6 fill-current translate-x-0.5" viewBox="0 0 24 24">
           <path fill="currentColor" d="M8 5.14v14l11-7-11-7z"/>
         </svg>
       </div>
-      <p style="font-size: 13px; font-weight: 700; letter-spacing: 0.2em; color: #ffffff; margin-bottom: 0.5rem;" class="font-mono-code text-xs sm:text-sm font-bold text-white tracking-[0.2em] uppercase">
-        [ CLICK ANYWHERE TO ENTER ]
+      <p style="font-size: 13px; font-weight: 700; letter-spacing: 0.2em; color: #ffffff; margin-bottom: 0.5rem; min-height: 1.5rem;" class="font-mono-code text-xs sm:text-sm font-bold text-white tracking-[0.2em] uppercase">
+        <span id="intro-typewriter-text">[ CLICK ANYWHERE TO ENTER ]</span><span class="typewriter-cursor"></span>
       </p>
       <p id="preload-hint" style="font-size: 11px; color: #6ee7b7;" class="text-[11px] font-mono-code text-emerald-300">
-        [ ヴン・センパイ ]_
+        [ ヴン・センパイ // AUDIO &amp; SAKURA ENGINE ]_
       </p>
     </div>
   </div>
 
-  <!-- GPU FLUID BACKGROUND (SHARED ACROSS BOTH PAGES) -->
+  <!-- GPU FLUID BACKGROUND -->
   <div class="apple-bg-wrapper" aria-hidden="true">
     <div class="apple-art-layer art-layer-1"></div>
     <div class="apple-art-layer art-layer-2"></div>
+    <div class="apple-art-layer art-layer-3"></div>
     <div class="mesh-blob blob-1"></div>
     <div class="mesh-blob blob-2"></div>
     <div class="mesh-blob blob-3"></div>
@@ -1389,7 +1625,7 @@
   </div>
   <div class="apple-frost-overlay" aria-hidden="true"></div>
 
-  <!-- FULL-VIEWPORT FALLING SAKURA LAYER (ACTIVE ON PAGE 1 ONLY, 100% GPU COMPOSITED) -->
+  <!-- FULL-VIEWPORT FALLING SAKURA LAYER -->
   <div id="sakura-global-layer" aria-hidden="true"></div>
 
   <!-- TOAST NOTIFICATION -->
@@ -1400,18 +1636,25 @@
     </div>
   </div>
 
-  <!-- TOP STATUS BAR -->
-  <header class="max-w-6xl mx-auto px-4 pt-4 pb-1 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono-code text-slate-300">
+  <!-- TOP STATUS BAR (OPTIMIZED DUAL PRIMARY BUTTONS) -->
+  <header class="max-w-6xl mx-auto px-4 pt-3.5 pb-1 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono-code text-slate-300">
     <div class="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1 rounded-md backdrop-blur-md">
-      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-      <span class="font-bold tracking-wider text-white">VUNN // TELEMETRY.V35.4</span>
+      <span id="sync-led" class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" title="Online Status"></span>
+      <span class="font-bold tracking-wider text-white">VUNN // @vuismei</span>
     </div>
-    <div class="flex flex-wrap items-center gap-2">
-      <div id="vn-clock" class="bg-white/5 border border-white/10 px-3 py-1 rounded-md backdrop-blur-md">
+    <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+      <!-- Nút [ ✍️ KÝ LƯU BÚT ]: Gradient tím hồng viền neon phát sáng -->
+      <button type="button" onclick="openGuestbookModal()" class="bg-gradient-to-r from-fuchsia-500/25 to-pink-500/25 hover:from-fuchsia-500/40 hover:to-pink-500/40 border border-fuchsia-400/50 hover:border-fuchsia-300 text-fuchsia-100 shadow-[0_0_12px_rgba(217,70,239,0.25)] px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer flex items-center gap-1.5 active:scale-95" title="Mở Sổ Lưu Bút gửi về Discord">
+        <span>✍️</span><span>KÝ LƯU BÚT</span>
+      </button>
+
+      <div id="vn-clock" class="hidden sm:block bg-white/5 border border-white/10 px-3 py-1 rounded-md backdrop-blur-md">
         00:00:00 ICT (UTC+7)
       </div>
-      <button type="button" id="top-page-switch-btn" onclick="switchPage(2)" class="bg-rose-500/25 hover:bg-rose-500/40 border border-rose-400/50 text-rose-100 px-3 py-1 rounded-md font-bold transition cursor-pointer">
-        WRAPPED × REPLAY →
+
+      <!-- Nút [ WRAPPED × REPLAY → ]: Gradient cam hồng nổi bật -->
+      <button type="button" id="top-page-switch-btn" onclick="switchPage(2)" class="bg-gradient-to-r from-rose-500/25 to-orange-500/25 hover:from-rose-500/40 hover:to-orange-500/40 border border-rose-400/50 hover:border-rose-300 text-rose-100 shadow-[0_0_12px_rgba(244,63,94,0.25)] px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer flex items-center gap-1.5 active:scale-95" title="Chuyển sang Spotify Wrapped & Apple Music Replay">
+        <span>WRAPPED × REPLAY →</span>
       </button>
     </div>
   </header>
@@ -1419,7 +1662,7 @@
   <!-- ========================================================================= -->
   <!-- PAGE 1: MINIMALIST BIO CARD + GIF BANNER + SAKURA FRAME + LIVE LANYARD   -->
   <!-- ========================================================================= -->
-  <main id="page-1" class="page-view max-w-6xl mx-auto px-4 min-h-[calc(100vh-16.5rem)] flex flex-col justify-center pt-2 pb-8">
+  <main id="page-1" class="page-view max-w-6xl mx-auto px-4 flex flex-col justify-center pt-2 pb-6">
     <section id="hero-profile-card" class="glass-card hero-glass-card p-5 sm:p-7 w-full overflow-hidden">
       <span class="hud-corner hud-tl"></span>
       <span class="hud-corner hud-tr"></span>
@@ -1429,7 +1672,6 @@
       <!-- Cụm Hoa Anh Đào 2D Anime Ôm Góc Viền Trên Trái & Phải Của Card -->
       <svg class="top-corner-sakura top-corner-sakura-left" viewBox="0 0 260 200" aria-hidden="true">
         <g class="sakura-vine-hang">
-          <!-- Cành rủ dọc theo mép viền trái -->
           <path d="M 4,4 C 14,48 8,98 20,152 C 25,172 18,185 12,194" fill="none" stroke="url(#animeBranchGrad)" stroke-width="4.5" stroke-linecap="round"/>
           <path d="M 12,62 C 34,78 48,96 56,118" fill="none" stroke="url(#animeBranchGrad)" stroke-width="2.6" stroke-linecap="round"/>
           <use href="#sakura-flower-back" transform="translate(18, 52) scale(0.86) rotate(-18)" />
@@ -1463,7 +1705,7 @@
         </g>
       </svg>
 
-      <!-- Cụm hoa anh đào 2D Anime ôm 2 góc dưới thẻ Profile đồng bộ Discord Frame -->
+      <!-- Cụm hoa anh đào 2D Anime ôm 2 góc dưới thẻ Profile -->
       <svg class="bottom-sakura-corner bottom-sakura-left" viewBox="0 0 220 90" aria-hidden="true">
         <path d="M-8,82 C25,68 75,64 165,84 M12,76 C22,52 45,38 72,32" fill="none" stroke="url(#animeBranchGrad)" stroke-width="4" stroke-linecap="round"/>
         <use href="#sakura-flower-back" transform="translate(16, 56) scale(0.78) rotate(-18)" />
@@ -1489,12 +1731,9 @@
         <use href="#sakura-loose-petal" class="sakura-float-accent" transform="translate(52, 24) rotate(-30) scale(0.85)" />
       </svg>
 
-      <!-- BANNER GIF ĐÔI MẮT ANIME CHỐNG VỠ HẠT + VÒM HOA ANH ĐÀO 2D ANIME DÀY ÔM GÓC VIỀN -->
+      <!-- BANNER GIF ĐÔI MẮT ANIME CHỐNG VỠ HẠT + VÒM HOA ANH ĐÀO 2D ANIME -->
       <div class="discord-sakura-banner mb-4">
-        <!-- Lớp 1: Ambient Blur lấp đầy 2 bên cánh -->
         <div class="banner-ambient-backdrop" aria-hidden="true"></div>
-
-        <!-- Lớp 2: Khung Trung Tâm nét căng hiển thị trọn vẹn đôi mắt trong GIF 15yqoj.gif -->
         <div class="banner-crisp-stage">
           <img
             src="https://files.catbox.moe/15yqoj.gif"
@@ -1504,22 +1743,16 @@
             class="banner-crisp-img"
           />
         </div>
-
-        <!-- Lớp 3: Halftone & Vignette điện ảnh -->
         <div class="banner-cinema-overlay" aria-hidden="true"></div>
 
-        <!-- Lớp 4: Tán Hoa Anh Đào 2D Anime Đa Tầng (Sakura-Gumo) Dày Ở Trên & Treo Rủ Ôm Trọn 2 Góc Viền -->
         <svg class="sakura-canopy-svg" viewBox="0 0 900 210" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
-          <!-- Hệ thống thân cành gỗ anh đào uốn lượn ở đỉnh và rủ sâu xuống 2 góc trái/phải -->
           <g stroke="url(#animeBranchGrad)" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <!-- Cành chính & nhánh rủ bên Trái -->
             <path d="M-15,8 C55,22 135,4 225,22 C295,35 350,12 425,2" stroke-width="6.5"/>
             <path d="M-8,28 C38,46 85,78 118,124 C132,144 142,165 148,184" stroke-width="4.2"/>
             <path d="M42,18 C48,68 35,120 52,175" stroke-width="3.6"/>
             <path d="M135,16 C165,48 195,72 238,86" stroke-width="3.2"/>
             <path d="M225,22 C255,44 282,52 318,48" stroke-width="2.5"/>
 
-            <!-- Cành chính & nhánh rủ bên Phải -->
             <path d="M915,8 C845,22 765,4 675,22 C605,35 550,12 475,2" stroke-width="6.5"/>
             <path d="M908,28 C862,46 815,78 782,124 C768,144 758,165 752,184" stroke-width="4.2"/>
             <path d="M858,18 C852,68 865,120 848,175" stroke-width="3.6"/>
@@ -1527,9 +1760,7 @@
             <path d="M675,22 C645,44 618,52 582,48" stroke-width="2.5"/>
           </g>
 
-          <!-- ==================== TÁN HOA DÀY GÓC TRÊN & VIỀN TRÁI (3 TẦNG 2D ANIME) ==================== -->
           <g class="sakura-cluster-sway">
-            <!-- Tầng 1 (Back Silhouette): Tạo khối mây hoa anh đào dày phía sau -->
             <use href="#sakura-flower-back" transform="translate(12, 14) scale(1.25) rotate(-12)" />
             <use href="#sakura-flower-back" transform="translate(58, 10) scale(1.3) rotate(18)" />
             <use href="#sakura-flower-back" transform="translate(108, 14) scale(1.2) rotate(-24)" />
@@ -1541,7 +1772,6 @@
             <use href="#sakura-flower-back" transform="translate(76, 48) scale(1.08) rotate(-16)" />
             <use href="#sakura-flower-back" transform="translate(132, 44) scale(0.96) rotate(12)" />
 
-            <!-- Tầng 2 (Mid-Tone Pink): Lớp hoa trung cảnh đan xen -->
             <use href="#sakura-flower-mid" transform="translate(34, 28) scale(1.15) rotate(14)" />
             <use href="#sakura-flower-mid" transform="translate(84, 22) scale(1.18) rotate(-19)" />
             <use href="#sakura-flower-mid" transform="translate(138, 24) scale(1.08) rotate(24)" />
@@ -1554,7 +1784,6 @@
             <use href="#sakura-flower-mid" transform="translate(168, 48) scale(0.86) rotate(-15)" />
             <use href="#sakura-flower-mid" transform="translate(405, 8) scale(0.62) rotate(19)" />
 
-            <!-- Tầng 3 (Foreground Crisp 2D Anime Blooms): Bông hoa sắc nét tiền cảnh -->
             <use href="#sakura-flower-full" transform="translate(18, 36) scale(1.18) rotate(-8)" />
             <use href="#sakura-flower-full" transform="translate(64, 34) scale(1.24) rotate(16)" />
             <use href="#sakura-flower-full" transform="translate(116, 30) scale(1.12) rotate(-18)" />
@@ -1565,7 +1794,6 @@
             <use href="#sakura-flower-full" transform="translate(378, 12) scale(0.66) rotate(15)" />
           </g>
 
-          <!-- Dây Hoa Anh Đào Rủ Sâu Ôm Góc Trái (Đung đưa như hoạt ảnh 2D Anime) -->
           <g class="sakura-vine-hang">
             <use href="#sakura-flower-back" transform="translate(28, 96) scale(0.98) rotate(-15)" />
             <use href="#sakura-flower-mid" transform="translate(68, 88) scale(0.92) rotate(22)" />
@@ -1584,9 +1812,7 @@
             <use href="#sakura-loose-petal" class="sakura-float-accent" transform="translate(178, 108) rotate(-32) scale(0.85)" />
           </g>
 
-          <!-- ==================== TÁN HOA DÀY GÓC TRÊN & VIỀN PHẢI (3 TẦNG 2D ANIME) ==================== -->
           <g class="sakura-cluster-sway" style="animation-delay: -2.4s;">
-            <!-- Tầng 1 (Back Silhouette) -->
             <use href="#sakura-flower-back" transform="translate(888, 14) scale(1.25) rotate(14)" />
             <use href="#sakura-flower-back" transform="translate(842, 10) scale(1.3) rotate(-18)" />
             <use href="#sakura-flower-back" transform="translate(792, 14) scale(1.2) rotate(22)" />
@@ -1598,7 +1824,6 @@
             <use href="#sakura-flower-back" transform="translate(824, 48) scale(1.08) rotate(16)" />
             <use href="#sakura-flower-back" transform="translate(768, 44) scale(0.96) rotate(-12)" />
 
-            <!-- Tầng 2 (Mid-Tone Pink) -->
             <use href="#sakura-flower-mid" transform="translate(866, 28) scale(1.15) rotate(-14)" />
             <use href="#sakura-flower-mid" transform="translate(816, 22) scale(1.18) rotate(19)" />
             <use href="#sakura-flower-mid" transform="translate(762, 24) scale(1.08) rotate(-24)" />
@@ -1611,7 +1836,6 @@
             <use href="#sakura-flower-mid" transform="translate(732, 48) scale(0.86) rotate(15)" />
             <use href="#sakura-flower-mid" transform="translate(495, 8) scale(0.62) rotate(-19)" />
 
-            <!-- Tầng 3 (Foreground Crisp 2D Anime Blooms) -->
             <use href="#sakura-flower-full" transform="translate(882, 36) scale(1.18) rotate(8)" />
             <use href="#sakura-flower-full" transform="translate(836, 34) scale(1.24) rotate(-16)" />
             <use href="#sakura-flower-full" transform="translate(784, 30) scale(1.12) rotate(18)" />
@@ -1622,7 +1846,6 @@
             <use href="#sakura-flower-full" transform="translate(522, 12) scale(0.66) rotate(-15)" />
           </g>
 
-          <!-- Dây Hoa Anh Đào Rủ Sâu Ôm Góc Phải -->
           <g class="sakura-vine-hang-delayed">
             <use href="#sakura-flower-back" transform="translate(872, 96) scale(0.98) rotate(15)" />
             <use href="#sakura-flower-mid" transform="translate(832, 88) scale(0.92) rotate(-22)" />
@@ -1659,19 +1882,16 @@
               />
             </div>
 
-            <!-- Vòng Brush Đỏ Đen + Hoa Anh Đào 5 Cánh Gắn Quanh Avatar -->
             <svg class="avatar-deco-ring" viewBox="0 0 140 140">
               <g class="ring-orbit">
                 <circle cx="70" cy="70" r="61" fill="none" stroke="url(#crimsonBrush)" stroke-width="5" stroke-dasharray="105 16 58 14" stroke-linecap="round" />
                 <circle cx="70" cy="70" r="65" fill="none" stroke="#fda4af" stroke-width="1.4" stroke-dasharray="22 44" opacity="0.8" />
               </g>
-              <!-- 3 Bông hoa anh đào 5 cánh đính trên viền Avatar -->
               <use href="#sakura-flower-full" transform="translate(20, 26) scale(0.42) rotate(-18)" />
               <use href="#sakura-flower-full" transform="translate(120, 28) scale(0.34) rotate(24)" />
               <use href="#sakura-flower-full" transform="translate(18, 108) scale(0.36) rotate(42)" />
             </svg>
 
-            <!-- Status badge Lanyard -->
             <span id="discord-status-badge" title="BUSY / SLEEP = NO REPLY" class="absolute bottom-1 right-1 z-[4] w-5 h-5 rounded-full bg-rose-500 border-[3px] border-[#0c0f1a] flex items-center justify-center transition-colors">
               <span id="discord-status-inner" class="w-2 h-0.5 bg-white rounded-full"></span>
             </span>
@@ -1684,7 +1904,6 @@
               <span class="px-2 py-0.5 text-[11px] font-mono-code font-semibold rounded bg-rose-500/20 border border-rose-400/30 text-rose-200 flex items-center gap-1">
                 <span class="text-rose-300">🤍</span> プロセカ
               </span>
-              <!-- Cụm huy hiệu Discord Badges chuẩn theo ảnh hồ sơ -->
               <span class="discord-badges-group" title="Discord Profile Badges">
                 <span class="text-[11px] leading-none" title="Nitro Subscriber">🚀</span>
                 <span class="text-[11px] leading-none" title="Gaming Activity">🎮</span>
@@ -1704,12 +1923,12 @@
               </div>
             </div>
 
-            <blockquote class="p-3 rounded-lg bg-black/35 border-l-2 border-rose-400 space-y-1">
+            <blockquote class="p-3 rounded-lg bg-black/20 border-l-2 border-rose-400 space-y-1">
               <p class="text-xs sm:text-sm font-medium text-slate-100 italic">
                 “Người ta chỉ tự mình cứu lấy bản thân thôi. Chẳng ai có thể cứu được ai cả.”
                 <span class="not-italic font-bold text-rose-300 ml-1">— Oshino Meme</span>
               </p>
-              <p class="text-[11px] font-mono-code text-slate-400">
+              <p class="text-[11px] font-mono-code text-slate-300">
                 "what are you looking at me for" • <span class="text-rose-300 font-semibold">BUSY / SLEEP = NO REPLY</span> | 𝑜𝒸𝑒𝒶𝓃.
               </p>
             </blockquote>
@@ -1717,8 +1936,8 @@
         </div>
 
         <!-- Starry Neko Box (Interactive Easter Egg) -->
-        <div id="neko-easter-box" onclick="petStarryNeko()" title="Click để vuốt ve mèo sao!" class="neko-frame neko-interactive relative self-stretch sm:self-auto flex flex-col justify-between shrink-0 select-none">
-          <span id="neko-meow-bubble" class="meow-bubble">Meow~ ♪</span>
+        <div id="neko-easter-box" onclick="petStarryNeko()" title="Click để xem Discord bio tĩnh lặng!" class="neko-frame neko-interactive relative self-stretch sm:self-auto flex flex-col justify-between shrink-0 select-none">
+          <span id="neko-sparkle-bubble" class="meow-bubble">✦ PURR ✦</span>
           <div class="flex items-center justify-between text-[10px] font-mono-code text-slate-400 border-b border-white/10 pb-1.5 mb-2">
             <span class="flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -1742,9 +1961,9 @@
       </div>
 
       <!-- ================= REAL-TIME LANYARD DISCORD & SPOTIFY RICH PRESENCE ================= -->
-      <div class="mt-4 pt-3.5 border-t border-white/10 grid grid-cols-1 md:grid-cols-2 gap-3">
-        <!-- Card 1: Playing / Custom Rich Presence -->
-        <div class="flex items-center gap-3.5 p-3 rounded-xl bg-black/30 border border-white/10">
+      <div class="mt-4 pt-3.5 border-t border-white/15 grid grid-cols-1 md:grid-cols-2 gap-3">
+        <!-- Card 1: Playing / Custom Dev & Audio Rich Presence (Không lặp lại Profile) -->
+        <div class="flex items-center gap-3.5 p-3 rounded-xl bg-black/20 border border-white/15">
           <div class="relative w-12 h-12 rounded-lg overflow-hidden bg-slate-900 border border-white/15 shrink-0">
             <img id="lanyard-act-img" src="https://files.catbox.moe/0r6ro8.jpg" alt="Activity" decoding="async" class="w-full h-full object-cover" />
           </div>
@@ -1752,21 +1971,21 @@
             <div class="flex items-center justify-between gap-2">
               <span id="lanyard-act-type" class="text-[10px] font-mono-code uppercase tracking-wider text-sky-300 font-bold flex items-center gap-1.5">
                 <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
-                PLAYING // RICH PRESENCE
+                ACTIVE // DEV WORKSPACE
               </span>
-              <span id="lanyard-act-timer" class="text-[10px] font-mono-code text-emerald-300 font-bold">19:10:32</span>
+              <span id="lanyard-act-timer" class="text-[10px] font-mono-code text-emerald-300 font-bold">04:22:18</span>
             </div>
             <div id="lanyard-act-name" class="text-xs sm:text-sm font-extrabold text-white truncate mt-0.5">
-              V u N n （詠ノな）
+              Visual Studio Code // vuismei
             </div>
-            <div id="lanyard-act-details" class="text-[11px] font-mono-code text-slate-400 truncate">
-              BUSY / SLEEP = NO REPLY • ocean.
+            <div id="lanyard-act-details" class="text-[11px] font-mono-code text-slate-300 truncate">
+              Editing discord/index.html • Hi-Res Audio On
             </div>
           </div>
         </div>
 
         <!-- Card 2: Live Listening to Spotify -->
-        <div class="flex items-center gap-3.5 p-3 rounded-xl bg-black/35 border border-white/10 hover:border-emerald-400/35 transition-colors">
+        <div class="flex items-center gap-3.5 p-3 rounded-xl bg-black/20 border border-white/15 hover:border-emerald-400/40 transition-colors">
           <div class="relative w-12 h-12 rounded-lg overflow-hidden bg-slate-900 border border-white/15 shrink-0 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
             <img id="lanyard-spot-img" src="https://files.catbox.moe/6yr9eo.jpg" alt="Spotify Cover" decoding="async" class="w-full h-full object-cover" />
           </div>
@@ -1797,7 +2016,7 @@
         </div>
       </div>
 
-      <!-- Action Bar -->
+      <!-- Action Bar (Gọn gàng, đã loại bỏ nút trùng lặp Ký Lưu Bút và Wrapped) -->
       <div class="mt-5 pt-4 border-t border-white/10 flex flex-wrap items-center gap-2">
         <a href="https://www.youtube.com/channel/UCYABwsH3KS9BPi8rD63wPUw" target="_blank" rel="noopener noreferrer" class="social-pill">
           <svg class="w-3.5 h-3.5 text-rose-400 fill-current" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7z"/></svg>
@@ -1821,7 +2040,7 @@
 
         <button type="button" onclick="openArchiveModal()" class="social-pill !bg-rose-500/20 !border-rose-400/40 hover:!bg-rose-500/35">
           <svg class="w-3.5 h-3.5 text-rose-300 fill-none stroke-current" stroke-width="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          <span>READ ARCHIVE V35.4</span>
+          <span>READ ARCHIVE</span>
         </button>
 
         <button type="button" onmouseenter="prewarmRandomTrack()" onclick="triggerGachaTrack()" class="social-pill !bg-white/15 !border-white/30">
@@ -1835,11 +2054,6 @@
           </svg>
           <span>SHUFFLE THEME</span>
         </button>
-
-        <button type="button" onclick="switchPage(2)" class="cta-wrapped-btn ml-auto">
-          <span>WRAPPED × REPLAY // 635,685 MIN</span>
-          <svg class="w-4 h-4 fill-none stroke-current" stroke-width="2.4" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
-        </button>
       </div>
     </section>
   </main>
@@ -1847,7 +2061,7 @@
   <!-- ========================================================================= -->
   <!-- PAGE 2: SPOTIFY WRAPPED × APPLE MUSIC REPLAY ULTIMATE FLEX                -->
   <!-- ========================================================================= -->
-  <main id="page-2" class="page-view is-hidden max-w-6xl mx-auto px-4 space-y-6 mt-2">
+  <main id="page-2" class="page-view is-hidden max-w-6xl mx-auto px-4 space-y-6 mt-2 pb-28">
     <!-- PAGE 2 TOP BAR -->
     <div class="flex flex-wrap items-center justify-between gap-3 glass-card px-4 py-3">
       <div class="flex items-center gap-3">
@@ -1865,10 +2079,15 @@
         </div>
       </div>
 
-      <button type="button" onclick="triggerPage2Animations()" class="social-pill !bg-rose-500/25 !border-rose-400/50 text-rose-100">
-        <svg class="w-3.5 h-3.5 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg>
-        <span>REPLAY ANIMATION</span>
-      </button>
+      <div class="flex items-center gap-2">
+        <button type="button" onclick="openGuestbookModal()" class="social-pill !bg-fuchsia-500/25 !border-fuchsia-400/50 text-fuchsia-100">
+          <span>✍️ KÝ LƯU BÚT</span>
+        </button>
+        <button type="button" onclick="triggerPage2Animations()" class="social-pill !bg-rose-500/25 !border-rose-400/50 text-rose-100">
+          <svg class="w-3.5 h-3.5 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg>
+          <span>REPLAY ANIMATION</span>
+        </button>
+      </div>
     </div>
 
     <!-- WRAPPED HERO BENTO CARDS -->
@@ -2307,7 +2526,7 @@
             </div>
           </div>
 
-          <!-- Artist #11 to #15: Zeph, bbno$, BABYMETAL, Eve, Michael Jackson -->
+          <!-- Artist #11 to #15 -->
           <div class="stat-node p-4">
             <div class="flex items-center gap-3.5">
               <div class="rank-badge rank-other">#11–15</div>
@@ -2343,7 +2562,7 @@
             </div>
           </div>
 
-          <!-- Artist #16 to #23: Kessoku Band, Imagine Dragons, kensuke ushio, SEATBELTS, Ado, King Gnu, Shiro SAGISU -->
+          <!-- Artist #16 to #23 -->
           <div class="stat-node p-4">
             <div class="flex items-center gap-3.5">
               <div class="rank-badge rank-other">#16–23</div>
@@ -3079,7 +3298,7 @@
                     <div>• <strong>Rachel Podger Vivaldi DSD64:</strong> 37/37 files</div>
                   </div>
                   <div class="tree-subitem space-y-1">
-                    <div class="font-mono-code text-sky-300 font-bold">SIGNAL CHAIN &amp; V35.4 FORMULA</div>
+                    <div class="font-mono-code text-sky-300 font-bold">SIGNAL CHAIN &amp; AUDIO FORMULA</div>
                     <div>• <strong>Lecoo Pro 14</strong> ➔ <strong>Foobar2000 (ASIO DSD)</strong> ➔ <strong>FiiO K7</strong> (Dual AK4493SEQ + THX AAA 788+ 2000mW) ➔ <strong>Moondrop Kadenz</strong> &amp; Loa rời.</div>
                     <div>• <strong>Formula:</strong> <code>2.4D (Stage) + 2.3C (Treble) + 2.2B (Mid) + 1.5E (Dyn) + 1.2A (Fast Bass) + 0.4F</code>.</div>
                   </div>
@@ -3092,16 +3311,103 @@
     </div>
   </main>
 
-  <!-- ================= ARCHIVE V35.4 GLASS MODAL READER (IN-WEB PREVIEW) ================= -->
+  <!-- ================= MODAL 1: VISITOR SIGNATURE & SECRET GUESTBOOK (SỔ LƯU BÚT DISCORD) ================= -->
+  <div id="guestbook-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xl transition-opacity">
+    <div class="glass-card max-w-lg w-full flex flex-col !bg-slate-950/95 !border-rose-400/45 shadow-[0_25px_70px_rgba(244,63,94,0.3)] overflow-hidden">
+      <!-- Header -->
+      <div class="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-gradient-to-r from-rose-500/20 via-fuchsia-500/10 to-sky-500/15">
+        <div class="flex items-center gap-2.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-rose-400 animate-ping"></span>
+          <div>
+            <div class="text-[10px] font-mono-code text-rose-300 font-bold uppercase tracking-widest">VISITOR SIGNATURE // SECRET GUESTBOOK</div>
+            <h3 class="text-sm sm:text-base font-black text-white">✍️ SỔ LƯU BÚT GỬI VUNN (@vuismei)</h3>
+          </div>
+        </div>
+        <button type="button" onclick="closeGuestbookModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-rose-500/30 border border-white/15 flex items-center justify-center text-slate-300 hover:text-white transition cursor-pointer" title="Đóng">
+          ✕
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="p-5 space-y-4 text-xs sm:text-sm text-slate-200">
+        <!-- Gentle Anonymous Notice -->
+        <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-400/30 text-xs text-emerald-100 leading-relaxed flex items-start gap-2.5">
+          <span class="text-base leading-none mt-0.5">🕊️</span>
+          <div>
+            <strong class="text-emerald-300">Thông báo nhẹ nhàng:</strong> Lời nhắn của bạn mặc định sẽ được gửi <strong>dưới dạng ẩn danh</strong> trực tiếp về kênh <code>#web-logs</code> trên Discord của VuNn. Nếu muốn mình nhận ra, bạn có thể tùy chọn ghi thêm biệt danh hoặc ID Discord ở bên dưới nhé!
+          </div>
+        </div>
+
+        <!-- Quick Emoji / Vibe Selector -->
+        <div class="space-y-1.5">
+          <label class="block text-[11px] font-mono-code uppercase text-rose-300 font-bold tracking-wider">
+            1. CHỌN EMOJI / VIBE NHANH:
+          </label>
+          <div id="guestbook-vibes" class="flex flex-wrap gap-1.5">
+            <button type="button" data-vibe="🌸 Ghé thăm bio" class="vibe-chip active">🌸 Ghé thăm bio</button>
+            <button type="button" data-vibe="🎧 Gu nhạc đỉnh quá" class="vibe-chip">🎧 Gu nhạc đỉnh quá</button>
+            <button type="button" data-vibe="🔥 Kết bạn Discord nhé" class="vibe-chip">🔥 Kết bạn Discord nhé</button>
+            <button type="button" data-vibe="🌙 Hội cú đêm 21h" class="vibe-chip">🌙 Hội cú đêm 21h</button>
+            <button type="button" data-vibe="💎 Đồng âm Audiophile" class="vibe-chip">💎 Đồng âm Audiophile</button>
+            <button type="button" data-vibe="🐾 Đã vuốt mèo Neko" class="vibe-chip">🐾 Đã vuốt mèo Neko</button>
+          </div>
+        </div>
+
+        <!-- Optional Name / Discord Tag -->
+        <div class="space-y-1.5">
+          <label for="gb-sender" class="block text-[11px] font-mono-code uppercase text-sky-300 font-bold tracking-wider">
+            2. TÊN HOẶC DISCORD ID CỦA BẠN <span class="text-slate-400 font-normal">(TÙY CHỌN — BỎ TRỐNG = ẨN DANH)</span>:
+          </label>
+          <input
+            id="gb-sender"
+            type="text"
+            maxlength="50"
+            placeholder="VD: Bạn từ server プロセカ / @ten_discord (hoặc để trống)..."
+            class="w-full px-3.5 py-2 rounded-lg bg-black/50 border border-white/15 focus:border-rose-400 focus:outline-none text-xs sm:text-sm text-white placeholder-slate-500 font-mono-code"
+          />
+        </div>
+
+        <!-- Message Input -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <label for="gb-message" class="block text-[11px] font-mono-code uppercase text-amber-300 font-bold tracking-wider">
+              3. LỜI NHẮN GỬI VUNN:
+            </label>
+            <span id="gb-char-count" class="text-[10px] font-mono-code text-slate-400">0 / 280</span>
+          </div>
+          <textarea
+            id="gb-message"
+            rows="3"
+            maxlength="280"
+            placeholder="Gõ lời nhắn ngắn, bài hát bạn thích hoặc thả một chiếc cảm xúc vào đây..."
+            class="w-full p-3.5 rounded-lg bg-black/50 border border-white/15 focus:border-rose-400 focus:outline-none text-xs sm:text-sm text-white placeholder-slate-500 resize-none leading-relaxed"
+          ></textarea>
+        </div>
+
+        <div id="gb-status-msg" class="text-[11px] font-mono-code text-slate-400 hidden"></div>
+      </div>
+
+      <!-- Footer -->
+      <div class="px-5 py-3.5 border-t border-white/10 bg-black/60 flex items-center justify-end gap-2">
+        <button type="button" onclick="closeGuestbookModal()" class="social-pill !bg-white/5 !border-white/15 text-xs">
+          Hủy
+        </button>
+        <button type="button" id="gb-submit-btn" onclick="submitGuestbookEntry()" class="cta-wrapped-btn !py-2 !px-4 text-xs">
+          <span>🚀 BẮN TỚI DISCORD #WEB-LOGS</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL 2: ARCHIVE GLASS MODAL READER ================= -->
   <div id="archive-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xl transition-opacity">
     <div class="glass-card max-w-3xl w-full max-h-[85vh] flex flex-col !bg-slate-950/95 !border-rose-400/40 shadow-[0_25px_70px_rgba(0,0,0,0.85)] overflow-hidden">
-      <!-- Modal Header -->
       <div class="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-gradient-to-r from-rose-500/15 via-transparent to-sky-500/15">
         <div class="flex items-center gap-2.5">
           <span class="w-2.5 h-2.5 rounded-full bg-rose-400 animate-pulse"></span>
           <div>
             <div class="text-[10px] font-mono-code text-rose-300 font-bold uppercase tracking-widest">BOOK EDITION ARCHIVE // DIRECT READER</div>
-            <h3 class="text-sm sm:text-base font-black text-white">HỒ SƠ BẢN THÂN &amp; SONIC TELEMETRY V35.4 — VuNn (@vuismei)</h3>
+            <h3 class="text-sm sm:text-base font-black text-white">HỒ SƠ BẢN THÂN &amp; ÂM NHẠC — VuNn (@vuismei)</h3>
           </div>
         </div>
         <button type="button" onclick="closeArchiveModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-rose-500/30 border border-white/15 flex items-center justify-center text-slate-300 hover:text-white transition cursor-pointer" title="Đóng cửa sổ">
@@ -3109,16 +3415,20 @@
         </button>
       </div>
 
-      <!-- Modal Body -->
       <div class="p-5 sm:p-6 overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-200 leading-relaxed">
         <div class="p-3.5 rounded-xl bg-rose-500/10 border border-rose-400/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <div class="font-mono-code text-[11px] text-rose-300 font-bold">👋 CHÀO BẠN MỚI TỪ DISCORD!</div>
-            <p class="text-xs text-slate-300 mt-0.5">Đây là bản tóm tắt nhanh để bạn đọc trực tiếp trên web mà không cần tải file. Nếu hợp gu mục nào thì nhắn cho mình trên Discord nhé!</p>
+            <p class="text-xs text-slate-300 mt-0.5">Đây là bản tóm tắt nhanh để bạn đọc trực tiếp trên web mà không cần tải file. Nếu hợp gu mục nào thì nhắn cho mình hoặc ký lưu bút nhé!</p>
           </div>
-          <button type="button" onclick="copyDiscordId()" class="social-pill shrink-0 !bg-rose-500/30 !border-rose-300/50 text-white">
-            <span>💬 Nhắn @vuismei</span>
-          </button>
+          <div class="flex items-center gap-2 shrink-0">
+            <button type="button" onclick="closeArchiveModal(); openGuestbookModal();" class="social-pill !bg-fuchsia-500/30 !border-fuchsia-300/50 text-white">
+              <span>✍️ Ký lưu bút</span>
+            </button>
+            <button type="button" onclick="copyDiscordId()" class="social-pill !bg-rose-500/30 !border-rose-300/50 text-white">
+              <span>💬 @vuismei</span>
+            </button>
+          </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
@@ -3150,7 +3460,6 @@
         </div>
       </div>
 
-      <!-- Modal Footer -->
       <div class="px-5 py-3.5 border-t border-white/10 bg-black/50 flex flex-wrap items-center justify-between gap-3">
         <span class="text-[11px] font-mono-code text-slate-400">Bạn muốn lưu bản đầy đủ 100 trang số liệu về máy?</span>
         <div class="flex items-center gap-2">
@@ -3193,7 +3502,7 @@
     </button>
   </div>
 
-  <!-- ================= FLOATING 5-DECK INSTANT GACHA PLAYER ================= -->
+  <!-- ================= FLOATING 5-DECK INSTANT GACHA PLAYER + REALTIME SPECTRUM ANALYZER ================= -->
   <aside id="gacha-player-dock" class="gacha-dock-panel fixed bottom-3 inset-x-3 max-w-4xl mx-auto z-40">
     <div class="glass-card px-4 py-2.5 sm:px-5 sm:py-3 !bg-slate-950/90 !border-white/20 shadow-2xl space-y-2">
       <div class="flex items-center justify-between gap-2 pb-1.5 border-b border-white/10">
@@ -3274,15 +3583,33 @@
               <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
             </svg>
           </button>
-          <input id="volume-bar" type="range" min="0" max="1" step="0.01" value="0.10" class="w-16" />
+          <input id="volume-bar" type="range" min="0" max="1" step="0.01" value="0.70" class="w-16" />
         </div>
+      </div>
+
+      <!-- NOW PLAYING VISUALIZER // REALTIME SPECTRUM ANALYZER BAR -->
+      <div class="pt-1.5 border-t border-white/10 flex items-center gap-3">
+        <div class="flex items-center gap-1.5 shrink-0">
+          <span id="spec-dot" class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+          <span class="text-[9px] font-mono-code font-bold uppercase tracking-widest text-slate-400">
+            SPECTRUM // 32-BAND FFT
+          </span>
+        </div>
+        <div class="relative flex-1 h-6 rounded bg-black/40 border border-white/10 overflow-hidden px-1.5 py-0.5">
+          <canvas id="spectrum-canvas" class="w-full h-full block"></canvas>
+        </div>
+        <span id="spec-peak-db" class="hidden sm:inline text-[9px] font-mono-code text-rose-300 font-bold w-16 text-right">
+          -∞ dBFS
+        </span>
       </div>
     </div>
   </aside>
 
-  <!-- ================= 120FPS 5-DECK AUDIO ENGINE, SAKURA RAIN & EDGE TELEMETRY ================= -->
+  <!-- ================= V36.1 ENGINE: INSTANT 70% AUDIO, AUTO ECO-MODE, ZERO-IDLE CANVAS & TELEMETRY ================= -->
   <script>
     const DISCORD_USER_ID = new URLSearchParams(window.location.search).get("discord_id") || localStorage.getItem("vunn_discord_id") || "856710730485465098";
+
+    // FULL 5 GACHA TRACKS RESTORED
     const GACHA_PLAYLIST = [
       {
         shortName: "01 // Fukashigi no Carte",
@@ -3291,6 +3618,7 @@
         badge: "GACHA #1 • BUNNY GIRL SENPAI",
         audioUrl: "https://files.catbox.moe/1dp11t.mp3",
         coverUrl: "https://files.catbox.moe/6yr9eo.jpg",
+        bpm: 116,
         colors: ["#f43f5e", "#6366f1", "#fb923c", "#38bdf8"]
       },
       {
@@ -3300,6 +3628,7 @@
         badge: "GACHA #2 • MONOGATARI ROCK",
         audioUrl: "https://files.catbox.moe/mmsaia.mp3",
         coverUrl: "https://files.catbox.moe/6pq8mh.png",
+        bpm: 138,
         colors: ["#a855f7", "#ec4899", "#ef4444", "#6366f1"]
       },
       {
@@ -3309,6 +3638,7 @@
         badge: "GACHA #3 • NISEMONOGATARI",
         audioUrl: "https://files.catbox.moe/f6aslo.mp3",
         coverUrl: "https://files.catbox.moe/4phbet.png",
+        bpm: 126,
         colors: ["#ec4899", "#06b6d4", "#f43f5e", "#8b5cf6"]
       },
       {
@@ -3318,6 +3648,7 @@
         badge: "GACHA #4 • BAKEMONOGATARI",
         audioUrl: "https://files.catbox.moe/mzshho.mp3",
         coverUrl: "https://files.catbox.moe/mqsu6e.jpg",
+        bpm: 120,
         colors: ["#fb7185", "#f472b6", "#fbbf24", "#c084fc"]
       },
       {
@@ -3327,6 +3658,7 @@
         badge: "GACHA #5 • WOWAKA × MIKU",
         audioUrl: "https://files.catbox.moe/xyxjob.mp3",
         coverUrl: "https://files.catbox.moe/wdbpfr.jpg",
+        bpm: 195,
         colors: ["#0ea5e9", "#6366f1", "#14b8a6", "#ec4899"]
       }
     ];
@@ -3336,15 +3668,104 @@
     let allExpanded = false;
     let rafPending = false;
     let isSeeking = false;
-    let userVolume = 0.10;
-    let fadeRafId = null;
-    let hasTriggeredInitialFade = false;
+    let userVolume = 0.70;
     let playerMinimized = false;
     let userMuted = false;
     let bgWarmStarted = false;
     let currentPage = 1;
+    let hasEntered = false;
+    let isPageTransitioning = false;
+    let personaTransitionTimeout = null;
     let lastCurrentTimeStr = "";
     let lastDurationStr = "";
+
+    // ====== TYPEWRITER INTRO HOLD ======
+    (function initIntroTypewriter() {
+      const targetEl = document.getElementById("intro-typewriter-text");
+      if (!targetEl) return;
+      const fullText = "[ CLICK ANYWHERE TO ENTER ]";
+      let charIndex = 0;
+
+      function typeNextChar() {
+        if (hasEntered) return;
+        if (charIndex <= fullText.length) {
+          targetEl.textContent = fullText.slice(0, charIndex);
+          charIndex++;
+          setTimeout(typeNextChar, 45);
+        }
+      }
+      setTimeout(typeNextChar, 80);
+    })();
+
+    // ====== SILENT AUTO ECO-MODE + REALTIME FPS WATCHDOG (AUTO ANTI-LAG) ======
+    (function initSilentAutoEcoMode() {
+      const lowCores = typeof navigator.hardwareConcurrency === "number" && navigator.hardwareConcurrency <= 4;
+      const lowRam = typeof navigator.deviceMemory === "number" && navigator.deviceMemory <= 4;
+      const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      let saveData = Boolean(conn && conn.saveData);
+      let lowBatteryUnplugged = false;
+      let fpsDropDetected = false;
+
+      function evaluateEcoState() {
+        const shouldEnableEco = lowCores || lowRam || saveData || lowBatteryUnplugged || fpsDropDetected;
+        document.body.classList.toggle("eco-mode", shouldEnableEco);
+      }
+
+      evaluateEcoState();
+
+      if (conn && typeof conn.addEventListener === "function") {
+        conn.addEventListener("change", () => {
+          saveData = Boolean(conn.saveData);
+          evaluateEcoState();
+        });
+      }
+
+      if (typeof navigator.getBattery === "function") {
+        navigator.getBattery().then((bat) => {
+          if (!bat) return;
+          const checkBattery = () => {
+            lowBatteryUnplugged = !bat.charging && typeof bat.level === "number" && bat.level < 0.30;
+            evaluateEcoState();
+          };
+          checkBattery();
+          bat.addEventListener("chargingchange", checkBattery);
+          bat.addEventListener("levelchange", checkBattery);
+        }).catch(() => {});
+      }
+
+      let sampleFrames = 0;
+      let sampleStart = performance.now();
+      let lagStrikes = 0;
+
+      function monitorFrameHealth(now) {
+        if (fpsDropDetected) return;
+        if (document.hidden) {
+          sampleFrames = 0;
+          sampleStart = now;
+          requestAnimationFrame(monitorFrameHealth);
+          return;
+        }
+        sampleFrames++;
+        const elapsed = now - sampleStart;
+        if (elapsed >= 1200) {
+          const currentFps = (sampleFrames * 1000) / elapsed;
+          if (currentFps < 48) {
+            lagStrikes++;
+            if (lagStrikes >= 2) {
+              fpsDropDetected = true;
+              evaluateEcoState();
+              return;
+            }
+          } else {
+            lagStrikes = Math.max(0, lagStrikes - 1);
+          }
+          sampleFrames = 0;
+          sampleStart = now;
+        }
+        requestAnimationFrame(monitorFrameHealth);
+      }
+      requestAnimationFrame(monitorFrameHealth);
+    })();
 
     const vinylDisc = document.getElementById("vinyl-disc");
     const vinylCover = document.getElementById("vinyl-cover");
@@ -3371,43 +3792,13 @@
     const vnClockEl = document.getElementById("vn-clock");
     const allStatNodes = Array.from(document.querySelectorAll(".stat-node"));
 
-    // ====== 5-SECOND SMOOTH AUDIO FADE-IN (10% -> 85%) ======
-    function startSmoothVolumeFadeIn() {
-      if (hasTriggeredInitialFade) return;
-      hasTriggeredInitialFade = true;
-
-      const startVol = 0.10;
-      const targetVol = 0.85;
-      const fadeDuration = 5000; // 5 giây
-      const startTime = performance.now();
-
-      userVolume = startVol;
-      if (volumeBar) volumeBar.value = startVol.toFixed(2);
-      for (let i = 0; i < audioDecks.length; i++) {
-        audioDecks[i].volume = startVol;
-      }
-
-      function stepFade(now) {
-        if (userMuted) return;
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / fadeDuration, 1);
-        // Đường cong mượt giúp tai thích nghi dễ chịu
-        const currentVol = startVol + (targetVol - startVol) * progress;
-        userVolume = currentVol;
-        if (volumeBar) volumeBar.value = currentVol.toFixed(2);
-        for (let i = 0; i < audioDecks.length; i++) {
-          audioDecks[i].volume = currentVol;
-        }
-        if (progress < 1) {
-          fadeRafId = requestAnimationFrame(stepFade);
-        }
-      }
-      fadeRafId = requestAnimationFrame(stepFade);
+    // Sync volume bar immediately to 0.70 (70%)
+    if (volumeBar) {
+      volumeBar.value = "0.70";
     }
 
-    // ====== WEB AUDIO API CUTE "MEOW~" SYNTH + ICEBREAKER TOAST ======
-    let nekoTimeout = null;
-    function playCuteMeowSound() {
+    // ====== PERSONA-STYLE PUNCHY SOUND EFFECT (WEB AUDIO API) ======
+    function playPersonaSfx() {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         if (!AudioCtx) return;
@@ -3416,29 +3807,57 @@
 
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.type = "triangle";
+        const filter = ctx.createBiquadFilter();
 
-        // Đường cong cao độ tiếng mèo kêu "Meow~" (520Hz -> 920Hz -> 440Hz)
-        osc.frequency.setValueAtTime(520, now);
-        osc.frequency.exponentialRampToValueAtTime(920, now + 0.14);
-        osc.frequency.exponentialRampToValueAtTime(430, now + 0.42);
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(540, now);
+        osc.frequency.exponentialRampToValueAtTime(120, now + 0.18);
 
-        gain.gain.setValueAtTime(0.001, now);
-        gain.gain.linearRampToValueAtTime(0.18, now + 0.05);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.44);
+        filter.type = "bandpass";
+        filter.frequency.setValueAtTime(1400, now);
+        filter.frequency.exponentialRampToValueAtTime(320, now + 0.18);
+        filter.Q.setValueAtTime(2.5, now);
 
-        osc.connect(gain);
+        gain.gain.setValueAtTime(0.045, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+
+        osc.connect(filter);
+        filter.connect(gain);
         gain.connect(ctx.destination);
+
         osc.start(now);
-        osc.stop(now + 0.45);
-        setTimeout(() => ctx.close().catch(() => {}), 550);
+        osc.stop(now + 0.24);
+        setTimeout(() => { ctx.close().catch(() => {}); }, 380);
       } catch (e) {}
     }
 
+    // ====== DIGITAL CONFIRMATION CHIME ======
+    function playSentChime() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(880, now);
+        osc.frequency.exponentialRampToValueAtTime(1320, now + 0.14);
+        gain.gain.setValueAtTime(0.04, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.24);
+        setTimeout(() => { ctx.close().catch(() => {}); }, 350);
+      } catch (e) {}
+    }
+
+    // ====== SILENT VISUAL-ONLY NEKO EASTER EGG ======
+    let nekoTimeout = null;
     function petStarryNeko() {
-      playCuteMeowSound();
       const box = document.getElementById("neko-easter-box");
-      const bubble = document.getElementById("neko-meow-bubble");
+      const bubble = document.getElementById("neko-sparkle-bubble");
       const face = document.getElementById("neko-face-line");
 
       if (box) {
@@ -3449,16 +3868,17 @@
       if (bubble) bubble.classList.add("is-visible");
       if (face) face.textContent = "（≧ ω ≦ ７";
 
-      showToast("Meow~ 🐾 Hay thức khuya cày nhạc • Rủ bàn về Anime, J-Pop, V-Indie hay Audio là tôi sẽ xuất hiện!", 4800);
+      showToast("🐾 [ DISCORD.BIO ] VuNn // Hay thức khuya cày nhạc • Rủ bàn về Anime, J-Pop, V-Indie hay Audio là tôi sẽ xuất hiện!", 4000);
 
       clearTimeout(nekoTimeout);
       nekoTimeout = setTimeout(() => {
-        if (bubble) bubble.classList.remove("is-visible");
         if (face) face.textContent = "（ﾟ､ ｡ ７";
-      }, 2800);
+        if (bubble) bubble.classList.remove("is-visible");
+        if (box) box.classList.remove("neko-jump");
+      }, 420);
     }
 
-    // ====== ARCHIVE V35.4 GLASS MODAL READER ======
+    // ====== MODAL CONTROLS (ARCHIVE & GUESTBOOK) ======
     function openArchiveModal() {
       const modal = document.getElementById("archive-modal");
       if (modal) modal.classList.remove("hidden");
@@ -3469,6 +3889,37 @@
       if (modal) modal.classList.add("hidden");
     }
 
+    let selectedGuestbookVibe = "🌸 Ghé thăm bio";
+    function openGuestbookModal() {
+      const modal = document.getElementById("guestbook-modal");
+      if (modal) modal.classList.remove("hidden");
+    }
+
+    function closeGuestbookModal() {
+      const modal = document.getElementById("guestbook-modal");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    const gbVibesContainer = document.getElementById("guestbook-vibes");
+    if (gbVibesContainer) {
+      gbVibesContainer.addEventListener("click", (e) => {
+        const chip = e.target.closest(".vibe-chip");
+        if (!chip) return;
+        selectedGuestbookVibe = chip.dataset.vibe || "🌸 Ghé thăm bio";
+        gbVibesContainer.querySelectorAll(".vibe-chip").forEach((c) => {
+          c.classList.toggle("active", c === chip);
+        });
+      });
+    }
+
+    const gbMessageInput = document.getElementById("gb-message");
+    const gbCharCount = document.getElementById("gb-char-count");
+    if (gbMessageInput && gbCharCount) {
+      gbMessageInput.addEventListener("input", () => {
+        gbCharCount.textContent = `${gbMessageInput.value.length} / 280`;
+      });
+    }
+
     // ====== PERSONA-STYLE MINIMIZE / EXPAND GACHA PLAYER ======
     let userManuallyToggledPlayer = false;
     function togglePlayerMinimize(minimize, isManual = true) {
@@ -3476,9 +3927,11 @@
       playerMinimized = minimize;
       if (gachaPlayerDock) gachaPlayerDock.classList.toggle("is-minimized", minimize);
       if (personaMiniPlayer) personaMiniPlayer.classList.toggle("is-active", minimize);
+      if (!minimize && typeof window.wakeSpectrumLoop === "function") {
+        window.wakeSpectrumLoop();
+      }
     }
 
-    // Tự động thu gọn thành đĩa xoay góc màn hình khi cuộn sâu xuống dưới (nếu người dùng chưa tự khóa tay)
     window.addEventListener("scroll", () => {
       if (userManuallyToggledPlayer) return;
       if (window.scrollY > 220 && !playerMinimized) {
@@ -3496,7 +3949,6 @@
       vault: document.getElementById("sec-vault")
     };
 
-    // Bộ định dạng số và thời gian được khởi tạo 1 lần duy nhất (Zero GC Allocation trong rAF)
     const vnClockFormatter = new Intl.DateTimeFormat("en-GB", {
       timeZone: "Asia/Ho_Chi_Minh",
       hour: "2-digit",
@@ -3519,21 +3971,20 @@
       return numberFormatters.get(decimals);
     }
 
-    // Tự động tạm dừng toàn bộ CSS animations khi người dùng chuyển tab để tiết kiệm GPU
     document.addEventListener("visibilitychange", () => {
       document.body.classList.toggle("is-tab-hidden", document.hidden);
     });
 
-    // ====== 100% GPU COMPOSITED SAKURA RAIN GENERATOR (ZERO TOP REFLOW) ======
+    // ====== 100% GPU COMPOSITED NATURAL SAKURA RAIN GENERATOR (55 MOBILE / 88 DESKTOP) ======
     function initGlobalSakuraRain() {
       if (!sakuraLayer) return;
-      const isLowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || window.innerWidth < 640;
-      const PETAL_COUNT = isLowPower ? 30 : 46;
+      const isMobile = window.innerWidth < 640;
+      const PETAL_COUNT = isMobile ? 55 : 88;
       const frag = document.createDocumentFragment();
 
-      const petalSvg1 = `<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="url(#sakuraPetalGrad)" d="M16,2 C10,2 6,10 9,20 C11,26 14,29 16,30 C18,29 21,26 23,20 C26,10 22,2 16,2 M16,2 L14,7 L16,5 L18,7 Z"/></svg></div>`;
-      const petalSvg2 = `<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="#fda4af" opacity="0.9" d="M16,3 C9,6 5,14 10,23 C12,27 15,29 16,30 C17,29 20,27 22,23 C27,14 23,6 16,3 Z"/></svg></div>`;
-      const blossomMiniSvg = `<div class="sakura-sway"><svg viewBox="-34 -34 68 68"><use href="#sakura-flower-full"/></svg></div>`;
+      const petalSvg1 = '<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="url(#sakuraPetalGrad)" d="M16,2 C10,2 6,10 9,20 C11,26 14,29 16,30 C18,29 21,26 23,20 C26,10 22,2 16,2 M16,2 L14,7 L16,5 L18,7 Z"/></svg></div>';
+      const petalSvg2 = '<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="#fda4af" opacity="0.92" d="M16,3 C9,6 5,14 10,23 C12,27 15,29 16,30 C17,29 20,27 22,23 C27,14 23,6 16,3 Z"/></svg></div>';
+      const blossomMiniSvg = '<div class="sakura-sway"><svg viewBox="-34 -34 68 68"><use href="#sakura-flower-full"/></svg></div>';
 
       for (let i = 0; i < PETAL_COUNT; i++) {
         const leaf = document.createElement("div");
@@ -3544,15 +3995,15 @@
         if (depthRoll < 0.25) {
           size = 9 + Math.random() * 4;
           dur = 11 + Math.random() * 4.5;
-          op = 0.45 + Math.random() * 0.2;
+          op = 0.48 + Math.random() * 0.22;
         } else if (depthRoll < 0.82) {
           size = 12 + Math.random() * 6;
           dur = 7.5 + Math.random() * 3.8;
-          op = 0.72 + Math.random() * 0.22;
+          op = 0.74 + Math.random() * 0.22;
         } else {
-          size = 17 + Math.random() * 6;
-          dur = 6.2 + Math.random() * 2.5;
-          op = 0.62 + Math.random() * 0.2;
+          size = 16 + Math.random() * 6;
+          dur = 6.2 + Math.random() * 2.6;
+          op = 0.65 + Math.random() * 0.22;
         }
 
         const xPos = Math.random() * 100;
@@ -3582,50 +4033,78 @@
       }
       sakuraLayer.appendChild(frag);
     }
-
     initGlobalSakuraRain();
 
     let countRafId = null;
 
+    // ====== PERSONA-STYLE SMOOTH 0.72S PAGE SWITCHING (300MS APEX) ======
     function switchPage(targetPage) {
-      if (targetPage === currentPage) return;
+      if (targetPage === currentPage || isPageTransitioning) return;
+      isPageTransitioning = true;
+      currentPage = targetPage;
+
       const page1 = document.getElementById("page-1");
       const page2 = document.getElementById("page-2");
       const topBtn = document.getElementById("top-page-switch-btn");
+      const badgeTitle = document.getElementById("persona-badge-title");
 
-      currentPage = targetPage;
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (badgeTitle) {
+        badgeTitle.textContent = targetPage === 2 ? "WRAPPED × REPLAY" : "PROFILE & HUD";
+      }
 
-      if (targetPage === 2) {
-        if (sakuraLayer) sakuraLayer.classList.add("is-hidden-rain");
+      // 1. Play Persona slash sound effect
+      playPersonaSfx();
 
-        page1.classList.add("is-hidden");
-        page2.classList.remove("is-hidden");
-        page2.classList.add("is-entering");
-        topBtn.textContent = "← BACK TO PROFILE";
-        topBtn.onclick = () => switchPage(1);
+      // 2. Trigger diagonal slash curtains (0.72s total)
+      document.body.classList.remove("is-persona-shifting");
+      const layer = document.getElementById("persona-transition-layer");
+      if (layer) void layer.offsetWidth;
+      document.body.classList.add("is-persona-shifting");
 
-        requestAnimationFrame(() => {
+      // 3. Apex of transition (300ms): swap DOM seamlessly
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "instant" });
+
+        if (targetPage === 2) {
+          if (sakuraLayer) sakuraLayer.classList.add("is-hidden-rain");
+
+          document.body.classList.add("on-page-2");
+          page1.classList.add("is-hidden");
+          page2.classList.remove("is-hidden");
+          page2.classList.add("is-entering");
+          if (topBtn) {
+            topBtn.innerHTML = "<span>← BACK TO PROFILE</span>";
+            topBtn.onclick = () => switchPage(1);
+          }
+
           requestAnimationFrame(() => {
             page2.classList.remove("is-entering");
             triggerPage2Animations();
           });
-        });
-      } else {
-        if (sakuraLayer) sakuraLayer.classList.remove("is-hidden-rain");
+        } else {
+          if (sakuraLayer) sakuraLayer.classList.remove("is-hidden-rain");
 
-        page2.classList.add("is-hidden");
-        page1.classList.remove("is-hidden");
-        page1.classList.add("is-entering");
-        topBtn.textContent = "WRAPPED × REPLAY →";
-        topBtn.onclick = () => switchPage(2);
+          document.body.classList.remove("on-page-2");
+          page2.classList.add("is-hidden");
+          page1.classList.remove("is-hidden");
+          page1.classList.add("is-entering");
+          if (topBtn) {
+            topBtn.innerHTML = "<span>WRAPPED × REPLAY →</span>";
+            topBtn.onclick = () => switchPage(2);
+          }
 
-        requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             page1.classList.remove("is-entering");
           });
-        });
-      }
+        }
+      }, 300);
+
+      // 4. End transition (720ms)
+      clearTimeout(personaTransitionTimeout);
+      personaTransitionTimeout = setTimeout(() => {
+        document.body.classList.remove("is-persona-shifting");
+        isPageTransitioning = false;
+      }, 720);
     }
 
     function triggerPage2Animations(scopeEl = document.getElementById("page-2")) {
@@ -3686,7 +4165,7 @@
     }
 
     let lanyardSpotifyTimestamps = null;
-    let lanyardActivityStart = Date.now() - (19 * 3600 + 10 * 60 + 32) * 1000;
+    let lanyardActivityStart = Date.now() - (4 * 3600 + 22 * 60 + 18) * 1000;
 
     function formatHMS(ms) {
       const totalSec = Math.max(0, Math.floor(ms / 1000));
@@ -3742,9 +4221,9 @@
 
       if (gameAct) {
         document.getElementById("lanyard-act-type").innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> PLAYING // LIVE`;
-        document.getElementById("lanyard-act-name").textContent = gameAct.name || "V u N n （詠ノな）";
+        document.getElementById("lanyard-act-name").textContent = gameAct.name || "Visual Studio Code // vuismei";
         const detailsText = [gameAct.details, gameAct.state].filter(Boolean).join(" • ");
-        document.getElementById("lanyard-act-details").textContent = detailsText || "BUSY / SLEEP = NO REPLY • ocean.";
+        document.getElementById("lanyard-act-details").textContent = detailsText || "Editing discord/index.html • Hi-Res Audio On";
 
         if (gameAct.timestamps && gameAct.timestamps.start) {
           lanyardActivityStart = gameAct.timestamps.start;
@@ -3790,7 +4269,6 @@
       };
     }
 
-    // Bộ đếm nhịp 1Hz hợp nhất cho Đồng hồ ICT + Lanyard Timers (Tự động nghỉ khi ẩn tab)
     const actTimerEl = document.getElementById("lanyard-act-timer");
     const spotBarEl = document.getElementById("lanyard-spot-bar");
     const spotTimeEl = document.getElementById("lanyard-spot-time");
@@ -3822,7 +4300,6 @@
     masterSecondTick();
     connectLanyardWebSocket();
 
-    // Khởi tạo 1 lần thanh Track Chips để không bao giờ phải xóa/tạo lại DOM
     const chipButtons = [];
     function initTrackChips() {
       if (!chipsRow) return;
@@ -3853,7 +4330,7 @@
       const deck = new Audio();
       deck.preload = idx === currentIndex ? "auto" : "metadata";
       deck.src = track.audioUrl;
-      deck.volume = userVolume;
+      deck.volume = userVolume; // Initialized directly to 0.70 (70%)
       deck.dataset.ready = "0";
 
       deck.addEventListener("canplay", () => {
@@ -3879,20 +4356,23 @@
 
       deck.addEventListener("play", () => {
         if (idx !== currentIndex) return;
+        deck.volume = userVolume;
         vinylDisc.classList.add("is-playing");
         if (miniVinylDisc) miniVinylDisc.classList.add("is-playing");
         setPlayButtonUI(true);
         audioStatus.textContent = "● PLAYING";
-        startSmoothVolumeFadeIn();
+        if (typeof window.wakeSpectrumLoop === "function") window.wakeSpectrumLoop();
       });
 
       deck.addEventListener("playing", () => {
         if (idx !== currentIndex) return;
+        deck.volume = userVolume;
         vinylDisc.classList.add("is-playing");
         if (miniVinylDisc) miniVinylDisc.classList.add("is-playing");
         setPlayButtonUI(true);
         audioStatus.textContent = "● PLAYING";
         startBackgroundWarmQueue();
+        if (typeof window.wakeSpectrumLoop === "function") window.wakeSpectrumLoop();
       });
 
       deck.addEventListener("pause", () => {
@@ -3937,6 +4417,157 @@
     function getActiveDeck() {
       return audioDecks[currentIndex];
     }
+
+    // ====== ZERO-IDLE 32-BAND SPECTRUM ANALYZER (CACHED GRADIENT & AUTO SLEEP) ======
+    (function initSpectrumAnalyzer() {
+      const specCanvas = document.getElementById("spectrum-canvas");
+      const specDot = document.getElementById("spec-dot");
+      const specPeakDb = document.getElementById("spec-peak-db");
+      if (!specCanvas) return;
+
+      const sCtx = specCanvas.getContext("2d");
+      const BANDS = 32;
+      const barValues = new Float32Array(BANDS);
+      const peakValues = new Float32Array(BANDS);
+      barValues.fill(0.08);
+      peakValues.fill(0.08);
+
+      let cachedSpecGrad = null;
+      let cachedGradKey = "";
+      let specLoopRunning = false;
+      let lastDbUpdate = 0;
+
+      function getOrCreateSpectrumGradient(h, color0, color1) {
+        const nextKey = `${h}_${color0}_${color1}`;
+        if (!cachedSpecGrad || cachedGradKey !== nextKey) {
+          cachedGradKey = nextKey;
+          const grad = sCtx.createLinearGradient(0, h, 0, 0);
+          grad.addColorStop(0, color0 || "#fb7185");
+          grad.addColorStop(0.6, color1 || "#38bdf8");
+          grad.addColorStop(1, "#fde047");
+          cachedSpecGrad = grad;
+        }
+        return cachedSpecGrad;
+      }
+
+      function resizeSpecCanvas() {
+        const rect = specCanvas.getBoundingClientRect();
+        specCanvas.width = Math.max(160, Math.floor(rect.width * (window.devicePixelRatio || 1)));
+        specCanvas.height = Math.max(20, Math.floor(rect.height * (window.devicePixelRatio || 1)));
+        cachedSpecGrad = null;
+        drawStaticOrActiveFrame(performance.now());
+      }
+
+      function drawStaticOrActiveFrame(now) {
+        const deck = getActiveDeck();
+        const isPlaying = Boolean(deck && !deck.paused && !deck.ended);
+        const track = GACHA_PLAYLIST[currentIndex];
+        const bpm = track.bpm || 124;
+        const beatFreq = bpm / 60;
+        const t = deck ? deck.currentTime || now / 1000 : now / 1000;
+
+        if (specDot) {
+          specDot.className = isPlaying
+            ? "w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"
+            : "w-1.5 h-1.5 rounded-full bg-rose-400";
+        }
+
+        const w = specCanvas.width;
+        const h = specCanvas.height;
+        sCtx.clearRect(0, 0, w, h);
+
+        const gap = Math.max(2, Math.floor(w * 0.008));
+        const barWidth = Math.max(2, (w - gap * (BANDS - 1)) / BANDS);
+        const barGrad = getOrCreateSpectrumGradient(h, track.colors[0], track.colors[1]);
+
+        let maxEnergy = 0;
+        let allSettledAtBaseline = true;
+
+        for (let i = 0; i < BANDS; i++) {
+          let target = 0.08;
+          if (isPlaying && !userMuted) {
+            const kickPulse = Math.pow(Math.max(0, Math.sin(t * Math.PI * 2 * beatFreq)), 4);
+            const subWave = Math.sin(t * 7.5 + i * 0.42) * 0.5 + 0.5;
+            const vocalHarmonic = Math.sin(t * 13.2 - i * 0.28) * 0.5 + 0.5;
+            const hiHat = Math.abs(Math.sin(t * 29.0 + i * 1.7));
+
+            let freqWeight;
+            if (i < 6) {
+              freqWeight = 0.58 * kickPulse + 0.35 * subWave;
+            } else if (i < 18) {
+              freqWeight = 0.45 * vocalHarmonic + 0.32 * subWave + 0.18 * kickPulse;
+            } else {
+              freqWeight = 0.48 * hiHat + 0.25 * vocalHarmonic;
+            }
+
+            const volScale = Math.min(1, 0.45 + userVolume * 0.65);
+            target = Math.min(0.98, Math.max(0.1, freqWeight * volScale));
+          }
+
+          barValues[i] += (target - barValues[i]) * (target > barValues[i] ? 0.38 : 0.18);
+          if (barValues[i] > peakValues[i]) {
+            peakValues[i] = barValues[i];
+          } else {
+            peakValues[i] = Math.max(0.08, peakValues[i] - 0.014);
+          }
+
+          if (barValues[i] > 0.085 || peakValues[i] > 0.085) {
+            allSettledAtBaseline = false;
+          }
+
+          if (barValues[i] > maxEnergy) maxEnergy = barValues[i];
+
+          const x = i * (barWidth + gap);
+          const barH = Math.max(2, barValues[i] * (h - 3));
+          const y = h - barH;
+
+          sCtx.fillStyle = barGrad;
+          sCtx.fillRect(x, y, barWidth, barH);
+
+          const peakY = Math.max(0, h - peakValues[i] * (h - 2) - 1.5);
+          sCtx.fillStyle = "rgba(255, 255, 255, 0.85)";
+          sCtx.fillRect(x, peakY, barWidth, 1.5);
+        }
+
+        if (specPeakDb && now - lastDbUpdate > 140) {
+          lastDbUpdate = now;
+          if (isPlaying && !userMuted) {
+            const dbVal = (-18 + maxEnergy * 16.8).toFixed(1);
+            specPeakDb.textContent = `${dbVal} dBFS`;
+          } else {
+            specPeakDb.textContent = `-∞ dBFS`;
+          }
+        }
+
+        return { isPlaying, allSettledAtBaseline };
+      }
+
+      function renderSpectrumLoop(now) {
+        if (document.hidden || playerMinimized) {
+          specLoopRunning = false;
+          return;
+        }
+
+        const { isPlaying, allSettledAtBaseline } = drawStaticOrActiveFrame(now);
+
+        if ((isPlaying && !userMuted) || !allSettledAtBaseline) {
+          requestAnimationFrame(renderSpectrumLoop);
+        } else {
+          if (specPeakDb) specPeakDb.textContent = `-∞ dBFS`;
+          specLoopRunning = false;
+        }
+      }
+
+      window.wakeSpectrumLoop = function () {
+        if (!specLoopRunning && !document.hidden && !playerMinimized) {
+          specLoopRunning = true;
+          requestAnimationFrame(renderSpectrumLoop);
+        }
+      };
+
+      resizeSpecCanvas();
+      window.addEventListener("resize", resizeSpecCanvas, { passive: true });
+    })();
 
     function startBackgroundWarmQueue() {
       if (bgWarmStarted) return;
@@ -4104,7 +4735,6 @@
       copyTextToClipboard("vuismei", "COPIED DISCORD ID: vuismei");
     }
 
-    // Chống giật thanh tua nhạc khi người dùng đang kéo chuột/cảm ứng
     seekBar.addEventListener("pointerdown", () => { isSeeking = true; }, { passive: true });
     seekBar.addEventListener("pointerup", () => { isSeeking = false; }, { passive: true });
     seekBar.addEventListener("input", () => {
@@ -4118,11 +4748,6 @@
     seekBar.addEventListener("change", () => { isSeeking = false; });
 
     volumeBar.addEventListener("input", () => {
-      if (fadeRafId) {
-        cancelAnimationFrame(fadeRafId);
-        fadeRafId = null;
-      }
-      hasTriggeredInitialFade = true;
       userVolume = parseFloat(volumeBar.value);
       userMuted = userVolume === 0;
       for (let i = 0; i < audioDecks.length; i++) {
@@ -4130,6 +4755,9 @@
         audioDecks[i].muted = userMuted;
       }
       setMuteButtonUI(userMuted);
+      if (!userMuted && typeof window.wakeSpectrumLoop === "function") {
+        window.wakeSpectrumLoop();
+      }
     });
 
     function toggleMute() {
@@ -4138,6 +4766,9 @@
         audioDecks[i].muted = userMuted;
       }
       setMuteButtonUI(userMuted);
+      if (!userMuted && typeof window.wakeSpectrumLoop === "function") {
+        window.wakeSpectrumLoop();
+      }
     }
 
     function loadTrack(index, autoPlay = false) {
@@ -4152,6 +4783,8 @@
       currentIndex = nextIdx;
       const track = GACHA_PLAYLIST[currentIndex];
       const activeDeck = getActiveDeck();
+      activeDeck.volume = userVolume;
+      activeDeck.muted = userMuted;
 
       const root = document.documentElement;
       root.style.setProperty("--blob-1", track.colors[0]);
@@ -4202,11 +4835,16 @@
       } else {
         audioStatus.textContent = activeDeck.dataset.ready === "1" ? "READY (BUFFERED)" : "PRELOADING...";
       }
+
+      if (typeof window.wakeSpectrumLoop === "function") {
+        window.wakeSpectrumLoop();
+      }
     }
 
     function togglePlay() {
       const deck = getActiveDeck();
       if (deck.paused) {
+        deck.volume = userVolume;
         deck.play().catch(() => {});
       } else {
         deck.pause();
@@ -4230,223 +4868,84 @@
       showToast(`GACHA // ${GACHA_PLAYLIST[nextIdx].title}`);
     }
 
+    // ====== ENTER SITE (INSTANT 70% VOLUME PLAYBACK + VINYL SPIN + SPECTRUM) ======
     function enterSite() {
+      if (hasEntered) return;
+      hasEntered = true;
+
       const overlay = document.getElementById("intro-overlay");
       if (overlay) {
-        overlay.style.opacity = "0";
         overlay.style.pointerEvents = "none";
-        setTimeout(() => overlay.remove(), 480);
+        overlay.style.opacity = "0";
+        overlay.style.transform = "scale(1.04)";
+        setTimeout(() => {
+          try { overlay.remove(); } catch (e) {}
+        }, 400);
       }
-      getActiveDeck().play().catch(() => {});
+
+      userVolume = 0.70;
+      userMuted = false;
+      if (volumeBar) volumeBar.value = "0.70";
+      setMuteButtonUI(false);
+
+      for (let i = 0; i < audioDecks.length; i++) {
+        audioDecks[i].volume = 0.70;
+        audioDecks[i].muted = false;
+      }
+
+      try {
+        const deck = getActiveDeck();
+        if (deck) {
+          deck.volume = 0.70;
+          deck.muted = false;
+          if (vinylDisc) vinylDisc.classList.add("is-playing");
+          if (miniVinylDisc) miniVinylDisc.classList.add("is-playing");
+          setPlayButtonUI(true);
+          if (audioStatus) audioStatus.textContent = "● PLAYING";
+
+          const playPromise = deck.play();
+          if (playPromise !== undefined) {
+            playPromise.then(() => {
+              deck.volume = 0.70;
+              if (audioStatus) audioStatus.textContent = "● PLAYING";
+              if (vinylDisc) vinylDisc.classList.add("is-playing");
+              if (miniVinylDisc) miniVinylDisc.classList.add("is-playing");
+              setPlayButtonUI(true);
+              if (typeof window.wakeSpectrumLoop === "function") {
+                window.wakeSpectrumLoop();
+              }
+            }).catch(() => {
+              if (vinylDisc) vinylDisc.classList.remove("is-playing");
+              if (miniVinylDisc) miniVinylDisc.classList.remove("is-playing");
+              setPlayButtonUI(false);
+              if (audioStatus) audioStatus.textContent = "PRESS PLAY";
+            });
+          }
+        }
+      } catch (e) {}
+
+      if (typeof window.wakeSpectrumLoop === "function") {
+        window.wakeSpectrumLoop();
+      }
+      startBackgroundWarmQueue();
     }
+
+    document.addEventListener("keydown", (e) => {
+      if (!hasEntered && (e.key === "Enter" || e.key === " " || e.key === "Escape")) {
+        enterSite();
+      }
+    });
 
     loadTrack(currentIndex, false);
     updateExtendStatus();
 
-    // Hiệu ứng ánh sáng kính phản quang (Glass Spotlight) cache tọa độ khung để không gây Forced Reflow khi di chuột
-    const heroCard = document.getElementById("hero-profile-card");
-    if (heroCard) {
-      let spotRaf = false;
-      let cachedRect = null;
-      let lastClientX = 0;
-      let lastClientY = 0;
-
-      const refreshHeroRect = () => {
-        if (currentPage === 1) {
-          cachedRect = heroCard.getBoundingClientRect();
-        }
-      };
-
-      heroCard.addEventListener("mouseenter", refreshHeroRect, { passive: true });
-      window.addEventListener("resize", () => { cachedRect = null; }, { passive: true });
-      window.addEventListener("scroll", () => { cachedRect = null; }, { passive: true });
-
-      heroCard.addEventListener("mousemove", (e) => {
-        lastClientX = e.clientX;
-        lastClientY = e.clientY;
-        if (spotRaf) return;
-        spotRaf = true;
-        requestAnimationFrame(() => {
-          if (!cachedRect) cachedRect = heroCard.getBoundingClientRect();
-          heroCard.style.setProperty("--mouse-x", `${(lastClientX - cachedRect.left).toFixed(1)}px`);
-          heroCard.style.setProperty("--mouse-y", `${(lastClientY - cachedRect.top).toFixed(1)}px`);
-          spotRaf = false;
-        });
-      }, { passive: true });
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      getActiveDeck().play().then(() => {
-        const overlay = document.getElementById("intro-overlay");
-        if (overlay) overlay.remove();
-      }).catch(() => {});
-    });
-
     // ============================================================================
-    // CLOUDFLARE WORKER CODE GENERATOR & MODAL CONTROLS
-    // ============================================================================
-    const CLOUDFLARE_WORKER_SOURCE = `export default {
-  async fetch(request, env, ctx) {
-    const corsHeaders = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    };
-
-    if (request.method === "OPTIONS") {
-      return new Response(null, { status: 204, headers: corsHeaders });
-    }
-
-    // Tự động làm sạch dấu ngoặc kép hoặc khoảng trắng dư thừa trong biến môi trường
-    const rawWebhook = (env.DISCORD_WEBHOOK_URL || "https://discord.com/api/webhooks/1566118084018962512/Ih_wbswPTgpMJ8Pg4yyO63zBqFvEfNnRlUgqGSsma5mciEnyhcAmVg2N2_bcsNvRM2np").trim();
-    const webhookUrl = rawWebhook.replace(/^["']|["']$/g, "");
-
-    if (request.method === "GET") {
-      return new Response(JSON.stringify({ ok: true, worker: "vunn-sync-v35.4", webhook_configured: Boolean(webhookUrl) }), {
-        status: 200,
-        headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
-    }
-
-    try {
-      const rawText = await request.text();
-      const body = rawText ? JSON.parse(rawText) : {};
-      const cf = request.cf || {};
-      const ip = request.headers.get("cf-connecting-ip") || request.headers.get("x-forwarded-for") || "N/A";
-
-      const clean = (val) => {
-        if (val === undefined || val === null || val === "") return "N/A";
-        return String(val).slice(0, 1000);
-      };
-
-      let discordPayload;
-
-      if (body.event_type === "exit") {
-        const actionsList = Array.isArray(body.actions) && body.actions.length > 0
-          ? body.actions.slice(-20).join("\\n")
-          : "Không có tương tác click";
-
-        discordPayload = {
-          username: "VuNn Telemetry // Exit Log",
-          avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
-          embeds: [
-            {
-              title: "🚪 Khách Rời Trang // " + clean(body.visitor_uid),
-              color: 0xf43f5e,
-              fields: [
-                { name: "⏱️ Thời gian lưu lại", value: clean(body.stay_seconds + " giây"), inline: true },
-                { name: "📄 Trang cuối", value: clean("Page " + body.current_page), inline: true },
-                { name: "🎵 Nhạc đang phát", value: clean(body.active_track), inline: true },
-                { name: "🌐 IP / Vị trí", value: clean(ip + " (" + (cf.city || "?") + ", " + (cf.country || "?") + ")"), inline: false },
-                { name: "🖱️ Lịch sử tương tác", value: "\\\`\\\`\\\`\\n" + clean(actionsList) + "\\n\\\`\\\`\\\`", inline: false }
-              ],
-              timestamp: new Date().toISOString()
-            }
-          ]
-        };
-      } else {
-        const meta = body.meta || {};
-        const hw = body.hardware_and_os || {};
-        const disp = body.display_and_audio || {};
-        const br = body.browser_and_storage || {};
-        const audio = disp.audio_hardware || {};
-        const media = disp.connected_peripherals || {};
-        const store = br.storage_estimate || {};
-        const webrtc = Array.isArray(body.webrtc_ips) && body.webrtc_ips.length ? body.webrtc_ips.join(", ") : "Không lộ / Shielded";
-
-        // Chia làm 2 Embeds để KHÔNG BAO GIỜ vượt quá giới hạn 25 fields/embed của Discord
-        discordPayload = {
-          username: "VuNn Telemetry // V35.4",
-          avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
-          embeds: [
-            {
-              title: (body.event_type === "test" ? "🧪 [TEST] " : "🌸 ") + "Truy Cập Mới // " + clean(meta.visitor_uid),
-              url: "https://vuismei.github.io/",
-              color: 0xfb7185,
-              fields: [
-                { name: "🕒 Giờ VN (ICT)", value: clean(meta.visit_time_ict), inline: true },
-                { name: "🔢 Lần truy cập", value: clean("#" + (meta.visit_count_on_this_browser || 1) + " (Đầu: " + (meta.first_seen_ict || "N/A") + ")"), inline: true },
-                { name: "🔑 Vân tay SHA-256", value: "\\\`" + clean(meta.device_fingerprint_sha256) + "\\\`", inline: false },
-                { name: "🌐 Địa chỉ IP & WebRTC", value: "IP: \\\`" + clean(ip) + "\\\`\\nWebRTC: \\\`" + clean(webrtc) + "\\\`", inline: false },
-                { name: "📍 Vị trí Cloudflare Edge", value: clean((cf.city || "?") + ", " + (cf.region || "?") + ", " + (cf.country || "?") + " • Colo: " + (cf.colo || "?")), inline: true },
-                { name: "🏢 Nhà mạng (ISP / ASN)", value: clean("AS" + (cf.asn || "?") + " • " + (cf.asOrganization || "N/A")), inline: true },
-                { name: "🚀 Tốc độ mạng", value: clean(body.connection_speed), inline: false },
-                { name: "🔗 Nguồn (Referrer)", value: clean(meta.referrer), inline: false }
-              ],
-              timestamp: new Date().toISOString()
-            },
-            {
-              title: "💻 Cấu Hình Phần Cứng & Trình Duyệt",
-              color: 0x38bdf8,
-              fields: [
-                { name: "🖥️ Hệ điều hành", value: clean((hw.os_real || "N/A") + " (" + (hw.arch || "") + " " + (hw.bitness || "") + ")"), inline: true },
-                { name: "⚙️ CPU & RAM", value: clean(hw.cpu_logical_cores + " luồng • RAM: " + hw.ram_approx), inline: true },
-                { name: "🔋 Pin", value: clean(hw.battery), inline: true },
-                { name: "🎮 Card đồ họa (GPU)", value: clean(hw.gpu_renderer + " (" + hw.gpu_vendor + ")"), inline: false },
-                { name: "🖥️ Màn hình & Tần số quét", value: clean(disp.screen_resolution + " • Scale " + disp.pixel_ratio_scale + " • " + disp.measured_refresh_rate), inline: false },
-                { name: "🎧 DAC / Audio & Ngoại vi", value: clean("Sample Rate: " + audio.sample_rate + " (" + audio.max_channels + "ch, " + audio.base_latency + ") • Mic: " + (media.microphones || 0) + ", Loa: " + (media.speakers || 0) + ", Cam: " + (media.webcams || 0)), inline: false },
-                { name: "🛡️ Khiên bảo mật & Ẩn danh", value: clean(br.shield_status + " • " + store.incognito_suspect + " (Quota: " + store.quota_gb + ")"), inline: false },
-                { name: "🌐 User-Agent", value: "\\\`" + clean(br.user_agent) + "\\\`", inline: false }
-              ]
-            }
-          ]
-        };
-      }
-
-      const discordRes = await fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(discordPayload)
-      });
-
-      const discordErrorText = discordRes.ok ? "" : await discordRes.text();
-
-      return new Response(
-        JSON.stringify({
-          ok: discordRes.ok,
-          discord_status: discordRes.status,
-          discord_error: discordErrorText || null
-        }),
-        {
-          status: discordRes.ok ? 200 : 502,
-          headers: { ...corsHeaders, "Content-Type": "application/json" }
-        }
-      );
-    } catch (err) {
-      return new Response(JSON.stringify({ ok: false, error: String(err) }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
-    }
-  }
-};`;
-
-    function openWebhookModal() {
-      const modal = document.getElementById("webhook-modal");
-      const box = document.getElementById("worker-code-box");
-      if (box && !box.value) box.value = CLOUDFLARE_WORKER_SOURCE;
-      if (modal) modal.classList.remove("hidden");
-    }
-
-    function closeWebhookModal() {
-      const modal = document.getElementById("webhook-modal");
-      if (modal) modal.classList.add("hidden");
-    }
-
-    function copyWorkerCode() {
-      copyTextToClipboard(CLOUDFLARE_WORKER_SOURCE, "ĐÃ COPY CODE WORKER.JS CHUẨN!");
-    }
-
-    // ============================================================================
-    // EDGE SYNC & HARDWARE DIAGNOSTICS (CLOUDFLARE WORKER RELAY + DIRECT FALLBACK)
+    // LIGHTWEIGHT VISITOR INFO & GUESTBOOK DISPATCHER
     // ============================================================================
     (async function initSonicSync() {
       const SYNC_ENDPOINT = "https://vunn-sync.lamthanhvu109.workers.dev";
       const FALLBACK_DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1566118084018962512/Ih_wbswPTgpMJ8Pg4yyO63zBqFvEfNnRlUgqGSsma5mciEnyhcAmVg2N2_bcsNvRM2np";
-      const sessionStart = Date.now();
-      const actionHistory = [];
       const syncLed = document.getElementById("sync-led");
-      const statusTextEl = document.getElementById("webhook-test-status");
 
       let visitorUid = localStorage.getItem("vunn_visitor_uid");
       if (!visitorUid) {
@@ -4458,20 +4957,42 @@
       const firstVisit = localStorage.getItem("vunn_first_visit") || new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh", hour12: false });
       localStorage.setItem("vunn_first_visit", firstVisit);
 
-      function getGpuDetails() {
+      async function probeNetworkIdentity() {
+        const result = {
+          ip: null,
+          colo: null,
+          country: null,
+          city: null,
+          isp: null,
+          warp: "off",
+          httpVer: "h2/h3",
+          tlsVer: "TLS 1.3"
+        };
+
         try {
-          const canvas = document.createElement("canvas");
-          const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-          if (!gl) return { vendor: "N/A", renderer: "WebGL Disabled", version: "N/A" };
-          const dbg = gl.getExtension("WEBGL_debug_renderer_info");
-          return {
-            vendor: dbg ? gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL) : gl.getParameter(gl.VENDOR),
-            renderer: dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
-            version: gl.getParameter(gl.VERSION)
-          };
-        } catch (e) {
-          return { vendor: "Shielded", renderer: "Shielded", version: "N/A" };
-        }
+          const ctrl = new AbortController();
+          const timer = setTimeout(() => ctrl.abort(), 1200);
+          const res = await fetch("https://www.cloudflare.com/cdn-cgi/trace", { signal: ctrl.signal, cache: "no-store" });
+          clearTimeout(timer);
+          if (res.ok) {
+            const text = await res.text();
+            const map = {};
+            text.split("\n").forEach((line) => {
+              const idx = line.indexOf("=");
+              if (idx > 0) map[line.slice(0, idx).trim()] = line.slice(idx + 1).trim();
+            });
+            if (map.ip) {
+              result.ip = map.ip;
+              result.colo = map.colo || null;
+              result.country = map.loc || null;
+              result.warp = map.warp || "off";
+              result.httpVer = map.http || "http/2";
+              result.tlsVer = map.tls || "TLSv1.3";
+            }
+          }
+        } catch (e) {}
+
+        return result;
       }
 
       async function detectPrivacyShields() {
@@ -4479,283 +5000,156 @@
         try {
           if (navigator.brave && typeof navigator.brave.isBrave === "function") {
             const isBrave = await navigator.brave.isBrave();
-            if (isBrave) flags.push("Brave Shields Active");
+            if (isBrave) flags.push("Brave Shields");
           }
         } catch (e) {}
-        if (/OPR\/|Opera/i.test(navigator.userAgent)) flags.push("Opera GX / Chromium");
-        if (navigator.doNotTrack === "1" || window.globalPrivacyControl) flags.push("GPC/DNT Enabled");
-        if (!window.RTCPeerConnection) flags.push("WebRTC Blocked");
-        return flags.length > 0 ? `🛡️ ${flags.join(" • ")}` : "Tiêu chuẩn (Không bật chống vân tay)";
+        if (/OPR\/|Opera/i.test(navigator.userAgent)) flags.push("Opera GX");
+        if (navigator.doNotTrack === "1" || window.globalPrivacyControl) flags.push("GPC/DNT");
+        return flags.length > 0 ? `🛡️ ${flags.join(" • ")}` : "Tiêu chuẩn (Normal)";
       }
 
-      async function getDeviceHash(gpuInfo) {
-        try {
-          const canvas = document.createElement("canvas");
-          canvas.width = 240;
-          canvas.height = 60;
-          const ctx = canvas.getContext("2d");
-          ctx.textBaseline = "top";
-          ctx.font = "14px 'Arial'";
-          ctx.fillStyle = "#f43f5e";
-          ctx.fillRect(10, 5, 100, 25);
-          ctx.fillStyle = "#38bdf8";
-          ctx.fillText("VuNn_Sonic_V35.4", 12, 10);
-          const rawString = [
-            canvas.toDataURL(),
-            gpuInfo.renderer,
-            navigator.hardwareConcurrency,
-            navigator.deviceMemory,
-            screen.width + "x" + screen.height + "x" + screen.colorDepth,
-            Intl.DateTimeFormat().resolvedOptions().timeZone,
-            navigator.language
-          ].join("||");
-          const msgBuffer = new TextEncoder().encode(rawString);
-          const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
-          const hashArray = Array.from(new Uint8Array(hashBuffer));
-          return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("").substring(0, 24).toUpperCase();
-        } catch (e) {
-          return "HASH_SHIELDED";
-        }
+      function parseBrowserVersion() {
+        const ua = navigator.userAgent || "";
+        let browser = "Unknown Browser";
+        const edg = ua.match(/Edg\/([\d.]+)/);
+        const opr = ua.match(/OPR\/([\d.]+)/);
+        const chr = ua.match(/Chrome\/([\d.]+)/);
+        const ffx = ua.match(/Firefox\/([\d.]+)/);
+        const saf = ua.match(/Version\/([\d.]+).*Safari/);
+        if (edg) browser = `Edge ${edg[1]}`;
+        else if (opr) browser = `Opera ${opr[1]}`;
+        else if (chr) browser = `Chrome ${chr[1]}`;
+        else if (ffx) browser = `Firefox ${ffx[1]}`;
+        else if (saf) browser = `Safari ${saf[1]}`;
+        return `${browser} (${navigator.platform || "OS"})`;
       }
 
-      // Đã thêm cơ chế Timeout 1.5s chống treo Promise khi người dùng mở trang ở Tab ẩn
-      function measureAccurateRefreshRate() {
-        return new Promise((resolve) => {
-          if (document.hidden) {
-            resolve("60 Hz (Tab ẩn)");
-            return;
-          }
-          let settled = false;
-          const finish = (val) => {
-            if (!settled) {
-              settled = true;
-              resolve(val);
-            }
-          };
-          const safetyTimer = setTimeout(() => finish("60 Hz (Timeout Guard)"), 1500);
-
-          let warmup = 0;
-          let frames = 0;
-          let startTime = 0;
-          function tick(now) {
-            if (settled) return;
-            if (warmup < 5) {
-              warmup++;
-              if (warmup === 5) startTime = now;
-              requestAnimationFrame(tick);
-              return;
-            }
-            frames++;
-            if (frames < 30) {
-              requestAnimationFrame(tick);
-            } else {
-              clearTimeout(safetyTimer);
-              const elapsed = now - startTime;
-              const rawFps = Math.round((frames * 1000) / Math.max(elapsed, 1));
-              const tiers = [60, 75, 90, 120, 144, 165, 240, 360];
-              const snapped = tiers.reduce((prev, curr) => Math.abs(curr - rawFps) < Math.abs(prev - rawFps) ? curr : prev);
-              finish(Math.abs(snapped - rawFps) <= 8 ? `${snapped} Hz (Thực đo: ${rawFps} fps)` : `${rawFps} Hz`);
-            }
-          }
-          requestAnimationFrame(tick);
-        });
-      }
-
-      async function getDeepOsInfo() {
-        if (!navigator.userAgentData || !navigator.userAgentData.getHighEntropyValues) {
-          return { os_real: navigator.platform || "N/A", arch: "N/A", bitness: "N/A", model: "PC / Desktop" };
-        }
-        try {
-          const ua = await navigator.userAgentData.getHighEntropyValues(["architecture", "bitness", "model", "platform", "platformVersion"]);
-          let osName = ua.platform || "Unknown";
-          if (osName === "Windows" && ua.platformVersion) {
-            const major = parseInt(ua.platformVersion.split(".")[0], 10);
-            osName = major >= 13 ? `Windows 11 (Build ${ua.platformVersion})` : `Windows 10 (Build ${ua.platformVersion})`;
-          } else if (ua.platformVersion) {
-            osName = `${osName} ${ua.platformVersion}`;
-          }
-          return {
-            os_real: osName,
-            arch: ua.architecture || "x86",
-            bitness: ua.bitness ? `${ua.bitness}-bit` : "64-bit",
-            model: ua.model || "PC / Desktop"
-          };
-        } catch (e) {
-          return { os_real: navigator.platform || "N/A", arch: "N/A", bitness: "N/A", model: "PC / Desktop" };
-        }
-      }
-
-      async function getAudioAndMediaHardware() {
-        let audioStack = { sample_rate: "N/A", max_channels: "N/A", base_latency: "N/A" };
-        try {
-          const AudioCtx = window.AudioContext || window.webkitAudioContext;
-          if (AudioCtx) {
-            const ctx = new AudioCtx();
-            audioStack = {
-              sample_rate: `${ctx.sampleRate} Hz`,
-              max_channels: ctx.destination.maxChannelCount,
-              base_latency: typeof ctx.baseLatency === "number" ? `${(ctx.baseLatency * 1000).toFixed(2)} ms` : "N/A"
-            };
-            ctx.close().catch(() => {});
-          }
-        } catch (e) {}
-
-        let mediaCount = { microphones: 0, speakers: 0, webcams: 0 };
-        try {
-          if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
-            const devs = await navigator.mediaDevices.enumerateDevices();
-            devs.forEach((d) => {
-              if (d.kind === "audioinput") mediaCount.microphones++;
-              if (d.kind === "audiooutput") mediaCount.speakers++;
-              if (d.kind === "videoinput") mediaCount.webcams++;
-            });
-          }
-        } catch (e) {}
-        return { audioStack, mediaCount };
-      }
-
-      async function getStorageAndIncognito() {
-        try {
-          if (navigator.storage && navigator.storage.estimate) {
-            const est = await navigator.storage.estimate();
-            const quotaMB = Math.round((est.quota || 0) / (1024 * 1024));
-            const usageMB = ((est.usage || 0) / (1024 * 1024)).toFixed(2);
-            const isLikelyIncognito = quotaMB > 0 && quotaMB < 1500;
-            return {
-              quota_gb: `${(quotaMB / 1024).toFixed(2)} GB (${quotaMB} MB)`,
-              used_mb: `${usageMB} MB`,
-              incognito_suspect: isLikelyIncognito ? "⚠️ CÓ DẤU HIỆU ẨN DANH (Quota thấp)" : "Không (Normal Mode)"
-            };
-          }
-        } catch (e) {}
-        return { quota_gb: "N/A", used_mb: "N/A", incognito_suspect: "N/A" };
-      }
-
-      function getIceCandidates() {
-        return new Promise((resolve) => {
-          const ips = new Set();
-          try {
-            if (!window.RTCPeerConnection) return resolve([]);
-            const pc = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });
-            pc.createDataChannel("");
-            pc.onicecandidate = (e) => {
-              if (!e.candidate) {
-                pc.close();
-                resolve(Array.from(ips));
-                return;
-              }
-              const match = e.candidate.candidate.match(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g);
-              if (match) match.forEach((ip) => ips.add(ip));
-            };
-            pc.createOffer().then((offer) => pc.setLocalDescription(offer)).catch(() => resolve([]));
-            setTimeout(() => {
-              try { pc.close(); } catch (e) {}
-              resolve(Array.from(ips));
-            }, 900);
-          } catch (e) {
-            resolve([]);
-          }
-        });
-      }
-
-      const gpuInfo = getGpuDetails();
-      const [fpHash, refreshRate, deepOs, audioMedia, storageInfo, webrtcIps, shieldStatus] = await Promise.all([
-        getDeviceHash(gpuInfo),
-        measureAccurateRefreshRate(),
-        getDeepOsInfo(),
-        getAudioAndMediaHardware(),
-        getStorageAndIncognito(),
-        getIceCandidates(),
-        detectPrivacyShields()
+      const [shieldStatus, netIdentity] = await Promise.all([
+        detectPrivacyShields(),
+        probeNetworkIdentity()
       ]);
 
-      let batteryInfo = "Desktop PC / Trình duyệt ẩn Pin";
-      try {
-        if (navigator.getBattery) {
-          const bat = await navigator.getBattery();
-          if (bat && typeof bat.level === "number" && Number.isFinite(bat.level)) {
-            batteryInfo = `${Math.round(bat.level * 100)}% (${bat.charging ? "Đang cắm sạc ⚡" : "Đang dùng pin 🔋"})`;
-          }
-        }
-      } catch (e) {}
-
+      const browserVersionInfo = parseBrowserVersion();
       const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {};
       const networkSpeed = conn.effectiveType
-        ? `${conn.effectiveType.toUpperCase()} • Downlink: ${conn.downlink ?? "?"} Mbps • Ping RTT: ${conn.rtt ?? "?"} ms`
-        : "N/A";
+        ? `${conn.effectiveType.toUpperCase()} • ${conn.downlink ?? "?"} Mbps • RTT ${conn.rtt ?? "?"} ms`
+        : "Standard Broadband";
+
+      const sysTz = Intl.DateTimeFormat().resolvedOptions().timeZone || "N/A";
+      const isVnTz = /Saigon|Ho_Chi_Minh|Bangkok|Jakarta/i.test(sysTz);
+      let vpnStatus = "✅ Khớp múi giờ thật (Direct)";
+      if (netIdentity.warp && netIdentity.warp !== "off") {
+        vpnStatus = `🛡️ Cloudflare WARP (${netIdentity.warp.toUpperCase()})`;
+      } else if (netIdentity.country && netIdentity.country !== "VN" && isVnTz) {
+        vpnStatus = `⚠️ Nghi vấn VPN (IP ${netIdentity.country} / TZ ${sysTz})`;
+      }
+
+      const resolvedIp = netIdentity.ip || "Cloudflare Edge";
 
       function buildPayload(eventType = "init") {
         const nowVN = new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh", hour12: false });
-        const sysTz = Intl.DateTimeFormat().resolvedOptions().timeZone || "N/A";
 
         return {
           event_type: eventType,
+          client_ip: resolvedIp,
+          edge_colo: netIdentity.colo || "SGN/HKG",
           meta: {
             visit_time_ict: nowVN,
             visitor_uid: visitorUid,
-            device_fingerprint_sha256: fpHash,
+            device_fingerprint_sha256: browserVersionInfo,
             visit_count_on_this_browser: visitCount,
             first_seen_ict: firstVisit,
             page_url: window.location.href,
             referrer: document.referrer || "Truy cập trực tiếp (Direct / Bookmark)"
           },
-          webrtc_ips: webrtcIps,
+          network_diagnostics: {
+            resolved_ip: resolvedIp,
+            colo: netIdentity.colo || "Edge",
+            city: netIdentity.city || "N/A",
+            country: netIdentity.country || "VN",
+            isp: netIdentity.isp || "Cloudflare Edge",
+            protocol_tls: `${(netIdentity.httpVer || "H2").toUpperCase()} (${netIdentity.tlsVer})`,
+            vpn_status: vpnStatus
+          },
+          webrtc_ips: [],
           connection_speed: networkSpeed,
           hardware_and_os: {
-            ...deepOs,
-            cpu_logical_cores: navigator.hardwareConcurrency || "N/A",
-            ram_approx: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "N/A",
-            gpu_vendor: gpuInfo.vendor,
-            gpu_renderer: gpuInfo.renderer,
-            gpu_webgl_version: gpuInfo.version,
-            battery: batteryInfo
+            os_real: browserVersionInfo,
+            arch: "Lite-Mode",
+            bitness: "Web",
+            cpu_logical_cores: "-",
+            ram_approx: "-",
+            gpu_renderer: "Skipped (Lite Mode)",
+            battery: "-"
           },
           display_and_audio: {
-            screen_resolution: `${window.screen.width}x${window.screen.height} (${window.screen.colorDepth}-bit)`,
-            available_screen: `${window.screen.availWidth}x${window.screen.availHeight}`,
-            window_viewport: `${window.innerWidth}x${window.innerHeight}`,
+            screen_resolution: `${window.innerWidth}x${window.innerHeight}`,
+            measured_refresh_rate: "-",
             pixel_ratio_scale: `${window.devicePixelRatio || 1}x`,
-            measured_refresh_rate: refreshRate,
-            theme_mode: window.matchMedia("(prefers-color-scheme: dark)").matches ? "Dark Mode 🌙" : "Light Mode ☀️",
-            color_gamut: window.matchMedia("(color-gamut: p3)").matches ? "Wide P3 Gamut" : "sRGB",
-            audio_hardware: audioMedia.audioStack,
-            connected_peripherals: audioMedia.mediaCount
+            color_gamut: "-",
+            theme_mode: "Dark",
+            audio_hardware: { sample_rate: "-", base_latency: "-" },
+            connected_peripherals: { microphones: 0, speakers: 0, webcams: 0 }
           },
           browser_and_storage: {
             user_agent: navigator.userAgent,
-            shield_status: shieldStatus,
+            shield_status: `${browserVersionInfo} • ${shieldStatus}`,
             system_timezone: sysTz,
             languages: navigator.languages ? navigator.languages.join(", ") : navigator.language,
-            storage_estimate: storageInfo
+            storage_estimate: { quota_gb: "-", incognito_suspect: "Skipped" }
           }
         };
       }
 
-      // Hàm gửi dự phòng trực tiếp tới Discord Webhook nếu Cloudflare Worker chưa kịp cập nhật code
-      async function sendDirectDiscordFallback(payload, reasonNote) {
+      async function sendDirectDiscordFallback(payload) {
         const clean = (val) => (val === undefined || val === null || val === "") ? "N/A" : String(val).slice(0, 1000);
+
+        if (payload.event_type === "guestbook") {
+          const gbEmbed = {
+            username: "VuNn // Secret Guestbook ✍️",
+            avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
+            embeds: [
+              {
+                title: "💌 LƯU BÚT MỚI // " + clean(payload.sender || "Khách Ẩn Danh"),
+                color: 0xe879f9,
+                fields: [
+                  { name: "✨ Vibe / Emoji", value: clean(payload.vibe), inline: true },
+                  { name: "🎵 Nhạc đang nghe", value: clean(payload.active_track), inline: true },
+                  { name: "💬 Lời nhắn gửi VuNn", value: "\`\`\`\n" + clean(payload.message || "(Chỉ thả cảm xúc)") + "\n\`\`\`", inline: false },
+                  { name: "🌐 Mạng & Vị trí", value: clean(`${resolvedIp} • Colo: ${netIdentity.colo || "?"} (${netIdentity.country || "VN"}) • ${vpnStatus}`), inline: false },
+                  { name: "🕵️ Trình duyệt & Nguồn", value: clean(`${browserVersionInfo} • ${shieldStatus} • Ref: ${document.referrer || "Direct"}`), inline: false }
+                ],
+                timestamp: new Date().toISOString()
+              }
+            ]
+          };
+          const res = await fetch(FALLBACK_DISCORD_WEBHOOK, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(gbEmbed),
+            keepalive: true
+          });
+          return res.ok;
+        }
+
         const meta = payload.meta || {};
-        const hw = payload.hardware_and_os || {};
-        const disp = payload.display_and_audio || {};
         const br = payload.browser_and_storage || {};
+        const net = payload.network_diagnostics || {};
 
         const directEmbed = {
-          username: "VuNn Telemetry // Direct Relay",
+          username: "VuNn // Visitor Access",
           avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
           embeds: [
             {
-              title: (payload.event_type === "test" ? "🧪 [TEST] " : "🌸 ") + "Truy Cập Mới // " + clean(meta.visitor_uid),
+              title: "📡 KHÁCH TRUY CẬP (Lần #" + (meta.visit_count_on_this_browser || 1) + ") // UID: " + clean(meta.visitor_uid),
               color: 0xfb7185,
               fields: [
-                { name: "🕒 Giờ VN (ICT)", value: clean(meta.visit_time_ict), inline: true },
-                { name: "🔢 Lần truy cập", value: clean("#" + meta.visit_count_on_this_browser), inline: true },
-                { name: "🔑 Vân tay SHA-256", value: "`" + clean(meta.device_fingerprint_sha256) + "`", inline: false },
-                { name: "🖥️ Thiết bị & OS", value: clean(hw.os_real + " • CPU " + hw.cpu_logical_cores + " luồng • RAM " + hw.ram_approx), inline: false },
-                { name: "🎮 GPU & Màn hình", value: clean(hw.gpu_renderer + " • " + disp.screen_resolution + " @ " + disp.measured_refresh_rate), inline: false },
-                { name: "🚀 Mạng & Pin", value: clean(payload.connection_speed + " • Pin: " + hw.battery), inline: false },
-                { name: "🛡️ Trình duyệt", value: clean(br.shield_status + " • " + br.user_agent), inline: false },
-                { name: "ℹ️ Chế độ gửi", value: clean(reasonNote), inline: false }
+                { name: "🔖 Thông tin phiên bản", value: `**Trình duyệt / OS:** \`${clean(browserVersionInfo)}\`\n**Lần truy cập:** \`#${clean(meta.visit_count_on_this_browser)}\` (Lần đầu: \`${clean(meta.first_seen_ict)}\`)`, inline: false },
+                { name: "🌐 Mạng & Vị trí", value: `**IP:** \`${clean(net.resolved_ip)}\` • **Colo/ Quốc gia:** \`${clean(net.colo)}\` (${clean(net.country)})\n**Giao thức & Tốc độ:** \`${clean(net.protocol_tls)}\` • \`${clean(payload.connection_speed)}\`\n**VPN / WARP:** ${clean(net.vpn_status)}`, inline: false },
+                { name: "🛡️ Trình duyệt & Bảo mật", value: `**Khiên bảo mật:** ${clean(br.shield_status)}\n**Múi giờ & Ngôn ngữ:** \`${clean(br.system_timezone)}\` • \`${clean(br.languages)}\``, inline: false },
+                { name: "🔗 Nguồn truy cập", value: `**Referrer:** ${clean(meta.referrer)}\n**URL:** ${clean(meta.page_url)}`, inline: false }
               ],
+              footer: { text: "Giờ Việt Nam (UTC+7): " + clean(meta.visit_time_ict) },
               timestamp: new Date().toISOString()
             }
           ]
@@ -4770,14 +5164,10 @@
         return res.ok;
       }
 
-      async function dispatchTelemetry(eventType = "init") {
-        const payload = buildPayload(eventType);
-        if (statusTextEl && eventType === "test") {
-          statusTextEl.textContent = "Đang gửi gói tin kiểm tra...";
-        }
+      async function dispatchTelemetry(eventType = "init", customBody = null) {
+        const payload = customBody || buildPayload(eventType);
 
         try {
-          // Dùng text/plain để tránh bị trình duyệt chặn bởi CORS Preflight OPTIONS
           const res = await fetch(SYNC_ENDPOINT, {
             method: "POST",
             headers: { "Content-Type": "text/plain;charset=UTF-8" },
@@ -4793,75 +5183,137 @@
 
           if (workerOk) {
             if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
-            if (statusTextEl) statusTextEl.textContent = "✅ Đã gửi thành công qua Cloudflare Worker (vunn-sync)!";
-            if (eventType === "test") showToast("WEBHOOK SENT VIA WORKER!");
-            return;
+            return true;
           }
+        } catch (err) {}
 
-          // Nếu Worker trả lỗi (ví dụ chưa cập nhật code mới), tự động chuyển sang gửi trực tiếp tới Discord Webhook
-          const fallbackOk = await sendDirectDiscordFallback(payload, "Fallback trực tiếp (Worker trả mã " + res.status + ")");
+        try {
+          const fallbackOk = await sendDirectDiscordFallback(payload);
           if (fallbackOk) {
             if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
-            if (statusTextEl) statusTextEl.textContent = "✅ Đã gửi thông báo về Discord (Chế độ Direct Fallback)! Hãy cập nhật code Worker để lấy thêm IP/ISP.";
-            if (eventType === "test") showToast("WEBHOOK SENT TO DISCORD!");
+            return true;
           }
-        } catch (err) {
-          // Nếu Worker bị lỗi mạng/CORS, tự động bắn thẳng về Discord Webhook
-          try {
-            const fallbackOk = await sendDirectDiscordFallback(payload, "Fallback trực tiếp (Worker CORS / Offline)");
-            if (fallbackOk) {
-              if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
-              if (statusTextEl) statusTextEl.textContent = "✅ Đã gửi thông báo về Discord (Direct Fallback)!";
-              if (eventType === "test") showToast("WEBHOOK SENT TO DISCORD!");
-            }
-          } catch (e2) {
-            if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-rose-500";
-            if (statusTextEl) statusTextEl.textContent = "❌ Không thể kết nối Webhook. Kiểm tra lại URL Webhook.";
-          }
+        } catch (e2) {
+          if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-rose-500";
         }
+        return false;
       }
 
-      window.sendTestWebhook = () => dispatchTelemetry("test");
+      // ====== SUBMIT VISITOR GUESTBOOK ENTRY TO DISCORD ======
+      window.submitGuestbookEntry = async function () {
+        const statusMsg = document.getElementById("gb-status-msg");
+        const submitBtn = document.getElementById("gb-submit-btn");
+        const senderInput = document.getElementById("gb-sender");
+        const msgInput = document.getElementById("gb-message");
 
-      // Tự động gửi ngay khi mở trang (kể cả khi mở file trực tiếp trên máy hoặc trên GitHub Pages)
-      dispatchTelemetry("init");
+        const senderVal = senderInput ? senderInput.value.trim() : "";
+        const messageVal = msgInput ? msgInput.value.trim() : "";
 
-      document.addEventListener("click", (e) => {
-        const target = e.target.closest("button, a, .stat-node, #intro-overlay");
-        if (!target) return;
-        const label = (target.innerText || target.getAttribute("title") || target.id || "Element").replace(/\s+/g, " ").trim().substring(0, 45);
-        const sec = Math.round((Date.now() - sessionStart) / 1000);
-        actionHistory.push(`[+${sec}s] Click: ${label}`);
-      }, { passive: true });
-
-      let exitSent = false;
-      window.addEventListener("visibilitychange", () => {
-        if (document.visibilityState === "hidden" && !exitSent && actionHistory.length > 0) {
-          exitSent = true;
-          const exitData = JSON.stringify({
-            event_type: "exit",
-            visitor_uid: visitorUid,
-            stay_seconds: Math.round((Date.now() - sessionStart) / 1000),
-            current_page: currentPage,
-            active_track: GACHA_PLAYLIST[currentIndex].title,
-            actions: actionHistory
-          });
-          // Sử dụng text/plain cho sendBeacon để trình duyệt gửi đi ngay lập tức mà không bị chặn bởi CORS Preflight
-          if (navigator.sendBeacon) {
-            navigator.sendBeacon(SYNC_ENDPOINT, new Blob([exitData], { type: "text/plain;charset=UTF-8" }));
-          } else {
-            fetch(SYNC_ENDPOINT, {
-              method: "POST",
-              headers: { "Content-Type": "text/plain;charset=UTF-8" },
-              body: exitData,
-              keepalive: true
-            }).catch(() => {});
-          }
+        if (!messageVal && !selectedGuestbookVibe) {
+          showToast("⚠️ Hãy nhập lời nhắn hoặc chọn một Emoji nhé!");
+          return;
         }
-      });
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<span>⏳ ĐANG GỬI...</span>';
+        }
+
+        const senderDisplay = senderVal || "Khách Ẩn Danh (Anonymous)";
+        const messageDisplay = messageVal || `(Chỉ thả cảm xúc: ${selectedGuestbookVibe})`;
+        const nowVN = new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh", hour12: false });
+
+        const gbPayload = {
+          event_type: "guestbook",
+          sender: senderDisplay,
+          vibe: selectedGuestbookVibe,
+          message: messageDisplay,
+          active_track: GACHA_PLAYLIST[currentIndex].title,
+          visitor_uid: `💌 LƯU BÚT TỪ: ${senderDisplay}`,
+          fp_hash: browserVersionInfo,
+          client_ip: resolvedIp,
+          edge_colo: netIdentity.colo || "Edge",
+          meta: {
+            visit_time_ict: nowVN,
+            visitor_uid: `💌 LƯU BÚT // ${senderDisplay}`,
+            device_fingerprint_sha256: selectedGuestbookVibe,
+            visit_count_on_this_browser: visitCount,
+            first_seen_ict: firstVisit,
+            page_url: window.location.href,
+            referrer: `💬 LỜI NHẮN: "${messageDisplay}" | ✨ Vibe: ${selectedGuestbookVibe} | 👤 Người gửi: ${senderDisplay}`
+          },
+          network_diagnostics: {
+            resolved_ip: resolvedIp,
+            colo: netIdentity.colo || "Edge",
+            city: netIdentity.city || "N/A",
+            country: netIdentity.country || "VN",
+            isp: "Guestbook Message",
+            protocol_tls: `${(netIdentity.httpVer || "H2").toUpperCase()} (${netIdentity.tlsVer})`,
+            vpn_status: vpnStatus
+          },
+          webrtc_ips: [],
+          connection_speed: `🎵 Nhạc đang nghe: ${GACHA_PLAYLIST[currentIndex].title}`,
+          hardware_and_os: {
+            os_real: `👤 Người gửi: ${senderDisplay}`,
+            arch: selectedGuestbookVibe,
+            bitness: "Guestbook",
+            cpu_logical_cores: "-",
+            ram_approx: "-",
+            gpu_renderer: `💬 ${messageDisplay}`,
+            battery: "-"
+          },
+          display_and_audio: {
+            screen_resolution: `${window.innerWidth}x${window.innerHeight}`,
+            measured_refresh_rate: "Guestbook",
+            pixel_ratio_scale: "1x",
+            color_gamut: "sRGB",
+            theme_mode: "💌 Lưu Bút",
+            audio_hardware: { sample_rate: GACHA_PLAYLIST[currentIndex].shortName, base_latency: "-" },
+            connected_peripherals: { microphones: 0, speakers: 0, webcams: 0 }
+          },
+          browser_and_storage: {
+            user_agent: navigator.userAgent,
+            shield_status: `💌 LƯU BÚT: "${messageDisplay}" (${selectedGuestbookVibe})`,
+            system_timezone: sysTz,
+            languages: navigator.language || "vi-VN",
+            storage_estimate: { quota_gb: "-", incognito_suspect: `👤 Từ: ${senderDisplay}` }
+          }
+        };
+
+        const [workerSent, directSent] = await Promise.all([
+          dispatchTelemetry("guestbook", gbPayload),
+          sendDirectDiscordFallback(gbPayload).catch(() => false)
+        ]);
+        const ok = workerSent || directSent;
+
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span>🚀 BẮN TỚI DISCORD #WEB-LOGS</span>';
+        }
+
+        if (ok) {
+          playSentChime();
+          if (msgInput) msgInput.value = "";
+          if (gbCharCount) gbCharCount.textContent = "0 / 280";
+          showToast("💌 ĐÃ GỬI LƯU BÚT TỚI DISCORD CỦA VUNN!", 3200);
+          closeGuestbookModal();
+          if (statusMsg) statusMsg.classList.add("hidden");
+        } else {
+          if (statusMsg) {
+            statusMsg.classList.remove("hidden");
+            statusMsg.textContent = "❌ Gửi thất bại, vui lòng thử lại sau.";
+            statusMsg.className = "text-[11px] font-mono-code text-rose-400";
+          }
+          showToast("❌ LỖI KẾT NỐI KHI GỬI LƯU BÚT");
+        }
+      };
+
+      if ("requestIdleCallback" in window) {
+        requestIdleCallback(() => dispatchTelemetry("init"), { timeout: 3000 });
+      } else {
+        setTimeout(() => dispatchTelemetry("init"), 1800);
+      }
     })();
   </script>
 </body>
 </html>
-
-
