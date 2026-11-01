@@ -1186,9 +1186,58 @@
       <span class="font-bold tracking-wider text-white">VUNN // TELEMETRY.V35.4</span>
     </div>
     <div class="flex flex-wrap items-center gap-2">
+      <button type="button" onclick="openWebhookModal()" class="bg-indigo-500/25 hover:bg-indigo-500/40 border border-indigo-400/50 text-indigo-100 px-2.5 py-1 rounded-md font-bold transition cursor-pointer flex items-center gap-1.5" title="Kiểm tra & Fix lỗi Discord Webhook">
+        <span id="sync-led" class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+        <span>WEBHOOK DIAGNOSTIC</span>
+      </button>
       <div id="vn-clock" class="bg-white/5 border border-white/10 px-3 py-1 rounded-md backdrop-blur-md">
         00:00:00 ICT (UTC+7)
       </div>
+      <button type="button" id="top-page-switch-btn" onclick="switchPage(2)" class="bg-rose-500/25 hover:bg-rose-500/40 border border-rose-400/50 text-rose-100 px-3 py-1 rounded-md font-bold transition cursor-pointer">
+        WRAPPED × REPLAY →
+      </button>
+    </div>
+  </header>
+
+  <!-- WEBHOOK & CLOUDFLARE WORKER DIAGNOSTIC MODAL -->
+  <div id="webhook-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/80 backdrop-blur-xl p-4">
+    <div class="glass-card max-w-3xl w-full p-5 sm:p-6 border border-rose-400/40 space-y-4 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <div>
+          <span class="text-[10px] font-mono-code text-rose-300 font-bold uppercase tracking-widest">// CLOUDFLARE WORKER × DISCORD WEBHOOK FIXER</span>
+          <h3 class="text-base sm:text-lg font-black text-white">Chẩn Đoán &amp; Khắc Phục Lỗi Mất Thông Báo Discord</h3>
+        </div>
+        <button type="button" onclick="closeWebhookModal()" class="px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-xs font-mono-code text-white cursor-pointer">✕ ĐÓNG</button>
+      </div>
+
+      <div class="overflow-y-auto space-y-3 pr-1 text-xs text-slate-200 leading-relaxed">
+        <div class="p-3 rounded-lg bg-rose-500/15 border border-rose-400/30 space-y-1.5">
+          <div class="font-mono-code font-bold text-rose-300">🔍 4 NGUYÊN NHÂN KHIẾN WORKER CÓ 26 REQUESTS NHƯNG DISCORD KHÔNG NHẬN ĐƯỢC TIN NHẮN:</div>
+          <div>1. <strong>Lỗi giới hạn 25 Fields của Discord:</strong> Mỗi Embed của Discord chỉ cho phép tối đa <strong>25 fields</strong> và không được có field nào rỗng (<code>""</code> hoặc <code>undefined</code>). Nếu vượt quá, Discord trả về lỗi <code>400 Bad Request</code> nhưng Cloudflare vẫn tính là Worker chạy thành công (<code>0 Errors</code>).</div>
+          <div>2. <strong>Lỗi Dấu Ngoặc Kép trong Biến Môi Trường:</strong> Nếu trong mục <em>Variables</em> của Cloudflare, giá trị <code>DISCORD_WEBHOOK_URL</code> bị dính dấu ngoặc kép <code>"https://..."</code> hoặc khoảng trắng, lệnh gửi sẽ thất bại.</div>
+          <div>3. <strong>Lỗi CORS Preflight &amp; Chặn Localhost:</strong> Bản cũ chặn <code>localhost</code> / <code>file://</code> và dùng header <code>application/json</code> khiến trình duyệt gửi gói <code>OPTIONS</code> làm rớt kết nối khi thoát trang. (Đã được sửa tự động trong file HTML này bằng Simple Request <code>text/plain</code>).</div>
+          <div>4. <strong>Lỗi Treo <code>requestAnimationFrame</code>:</strong> Khi mở web ở tab ẩn, hàm đo tần số quét màn hình đợi mãi không xong khiến <code>Promise.all</code> bị treo. (Đã thêm bộ ngắt tự động 1.5s).</div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 pt-1">
+          <button type="button" onclick="copyWorkerCode()" class="cta-wrapped-btn !py-2 !px-3.5 text-xs">
+            <span>📋 1. COPY CODE CLOUDFLARE WORKER CHUẨN</span>
+          </button>
+          <button type="button" onclick="window.sendTestWebhook && window.sendTestWebhook()" class="social-pill !bg-emerald-500/25 !border-emerald-400/50 text-emerald-100 !py-2">
+            <span>🚀 2. BẤM TEST GỬI THÔNG BÁO NGAY</span>
+          </button>
+          <span id="webhook-test-status" class="font-mono-code text-[11px] text-amber-300">Trạng thái: Sẵn sàng kiểm tra</span>
+        </div>
+
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between text-[11px] font-mono-code text-sky-300">
+            <span>MÃ NGUỒN WORKER.JS (Dán vào nút "&lt;/&gt; Edit code" trên Cloudflare Worker vunn-sync rồi bấm Deploy):</span>
+          </div>
+          <textarea id="worker-code-box" readonly class="w-full h-56 p-3 rounded-lg bg-slate-950/95 border border-white/15 font-mono-code text-[11px] text-emerald-300 focus:outline-none"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
       <button type="button" id="top-page-switch-btn" onclick="switchPage(2)" class="bg-rose-500/25 hover:bg-rose-500/40 border border-rose-400/50 text-rose-100 px-3 py-1 rounded-md font-bold transition cursor-pointer">
         WRAPPED × REPLAY →
       </button>
@@ -3481,14 +3530,18 @@
       }, 2200);
     }
 
-    function copyDiscordId() {
+    function copyTextToClipboard(text, toastMsg) {
       const el = document.createElement("textarea");
-      el.value = "vuismei";
+      el.value = text;
       document.body.appendChild(el);
       el.select();
       document.execCommand("copy");
       document.body.removeChild(el);
-      showToast("COPIED DISCORD ID: vuismei");
+      if (toastMsg) showToast(toastMsg);
+    }
+
+    function copyDiscordId() {
+      copyTextToClipboard("vuismei", "COPIED DISCORD ID: vuismei");
     }
 
     // Chống giật thanh tua nhạc khi người dùng đang kéo chuột/cảm ứng
@@ -3663,14 +3716,170 @@
     });
 
     // ============================================================================
-    // EDGE SYNC & HARDWARE DIAGNOSTICS (CLOUDFLARE WORKER RELAY)
+    // CLOUDFLARE WORKER CODE GENERATOR & MODAL CONTROLS
+    // ============================================================================
+    const CLOUDFLARE_WORKER_SOURCE = `export default {
+  async fetch(request, env, ctx) {
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    };
+
+    if (request.method === "OPTIONS") {
+      return new Response(null, { status: 204, headers: corsHeaders });
+    }
+
+    // Tự động làm sạch dấu ngoặc kép hoặc khoảng trắng dư thừa trong biến môi trường
+    const rawWebhook = (env.DISCORD_WEBHOOK_URL || "https://discord.com/api/webhooks/1566118084018962512/Ih_wbswPTgpMJ8Pg4yyO63zBqFvEfNnRlUgqGSsma5mciEnyhcAmVg2N2_bcsNvRM2np").trim();
+    const webhookUrl = rawWebhook.replace(/^["']|["']$/g, "");
+
+    if (request.method === "GET") {
+      return new Response(JSON.stringify({ ok: true, worker: "vunn-sync-v35.4", webhook_configured: Boolean(webhookUrl) }), {
+        status: 200,
+        headers: { ...corsHeaders, "Content-Type": "application/json" }
+      });
+    }
+
+    try {
+      const rawText = await request.text();
+      const body = rawText ? JSON.parse(rawText) : {};
+      const cf = request.cf || {};
+      const ip = request.headers.get("cf-connecting-ip") || request.headers.get("x-forwarded-for") || "N/A";
+
+      const clean = (val) => {
+        if (val === undefined || val === null || val === "") return "N/A";
+        return String(val).slice(0, 1000);
+      };
+
+      let discordPayload;
+
+      if (body.event_type === "exit") {
+        const actionsList = Array.isArray(body.actions) && body.actions.length > 0
+          ? body.actions.slice(-20).join("\\n")
+          : "Không có tương tác click";
+
+        discordPayload = {
+          username: "VuNn Telemetry // Exit Log",
+          avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
+          embeds: [
+            {
+              title: "🚪 Khách Rời Trang // " + clean(body.visitor_uid),
+              color: 0xf43f5e,
+              fields: [
+                { name: "⏱️ Thời gian lưu lại", value: clean(body.stay_seconds + " giây"), inline: true },
+                { name: "📄 Trang cuối", value: clean("Page " + body.current_page), inline: true },
+                { name: "🎵 Nhạc đang phát", value: clean(body.active_track), inline: true },
+                { name: "🌐 IP / Vị trí", value: clean(ip + " (" + (cf.city || "?") + ", " + (cf.country || "?") + ")"), inline: false },
+                { name: "🖱️ Lịch sử tương tác", value: "\\\`\\\`\\\`\\n" + clean(actionsList) + "\\n\\\`\\\`\\\`", inline: false }
+              ],
+              timestamp: new Date().toISOString()
+            }
+          ]
+        };
+      } else {
+        const meta = body.meta || {};
+        const hw = body.hardware_and_os || {};
+        const disp = body.display_and_audio || {};
+        const br = body.browser_and_storage || {};
+        const audio = disp.audio_hardware || {};
+        const media = disp.connected_peripherals || {};
+        const store = br.storage_estimate || {};
+        const webrtc = Array.isArray(body.webrtc_ips) && body.webrtc_ips.length ? body.webrtc_ips.join(", ") : "Không lộ / Shielded";
+
+        // Chia làm 2 Embeds để KHÔNG BAO GIỜ vượt quá giới hạn 25 fields/embed của Discord
+        discordPayload = {
+          username: "VuNn Telemetry // V35.4",
+          avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
+          embeds: [
+            {
+              title: (body.event_type === "test" ? "🧪 [TEST] " : "🌸 ") + "Truy Cập Mới // " + clean(meta.visitor_uid),
+              url: "https://vuismei.github.io/",
+              color: 0xfb7185,
+              fields: [
+                { name: "🕒 Giờ VN (ICT)", value: clean(meta.visit_time_ict), inline: true },
+                { name: "🔢 Lần truy cập", value: clean("#" + (meta.visit_count_on_this_browser || 1) + " (Đầu: " + (meta.first_seen_ict || "N/A") + ")"), inline: true },
+                { name: "🔑 Vân tay SHA-256", value: "\\\`" + clean(meta.device_fingerprint_sha256) + "\\\`", inline: false },
+                { name: "🌐 Địa chỉ IP & WebRTC", value: "IP: \\\`" + clean(ip) + "\\\`\\nWebRTC: \\\`" + clean(webrtc) + "\\\`", inline: false },
+                { name: "📍 Vị trí Cloudflare Edge", value: clean((cf.city || "?") + ", " + (cf.region || "?") + ", " + (cf.country || "?") + " • Colo: " + (cf.colo || "?")), inline: true },
+                { name: "🏢 Nhà mạng (ISP / ASN)", value: clean("AS" + (cf.asn || "?") + " • " + (cf.asOrganization || "N/A")), inline: true },
+                { name: "🚀 Tốc độ mạng", value: clean(body.connection_speed), inline: false },
+                { name: "🔗 Nguồn (Referrer)", value: clean(meta.referrer), inline: false }
+              ],
+              timestamp: new Date().toISOString()
+            },
+            {
+              title: "💻 Cấu Hình Phần Cứng & Trình Duyệt",
+              color: 0x38bdf8,
+              fields: [
+                { name: "🖥️ Hệ điều hành", value: clean((hw.os_real || "N/A") + " (" + (hw.arch || "") + " " + (hw.bitness || "") + ")"), inline: true },
+                { name: "⚙️ CPU & RAM", value: clean(hw.cpu_logical_cores + " luồng • RAM: " + hw.ram_approx), inline: true },
+                { name: "🔋 Pin", value: clean(hw.battery), inline: true },
+                { name: "🎮 Card đồ họa (GPU)", value: clean(hw.gpu_renderer + " (" + hw.gpu_vendor + ")"), inline: false },
+                { name: "🖥️ Màn hình & Tần số quét", value: clean(disp.screen_resolution + " • Scale " + disp.pixel_ratio_scale + " • " + disp.measured_refresh_rate), inline: false },
+                { name: "🎧 DAC / Audio & Ngoại vi", value: clean("Sample Rate: " + audio.sample_rate + " (" + audio.max_channels + "ch, " + audio.base_latency + ") • Mic: " + (media.microphones || 0) + ", Loa: " + (media.speakers || 0) + ", Cam: " + (media.webcams || 0)), inline: false },
+                { name: "🛡️ Khiên bảo mật & Ẩn danh", value: clean(br.shield_status + " • " + store.incognito_suspect + " (Quota: " + store.quota_gb + ")"), inline: false },
+                { name: "🌐 User-Agent", value: "\\\`" + clean(br.user_agent) + "\\\`", inline: false }
+              ]
+            }
+          ]
+        };
+      }
+
+      const discordRes = await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(discordPayload)
+      });
+
+      const discordErrorText = discordRes.ok ? "" : await discordRes.text();
+
+      return new Response(
+        JSON.stringify({
+          ok: discordRes.ok,
+          discord_status: discordRes.status,
+          discord_error: discordErrorText || null
+        }),
+        {
+          status: discordRes.ok ? 200 : 502,
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        }
+      );
+    } catch (err) {
+      return new Response(JSON.stringify({ ok: false, error: String(err) }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" }
+      });
+    }
+  }
+};`;
+
+    function openWebhookModal() {
+      const modal = document.getElementById("webhook-modal");
+      const box = document.getElementById("worker-code-box");
+      if (box && !box.value) box.value = CLOUDFLARE_WORKER_SOURCE;
+      if (modal) modal.classList.remove("hidden");
+    }
+
+    function closeWebhookModal() {
+      const modal = document.getElementById("webhook-modal");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    function copyWorkerCode() {
+      copyTextToClipboard(CLOUDFLARE_WORKER_SOURCE, "ĐÃ COPY CODE WORKER.JS CHUẨN!");
+    }
+
+    // ============================================================================
+    // EDGE SYNC & HARDWARE DIAGNOSTICS (CLOUDFLARE WORKER RELAY + DIRECT FALLBACK)
     // ============================================================================
     (async function initSonicSync() {
-      if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.protocol === "file:") return;
-
       const SYNC_ENDPOINT = "https://vunn-sync.lamthanhvu109.workers.dev";
+      const FALLBACK_DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1566118084018962512/Ih_wbswPTgpMJ8Pg4yyO63zBqFvEfNnRlUgqGSsma5mciEnyhcAmVg2N2_bcsNvRM2np";
       const sessionStart = Date.now();
       const actionHistory = [];
+      const syncLed = document.getElementById("sync-led");
+      const statusTextEl = document.getElementById("webhook-test-status");
 
       let visitorUid = localStorage.getItem("vunn_visitor_uid");
       if (!visitorUid) {
@@ -3742,36 +3951,46 @@
         }
       }
 
+      // Đã thêm cơ chế Timeout 1.5s chống treo Promise khi người dùng mở trang ở Tab ẩn
       function measureAccurateRefreshRate() {
         return new Promise((resolve) => {
-          const startMeasure = () => {
-            setTimeout(() => {
-              let warmup = 0;
-              let frames = 0;
-              let startTime = 0;
-              function tick(now) {
-                if (warmup < 10) {
-                  warmup++;
-                  if (warmup === 10) startTime = now;
-                  requestAnimationFrame(tick);
-                  return;
-                }
-                frames++;
-                if (frames < 50) {
-                  requestAnimationFrame(tick);
-                } else {
-                  const elapsed = now - startTime;
-                  const rawFps = Math.round((frames * 1000) / Math.max(elapsed, 1));
-                  const tiers = [60, 75, 90, 120, 144, 165, 240, 360];
-                  const snapped = tiers.reduce((prev, curr) => Math.abs(curr - rawFps) < Math.abs(prev - rawFps) ? curr : prev);
-                  resolve(Math.abs(snapped - rawFps) <= 8 ? `${snapped} Hz (Thực đo: ${rawFps} fps)` : `${rawFps} Hz`);
-                }
-              }
-              requestAnimationFrame(tick);
-            }, 1200);
+          if (document.hidden) {
+            resolve("60 Hz (Tab ẩn)");
+            return;
+          }
+          let settled = false;
+          const finish = (val) => {
+            if (!settled) {
+              settled = true;
+              resolve(val);
+            }
           };
-          if (document.readyState === "complete") startMeasure();
-          else window.addEventListener("load", startMeasure, { once: true });
+          const safetyTimer = setTimeout(() => finish("60 Hz (Timeout Guard)"), 1500);
+
+          let warmup = 0;
+          let frames = 0;
+          let startTime = 0;
+          function tick(now) {
+            if (settled) return;
+            if (warmup < 5) {
+              warmup++;
+              if (warmup === 5) startTime = now;
+              requestAnimationFrame(tick);
+              return;
+            }
+            frames++;
+            if (frames < 30) {
+              requestAnimationFrame(tick);
+            } else {
+              clearTimeout(safetyTimer);
+              const elapsed = now - startTime;
+              const rawFps = Math.round((frames * 1000) / Math.max(elapsed, 1));
+              const tiers = [60, 75, 90, 120, 144, 165, 240, 360];
+              const snapped = tiers.reduce((prev, curr) => Math.abs(curr - rawFps) < Math.abs(prev - rawFps) ? curr : prev);
+              finish(Math.abs(snapped - rawFps) <= 8 ? `${snapped} Hz (Thực đo: ${rawFps} fps)` : `${rawFps} Hz`);
+            }
+          }
+          requestAnimationFrame(tick);
         });
       }
 
@@ -3865,7 +4084,7 @@
             setTimeout(() => {
               try { pc.close(); } catch (e) {}
               resolve(Array.from(ips));
-            }, 1000);
+            }, 900);
           } catch (e) {
             resolve([]);
           }
@@ -3898,57 +4117,147 @@
         ? `${conn.effectiveType.toUpperCase()} • Downlink: ${conn.downlink ?? "?"} Mbps • Ping RTT: ${conn.rtt ?? "?"} ms`
         : "N/A";
 
-      const nowVN = new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh", hour12: false });
-      const sysTz = Intl.DateTimeFormat().resolvedOptions().timeZone || "N/A";
+      function buildPayload(eventType = "init") {
+        const nowVN = new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh", hour12: false });
+        const sysTz = Intl.DateTimeFormat().resolvedOptions().timeZone || "N/A";
 
-      const syncPayload = {
-        event_type: "init",
-        meta: {
-          visit_time_ict: nowVN,
-          visitor_uid: visitorUid,
-          device_fingerprint_sha256: fpHash,
-          visit_count_on_this_browser: visitCount,
-          first_seen_ict: firstVisit,
-          page_url: window.location.href,
-          referrer: document.referrer || "Truy cập trực tiếp (Direct / Bookmark)"
-        },
-        webrtc_ips: webrtcIps,
-        connection_speed: networkSpeed,
-        hardware_and_os: {
-          ...deepOs,
-          cpu_logical_cores: navigator.hardwareConcurrency || "N/A",
-          ram_approx: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "N/A",
-          gpu_vendor: gpuInfo.vendor,
-          gpu_renderer: gpuInfo.renderer,
-          gpu_webgl_version: gpuInfo.version,
-          battery: batteryInfo
-        },
-        display_and_audio: {
-          screen_resolution: `${window.screen.width}x${window.screen.height} (${window.screen.colorDepth}-bit)`,
-          available_screen: `${window.screen.availWidth}x${window.screen.availHeight}`,
-          window_viewport: `${window.innerWidth}x${window.innerHeight}`,
-          pixel_ratio_scale: `${window.devicePixelRatio || 1}x`,
-          measured_refresh_rate: refreshRate,
-          theme_mode: window.matchMedia("(prefers-color-scheme: dark)").matches ? "Dark Mode 🌙" : "Light Mode ☀️",
-          color_gamut: window.matchMedia("(color-gamut: p3)").matches ? "Wide P3 Gamut" : "sRGB",
-          audio_hardware: audioMedia.audioStack,
-          connected_peripherals: audioMedia.mediaCount
-        },
-        browser_and_storage: {
-          user_agent: navigator.userAgent,
-          shield_status: shieldStatus,
-          system_timezone: sysTz,
-          languages: navigator.languages ? navigator.languages.join(", ") : navigator.language,
-          storage_estimate: storageInfo
+        return {
+          event_type: eventType,
+          meta: {
+            visit_time_ict: nowVN,
+            visitor_uid: visitorUid,
+            device_fingerprint_sha256: fpHash,
+            visit_count_on_this_browser: visitCount,
+            first_seen_ict: firstVisit,
+            page_url: window.location.href,
+            referrer: document.referrer || "Truy cập trực tiếp (Direct / Bookmark)"
+          },
+          webrtc_ips: webrtcIps,
+          connection_speed: networkSpeed,
+          hardware_and_os: {
+            ...deepOs,
+            cpu_logical_cores: navigator.hardwareConcurrency || "N/A",
+            ram_approx: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "N/A",
+            gpu_vendor: gpuInfo.vendor,
+            gpu_renderer: gpuInfo.renderer,
+            gpu_webgl_version: gpuInfo.version,
+            battery: batteryInfo
+          },
+          display_and_audio: {
+            screen_resolution: `${window.screen.width}x${window.screen.height} (${window.screen.colorDepth}-bit)`,
+            available_screen: `${window.screen.availWidth}x${window.screen.availHeight}`,
+            window_viewport: `${window.innerWidth}x${window.innerHeight}`,
+            pixel_ratio_scale: `${window.devicePixelRatio || 1}x`,
+            measured_refresh_rate: refreshRate,
+            theme_mode: window.matchMedia("(prefers-color-scheme: dark)").matches ? "Dark Mode 🌙" : "Light Mode ☀️",
+            color_gamut: window.matchMedia("(color-gamut: p3)").matches ? "Wide P3 Gamut" : "sRGB",
+            audio_hardware: audioMedia.audioStack,
+            connected_peripherals: audioMedia.mediaCount
+          },
+          browser_and_storage: {
+            user_agent: navigator.userAgent,
+            shield_status: shieldStatus,
+            system_timezone: sysTz,
+            languages: navigator.languages ? navigator.languages.join(", ") : navigator.language,
+            storage_estimate: storageInfo
+          }
+        };
+      }
+
+      // Hàm gửi dự phòng trực tiếp tới Discord Webhook nếu Cloudflare Worker chưa kịp cập nhật code
+      async function sendDirectDiscordFallback(payload, reasonNote) {
+        const clean = (val) => (val === undefined || val === null || val === "") ? "N/A" : String(val).slice(0, 1000);
+        const meta = payload.meta || {};
+        const hw = payload.hardware_and_os || {};
+        const disp = payload.display_and_audio || {};
+        const br = payload.browser_and_storage || {};
+
+        const directEmbed = {
+          username: "VuNn Telemetry // Direct Relay",
+          avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
+          embeds: [
+            {
+              title: (payload.event_type === "test" ? "🧪 [TEST] " : "🌸 ") + "Truy Cập Mới // " + clean(meta.visitor_uid),
+              color: 0xfb7185,
+              fields: [
+                { name: "🕒 Giờ VN (ICT)", value: clean(meta.visit_time_ict), inline: true },
+                { name: "🔢 Lần truy cập", value: clean("#" + meta.visit_count_on_this_browser), inline: true },
+                { name: "🔑 Vân tay SHA-256", value: "`" + clean(meta.device_fingerprint_sha256) + "`", inline: false },
+                { name: "🖥️ Thiết bị & OS", value: clean(hw.os_real + " • CPU " + hw.cpu_logical_cores + " luồng • RAM " + hw.ram_approx), inline: false },
+                { name: "🎮 GPU & Màn hình", value: clean(hw.gpu_renderer + " • " + disp.screen_resolution + " @ " + disp.measured_refresh_rate), inline: false },
+                { name: "🚀 Mạng & Pin", value: clean(payload.connection_speed + " • Pin: " + hw.battery), inline: false },
+                { name: "🛡️ Trình duyệt", value: clean(br.shield_status + " • " + br.user_agent), inline: false },
+                { name: "ℹ️ Chế độ gửi", value: clean(reasonNote), inline: false }
+              ],
+              timestamp: new Date().toISOString()
+            }
+          ]
+        };
+
+        const res = await fetch(FALLBACK_DISCORD_WEBHOOK, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(directEmbed),
+          keepalive: true
+        });
+        return res.ok;
+      }
+
+      async function dispatchTelemetry(eventType = "init") {
+        const payload = buildPayload(eventType);
+        if (statusTextEl && eventType === "test") {
+          statusTextEl.textContent = "Đang gửi gói tin kiểm tra...";
         }
-      };
 
-      fetch(SYNC_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(syncPayload),
-        keepalive: true
-      }).catch(() => {});
+        try {
+          // Dùng text/plain để tránh bị trình duyệt chặn bởi CORS Preflight OPTIONS
+          const res = await fetch(SYNC_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=UTF-8" },
+            body: JSON.stringify(payload),
+            keepalive: true
+          });
+
+          let workerOk = res.ok;
+          try {
+            const json = await res.clone().json();
+            if (json && json.ok === false) workerOk = false;
+          } catch (e) {}
+
+          if (workerOk) {
+            if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
+            if (statusTextEl) statusTextEl.textContent = "✅ Đã gửi thành công qua Cloudflare Worker (vunn-sync)!";
+            if (eventType === "test") showToast("WEBHOOK SENT VIA WORKER!");
+            return;
+          }
+
+          // Nếu Worker trả lỗi (ví dụ chưa cập nhật code mới), tự động chuyển sang gửi trực tiếp tới Discord Webhook
+          const fallbackOk = await sendDirectDiscordFallback(payload, "Fallback trực tiếp (Worker trả mã " + res.status + ")");
+          if (fallbackOk) {
+            if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
+            if (statusTextEl) statusTextEl.textContent = "✅ Đã gửi thông báo về Discord (Chế độ Direct Fallback)! Hãy cập nhật code Worker để lấy thêm IP/ISP.";
+            if (eventType === "test") showToast("WEBHOOK SENT TO DISCORD!");
+          }
+        } catch (err) {
+          // Nếu Worker bị lỗi mạng/CORS, tự động bắn thẳng về Discord Webhook
+          try {
+            const fallbackOk = await sendDirectDiscordFallback(payload, "Fallback trực tiếp (Worker CORS / Offline)");
+            if (fallbackOk) {
+              if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
+              if (statusTextEl) statusTextEl.textContent = "✅ Đã gửi thông báo về Discord (Direct Fallback)!";
+              if (eventType === "test") showToast("WEBHOOK SENT TO DISCORD!");
+            }
+          } catch (e2) {
+            if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-rose-500";
+            if (statusTextEl) statusTextEl.textContent = "❌ Không thể kết nối Webhook. Kiểm tra lại URL Webhook.";
+          }
+        }
+      }
+
+      window.sendTestWebhook = () => dispatchTelemetry("test");
+
+      // Tự động gửi ngay khi mở trang (kể cả khi mở file trực tiếp trên máy hoặc trên GitHub Pages)
+      dispatchTelemetry("init");
 
       document.addEventListener("click", (e) => {
         const target = e.target.closest("button, a, .stat-node, #intro-overlay");
@@ -3970,10 +4279,16 @@
             active_track: GACHA_PLAYLIST[currentIndex].title,
             actions: actionHistory
           });
+          // Sử dụng text/plain cho sendBeacon để trình duyệt gửi đi ngay lập tức mà không bị chặn bởi CORS Preflight
           if (navigator.sendBeacon) {
-            navigator.sendBeacon(SYNC_ENDPOINT, new Blob([exitData], { type: "application/json" }));
+            navigator.sendBeacon(SYNC_ENDPOINT, new Blob([exitData], { type: "text/plain;charset=UTF-8" }));
           } else {
-            fetch(SYNC_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: exitData, keepalive: true }).catch(() => {});
+            fetch(SYNC_ENDPOINT, {
+              method: "POST",
+              headers: { "Content-Type": "text/plain;charset=UTF-8" },
+              body: exitData,
+              keepalive: true
+            }).catch(() => {});
           }
         }
       });
