@@ -167,7 +167,7 @@
       scrollbar-width: none;
     }
 
-    /* ========== SILK AURORA & SAKURA HUD TRANSITION (100% GPU COMPOSITED, ZERO-JANK) ========== */
+    /* ========== AURORA & SAKURA HUD VEIL TRANSITION (100% GPU COMPOSITOR - ZERO FILTER LAG) ========== */
     #persona-transition-layer {
       position: fixed;
       inset: 0;
@@ -177,47 +177,62 @@
       visibility: hidden;
       overflow: hidden;
       contain: strict;
-    }
-
-    .aurora-veil-backdrop {
-      position: absolute;
-      inset: 0;
-      background: #060811;
-      opacity: 0;
       will-change: opacity;
-      transform: translateZ(0);
+      transition: opacity 0.24s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.24s;
     }
 
-    .aurora-veil-glow {
+    .veil-backdrop {
       position: absolute;
       inset: 0;
-      background:
-        radial-gradient(circle at 30% 35%, var(--blob-1), transparent 55%),
-        radial-gradient(circle at 70% 65%, var(--blob-2), transparent 55%),
-        radial-gradient(circle at 50% 50%, rgba(251, 113, 133, 0.25), rgba(7, 9, 18, 0.95) 70%);
-      opacity: 0;
-      will-change: transform, opacity;
-      transform: translate3d(0, 0, 0) scale3d(0.94, 0.94, 1);
+      background: #070912;
+      opacity: 0.96;
     }
 
-    .persona-center-badge {
+    .veil-aurora-glow {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate3d(-50%, -44%, 0) scale3d(0.94, 0.94, 1);
-      z-index: 4;
-      pointer-events: none;
-      text-align: center;
-      opacity: 0;
+      inset: -10%;
+      background:
+        radial-gradient(circle at 28% 38%, var(--blob-1, #f43f5e) 0%, transparent 52%),
+        radial-gradient(circle at 72% 62%, var(--blob-2, #6366f1) 0%, transparent 52%),
+        radial-gradient(circle at 50% 50%, rgba(251, 113, 133, 0.28) 0%, transparent 60%);
+      opacity: 0.38;
+      transform: scale3d(0.92, 0.92, 1);
       will-change: transform, opacity;
+      transition: transform 0.52s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.32s ease;
     }
 
-    .hud-transition-card {
-      padding: 1.1rem 2.2rem;
-      border-radius: 1.1rem;
-      background: rgba(10, 13, 24, 0.88);
-      border: 1px solid rgba(251, 113, 133, 0.35);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    .veil-hud-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+       flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      transform: translate3d(0, 10px, 0) scale3d(0.96, 0.96, 1);
+      opacity: 0;
+      will-change: transform, opacity;
+      transition: transform 0.36s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.24s ease;
+    }
+
+    .veil-hud-card {
+      position: relative;
+      padding: 1.15rem 2.4rem;
+      border-radius: 1rem;
+      background: rgba(12, 15, 28, 0.78);
+      border: 1px solid rgba(251, 113, 133, 0.32);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .veil-laser-line {
+      width: 100%;
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent 0%, #fda4af 25%, #ffffff 50%, #38bdf8 75%, transparent 100%);
+      transform: scaleX(0.15);
+      will-change: transform;
+      transition: transform 0.44s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .persona-badge-sub {
@@ -226,80 +241,53 @@
       letter-spacing: 0.32em;
       color: #fda4af;
       text-transform: uppercase;
-      margin-bottom: 4px;
+      margin-top: 0.55rem;
+      margin-bottom: 0.2rem;
     }
 
     .persona-badge-main {
       font-family: 'Inter', 'Noto Sans JP', sans-serif;
-      font-size: clamp(1.25rem, 3.8vw, 2.2rem);
+      font-size: clamp(1.25rem, 3.6vw, 2.15rem);
       font-weight: 900;
       letter-spacing: 0.14em;
-      background: linear-gradient(90deg, #ffffff 0%, #fecdd3 48%, #38bdf8 100%);
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #ffffff 0%, #ffe4ec 45%, #fda4af 75%, #38bdf8 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      text-transform: uppercase;
       white-space: nowrap;
+      margin-bottom: 0.55rem;
     }
 
-    .persona-badge-deco {
-      width: 100%;
-      height: 2px;
-      margin: 8px auto 0 auto;
-      background: linear-gradient(90deg, transparent 0%, var(--blob-1) 30%, #ffffff 50%, var(--blob-4) 70%, transparent 100%);
-      transform: scaleX(0.2);
-      transform-origin: center;
-      will-change: transform;
-    }
-
-    /* Active Silk Aurora transition animation */
-    body.is-persona-shifting #persona-transition-layer {
+    /* Active Veil States (Pure Opacity + Transform3D) */
+    body.is-veil-active #persona-transition-layer {
       opacity: 1;
       visibility: visible;
     }
 
-    body.is-persona-shifting .aurora-veil-backdrop {
-      animation: auroraBackdropFade 0.64s cubic-bezier(0.22, 1, 0.36, 1) both !important;
+    body.is-veil-active .veil-aurora-glow {
+      transform: scale3d(1.04, 1.04, 1);
+      opacity: 0.52;
     }
 
-    body.is-persona-shifting .aurora-veil-glow {
-      animation: auroraGlowPulse 0.64s cubic-bezier(0.22, 1, 0.36, 1) both !important;
+    body.is-veil-active .veil-hud-center {
+      transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+      opacity: 1;
     }
 
-    body.is-persona-shifting .persona-center-badge {
-      animation: auroraBadgeGlide 0.64s cubic-bezier(0.22, 1, 0.36, 1) both !important;
+    body.is-veil-active .veil-laser-line {
+      transform: scaleX(1);
     }
 
-    body.is-persona-shifting .persona-badge-deco {
-      animation: auroraLineExpand 0.64s cubic-bezier(0.22, 1, 0.36, 1) both !important;
+    body.is-veil-leaving #persona-transition-layer {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.28s;
     }
 
-    @keyframes auroraBackdropFade {
-      0% { opacity: 0; }
-      32% { opacity: 0.96; }
-      68% { opacity: 0.96; }
-      100% { opacity: 0; }
-    }
-
-    @keyframes auroraGlowPulse {
-      0% { opacity: 0; transform: translate3d(0, 0, 0) scale3d(0.92, 0.92, 1); }
-      35% { opacity: 0.42; transform: translate3d(0, 0, 0) scale3d(1, 1, 1); }
-      65% { opacity: 0.42; transform: translate3d(0, 0, 0) scale3d(1.03, 1.03, 1); }
-      100% { opacity: 0; transform: translate3d(0, 0, 0) scale3d(1.08, 1.08, 1); }
-    }
-
-    @keyframes auroraBadgeGlide {
-      0% { opacity: 0; transform: translate3d(-50%, -38%, 0) scale3d(0.92, 0.92, 1); }
-      30% { opacity: 1; transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1); }
-      70% { opacity: 1; transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1); }
-      100% { opacity: 0; transform: translate3d(-50%, -58%, 0) scale3d(0.96, 0.96, 1); }
-    }
-
-    @keyframes auroraLineExpand {
-      0% { transform: scaleX(0.1); }
-      40% { transform: scaleX(1); }
-      75% { transform: scaleX(1); }
-      100% { transform: scaleX(0.2); }
+    body.is-veil-leaving .veil-hud-center {
+      transform: translate3d(0, -8px, 0) scale3d(1.02, 1.02, 1);
+      opacity: 0;
     }
 
     /* ========== VIBRANT & EYE-SOOTHING APPLE MUSIC FLUID BACKGROUND ========== */
@@ -532,13 +520,13 @@
 
     /* ========== PAGE TRANSITION & INACTIVE PAGE PAUSE ========== */
     .page-view {
-      transition: opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1), transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
       will-change: opacity, transform;
+      transition: opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1), transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .page-view.is-hidden {
       display: none !important;
       opacity: 0;
-      transform: translate3d(0, 10px, 0) scale3d(0.99, 0.99, 1);
+      transform: translate3d(0, 10px, 0);
     }
     .page-view.is-hidden *,
     .page-view.is-hidden *::after {
@@ -546,7 +534,7 @@
     }
     .page-view.is-entering {
       opacity: 0;
-      transform: translate3d(0, 10px, 0) scale3d(0.99, 0.99, 1);
+      transform: translate3d(0, 10px, 0);
     }
 
     /* ========== GLASSMORPHISM & HUD CORNERS ========== */
@@ -1440,15 +1428,16 @@
 </head>
 
 <body class="selection:bg-rose-500 selection:text-white hover-expand-enabled">
-  <!-- SILK AURORA & SAKURA HUD TRANSITION LAYER (100% GPU COMPOSITED, ZERO JANK) -->
+  <!-- AURORA & SAKURA HUD VEIL TRANSITION LAYER (ZERO-JANK GPU COMPOSITED) -->
   <div id="persona-transition-layer" aria-hidden="true">
-    <div class="aurora-veil-backdrop"></div>
-    <div class="aurora-veil-glow"></div>
-    <div class="persona-center-badge">
-      <div class="hud-transition-card">
-        <div class="persona-badge-sub font-mono-code">✦ SONIC TELEMETRY // SHIFT ✦</div>
+    <div class="veil-backdrop"></div>
+    <div class="veil-aurora-glow"></div>
+    <div class="veil-hud-center">
+      <div class="veil-hud-card">
+        <div class="veil-laser-line"></div>
+        <div id="persona-badge-sub" class="persona-badge-sub font-mono-code">🌸 SAKURA × AUDIO ENGINE</div>
         <div id="persona-badge-title" class="persona-badge-main">WRAPPED × REPLAY</div>
-        <div class="persona-badge-deco"></div>
+        <div class="veil-laser-line"></div>
       </div>
     </div>
   </div>
@@ -3577,7 +3566,7 @@
     </div>
   </aside>
 
-  <!-- ================= V36.2 ENGINE: SILK AURORA TRANSITION, INSTANT 70% AUDIO & TELEMETRY ================= -->
+  <!-- ================= V36.1 ENGINE: INSTANT 70% AUDIO, AUTO ECO-MODE, ZERO-IDLE CANVAS & TELEMETRY ================= -->
   <script>
     const DISCORD_USER_ID = new URLSearchParams(window.location.search).get("discord_id") || localStorage.getItem("vunn_discord_id") || "856710730485465098";
 
@@ -3769,7 +3758,7 @@
       volumeBar.value = "0.70";
     }
 
-    // ====== SOFT HARMONIC CRYSTAL CHIME SFX (MATCHES SAKURA & AUDIOPHILE AESTHETIC) ======
+    // ====== HARMONIC CRYSTAL CHIME SFX (AUDIOPHILE SINE/TRIANGLE CHORD) ======
     function playPersonaSfx() {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -3777,32 +3766,28 @@
         const ctx = new AudioCtx();
         const now = ctx.currentTime;
 
-        const osc1 = ctx.createOscillator();
-        const osc2 = ctx.createOscillator();
-        const gain = ctx.createGain();
+        // Airy Japanese crystal wind-chime interval (Fmaj9 harmonic)
+        const freqs = [587.33, 880.0, 1174.66];
+        freqs.forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
 
-        osc1.type = "sine";
-        osc2.type = "triangle";
+          osc.type = idx === 0 ? "triangle" : "sine";
+          osc.frequency.setValueAtTime(freq, now + idx * 0.035);
+          osc.frequency.exponentialRampToValueAtTime(freq * 1.004, now + 0.36);
 
-        osc1.frequency.setValueAtTime(528, now);
-        osc1.frequency.exponentialRampToValueAtTime(792, now + 0.24);
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(0.022 / (idx + 1), now + idx * 0.035 + 0.015);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.38 + idx * 0.04);
 
-        osc2.frequency.setValueAtTime(1056, now);
-        osc2.frequency.exponentialRampToValueAtTime(1584, now + 0.24);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
 
-        gain.gain.setValueAtTime(0.001, now);
-        gain.gain.linearRampToValueAtTime(0.032, now + 0.035);
-        gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.28);
+          osc.start(now + idx * 0.035);
+          osc.stop(now + 0.44 + idx * 0.04);
+        });
 
-        osc1.connect(gain);
-        osc2.connect(gain);
-        gain.connect(ctx.destination);
-
-        osc1.start(now);
-        osc2.start(now);
-        osc1.stop(now + 0.30);
-        osc2.stop(now + 0.30);
-        setTimeout(() => { ctx.close().catch(() => {}); }, 360);
+        setTimeout(() => { ctx.close().catch(() => {}); }, 550);
       } catch (e) {}
     }
 
@@ -4009,7 +3994,7 @@
 
     let countRafId = null;
 
-    // ====== SILK AURORA & SAKURA HUD PAGE TRANSITION (FRAME-STAGGERED FOR 0.0MS JANK) ======
+    // ====== FRAME-STAGGERED AURORA & SAKURA HUD VEIL PAGE SWITCHING (ZERO JANK) ======
     function switchPage(targetPage) {
       if (targetPage === currentPage || isPageTransitioning) return;
       isPageTransitioning = true;
@@ -4019,25 +4004,30 @@
       const page2 = document.getElementById("page-2");
       const topBtn = document.getElementById("top-page-switch-btn");
       const badgeTitle = document.getElementById("persona-badge-title");
+      const badgeSub = document.getElementById("persona-badge-sub");
 
+      if (badgeSub) {
+        badgeSub.textContent = targetPage === 2 ? "🌸 TELEMETRY ARCHIVE // 2022–2026" : "🌸 SAKURA × AUDIO ENGINE";
+      }
       if (badgeTitle) {
         badgeTitle.textContent = targetPage === 2 ? "WRAPPED × REPLAY" : "PROFILE & HUD";
       }
 
-      // 1. Play soft harmonic crystal chime
+      // 1. Play soft Harmonic Crystal Chime
       playPersonaSfx();
 
-      // 2. Start GPU-composited Aurora Veil
-      document.body.classList.add("is-persona-shifting");
+      // 2. Fade in the GPU-composited Aurora & Sakura HUD Veil
+      document.body.classList.remove("is-veil-leaving");
+      document.body.classList.add("is-veil-active");
 
-      // 3. Swap DOM at veil apex (220ms) while screen is 96% covered
-      setTimeout(() => {
+      // 3. Wait until veil is 100% opaque (230ms) before touching heavy DOM
+      clearTimeout(personaTransitionTimeout);
+      personaTransitionTimeout = setTimeout(() => {
         window.scrollTo({ top: 0, behavior: "instant" });
 
         if (targetPage === 2) {
           if (sakuraLayer) sakuraLayer.classList.add("is-hidden-rain");
           document.body.classList.add("on-page-2");
-
           page1.classList.add("is-hidden");
           page2.classList.remove("is-hidden");
           page2.classList.add("is-entering");
@@ -4046,17 +4036,9 @@
             topBtn.innerHTML = "<span>← BACK TO PROFILE</span>";
             topBtn.onclick = () => switchPage(1);
           }
-
-          // Wait 2 animation frames for layout to settle before lifting veil & running counters
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              page2.classList.remove("is-entering");
-            });
-          });
         } else {
           if (sakuraLayer) sakuraLayer.classList.remove("is-hidden-rain");
           document.body.classList.remove("on-page-2");
-
           page2.classList.add("is-hidden");
           page1.classList.remove("is-hidden");
           page1.classList.add("is-entering");
@@ -4065,28 +4047,32 @@
             topBtn.innerHTML = "<span>WRAPPED × REPLAY →</span>";
             topBtn.onclick = () => switchPage(2);
           }
-
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              page1.classList.remove("is-entering");
-            });
-          });
         }
-      }, 220);
 
-      // 4. Trigger Page 2 count-up & progress bar animations after DOM swap has settled (380ms)
-      if (targetPage === 2) {
-        setTimeout(() => {
-          triggerPage2Animations();
-        }, 380);
-      }
+        // 4. Double rAF: let browser finish DOM layout & paint while veil still covers screen
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            const activePageEl = targetPage === 2 ? page2 : page1;
+            activePageEl.classList.remove("is-entering");
 
-      // 5. Clean up transition state (650ms)
-      clearTimeout(personaTransitionTimeout);
-      personaTransitionTimeout = setTimeout(() => {
-        document.body.classList.remove("is-persona-shifting");
-        isPageTransitioning = false;
-      }, 650);
+            // Lift the veil smoothly
+            document.body.classList.add("is-veil-leaving");
+            document.body.classList.remove("is-veil-active");
+
+            // Start number counters & progress bars after veil begins lifting
+            if (targetPage === 2) {
+              setTimeout(() => {
+                triggerPage2Animations();
+              }, 90);
+            }
+
+            setTimeout(() => {
+              document.body.classList.remove("is-veil-leaving");
+              isPageTransitioning = false;
+            }, 300);
+          });
+        });
+      }, 230);
     }
 
     function triggerPage2Animations(scopeEl = document.getElementById("page-2")) {
@@ -5299,5 +5285,4 @@
   </script>
 </body>
 </html>
-
 
