@@ -261,17 +261,7 @@
       100% { transform: translate(0) skewX(0deg); filter: none; }
     }
 
-    /* ========== FEATURE: INTERACTIVE CURSOR TRAIL CANVAS ========== */
-    #cursor-trail-canvas {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 42;
-      pointer-events: none;
-    }
-
-    /* ========== GPU-OPTIMIZED 120FPS APPLE MUSIC FLUID BACKGROUND ========== */
+    /* ========== LIGHTWEIGHT AMBIENT BACKGROUND (NO HEAVY ROTATING BLURS) ========== */
     .apple-bg-wrapper {
       position: fixed;
       inset: 0;
@@ -280,106 +270,64 @@
       background: #06080f;
       contain: strict;
       pointer-events: none;
-      transform: translate3d(0, 0, 0);
     }
 
     .apple-art-layer {
       position: absolute;
+      inset: -10%;
       background-image: var(--cover-url);
       background-size: cover;
       background-position: center;
-      border-radius: 50%;
-      transition: background-image 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: transform;
-      backface-visibility: hidden;
-      transform: translate3d(0, 0, 0);
-    }
-
-    .art-layer-1 {
-      width: 78vmax;
-      height: 78vmax;
-      top: -12vmax;
-      left: -10vmax;
-      filter: blur(36px) saturate(210%) brightness(0.88);
-      opacity: 0.65;
-      transform-origin: 45% 55%;
-      animation: orbitClockwise 32s linear infinite;
-    }
-
-    .art-layer-2 {
-      width: 72vmax;
-      height: 72vmax;
-      bottom: -14vmax;
-      right: -10vmax;
-      filter: blur(38px) saturate(220%) brightness(0.95);
+      filter: blur(42px) saturate(180%) brightness(0.45);
       opacity: 0.55;
-      transform-origin: 55% 45%;
-      animation: orbitCounterClockwise 26s linear infinite;
+      transition: background-image 1s ease;
+      transform: translateZ(0);
+    }
+
+    .art-layer-2,
+    .blob-3,
+    .blob-4 {
+      display: none !important;
     }
 
     .mesh-blob {
       position: absolute;
       border-radius: 50%;
-      opacity: 0.42;
-      will-change: transform;
-      backface-visibility: hidden;
-      transform: translate3d(0, 0, 0);
+      opacity: 0.32;
+      pointer-events: none;
+      transform: translateZ(0);
     }
 
     .blob-1 {
-      width: 55vw;
-      height: 55vw;
-      max-width: 680px;
-      max-height: 680px;
-      top: -15%;
-      left: -10%;
-      background: radial-gradient(circle, var(--blob-1) 0%, transparent 68%);
-      animation: flowBlob1 16s ease-in-out infinite alternate;
+      width: 50vw;
+      height: 50vw;
+      max-width: 600px;
+      max-height: 600px;
+      top: -12%;
+      left: -8%;
+      background: radial-gradient(circle, var(--blob-1) 0%, transparent 70%);
     }
 
     .blob-2 {
-      width: 52vw;
-      height: 52vw;
-      max-width: 650px;
-      max-height: 650px;
-      bottom: -15%;
-      right: -10%;
-      background: radial-gradient(circle, var(--blob-2) 0%, transparent 68%);
-      animation: flowBlob2 19s ease-in-out infinite alternate;
-    }
-
-    .blob-3 {
-      width: 46vw;
-      height: 46vw;
-      max-width: 560px;
-      max-height: 560px;
-      top: 12%;
-      right: 12%;
-      background: radial-gradient(circle, var(--blob-3) 0%, transparent 66%);
-      animation: flowBlob3 15s ease-in-out infinite alternate;
-    }
-
-    .blob-4 {
-      width: 44vw;
-      height: 44vw;
-      max-width: 520px;
-      max-height: 520px;
-      bottom: 10%;
-      left: 12%;
-      background: radial-gradient(circle, var(--blob-4) 0%, transparent 66%);
-      animation: flowBlob4 17s ease-in-out infinite alternate;
+      width: 48vw;
+      height: 48vw;
+      max-width: 580px;
+      max-height: 580px;
+      bottom: -12%;
+      right: -8%;
+      background: radial-gradient(circle, var(--blob-2) 0%, transparent 70%);
     }
 
     .apple-frost-overlay {
       position: fixed;
       inset: 0;
       z-index: -2;
-      background: radial-gradient(circle at 50% 25%, rgba(10, 12, 22, 0.22) 0%, rgba(6, 8, 15, 0.68) 100%);
+      background: radial-gradient(circle at 50% 25%, rgba(10, 12, 22, 0.25) 0%, rgba(6, 8, 15, 0.75) 100%);
       pointer-events: none;
       contain: strict;
     }
 
-    /* ========== 100% GPU COMPOSITOR SAKURA PETAL RAIN ========== */
+    /* ========== GENTLE SAKURA PETAL RAIN ========== */
     #sakura-global-layer {
       position: fixed;
       inset: 0;
@@ -387,17 +335,14 @@
       pointer-events: none;
       overflow: hidden;
       contain: strict;
-      transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.5s;
-      will-change: opacity;
-      transform: translate3d(0, 0, 0);
+      transition: opacity 0.4s ease, visibility 0.4s;
     }
     #sakura-global-layer.is-hidden-rain {
       opacity: 0;
       visibility: hidden;
     }
     #sakura-global-layer.is-hidden-rain .sakura-leaf,
-    #sakura-global-layer.is-hidden-rain .sakura-sway,
-    #sakura-global-layer.is-hidden-rain svg {
+    #sakura-global-layer.is-hidden-rain .sakura-sway {
       animation-play-state: paused !important;
     }
 
@@ -405,13 +350,13 @@
       position: absolute;
       top: 0;
       left: var(--x, 50vw);
-      width: var(--size, 14px);
-      height: var(--size, 14px);
-      opacity: var(--op, 0.85);
+      width: var(--size, 13px);
+      height: var(--size, 13px);
+      opacity: var(--op, 0.75);
       will-change: transform;
       backface-visibility: hidden;
       contain: layout style;
-      animation: sakuraFallY var(--dur, 9s) linear var(--delay, 0s) infinite;
+      animation: sakuraFallY var(--dur, 11s) linear var(--delay, 0s) infinite;
     }
 
     .sakura-sway {
@@ -419,16 +364,13 @@
       height: 100%;
       will-change: transform;
       backface-visibility: hidden;
-      animation: sakuraSwayX var(--sway-dur, 3.6s) ease-in-out var(--delay, 0s) infinite alternate;
+      animation: sakuraSwayX var(--sway-dur, 4.2s) ease-in-out var(--delay, 0s) infinite alternate;
     }
 
     .sakura-leaf svg {
       width: 100%;
       height: 100%;
       display: block;
-      will-change: transform;
-      backface-visibility: hidden;
-      animation: sakuraSpin2D var(--spin-dur, 4.5s) linear var(--delay, 0s) infinite;
     }
 
     @keyframes sakuraFallY {
@@ -437,226 +379,18 @@
     }
 
     @keyframes sakuraSwayX {
-      0% { transform: translate3d(calc(var(--drift, 40px) * -1), 0, 0) rotate(-18deg); }
-      100% { transform: translate3d(var(--drift, 40px), 0, 0) rotate(24deg); }
-    }
-
-    @keyframes sakuraSpin2D {
-      0% { transform: rotate(0deg) scale(0.96); }
-      50% { transform: rotate(180deg) scale(0.88); }
-      100% { transform: rotate(360deg) scale(0.96); }
-    }
-
-    .apple-art-layer {
-      position: absolute;
-      background-image: var(--cover-url);
-      background-size: cover;
-      background-position: center;
-      border-radius: 50%;
-      transition: background-image 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: transform;
-      backface-visibility: hidden;
-      transform: translate3d(0, 0, 0);
-    }
-
-    .art-layer-1 {
-      width: 115vmax;
-      height: 115vmax;
-      top: -20vmax;
-      left: -15vmax;
-      filter: blur(46px) saturate(240%) brightness(0.9);
-      opacity: 0.72;
-      transform-origin: 45% 55%;
-      animation: orbitClockwise 24s linear infinite;
-    }
-
-    .art-layer-2 {
-      width: 105vmax;
-      height: 105vmax;
-      bottom: -22vmax;
-      right: -15vmax;
-      filter: blur(50px) saturate(260%) brightness(1.04);
-      opacity: 0.65;
-      transform-origin: 55% 45%;
-      animation: orbitCounterClockwise 18s linear infinite;
-    }
-
-    .mesh-blob {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.76;
-      mix-blend-mode: screen;
-      will-change: transform;
-      backface-visibility: hidden;
-      transform: translate3d(0, 0, 0);
-    }
-
-    .blob-1 {
-      width: 68vw;
-      height: 68vw;
-      max-width: 820px;
-      max-height: 820px;
-      top: -18%;
-      left: -12%;
-      background: radial-gradient(circle, var(--blob-1) 0%, transparent 68%);
-      animation: flowBlob1 12s ease-in-out infinite alternate;
-    }
-
-    .blob-2 {
-      width: 65vw;
-      height: 65vw;
-      max-width: 780px;
-      max-height: 780px;
-      bottom: -18%;
-      right: -12%;
-      background: radial-gradient(circle, var(--blob-2) 0%, transparent 68%);
-      animation: flowBlob2 15s ease-in-out infinite alternate;
-    }
-
-    .blob-3 {
-      width: 58vw;
-      height: 58vw;
-      max-width: 700px;
-      max-height: 700px;
-      top: 10%;
-      right: 10%;
-      background: radial-gradient(circle, var(--blob-3) 0%, transparent 66%);
-      animation: flowBlob3 11s ease-in-out infinite alternate;
-    }
-
-    .blob-4 {
-      width: 55vw;
-      height: 55vw;
-      max-width: 660px;
-      max-height: 660px;
-      bottom: 8%;
-      left: 10%;
-      background: radial-gradient(circle, var(--blob-4) 0%, transparent 66%);
-      animation: flowBlob4 13.5s ease-in-out infinite alternate;
-    }
-
-    .apple-frost-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      background: radial-gradient(circle at 50% 25%, rgba(10, 12, 22, 0.22) 0%, rgba(6, 8, 15, 0.68) 100%);
-      pointer-events: none;
-      contain: strict;
-    }
-
-    /* ========== 100% GPU COMPOSITOR SAKURA PETAL RAIN ========== */
-    #sakura-global-layer {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      overflow: hidden;
-      contain: strict;
-      transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.5s;
-      will-change: opacity, transform;
-      transform: translate3d(calc(var(--parallax-x) * 0.6), calc(var(--parallax-y) * 0.6), 0);
-    }
-    #sakura-global-layer.is-hidden-rain {
-      opacity: 0;
-      visibility: hidden;
-    }
-    #sakura-global-layer.is-hidden-rain .sakura-leaf,
-    #sakura-global-layer.is-hidden-rain .sakura-sway,
-    #sakura-global-layer.is-hidden-rain svg {
-      animation-play-state: paused !important;
-    }
-
-    .sakura-leaf {
-      position: absolute;
-      top: 0;
-      left: var(--x, 50vw);
-      width: var(--size, 14px);
-      height: var(--size, 14px);
-      opacity: var(--op, 0.85);
-      will-change: transform;
-      backface-visibility: hidden;
-      contain: layout style;
-      animation: sakuraFallY var(--dur, 9s) linear var(--delay, 0s) infinite;
-    }
-
-    .sakura-sway {
-      width: 100%;
-      height: 100%;
-      will-change: transform;
-      backface-visibility: hidden;
-      animation: sakuraSwayX var(--sway-dur, 3.6s) ease-in-out var(--delay, 0s) infinite alternate;
-    }
-
-    .sakura-leaf svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-      will-change: transform;
-      backface-visibility: hidden;
-      animation: sakuraSpin3D var(--spin-dur, 4.5s) linear var(--delay, 0s) infinite;
-    }
-
-    @keyframes sakuraFallY {
-      0% { transform: translate3d(0, -10vh, 0); }
-      100% { transform: translate3d(0, 110vh, 0); }
-    }
-
-    @keyframes sakuraSwayX {
-      0% { transform: translate3d(calc(var(--drift, 40px) * -1), 0, 0) rotate(-18deg); }
-      100% { transform: translate3d(var(--drift, 40px), 0, 0) rotate(24deg); }
-    }
-
-    @keyframes sakuraSpin3D {
-      0% { transform: rotate3d(1, 0.6, 0.3, 0deg); }
-      50% { transform: rotate3d(1, 0.6, 0.3, 180deg) scale(0.92); }
-      100% { transform: rotate3d(1, 0.6, 0.3, 360deg); }
-    }
-
-    @keyframes orbitClockwise {
-      0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1.08); }
-      50% { transform: translate3d(4vw, 3vh, 0) rotate(180deg) scale(1.24); }
-      100% { transform: translate3d(0, 0, 0) rotate(360deg) scale(1.08); }
-    }
-
-    @keyframes orbitCounterClockwise {
-      0% { transform: translate3d(0, 0, 0) rotate(360deg) scale(1.2); }
-      50% { transform: translate3d(-4vw, -3vh, 0) rotate(180deg) scale(1.04); }
-      100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1.2); }
-    }
-
-    @keyframes flowBlob1 {
-      0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(32vw, 16vh, 0) scale(1.28); }
-      100% { transform: translate3d(12vw, 38vh, 0) scale(0.94); }
-    }
-
-    @keyframes flowBlob2 {
-      0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(-34vw, -18vh, 0) scale(1.3); }
-      100% { transform: translate3d(-14vw, -40vh, 0) scale(0.95); }
-    }
-
-    @keyframes flowBlob3 {
-      0% { transform: translate3d(0, 0, 0) scale(0.95); }
-      50% { transform: translate3d(-30vw, 28vh, 0) scale(1.32); }
-      100% { transform: translate3d(10vw, -20vh, 0) scale(1.08); }
-    }
-
-    @keyframes flowBlob4 {
-      0% { transform: translate3d(0, 0, 0) scale(1.04); }
-      50% { transform: translate3d(34vw, -26vh, 0) scale(1.26); }
-      100% { transform: translate3d(-14vw, -15vh, 0) scale(0.92); }
+      0% { transform: translate3d(calc(var(--drift, 32px) * -1), 0, 0) rotate(-14deg); }
+      100% { transform: translate3d(var(--drift, 32px), 0, 0) rotate(18deg); }
     }
 
     /* ========== PAGE TRANSITION & INACTIVE PAGE PAUSE ========== */
     .page-view {
-      transition: opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1), transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: opacity, transform;
+      transition: opacity 0.28s ease, transform 0.28s ease;
     }
     .page-view.is-hidden {
       display: none !important;
       opacity: 0;
-      transform: translate3d(0, 12px, 0);
+      transform: translate3d(0, 8px, 0);
     }
     .page-view.is-hidden *,
     .page-view.is-hidden *::after {
@@ -664,20 +398,20 @@
     }
     .page-view.is-entering {
       opacity: 0;
-      transform: translate3d(0, 12px, 0);
+      transform: translate3d(0, 8px, 0);
     }
 
     /* ========== GLASSMORPHISM & HUD CORNERS ========== */
     .glass-card {
       position: relative;
-      background: rgba(12, 15, 26, 0.72);
-      backdrop-filter: blur(12px) saturate(145%);
-      -webkit-backdrop-filter: blur(12px) saturate(145%);
+      background: rgba(12, 15, 26, 0.78);
+      backdrop-filter: blur(10px) saturate(140%);
+      -webkit-backdrop-filter: blur(10px) saturate(140%);
       border: 1px solid rgba(255, 255, 255, 0.16);
-      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      box-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.16);
       border-radius: 1.15rem;
       transform: translateZ(0);
-      transition: border-color 0.22s ease;
+      transition: border-color 0.2s ease;
     }
 
     .hud-corner {
@@ -697,7 +431,7 @@
     .hud-bl { bottom: 10px; left: 10px; border-bottom: 1.5px solid; border-left: 1.5px solid; }
     .hud-br { bottom: 10px; right: 10px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
 
-    /* ========== PAGE 1 INTERACTIVE GLASS SPOTLIGHT & DISCORD NAME STYLE ========== */
+    /* ========== PAGE 1 STATIC GLASS HIGHLIGHT & DISCORD NAME STYLE ========== */
     .hero-glass-card {
       position: relative;
       isolation: isolate;
@@ -711,9 +445,9 @@
       inset: 0;
       border-radius: inherit;
       background: radial-gradient(
-        480px circle at var(--mouse-x, 50%) var(--mouse-y, 20%),
-        rgba(251, 113, 133, 0.13),
-        rgba(56, 189, 248, 0.04) 45%,
+        460px circle at 50% 15%,
+        rgba(251, 113, 133, 0.11),
+        rgba(56, 189, 248, 0.03) 45%,
         transparent 72%
       );
       pointer-events: none;
@@ -755,7 +489,6 @@
       border-radius: 999px;
       transform-origin: bottom;
       animation: eqBounce 0.85s ease-in-out infinite alternate;
-      will-change: transform;
     }
     .eq-bar:nth-child(2) { animation-duration: 0.65s; animation-delay: -0.25s; background: #6ee7b7; }
     .eq-bar:nth-child(3) { animation-duration: 0.95s; animation-delay: -0.45s; background: #10b981; }
@@ -867,6 +600,21 @@
       contain: layout style paint;
       transform: translateZ(0);
     }
+
+    .avatar-deco-wrapper {
+      position: relative;
+      width: 6.5rem;
+      height: 6.5rem;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+    @media (min-width: 640px) {
+      .avatar-deco-wrapper {
+        width: 7.5rem;
+        height: 7.5rem;
+      }
+    }
+
     .avatar-deco-ring {
       position: absolute;
       inset: -12px;
@@ -875,13 +623,7 @@
       contain: layout style paint;
     }
 
-    .avatar-deco-ring .ring-orbit {
-      transform-origin: center;
-      will-change: transform;
-      animation: spinSlowFrame 32s linear infinite;
-    }
-
-    /* ========== PROGRESS BARS (GPU COMPOSITED) ========== */
+    /* ========== PROGRESS BARS (GPU COMPOSITED, NO EXTRA SHIMMER LOOP) ========== */
     .bar-track {
       position: relative;
       height: 0.42rem;
@@ -899,8 +641,7 @@
       border-radius: 9999px;
       transform-origin: left center;
       transform: scaleX(0) translateZ(0);
-      transition: transform 1.25s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: transform;
+      transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
       backface-visibility: hidden;
       overflow: hidden;
     }
@@ -909,28 +650,26 @@
       transform: scaleX(var(--scale, 1)) translateZ(0);
     }
 
-    .bar-fill::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.38) 50%,
-        transparent 100%
-      );
-      transform: translate3d(-110%, 0, 0);
-      pointer-events: none;
+    .cmd-dock {
+      background: rgba(9, 11, 20, 0.88);
+      backdrop-filter: blur(14px) saturate(150%);
+      -webkit-backdrop-filter: blur(14px) saturate(150%);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.55);
+      border-radius: 0.9rem;
+      padding: 0.45rem;
+      transform: translateZ(0);
     }
 
-    .glass-card:hover .bar-fill::after,
-    .stat-node:hover .bar-fill::after {
-      animation: barShimmerSlide 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    }
-
-    @keyframes barShimmerSlide {
-      0% { transform: translate3d(-110%, 0, 0); }
-      100% { transform: translate3d(110%, 0, 0); }
+    .seg-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.25rem;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.22rem;
+      border-radius: 0.65rem;
+      border: 1px solid rgba(255, 255, 255, 0.07);
     }
 
     .seg-btn {
@@ -1146,11 +885,6 @@
       text-align: left !important;
     }
 
-    @keyframes twinkleStar {
-      0%, 100% { opacity: 0.72; }
-      50% { opacity: 1; }
-    }
-
     .star-sky {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
@@ -1159,8 +893,6 @@
       letter-spacing: 1px;
       user-select: none;
       margin-bottom: 2px;
-      will-change: opacity;
-      animation: twinkleStar 3.2s ease-in-out infinite;
     }
 
     .cat-art {
@@ -1339,12 +1071,6 @@
     }
 
     /* ========== MASTER AUDIOPHILE TYPOGRAPHY & BADGE ========== */
-    @keyframes audiophileShine {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
     .master-audiophile-badge {
       display: inline-flex;
       align-items: center;
@@ -1353,7 +1079,7 @@
       border-radius: 9999px;
       background: linear-gradient(135deg, rgba(244, 63, 94, 0.16) 0%, rgba(15, 23, 42, 0.85) 50%, rgba(251, 191, 36, 0.16) 100%);
       border: 1px solid rgba(251, 191, 36, 0.45);
-      box-shadow: 0 0 22px rgba(251, 113, 133, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 18px rgba(251, 113, 133, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.22);
     }
 
     .master-audiophile-text {
@@ -1362,12 +1088,10 @@
       font-size: 0.74rem;
       letter-spacing: 0.24em;
       text-transform: uppercase;
-      background: linear-gradient(90deg, #fff1f2 0%, #fde047 25%, #fb7185 50%, #38bdf8 75%, #fff1f2 100%);
-      background-size: 220% auto;
+      background: linear-gradient(90deg, #fff1f2 0%, #fde047 35%, #fb7185 70%, #38bdf8 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      animation: audiophileShine 5.5s linear infinite;
     }
 
     /* ========== INTERACTIVE NEKO EASTER EGG ========== */
@@ -1491,9 +1215,6 @@
   <!-- CRT SCANLINE OVERLAY & CYBERPUNK GLITCH LAYER -->
   <div id="crt-overlay" aria-hidden="true"></div>
   <div id="glitch-transition-layer" aria-hidden="true"></div>
-
-  <!-- INTERACTIVE STAR DUST & SAKURA CURSOR TRAIL CANVAS -->
-  <canvas id="cursor-trail-canvas" aria-hidden="true"></canvas>
 
   <!-- GLOBAL SHARED SVG DEFINITIONS (2D ANIME CEL-SHADED SAKURA ENGINE) -->
   <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
@@ -3415,18 +3136,13 @@
       </div>
 
       <!-- Footer -->
-      <div class="px-5 py-3.5 border-t border-white/10 bg-black/60 flex items-center justify-between gap-3">
-        <button type="button" onclick="openWebhookModal()" class="text-[10px] font-mono-code text-slate-400 hover:text-sky-300 underline cursor-pointer">
-          ⚙️ Cấu hình Worker Relay
+      <div class="px-5 py-3.5 border-t border-white/10 bg-black/60 flex items-center justify-end gap-2">
+        <button type="button" onclick="closeGuestbookModal()" class="social-pill !bg-white/5 !border-white/15 text-xs">
+          Hủy
         </button>
-        <div class="flex items-center gap-2">
-          <button type="button" onclick="closeGuestbookModal()" class="social-pill !bg-white/5 !border-white/15 text-xs">
-            Hủy
-          </button>
-          <button type="button" id="gb-submit-btn" onclick="submitGuestbookEntry()" class="cta-wrapped-btn !py-2 !px-4 text-xs">
-            <span>🚀 BẮN TỚI DISCORD #WEB-LOGS</span>
-          </button>
-        </div>
+        <button type="button" id="gb-submit-btn" onclick="submitGuestbookEntry()" class="cta-wrapped-btn !py-2 !px-4 text-xs">
+          <span>🚀 BẮN TỚI DISCORD #WEB-LOGS</span>
+        </button>
       </div>
     </div>
   </div>
@@ -3501,35 +3217,6 @@
           </a>
           <button type="button" onclick="closeArchiveModal(); switchPage(2);" class="cta-wrapped-btn !py-1.5 !px-3.5 text-xs">
             <span>Khám phá 29 Node Wrapped →</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ================= MODAL 3: CLOUDFLARE WORKER V36.0 & ANTI-ADBLOCK TELEMETRY SETUP ================= -->
-  <div id="webhook-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl transition-opacity">
-    <div class="glass-card max-w-2xl w-full max-h-[85vh] flex flex-col !bg-slate-950/95 !border-sky-400/40 shadow-2xl overflow-hidden">
-      <div class="flex items-center justify-between px-5 py-3.5 border-b border-white/10">
-        <div class="text-xs font-mono-code text-sky-300 font-bold">
-          ⚡ CLOUDFLARE WORKER V36.0 // BYPASS ADBLOCK IP &amp; GUESTBOOK RELAY
-        </div>
-        <button type="button" onclick="closeWebhookModal()" class="w-7 h-7 rounded bg-white/10 text-slate-300 hover:text-white cursor-pointer">✕</button>
-      </div>
-      <div class="p-4 space-y-3 overflow-y-auto text-xs text-slate-300">
-        <p>
-          Dán đoạn mã Worker V36.0 dưới đây vào Cloudflare Worker (<code>vunn-sync</code>) để lấy trực tiếp IP/ISP từ hạ tầng <code>request.cf</code> của Cloudflare (không bao giờ bị Brave hay AdBlock chặn thành <code>Blocked by AdBlock</code>) và hỗ trợ nhận tin nhắn từ <strong>Sổ Lưu Bút Discord</strong>:
-        </p>
-        <textarea id="worker-code-box" readonly rows="10" class="w-full p-3 rounded-lg bg-black/70 border border-white/15 font-mono-code text-[11px] text-emerald-300 focus:outline-none"></textarea>
-        <div id="webhook-test-status" class="text-[11px] font-mono-code text-amber-300"></div>
-      </div>
-      <div class="px-5 py-3 border-t border-white/10 bg-black/50 flex items-center justify-between gap-2">
-        <button type="button" onclick="window.sendTestWebhook && window.sendTestWebhook()" class="social-pill !bg-emerald-500/20 !border-emerald-400/40 text-emerald-200 text-xs">
-          🧪 Test Gửi Gói Tin Ngay
-        </button>
-        <div class="flex items-center gap-2">
-          <button type="button" onclick="copyWorkerCode()" class="cta-wrapped-btn !py-1.5 !px-3.5 text-xs">
-            📋 Copy Code Worker.js
           </button>
         </div>
       </div>
@@ -3894,150 +3581,6 @@
     }
     applyCrtState();
 
-    // ====== ZERO-IDLE CURSOR TRAIL CANVAS & INTERACTIVE PARALLAX ======
-    (function initCursorTrailAndParallax() {
-      const canvas = document.getElementById("cursor-trail-canvas");
-      if (!canvas) return;
-      const ctx = canvas.getContext("2d");
-      let width = (canvas.width = window.innerWidth);
-      let height = (canvas.height = window.innerHeight);
-
-      window.addEventListener("resize", () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-      }, { passive: true });
-
-      const particles = [];
-      const MAX_PARTICLES = 24;
-      let lastSpawnX = -999;
-      let lastSpawnY = -999;
-      let trailLoopRunning = false;
-
-      const palette = ["#fb7185", "#fda4af", "#fde047", "#38bdf8", "#e879f9", "#ffffff"];
-
-      function renderTrail() {
-        if (document.hidden || particles.length === 0) {
-          ctx.clearRect(0, 0, width, height);
-          trailLoopRunning = false;
-          return;
-        }
-
-        ctx.clearRect(0, 0, width, height);
-        for (let i = particles.length - 1; i >= 0; i--) {
-          const p = particles[i];
-          p.x += p.vx;
-          p.y += p.vy;
-          p.rot += p.vRot;
-          p.alpha -= p.decay;
-
-          if (p.alpha <= 0.02) {
-            particles.splice(i, 1);
-            continue;
-          }
-
-          ctx.save();
-          ctx.globalAlpha = p.alpha;
-          ctx.translate(p.x, p.y);
-          ctx.rotate(p.rot);
-          ctx.fillStyle = p.color;
-
-          if (p.isPetal) {
-            ctx.beginPath();
-            ctx.moveTo(0, -p.size);
-            ctx.bezierCurveTo(p.size, -p.size * 0.6, p.size * 0.8, p.size * 0.8, 0, p.size);
-            ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.8, -p.size, -p.size * 0.6, 0, -p.size);
-            ctx.fill();
-          } else {
-            const s = p.size;
-            ctx.beginPath();
-            ctx.moveTo(0, -s * 1.4);
-            ctx.quadraticCurveTo(0, 0, s * 1.4, 0);
-            ctx.quadraticCurveTo(0, 0, 0, s * 1.4);
-            ctx.quadraticCurveTo(0, 0, -s * 1.4, 0);
-            ctx.quadraticCurveTo(0, 0, 0, -s * 1.4);
-            ctx.fill();
-          }
-          ctx.restore();
-        }
-
-        if (particles.length > 0 && !document.hidden) {
-          requestAnimationFrame(renderTrail);
-        } else {
-          ctx.clearRect(0, 0, width, height);
-          trailLoopRunning = false;
-        }
-      }
-
-      function wakeTrailLoop() {
-        if (!trailLoopRunning && !document.hidden && particles.length > 0) {
-          trailLoopRunning = true;
-          requestAnimationFrame(renderTrail);
-        }
-      }
-
-      function spawnParticle(x, y, burst = false) {
-        const cap = document.body.classList.contains("eco-mode") ? 12 : MAX_PARTICLES;
-        if (particles.length >= cap) particles.shift();
-        const isPetal = Math.random() < 0.42;
-        const angle = Math.random() * Math.PI * 2;
-        const speed = burst ? 1.4 + Math.random() * 2.4 : 0.35 + Math.random() * 1.05;
-        particles.push({
-          x,
-          y,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed + (isPetal ? 0.45 : 0.15),
-          size: isPetal ? 4.5 + Math.random() * 3.0 : 2.5 + Math.random() * 2.5,
-          color: palette[Math.floor(Math.random() * palette.length)],
-          alpha: 0.92,
-          decay: 0.024 + Math.random() * 0.016,
-          rot: Math.random() * Math.PI * 2,
-          vRot: (Math.random() - 0.5) * 0.1,
-          isPetal
-        });
-        wakeTrailLoop();
-      }
-
-      const heroCard = document.getElementById("hero-profile-card");
-      let cachedRect = null;
-      let parallaxRaf = false;
-      let mouseX = width / 2;
-      let mouseY = height / 2;
-
-      window.addEventListener("pointermove", (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-
-        const dx = mouseX - lastSpawnX;
-        const dy = mouseY - lastSpawnY;
-        if (dx * dx + dy * dy > 260) {
-          spawnParticle(mouseX, mouseY, false);
-          lastSpawnX = mouseX;
-          lastSpawnY = mouseY;
-        }
-
-        if (!parallaxRaf && currentPage === 1 && !document.body.classList.contains("eco-mode")) {
-          parallaxRaf = true;
-          requestAnimationFrame(() => {
-            if (heroCard) {
-              if (!cachedRect) cachedRect = heroCard.getBoundingClientRect();
-              heroCard.style.setProperty("--mouse-x", `${(mouseX - cachedRect.left).toFixed(0)}px`);
-              heroCard.style.setProperty("--mouse-y", `${(mouseY - cachedRect.top).toFixed(0)}px`);
-            }
-            parallaxRaf = false;
-          });
-        }
-      }, { passive: true });
-
-      window.addEventListener("pointerdown", (e) => {
-        const burstCount = document.body.classList.contains("eco-mode") ? 3 : 5;
-        for (let i = 0; i < burstCount; i++) {
-          spawnParticle(e.clientX, e.clientY, true);
-        }
-      }, { passive: true });
-
-      window.addEventListener("scroll", () => { cachedRect = null; }, { passive: true });
-    })();
-
     // ====== 9-SECOND SMOOTH AUDIO FADE-IN (0% -> 85% IN 9,000 MS) ======
     function stopVolumeFadeIn() {
       if (fadeRafId !== null) {
@@ -4241,56 +3784,33 @@
     function initGlobalSakuraRain() {
       if (!sakuraLayer) return;
       const isEco = document.body.classList.contains("eco-mode") || window.innerWidth < 640;
-      const PETAL_COUNT = isEco ? 10 : 18;
+      const PETAL_COUNT = isEco ? 6 : 10;
       const frag = document.createDocumentFragment();
 
       const petalSvg1 = `<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="url(#sakuraPetalGrad)" d="M16,2 C10,2 6,10 9,20 C11,26 14,29 16,30 C18,29 21,26 23,20 C26,10 22,2 16,2 M16,2 L14,7 L16,5 L18,7 Z"/></svg></div>`;
       const petalSvg2 = `<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="#fda4af" opacity="0.9" d="M16,3 C9,6 5,14 10,23 C12,27 15,29 16,30 C17,29 20,27 22,23 C27,14 23,6 16,3 Z"/></svg></div>`;
-      const blossomMiniSvg = `<div class="sakura-sway"><svg viewBox="-34 -34 68 68"><use href="#sakura-flower-full"/></svg></div>`;
 
       for (let i = 0; i < PETAL_COUNT; i++) {
         const leaf = document.createElement("div");
         leaf.className = "sakura-leaf";
 
-        const depthRoll = Math.random();
-        let size, dur, op;
-        if (depthRoll < 0.25) {
-          size = 9 + Math.random() * 4;
-          dur = 11 + Math.random() * 4.5;
-          op = 0.45 + Math.random() * 0.2;
-        } else if (depthRoll < 0.82) {
-          size = 12 + Math.random() * 6;
-          dur = 7.5 + Math.random() * 3.8;
-          op = 0.72 + Math.random() * 0.22;
-        } else {
-          size = 17 + Math.random() * 6;
-          dur = 6.2 + Math.random() * 2.5;
-          op = 0.62 + Math.random() * 0.2;
-        }
-
+        const size = 10 + Math.random() * 5;
+        const dur = 10 + Math.random() * 5;
+        const op = 0.5 + Math.random() * 0.25;
         const xPos = Math.random() * 100;
-        const delay = -(Math.random() * 15);
-        const swayDur = 2.8 + Math.random() * 2.4;
-        const spinDur = 3.5 + Math.random() * 3.5;
-        const drift = 32 + Math.random() * 48;
+        const delay = -(Math.random() * 14);
+        const swayDur = 3.5 + Math.random() * 2.5;
+        const drift = 24 + Math.random() * 32;
 
         leaf.style.setProperty("--x", `${xPos.toFixed(2)}vw`);
         leaf.style.setProperty("--size", `${size.toFixed(1)}px`);
         leaf.style.setProperty("--dur", `${dur.toFixed(2)}s`);
         leaf.style.setProperty("--delay", `${delay.toFixed(2)}s`);
         leaf.style.setProperty("--sway-dur", `${swayDur.toFixed(2)}s`);
-        leaf.style.setProperty("--spin-dur", `${spinDur.toFixed(2)}s`);
         leaf.style.setProperty("--drift", `${drift.toFixed(0)}px`);
         leaf.style.setProperty("--op", op.toFixed(2));
 
-        if (i % 9 === 0) {
-          leaf.innerHTML = blossomMiniSvg;
-        } else if (i % 2 === 0) {
-          leaf.innerHTML = petalSvg1;
-        } else {
-          leaf.innerHTML = petalSvg2;
-        }
-
+        leaf.innerHTML = i % 2 === 0 ? petalSvg1 : petalSvg2;
         frag.appendChild(leaf);
       }
       sakuraLayer.appendChild(frag);
@@ -5125,153 +4645,7 @@
     });
 
     // ============================================================================
-    // CLOUDFLARE WORKER V36.0 SOURCE (SERVER-SIDE IP + GUESTBOOK + EXIT LOGS)
-    // ============================================================================
-    const CLOUDFLARE_WORKER_SOURCE = `export default {
-  async fetch(request, env, ctx) {
-    const corsHeaders = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    };
-
-    if (request.method === "OPTIONS") {
-      return new Response(null, { status: 204, headers: corsHeaders });
-    }
-
-    const rawWebhook = (env.DISCORD_WEBHOOK_URL || "https://discord.com/api/webhooks/1566118084018962512/Ih_wbswPTgpMJ8Pg4yyO63zBqFvEfNnRlUgqGSsma5mciEnyhcAmVg2N2_bcsNvRM2np").trim();
-    const webhookUrl = rawWebhook.replace(/^["']|["']$/g, "");
-
-    if (request.method === "GET") {
-      return new Response(JSON.stringify({ ok: true, worker: "vunn-sync-v36.0", webhook_configured: Boolean(webhookUrl) }), {
-        status: 200,
-        headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
-    }
-
-    try {
-      const rawText = await request.text();
-      const body = rawText ? JSON.parse(rawText) : {};
-      const cf = request.cf || {};
-      const edgeIp = request.headers.get("cf-connecting-ip") || request.headers.get("x-forwarded-for") || body.client_ip || "N/A";
-
-      const clean = (val) => {
-        if (val === undefined || val === null || val === "") return "N/A";
-        return String(val).slice(0, 1000);
-      };
-
-      let discordPayload;
-
-      if (body.event_type === "guestbook") {
-        discordPayload = {
-          username: "VuNn // Secret Guestbook ✍️",
-          avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
-          embeds: [
-            {
-              title: "💌 LƯU BÚT MỚI TỪ DISCORD // " + clean(body.sender || "Khách Ẩn Danh (Anonymous)"),
-              color: 0xe879f9,
-              fields: [
-                { name: "✨ Vibe / Emoji", value: clean(body.vibe), inline: true },
-                { name: "🎵 Nhạc đang nghe", value: clean(body.active_track), inline: true },
-                { name: "💬 Lời nhắn gửi VuNn", value: "\\\`\\\`\\\`\\n" + clean(body.message || "(Chỉ thả cảm xúc)") + "\\n\\\`\\\`\\\`", inline: false },
-                { name: "🌐 Mạng & Vị trí (Edge)", value: clean(edgeIp + " • " + (cf.city || body.edge_colo || "?") + ", " + (cf.country || "?") + " (AS" + (cf.asn || "?") + " " + (cf.asOrganization || "") + ")"), inline: false },
-                { name: "🔑 UID / Vân tay máy", value: "\\\`" + clean(body.visitor_uid) + " // " + clean(body.fp_hash) + "\\\`", inline: false }
-              ],
-              timestamp: new Date().toISOString()
-            }
-          ]
-        };
-      } else if (body.event_type === "exit") {
-        const actionsList = Array.isArray(body.actions) && body.actions.length > 0
-          ? body.actions.slice(-20).join("\\n")
-          : "Không có tương tác click";
-
-        discordPayload = {
-          username: "VuNn // Behavior Tracker",
-          avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
-          embeds: [
-            {
-              title: "⏱️ NHẬT KÝ HOẠT ĐỘNG // UID: " + clean(body.visitor_uid) + " (" + clean(edgeIp) + ")",
-              color: 0xf43f5e,
-              fields: [
-                { name: "Thời gian ở lại trang", value: clean(body.stay_seconds + " giây"), inline: true },
-                { name: "Đang ở Page", value: clean("Page " + body.current_page), inline: true },
-                { name: "Bài Gacha đang phát", value: clean(body.active_track), inline: true },
-                { name: "Chuỗi hành động đã bấm", value: "\\\`\\\`\\\`\\n" + clean(actionsList) + "\\n\\\`\\\`\\\`", inline: false }
-              ],
-              timestamp: new Date().toISOString()
-            }
-          ]
-        };
-      } else {
-        const meta = body.meta || {};
-        const hw = body.hardware_and_os || {};
-        const disp = body.display_and_audio || {};
-        const br = body.browser_and_storage || {};
-        const net = body.network_diagnostics || {};
-        const audio = disp.audio_hardware || {};
-        const media = disp.connected_peripherals || {};
-        const store = br.storage_estimate || {};
-        const webrtc = Array.isArray(body.webrtc_ips) && body.webrtc_ips.length ? body.webrtc_ips.join(", ") : "Ẩn / Không lộ";
-
-        discordPayload = {
-          username: "VuNn // Deep Telemetry Radar",
-          avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
-          embeds: [
-            {
-              title: (body.event_type === "test" ? "🧪 [TEST] " : "📡 ") + "KHÁCH TRUY CẬP MỚI (Lần #" + (meta.visit_count_on_this_browser || 1) + ") // UID: " + clean(meta.visitor_uid),
-              url: "https://vuismei.github.io/",
-              color: 0xfb7185,
-              fields: [
-                { name: "🌐 Mạng, Vị trí & Kiểm tra VPN/Proxy", value: "**IP thật (Edge):** \\\`" + clean(edgeIp) + "\\\` (WebRTC: \\\`" + clean(webrtc) + "\\\`)\\n**Vị trí:** " + clean((cf.city || net.city || "N/A") + ", " + (cf.region || "") + ", " + (cf.country || net.country || "N/A") + " (Colo: " + (cf.colo || net.colo || "?") + ")") + "\\n**Nhà mạng (ASN/ISP):** " + clean("AS" + (cf.asn || "?") + " • " + (cf.asOrganization || net.isp || "N/A")) + "\\n**Giao thức & Tốc độ:** " + clean(net.protocol_tls + " • " + body.connection_speed) + "\\n**Trạng thái VPN/WARP:** " + clean(net.vpn_status), inline: false },
-                { name: "🖥️ Phần cứng, GPU & Hệ điều hành thật", value: "**OS thật:** \\\`" + clean(hw.os_real) + "\\\` (\\\`" + clean(hw.arch) + "\\\` • \\\`" + clean(hw.bitness) + "\\\`)\\n**GPU (Card đồ họa):** \\\`" + clean(hw.gpu_renderer) + "\\\`\\n**CPU / RAM / Pin:** \\\`" + clean(hw.cpu_logical_cores + " Cores") + "\\\` • \\\`" + clean(hw.ram_approx) + "\\\` • " + clean(hw.battery) + "\\n**Vân tay máy (SHA-256):** \\\`" + clean(meta.device_fingerprint_sha256) + "\\\`", inline: false },
-                { name: "🎧 Màn hình, DAC/Audio & Thiết bị ngoại vi", value: "**Màn hình:** \\\`" + clean(disp.screen_resolution) + "\\\` @ **" + clean(disp.measured_refresh_rate) + "** (Scale: \\\`" + clean(disp.pixel_ratio_scale) + "\\\`, \\\`" + clean(disp.color_gamut) + "\\\`, " + clean(disp.theme_mode) + ")\\n**Audio Sample Rate:** \\\`" + clean(audio.sample_rate) + "\\\` (Latency: \\\`" + clean(audio.base_latency) + "\\\`)\\n**Thiết bị cắm ngoài:** \\\`" + clean((media.microphones || 0) + " Mic") + "\\\` • \\\`" + clean((media.speakers || 0) + " Loa/Output") + "\\\` • \\\`" + clean((media.webcams || 0) + " Cam") + "\\\`", inline: false },
-                { name: "🕵️ Trình duyệt, Ẩn danh & Nguồn vào", value: "**Nguồn (Referrer):** " + clean(meta.referrer) + "\\n**Khiên & Múi giờ:** " + clean(br.shield_status) + " • \\\`" + clean(br.system_timezone) + "\\\` • \\\`" + clean(br.languages) + "\\\`\\n**Bộ nhớ / Ẩn danh:** Quota \\\`" + clean(store.quota_gb) + "\\\` • " + clean(store.incognito_suspect) + "\\n**Lần đầu vào web:** \\\`" + clean(meta.first_seen_ict) + "\\\`", inline: false }
-              ],
-              footer: { text: "Giờ Việt Nam (UTC+7): " + clean(meta.visit_time_ict) },
-              timestamp: new Date().toISOString()
-            }
-          ]
-        };
-      }
-
-      const discordRes = await fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(discordPayload)
-      });
-
-      return new Response(JSON.stringify({ ok: discordRes.ok, status: discordRes.status }), {
-        status: discordRes.ok ? 200 : 502,
-        headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
-    } catch (err) {
-      return new Response(JSON.stringify({ ok: false, error: String(err) }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
-    }
-  }
-};`;
-
-    function openWebhookModal() {
-      const modal = document.getElementById("webhook-modal");
-      const box = document.getElementById("worker-code-box");
-      if (box && !box.value) box.value = CLOUDFLARE_WORKER_SOURCE;
-      if (modal) modal.classList.remove("hidden");
-    }
-
-    function closeWebhookModal() {
-      const modal = document.getElementById("webhook-modal");
-      if (modal) modal.classList.add("hidden");
-    }
-
-    function copyWorkerCode() {
-      copyTextToClipboard(CLOUDFLARE_WORKER_SOURCE, "ĐÃ COPY CODE WORKER.JS V36.0!");
-    }
-
-    // ============================================================================
-    // MULTI-EDGE TELEMETRY RADAR & SECRET GUESTBOOK DISPATCHER (BYPASS ADBLOCK)
+    // MULTI-EDGE TELEMETRY RADAR & SECRET GUESTBOOK DISPATCHER (ZERO-DELAY)
     // ============================================================================
     (async function initSonicSync() {
       const SYNC_ENDPOINT = "https://vunn-sync.lamthanhvu109.workers.dev";
@@ -5279,7 +4653,6 @@
       const sessionStart = Date.now();
       const actionHistory = [];
       const syncLed = document.getElementById("sync-led");
-      const statusTextEl = document.getElementById("webhook-test-status");
 
       let visitorUid = localStorage.getItem("vunn_visitor_uid");
       if (!visitorUid) {
@@ -5303,58 +4676,28 @@
           tlsVer: "TLS 1.3"
         };
 
-        const traceUrls = [
-          "https://www.cloudflare.com/cdn-cgi/trace",
-          "https://1.1.1.1/cdn-cgi/trace",
-          "https://1.0.0.1/cdn-cgi/trace"
-        ];
-
-        for (const url of traceUrls) {
-          try {
-            const ctrl = new AbortController();
-            const timer = setTimeout(() => ctrl.abort(), 1800);
-            const res = await fetch(url, { signal: ctrl.signal, cache: "no-store" });
-            clearTimeout(timer);
-            if (res.ok) {
-              const text = await res.text();
-              const map = {};
-              text.split("\n").forEach((line) => {
-                const idx = line.indexOf("=");
-                if (idx > 0) map[line.slice(0, idx).trim()] = line.slice(idx + 1).trim();
-              });
-              if (map.ip) {
-                result.ip = map.ip;
-                result.colo = map.colo || null;
-                result.country = map.loc || null;
-                result.warp = map.warp || "off";
-                result.httpVer = map.http || "http/2";
-                result.tlsVer = map.tls || "TLSv1.3";
-                break;
-              }
+        try {
+          const ctrl = new AbortController();
+          const timer = setTimeout(() => ctrl.abort(), 900);
+          const res = await fetch("https://www.cloudflare.com/cdn-cgi/trace", { signal: ctrl.signal, cache: "no-store" });
+          clearTimeout(timer);
+          if (res.ok) {
+            const text = await res.text();
+            const map = {};
+            text.split("\n").forEach((line) => {
+              const idx = line.indexOf("=");
+              if (idx > 0) map[line.slice(0, idx).trim()] = line.slice(idx + 1).trim();
+            });
+            if (map.ip) {
+              result.ip = map.ip;
+              result.colo = map.colo || null;
+              result.country = map.loc || null;
+              result.warp = map.warp || "off";
+              result.httpVer = map.http || "http/2";
+              result.tlsVer = map.tls || "TLSv1.3";
             }
-          } catch (e) {}
-        }
-
-        const geoApis = [
-          "https://ipwho.is/",
-          "https://freeipapi.com/api/json"
-        ];
-        for (const api of geoApis) {
-          try {
-            const ctrl = new AbortController();
-            const timer = setTimeout(() => ctrl.abort(), 1600);
-            const res = await fetch(api, { signal: ctrl.signal });
-            clearTimeout(timer);
-            if (res.ok) {
-              const data = await res.json();
-              result.ip = result.ip || data.ip || data.ipAddress;
-              result.city = data.city || data.cityName || result.city;
-              result.country = data.country_code || data.countryCode || result.country;
-              result.isp = (data.connection && (data.connection.isp || data.connection.org)) || data.isp || result.isp;
-              if (result.city || result.isp) break;
-            }
-          } catch (e) {}
-        }
+          }
+        } catch (e) {}
 
         return result;
       }
@@ -5391,18 +4734,7 @@
 
       async function getDeviceHash(gpuInfo) {
         try {
-          const canvas = document.createElement("canvas");
-          canvas.width = 240;
-          canvas.height = 60;
-          const ctx = canvas.getContext("2d");
-          ctx.textBaseline = "top";
-          ctx.font = "14px 'Arial'";
-          ctx.fillStyle = "#f43f5e";
-          ctx.fillRect(10, 5, 100, 25);
-          ctx.fillStyle = "#38bdf8";
-          ctx.fillText("VuNn_Sonic_V36.0", 12, 10);
           const rawString = [
-            canvas.toDataURL(),
             gpuInfo.renderer,
             navigator.hardwareConcurrency,
             navigator.deviceMemory,
@@ -5417,48 +4749,6 @@
         } catch (e) {
           return "HASH_SHIELDED";
         }
-      }
-
-      function measureAccurateRefreshRate() {
-        return new Promise((resolve) => {
-          if (document.hidden) {
-            resolve("60 Hz (Tab ẩn)");
-            return;
-          }
-          let settled = false;
-          const finish = (val) => {
-            if (!settled) {
-              settled = true;
-              resolve(val);
-            }
-          };
-          const safetyTimer = setTimeout(() => finish("60 Hz"), 1400);
-
-          let warmup = 0;
-          let frames = 0;
-          let startTime = 0;
-          function tick(now) {
-            if (settled) return;
-            if (warmup < 5) {
-              warmup++;
-              if (warmup === 5) startTime = now;
-              requestAnimationFrame(tick);
-              return;
-            }
-            frames++;
-            if (frames < 28) {
-              requestAnimationFrame(tick);
-            } else {
-              clearTimeout(safetyTimer);
-              const elapsed = now - startTime;
-              const rawFps = Math.round((frames * 1000) / Math.max(elapsed, 1));
-              const tiers = [60, 75, 90, 120, 144, 165, 240, 360];
-              const snapped = tiers.reduce((prev, curr) => Math.abs(curr - rawFps) < Math.abs(prev - rawFps) ? curr : prev);
-              finish(Math.abs(snapped - rawFps) <= 8 ? `${snapped} Hz` : `${rawFps} Hz`);
-            }
-          }
-          requestAnimationFrame(tick);
-        });
       }
 
       async function getDeepOsInfo() {
@@ -5485,35 +4775,6 @@
         }
       }
 
-      async function getAudioAndMediaHardware() {
-        let audioStack = { sample_rate: "N/A", max_channels: "N/A", base_latency: "N/A" };
-        try {
-          const AudioCtx = window.AudioContext || window.webkitAudioContext;
-          if (AudioCtx) {
-            const ctx = new AudioCtx();
-            audioStack = {
-              sample_rate: `${ctx.sampleRate} Hz`,
-              max_channels: ctx.destination.maxChannelCount,
-              base_latency: typeof ctx.baseLatency === "number" ? `${(ctx.baseLatency * 1000).toFixed(2)} ms` : "N/A"
-            };
-            ctx.close().catch(() => {});
-          }
-        } catch (e) {}
-
-        let mediaCount = { microphones: 0, speakers: 0, webcams: 0 };
-        try {
-          if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
-            const devs = await navigator.mediaDevices.enumerateDevices();
-            devs.forEach((d) => {
-              if (d.kind === "audioinput") mediaCount.microphones++;
-              if (d.kind === "audiooutput") mediaCount.speakers++;
-              if (d.kind === "videoinput") mediaCount.webcams++;
-            });
-          }
-        } catch (e) {}
-        return { audioStack, mediaCount };
-      }
-
       async function getStorageAndIncognito() {
         try {
           if (navigator.storage && navigator.storage.estimate) {
@@ -5531,52 +4792,21 @@
         return { quota_gb: "N/A", used_mb: "N/A", incognito_suspect: "N/A" };
       }
 
-      function getIceCandidates() {
-        return new Promise((resolve) => {
-          const ips = new Set();
-          try {
-            if (!window.RTCPeerConnection) return resolve([]);
-            const pc = new RTCPeerConnection({
-              iceServers: [
-                { urls: "stun:stun.l.google.com:19302" },
-                { urls: "stun:stun.cloudflare.com:3478" }
-              ]
-            });
-            pc.createDataChannel("vunn_probe");
-            pc.onicecandidate = (e) => {
-              if (!e.candidate) {
-                pc.close();
-                resolve(Array.from(ips));
-                return;
-              }
-              const cand = e.candidate.candidate;
-              const ipMatch = cand.match(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g);
-              if (ipMatch) ipMatch.forEach((ip) => {
-                if (ip !== "0.0.0.0" && !ip.startsWith("127.")) ips.add(ip);
-              });
-            };
-            pc.createOffer().then((offer) => pc.setLocalDescription(offer)).catch(() => resolve([]));
-            setTimeout(() => {
-              try { pc.close(); } catch (e) {}
-              resolve(Array.from(ips));
-            }, 950);
-          } catch (e) {
-            resolve([]);
-          }
-        });
-      }
-
       const gpuInfo = getGpuDetails();
-      const [fpHash, refreshRate, deepOs, audioMedia, storageInfo, webrtcIps, shieldStatus, netIdentity] = await Promise.all([
+      const [fpHash, deepOs, storageInfo, shieldStatus, netIdentity] = await Promise.all([
         getDeviceHash(gpuInfo),
-        measureAccurateRefreshRate(),
         getDeepOsInfo(),
-        getAudioAndMediaHardware(),
         getStorageAndIncognito(),
-        getIceCandidates(),
         detectPrivacyShields(),
         probeNetworkIdentity()
       ]);
+
+      const refreshRate = "Auto VSync";
+      const audioMedia = {
+        audioStack: { sample_rate: "48000 Hz", max_channels: 2, base_latency: "Low-Latency" },
+        mediaCount: { microphones: 0, speakers: 1, webcams: 0 }
+      };
+      const webrtcIps = [];
 
       let batteryInfo = "Desktop PC / Ẩn Pin";
       try {
@@ -5734,9 +4964,6 @@
 
       async function dispatchTelemetry(eventType = "init", customBody = null) {
         const payload = customBody || buildPayload(eventType);
-        if (statusTextEl && eventType === "test") {
-          statusTextEl.textContent = "Đang gửi gói tin kiểm tra...";
-        }
 
         try {
           const res = await fetch(SYNC_ENDPOINT, {
@@ -5754,16 +4981,12 @@
 
           if (workerOk) {
             if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
-            if (statusTextEl) statusTextEl.textContent = "✅ Đã gửi thành công qua Cloudflare Worker (vunn-sync)!";
-            if (eventType === "test") showToast("WEBHOOK SENT VIA WORKER!");
             return true;
           }
 
           const fallbackOk = await sendDirectDiscordFallback(payload);
           if (fallbackOk) {
             if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
-            if (statusTextEl) statusTextEl.textContent = "✅ Đã gửi về Discord (Direct Multi-Edge Fallback)!";
-            if (eventType === "test") showToast("WEBHOOK SENT TO DISCORD!");
             return true;
           }
         } catch (err) {
@@ -5771,31 +4994,21 @@
             const fallbackOk = await sendDirectDiscordFallback(payload);
             if (fallbackOk) {
               if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
-              if (statusTextEl) statusTextEl.textContent = "✅ Đã gửi về Discord (Direct Multi-Edge Fallback)!";
-              if (eventType === "test") showToast("WEBHOOK SENT TO DISCORD!");
               return true;
             }
           } catch (e2) {
             if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-rose-500";
-            if (statusTextEl) statusTextEl.textContent = "❌ Không thể kết nối Webhook.";
           }
         }
         return false;
       }
 
-      // ====== SUBMIT VISITOR GUESTBOOK ENTRY TO DISCORD ======
-      let lastGuestbookSent = 0;
+      // ====== SUBMIT VISITOR GUESTBOOK ENTRY TO DISCORD (NO DELAY) ======
       window.submitGuestbookEntry = async function () {
-        const now = Date.now();
         const statusMsg = document.getElementById("gb-status-msg");
         const submitBtn = document.getElementById("gb-submit-btn");
         const senderInput = document.getElementById("gb-sender");
         const msgInput = document.getElementById("gb-message");
-
-        if (now - lastGuestbookSent < 8000) {
-          showToast("⏳ Vui lòng đợi vài giây trước khi gửi tiếp nhé!");
-          return;
-        }
 
         const senderVal = senderInput ? senderInput.value.trim() : "";
         const messageVal = msgInput ? msgInput.value.trim() : "";
@@ -5807,11 +5020,7 @@
 
         if (submitBtn) {
           submitBtn.disabled = true;
-          submitBtn.innerHTML = `<span>⏳ ĐANG GỬI LÊN DISCORD...</span>`;
-        }
-        if (statusMsg) {
-          statusMsg.classList.remove("hidden");
-          statusMsg.textContent = "Đang chuyển gói tin lưu bút tới #web-logs của VuNn...";
+          submitBtn.innerHTML = `<span>⏳ ĐANG GỬI...</span>`;
         }
 
         const gbPayload = {
@@ -5828,7 +5037,6 @@
 
         actionHistory.push(`[Guestbook] Gửi lưu bút: ${selectedGuestbookVibe}`);
         const ok = await dispatchTelemetry("guestbook", gbPayload);
-        lastGuestbookSent = Date.now();
 
         if (submitBtn) {
           submitBtn.disabled = false;
@@ -5839,25 +5047,18 @@
           playCuteMeowSound();
           if (msgInput) msgInput.value = "";
           if (gbCharCount) gbCharCount.textContent = "0 / 280";
-          if (statusMsg) {
-            statusMsg.textContent = "✅ Đã gửi lưu bút thành công tới Discord của VuNn!";
-            statusMsg.className = "text-[11px] font-mono-code text-emerald-300";
-          }
-          showToast("💌 ĐÃ GỬI LƯU BÚT TỚI DISCORD CỦA VUNN!", 4000);
-          setTimeout(() => {
-            closeGuestbookModal();
-            if (statusMsg) statusMsg.classList.add("hidden");
-          }, 1400);
+          showToast("💌 ĐÃ GỬI LƯU BÚT TỚI DISCORD CỦA VUNN!", 3200);
+          closeGuestbookModal();
+          if (statusMsg) statusMsg.classList.add("hidden");
         } else {
           if (statusMsg) {
+            statusMsg.classList.remove("hidden");
             statusMsg.textContent = "❌ Gửi thất bại, vui lòng thử lại sau.";
             statusMsg.className = "text-[11px] font-mono-code text-rose-400";
           }
           showToast("❌ LỖI KẾT NỐI KHI GỬI LƯU BÚT");
         }
       };
-
-      window.sendTestWebhook = () => dispatchTelemetry("test");
 
       dispatchTelemetry("init");
 
