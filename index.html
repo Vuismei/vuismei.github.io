@@ -65,6 +65,51 @@
       animation-play-state: paused !important;
     }
 
+    /* ========== SILENT AUTO ECO-MODE (LOW SPEC / LOW BATTERY <30% / DATA SAVER) ========== */
+    body.eco-mode .glass-card,
+    body.eco-mode .cmd-dock,
+    body.eco-mode .persona-mini-orb,
+    body.eco-mode #intro-overlay {
+      backdrop-filter: blur(8px) saturate(130%) !important;
+      -webkit-backdrop-filter: blur(8px) saturate(130%) !important;
+    }
+
+    body.eco-mode .art-layer-2,
+    body.eco-mode .blob-3,
+    body.eco-mode .blob-4,
+    body.eco-mode .bar-fill::after {
+      display: none !important;
+      animation: none !important;
+    }
+
+    body.eco-mode .art-layer-1 {
+      filter: blur(32px) saturate(180%) brightness(0.88);
+      animation-duration: 36s;
+    }
+
+    body.eco-mode .avatar-deco-ring .ring-orbit,
+    body.eco-mode .sakura-cluster-sway,
+    body.eco-mode .sakura-vine-hang,
+    body.eco-mode .sakura-vine-hang-delayed,
+    body.eco-mode .sakura-float-accent {
+      animation-play-state: paused !important;
+    }
+
+    body.eco-mode #page-2 .wrapped-section {
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 520px;
+    }
+
+    body.eco-mode #page-2 .stat-node {
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 130px;
+    }
+
+    body.eco-mode #sakura-global-layer .sakura-leaf:nth-child(even) {
+      display: none !important;
+      animation: none !important;
+    }
+
     #intro-overlay {
       position: fixed;
       inset: 0;
@@ -3513,7 +3558,7 @@
               <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
             </svg>
           </button>
-          <input id="volume-bar" type="range" min="0" max="1" step="0.01" value="0.10" class="w-16" />
+          <input id="volume-bar" type="range" min="0" max="1" step="0.01" value="0.00" class="w-16" />
         </div>
       </div>
 
@@ -3529,13 +3574,13 @@
           <canvas id="spectrum-canvas" class="w-full h-full block"></canvas>
         </div>
         <span id="spec-peak-db" class="hidden sm:inline text-[9px] font-mono-code text-rose-300 font-bold w-16 text-right">
-          -14.2 dBFS
+          -∞ dBFS
         </span>
       </div>
     </div>
   </aside>
 
-  <!-- ================= V36.0 ENGINE: 5-DECK AUDIO, SPECTRUM FFT, CURSOR TRAIL, CRT & TELEMETRY ================= -->
+  <!-- ================= V36.0 ENGINE: AUTO ECO-MODE, ZERO-IDLE CANVAS, 9S FADE & TELEMETRY ================= -->
   <script>
     const DISCORD_USER_ID = new URLSearchParams(window.location.search).get("discord_id") || localStorage.getItem("vunn_discord_id") || "856710730485465098";
     const GACHA_PLAYLIST = [
@@ -3596,9 +3641,10 @@
     let allExpanded = false;
     let rafPending = false;
     let isSeeking = false;
-    let userVolume = 0.10;
+    let userVolume = 0.00;
     let fadeRafId = null;
     let hasTriggeredInitialFade = false;
+    let userOverrodeVolume = false;
     let playerMinimized = false;
     let userMuted = false;
     let bgWarmStarted = false;
@@ -3606,6 +3652,42 @@
     let lastCurrentTimeStr = "";
     let lastDurationStr = "";
     let crtEnabled = localStorage.getItem("vunn_crt_mode") === "1";
+
+    // ====== SILENT AUTO ECO-MODE (LOW SPEC CPU <= 4 / RAM <= 4GB / DATA SAVER / BATTERY < 30%) ======
+    (function initSilentAutoEcoMode() {
+      const lowCores = typeof navigator.hardwareConcurrency === "number" && navigator.hardwareConcurrency <= 4;
+      const lowRam = typeof navigator.deviceMemory === "number" && navigator.deviceMemory <= 4;
+      const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      let saveData = Boolean(conn && conn.saveData);
+      let lowBatteryUnplugged = false;
+
+      function evaluateEcoState() {
+        const shouldEnableEco = lowCores || lowRam || saveData || lowBatteryUnplugged;
+        document.body.classList.toggle("eco-mode", shouldEnableEco);
+      }
+
+      evaluateEcoState();
+
+      if (conn && typeof conn.addEventListener === "function") {
+        conn.addEventListener("change", () => {
+          saveData = Boolean(conn.saveData);
+          evaluateEcoState();
+        });
+      }
+
+      if (typeof navigator.getBattery === "function") {
+        navigator.getBattery().then((bat) => {
+          if (!bat) return;
+          const checkBattery = () => {
+            lowBatteryUnplugged = !bat.charging && typeof bat.level === "number" && bat.level < 0.30;
+            evaluateEcoState();
+          };
+          checkBattery();
+          bat.addEventListener("chargingchange", checkBattery);
+          bat.addEventListener("levelchange", checkBattery);
+        }).catch(() => {});
+      }
+    })();
 
     const vinylDisc = document.getElementById("vinyl-disc");
     const vinylCover = document.getElementById("vinyl-cover");
@@ -3691,7 +3773,7 @@
     }
     applyCrtState();
 
-    // ====== INTERACTIVE PARALLAX & STAR DUST / SAKURA CURSOR TRAIL ======
+    // ====== ZERO-IDLE CURSOR TRAIL CANVAS & INTERACTIVE PARALLAX ======
     (function initCursorTrailAndParallax() {
       const canvas = document.getElementById("cursor-trail-canvas");
       if (!canvas) return;
@@ -3708,11 +3790,73 @@
       const MAX_PARTICLES = 56;
       let lastSpawnX = -999;
       let lastSpawnY = -999;
+      let trailLoopRunning = false;
 
       const palette = ["#fb7185", "#fda4af", "#fde047", "#38bdf8", "#e879f9", "#ffffff"];
 
+      function renderTrail() {
+        if (document.hidden || particles.length === 0) {
+          ctx.clearRect(0, 0, width, height);
+          trailLoopRunning = false;
+          return;
+        }
+
+        ctx.clearRect(0, 0, width, height);
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.rot += p.vRot;
+          p.alpha -= p.decay;
+
+          if (p.alpha <= 0.02) {
+            particles.splice(i, 1);
+            continue;
+          }
+
+          ctx.save();
+          ctx.globalAlpha = p.alpha;
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.fillStyle = p.color;
+
+          if (p.isPetal) {
+            ctx.beginPath();
+            ctx.moveTo(0, -p.size);
+            ctx.bezierCurveTo(p.size, -p.size * 0.6, p.size * 0.8, p.size * 0.8, 0, p.size);
+            ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.8, -p.size, -p.size * 0.6, 0, -p.size);
+            ctx.fill();
+          } else {
+            const s = p.size;
+            ctx.beginPath();
+            ctx.moveTo(0, -s * 1.4);
+            ctx.quadraticCurveTo(0, 0, s * 1.4, 0);
+            ctx.quadraticCurveTo(0, 0, 0, s * 1.4);
+            ctx.quadraticCurveTo(0, 0, -s * 1.4, 0);
+            ctx.quadraticCurveTo(0, 0, 0, -s * 1.4);
+            ctx.fill();
+          }
+          ctx.restore();
+        }
+
+        if (particles.length > 0 && !document.hidden) {
+          requestAnimationFrame(renderTrail);
+        } else {
+          ctx.clearRect(0, 0, width, height);
+          trailLoopRunning = false;
+        }
+      }
+
+      function wakeTrailLoop() {
+        if (!trailLoopRunning && !document.hidden && particles.length > 0) {
+          trailLoopRunning = true;
+          requestAnimationFrame(renderTrail);
+        }
+      }
+
       function spawnParticle(x, y, burst = false) {
-        if (particles.length >= MAX_PARTICLES) particles.shift();
+        const cap = document.body.classList.contains("eco-mode") ? 28 : MAX_PARTICLES;
+        if (particles.length >= cap) particles.shift();
         const isPetal = Math.random() < 0.42;
         const angle = Math.random() * Math.PI * 2;
         const speed = burst ? 1.4 + Math.random() * 2.6 : 0.35 + Math.random() * 1.15;
@@ -3729,6 +3873,7 @@
           vRot: (Math.random() - 0.5) * 0.12,
           isPetal
         });
+        wakeTrailLoop();
       }
 
       const root = document.documentElement;
@@ -3750,7 +3895,7 @@
           lastSpawnY = mouseY;
         }
 
-        if (!parallaxRaf && currentPage === 1) {
+        if (!parallaxRaf && currentPage === 1 && !document.body.classList.contains("eco-mode")) {
           parallaxRaf = true;
           requestAnimationFrame(() => {
             const normX = (mouseX / Math.max(width, 1) - 0.5) * 2;
@@ -3771,70 +3916,32 @@
       }, { passive: true });
 
       window.addEventListener("pointerdown", (e) => {
-        for (let i = 0; i < 8; i++) {
+        const burstCount = document.body.classList.contains("eco-mode") ? 4 : 8;
+        for (let i = 0; i < burstCount; i++) {
           spawnParticle(e.clientX, e.clientY, true);
         }
       }, { passive: true });
 
       window.addEventListener("scroll", () => { cachedRect = null; }, { passive: true });
-
-      function renderTrail() {
-        if (!document.hidden && particles.length > 0) {
-          ctx.clearRect(0, 0, width, height);
-          for (let i = particles.length - 1; i >= 0; i--) {
-            const p = particles[i];
-            p.x += p.vx;
-            p.y += p.vy;
-            p.rot += p.vRot;
-            p.alpha -= p.decay;
-
-            if (p.alpha <= 0.02) {
-              particles.splice(i, 1);
-              continue;
-            }
-
-            ctx.save();
-            ctx.globalAlpha = p.alpha;
-            ctx.translate(p.x, p.y);
-            ctx.rotate(p.rot);
-            ctx.fillStyle = p.color;
-
-            if (p.isPetal) {
-              // Vẽ cánh hoa anh đào mini
-              ctx.beginPath();
-              ctx.moveTo(0, -p.size);
-              ctx.bezierCurveTo(p.size, -p.size * 0.6, p.size * 0.8, p.size * 0.8, 0, p.size);
-              ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.8, -p.size, -p.size * 0.6, 0, -p.size);
-              ctx.fill();
-            } else {
-              // Vẽ ngôi sao 4 cánh lấp lánh (Star Dust)
-              const s = p.size;
-              ctx.beginPath();
-              ctx.moveTo(0, -s * 1.4);
-              ctx.quadraticCurveTo(0, 0, s * 1.4, 0);
-              ctx.quadraticCurveTo(0, 0, 0, s * 1.4);
-              ctx.quadraticCurveTo(0, 0, -s * 1.4, 0);
-              ctx.quadraticCurveTo(0, 0, 0, -s * 1.4);
-              ctx.fill();
-            }
-            ctx.restore();
-          }
-        } else if (particles.length === 0) {
-          ctx.clearRect(0, 0, width, height);
-        }
-        requestAnimationFrame(renderTrail);
-      }
-      requestAnimationFrame(renderTrail);
     })();
 
-    // ====== 5-SECOND SMOOTH AUDIO FADE-IN (10% -> 85%) ======
+    // ====== 9-SECOND SMOOTH AUDIO FADE-IN (0% -> 85% IN 9,000 MS) ======
+    function stopVolumeFadeIn() {
+      if (fadeRafId !== null) {
+        cancelAnimationFrame(fadeRafId);
+        fadeRafId = null;
+      }
+      userOverrodeVolume = true;
+      hasTriggeredInitialFade = true;
+    }
+
     function startSmoothVolumeFadeIn() {
-      if (hasTriggeredInitialFade) return;
+      if (hasTriggeredInitialFade || userOverrodeVolume) return;
       hasTriggeredInitialFade = true;
 
-      const startVol = 0.10;
+      const startVol = 0.00;
       const targetVol = 0.85;
-      const fadeDuration = 5000;
+      const fadeDuration = 9000; // Đúng 9,000 ms (9 giây)
       const startTime = performance.now();
 
       userVolume = startVol;
@@ -3844,7 +3951,10 @@
       }
 
       function stepFade(now) {
-        if (userMuted) return;
+        if (userOverrodeVolume || userMuted) {
+          fadeRafId = null;
+          return;
+        }
         const elapsed = now - startTime;
         const progress = Math.min(elapsed / fadeDuration, 1);
         const currentVol = startVol + (targetVol - startVol) * progress;
@@ -3855,6 +3965,8 @@
         }
         if (progress < 1) {
           fadeRafId = requestAnimationFrame(stepFade);
+        } else {
+          fadeRafId = null;
         }
       }
       fadeRafId = requestAnimationFrame(stepFade);
@@ -3961,6 +4073,9 @@
       playerMinimized = minimize;
       if (gachaPlayerDock) gachaPlayerDock.classList.toggle("is-minimized", minimize);
       if (personaMiniPlayer) personaMiniPlayer.classList.toggle("is-active", minimize);
+      if (!minimize && typeof window.wakeSpectrumLoop === "function") {
+        window.wakeSpectrumLoop();
+      }
     }
 
     window.addEventListener("scroll", () => {
@@ -4004,13 +4119,16 @@
 
     document.addEventListener("visibilitychange", () => {
       document.body.classList.toggle("is-tab-hidden", document.hidden);
+      if (!document.hidden && typeof window.wakeSpectrumLoop === "function") {
+        window.wakeSpectrumLoop();
+      }
     });
 
     // ====== 100% GPU COMPOSITED SAKURA RAIN GENERATOR ======
     function initGlobalSakuraRain() {
       if (!sakuraLayer) return;
-      const isLowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || window.innerWidth < 640;
-      const PETAL_COUNT = isLowPower ? 30 : 46;
+      const isEco = document.body.classList.contains("eco-mode") || window.innerWidth < 640;
+      const PETAL_COUNT = isEco ? 24 : 44;
       const frag = document.createDocumentFragment();
 
       const petalSvg1 = `<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="url(#sakuraPetalGrad)" d="M16,2 C10,2 6,10 9,20 C11,26 14,29 16,30 C18,29 21,26 23,20 C26,10 22,2 16,2 M16,2 L14,7 L16,5 L18,7 Z"/></svg></div>`;
@@ -4365,6 +4483,7 @@
         setPlayButtonUI(true);
         audioStatus.textContent = "● PLAYING";
         startSmoothVolumeFadeIn();
+        if (typeof window.wakeSpectrumLoop === "function") window.wakeSpectrumLoop();
       });
 
       deck.addEventListener("playing", () => {
@@ -4374,6 +4493,7 @@
         setPlayButtonUI(true);
         audioStatus.textContent = "● PLAYING";
         startBackgroundWarmQueue();
+        if (typeof window.wakeSpectrumLoop === "function") window.wakeSpectrumLoop();
       });
 
       deck.addEventListener("pause", () => {
@@ -4419,7 +4539,7 @@
       return audioDecks[currentIndex];
     }
 
-    // ====== REALTIME 32-BAND SPECTRUM ANALYZER (BEAT-SYNCED ACOUSTIC ENGINE) ======
+    // ====== ZERO-IDLE 32-BAND SPECTRUM ANALYZER (CACHED GRADIENT & AUTO SLEEP) ======
     (function initSpectrumAnalyzer() {
       const specCanvas = document.getElementById("spectrum-canvas");
       const specDot = document.getElementById("spec-dot");
@@ -4430,107 +4550,144 @@
       const BANDS = 32;
       const barValues = new Float32Array(BANDS);
       const peakValues = new Float32Array(BANDS);
+      barValues.fill(0.08);
+      peakValues.fill(0.08);
+
+      let cachedSpecGrad = null;
+      let cachedGradKey = "";
+      let specLoopRunning = false;
+      let lastDbUpdate = 0;
+
+      function getOrCreateSpectrumGradient(h, color0, color1) {
+        const nextKey = `${h}_${color0}_${color1}`;
+        if (!cachedSpecGrad || cachedGradKey !== nextKey) {
+          cachedGradKey = nextKey;
+          const grad = sCtx.createLinearGradient(0, h, 0, 0);
+          grad.addColorStop(0, color0 || "#fb7185");
+          grad.addColorStop(0.6, color1 || "#38bdf8");
+          grad.addColorStop(1, "#fde047");
+          cachedSpecGrad = grad;
+        }
+        return cachedSpecGrad;
+      }
 
       function resizeSpecCanvas() {
         const rect = specCanvas.getBoundingClientRect();
         specCanvas.width = Math.max(160, Math.floor(rect.width * (window.devicePixelRatio || 1)));
         specCanvas.height = Math.max(20, Math.floor(rect.height * (window.devicePixelRatio || 1)));
+        cachedSpecGrad = null;
+        drawStaticOrActiveFrame(performance.now());
       }
-      resizeSpecCanvas();
-      window.addEventListener("resize", resizeSpecCanvas, { passive: true });
 
-      let lastDbUpdate = 0;
+      function drawStaticOrActiveFrame(now) {
+        const deck = getActiveDeck();
+        const isPlaying = Boolean(deck && !deck.paused && !deck.ended);
+        const track = GACHA_PLAYLIST[currentIndex];
+        const bpm = track.bpm || 124;
+        const beatFreq = bpm / 60;
+        const t = deck ? deck.currentTime || now / 1000 : now / 1000;
 
-      function renderSpectrum(now) {
-        if (!document.hidden && !playerMinimized) {
-          const deck = getActiveDeck();
-          const isPlaying = deck && !deck.paused && !deck.ended;
-          const track = GACHA_PLAYLIST[currentIndex];
-          const bpm = track.bpm || 124;
-          const beatFreq = bpm / 60;
-          const t = deck ? deck.currentTime || now / 1000 : now / 1000;
+        if (specDot) {
+          specDot.className = isPlaying
+            ? "w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"
+            : "w-1.5 h-1.5 rounded-full bg-rose-400";
+        }
 
-          if (specDot) {
-            specDot.className = isPlaying
-              ? "w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"
-              : "w-1.5 h-1.5 rounded-full bg-rose-400";
+        const w = specCanvas.width;
+        const h = specCanvas.height;
+        sCtx.clearRect(0, 0, w, h);
+
+        const gap = Math.max(2, Math.floor(w * 0.008));
+        const barWidth = Math.max(2, (w - gap * (BANDS - 1)) / BANDS);
+        const barGrad = getOrCreateSpectrumGradient(h, track.colors[0], track.colors[1]);
+
+        let maxEnergy = 0;
+        let allSettledAtBaseline = true;
+
+        for (let i = 0; i < BANDS; i++) {
+          let target = 0.08;
+          if (isPlaying && !userMuted) {
+            const kickPulse = Math.pow(Math.max(0, Math.sin(t * Math.PI * 2 * beatFreq)), 4);
+            const subWave = Math.sin(t * 7.5 + i * 0.42) * 0.5 + 0.5;
+            const vocalHarmonic = Math.sin(t * 13.2 - i * 0.28) * 0.5 + 0.5;
+            const hiHat = Math.abs(Math.sin(t * 29.0 + i * 1.7));
+
+            let freqWeight;
+            if (i < 6) {
+              freqWeight = 0.58 * kickPulse + 0.35 * subWave;
+            } else if (i < 18) {
+              freqWeight = 0.45 * vocalHarmonic + 0.32 * subWave + 0.18 * kickPulse;
+            } else {
+              freqWeight = 0.48 * hiHat + 0.25 * vocalHarmonic;
+            }
+
+            const volScale = Math.min(1, 0.45 + userVolume * 0.65);
+            target = Math.min(0.98, Math.max(0.1, freqWeight * volScale));
           }
 
-          const w = specCanvas.width;
-          const h = specCanvas.height;
-          sCtx.clearRect(0, 0, w, h);
-
-          const gap = Math.max(2, Math.floor(w * 0.008));
-          const barWidth = Math.max(2, (w - gap * (BANDS - 1)) / BANDS);
-
-          let maxEnergy = 0;
-
-          for (let i = 0; i < BANDS; i++) {
-            let target = 0.08;
-            if (isPlaying && !userMuted) {
-              // Tạo phổ năng lượng Bass / Mid / Treble bám sát BPM từng bài Gacha
-              const kickPulse = Math.pow(Math.max(0, Math.sin(t * Math.PI * 2 * beatFreq)), 4);
-              const subWave = Math.sin(t * 7.5 + i * 0.42) * 0.5 + 0.5;
-              const vocalHarmonic = Math.sin(t * 13.2 - i * 0.28) * 0.5 + 0.5;
-              const hiHat = Math.abs(Math.sin(t * 29.0 + i * 1.7));
-
-              let freqWeight;
-              if (i < 6) {
-                // Sub-bass & Kick drum
-                freqWeight = 0.58 * kickPulse + 0.35 * subWave;
-              } else if (i < 18) {
-                // Vocal & J-Rock/J-Pop Midrange
-                freqWeight = 0.45 * vocalHarmonic + 0.32 * subWave + 0.18 * kickPulse;
-              } else {
-                // Treble & Air (Cymbals / Strings)
-                freqWeight = 0.48 * hiHat + 0.25 * vocalHarmonic;
-              }
-
-              const volScale = Math.min(1, 0.45 + userVolume * 0.65);
-              target = Math.min(0.98, Math.max(0.1, freqWeight * volScale));
-            }
-
-            // Smooth attack & decay
-            barValues[i] += (target - barValues[i]) * (target > barValues[i] ? 0.38 : 0.16);
-            if (barValues[i] > peakValues[i]) {
-              peakValues[i] = barValues[i];
-            } else {
-              peakValues[i] = Math.max(0.06, peakValues[i] - 0.012);
-            }
-
-            if (barValues[i] > maxEnergy) maxEnergy = barValues[i];
-
-            const x = i * (barWidth + gap);
-            const barH = Math.max(2, barValues[i] * (h - 3));
-            const y = h - barH;
-
-            const grad = sCtx.createLinearGradient(0, h, 0, 0);
-            grad.addColorStop(0, track.colors[0] || "#fb7185");
-            grad.addColorStop(0.6, track.colors[1] || "#38bdf8");
-            grad.addColorStop(1, "#fde047");
-
-            sCtx.fillStyle = grad;
-            sCtx.fillRect(x, y, barWidth, barH);
-
-            // Đỉnh Peak-Hold màu trắng sáng chuẩn máy phân tích phổ Foobar2000
-            const peakY = Math.max(0, h - peakValues[i] * (h - 2) - 1.5);
-            sCtx.fillStyle = "rgba(255, 255, 255, 0.85)";
-            sCtx.fillRect(x, peakY, barWidth, 1.5);
+          barValues[i] += (target - barValues[i]) * (target > barValues[i] ? 0.38 : 0.18);
+          if (barValues[i] > peakValues[i]) {
+            peakValues[i] = barValues[i];
+          } else {
+            peakValues[i] = Math.max(0.08, peakValues[i] - 0.014);
           }
 
-          if (specPeakDb && now - lastDbUpdate > 140) {
-            lastDbUpdate = now;
-            if (isPlaying && !userMuted) {
-              const dbVal = (-18 + maxEnergy * 16.8).toFixed(1);
-              specPeakDb.textContent = `${dbVal} dBFS`;
-            } else {
-              specPeakDb.textContent = `-∞ dBFS`;
-            }
+          if (barValues[i] > 0.085 || peakValues[i] > 0.085) {
+            allSettledAtBaseline = false;
+          }
+
+          if (barValues[i] > maxEnergy) maxEnergy = barValues[i];
+
+          const x = i * (barWidth + gap);
+          const barH = Math.max(2, barValues[i] * (h - 3));
+          const y = h - barH;
+
+          sCtx.fillStyle = barGrad;
+          sCtx.fillRect(x, y, barWidth, barH);
+
+          const peakY = Math.max(0, h - peakValues[i] * (h - 2) - 1.5);
+          sCtx.fillStyle = "rgba(255, 255, 255, 0.85)";
+          sCtx.fillRect(x, peakY, barWidth, 1.5);
+        }
+
+        if (specPeakDb && now - lastDbUpdate > 140) {
+          lastDbUpdate = now;
+          if (isPlaying && !userMuted) {
+            const dbVal = (-18 + maxEnergy * 16.8).toFixed(1);
+            specPeakDb.textContent = `${dbVal} dBFS`;
+          } else {
+            specPeakDb.textContent = `-∞ dBFS`;
           }
         }
-        requestAnimationFrame(renderSpectrum);
+
+        return { isPlaying, allSettledAtBaseline };
       }
-      requestAnimationFrame(renderSpectrum);
+
+      function renderSpectrumLoop(now) {
+        if (document.hidden || playerMinimized) {
+          specLoopRunning = false;
+          return;
+        }
+
+        const { isPlaying, allSettledAtBaseline } = drawStaticOrActiveFrame(now);
+
+        if ((isPlaying && !userMuted) || !allSettledAtBaseline) {
+          requestAnimationFrame(renderSpectrumLoop);
+        } else {
+          if (specPeakDb) specPeakDb.textContent = `-∞ dBFS`;
+          specLoopRunning = false;
+        }
+      }
+
+      window.wakeSpectrumLoop = function () {
+        if (!specLoopRunning && !document.hidden && !playerMinimized) {
+          specLoopRunning = true;
+          requestAnimationFrame(renderSpectrumLoop);
+        }
+      };
+
+      resizeSpecCanvas();
+      window.addEventListener("resize", resizeSpecCanvas, { passive: true });
     })();
 
     function startBackgroundWarmQueue() {
@@ -4711,12 +4868,12 @@
     });
     seekBar.addEventListener("change", () => { isSeeking = false; });
 
+    volumeBar.addEventListener("pointerdown", () => {
+      stopVolumeFadeIn();
+    }, { passive: true });
+
     volumeBar.addEventListener("input", () => {
-      if (fadeRafId) {
-        cancelAnimationFrame(fadeRafId);
-        fadeRafId = null;
-      }
-      hasTriggeredInitialFade = true;
+      stopVolumeFadeIn();
       userVolume = parseFloat(volumeBar.value);
       userMuted = userVolume === 0;
       for (let i = 0; i < audioDecks.length; i++) {
@@ -4724,6 +4881,9 @@
         audioDecks[i].muted = userMuted;
       }
       setMuteButtonUI(userMuted);
+      if (!userMuted && typeof window.wakeSpectrumLoop === "function") {
+        window.wakeSpectrumLoop();
+      }
     });
 
     function toggleMute() {
@@ -4732,6 +4892,9 @@
         audioDecks[i].muted = userMuted;
       }
       setMuteButtonUI(userMuted);
+      if (!userMuted && typeof window.wakeSpectrumLoop === "function") {
+        window.wakeSpectrumLoop();
+      }
     }
 
     function loadTrack(index, autoPlay = false) {
@@ -4795,6 +4958,10 @@
         });
       } else {
         audioStatus.textContent = activeDeck.dataset.ready === "1" ? "READY (BUFFERED)" : "PRELOADING...";
+      }
+
+      if (typeof window.wakeSpectrumLoop === "function") {
+        window.wakeSpectrumLoop();
       }
     }
 
@@ -5011,7 +5178,6 @@
       const firstVisit = localStorage.getItem("vunn_first_visit") || new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh", hour12: false });
       localStorage.setItem("vunn_first_visit", firstVisit);
 
-      // Multi-Edge First-Party Trace Cascade: Khắc phục triệt để lỗi "Blocked by AdBlock" khi dùng Brave / Mạng riêng
       async function probeNetworkIdentity() {
         const result = {
           ip: null,
@@ -5024,7 +5190,6 @@
           tlsVer: "TLS 1.3"
         };
 
-        // Bước 1: Thử đọc Cloudflare CDN-CGI Trace (First-party infrastructure, không bị AdBlock chặn)
         const traceUrls = [
           "https://www.cloudflare.com/cdn-cgi/trace",
           "https://1.1.1.1/cdn-cgi/trace",
@@ -5057,7 +5222,6 @@
           } catch (e) {}
         }
 
-        // Bước 2: Thử lấy thêm tên ISP & Thành phố nếu trình duyệt không chặn Geo-API
         const geoApis = [
           "https://ipwho.is/",
           "https://freeipapi.com/api/json"
@@ -5254,7 +5418,6 @@
         return { quota_gb: "N/A", used_mb: "N/A", incognito_suspect: "N/A" };
       }
 
-      // Quét đa máy chủ STUN (Google + Cloudflare) để lấy candidate mạng nội bộ/công cộng
       function getIceCandidates() {
         return new Promise((resolve) => {
           const ips = new Set();
@@ -5401,7 +5564,7 @@
                 fields: [
                   { name: "✨ Vibe / Emoji", value: clean(payload.vibe), inline: true },
                   { name: "🎵 Nhạc đang nghe", value: clean(payload.active_track), inline: true },
-                  { name: "💬 Lời nhắn gửi VuNn", value: "```\n" + clean(payload.message || "(Chỉ thả cảm xúc)") + "\n```", inline: false },
+                  { name: "💬 Lời nhắn gửi VuNn", value: "\\`\\`\\`\\n" + clean(payload.message || "(Chỉ thả cảm xúc)") + "\\n\\`\\`\\`", inline: false },
                   { name: "🌐 Mạng & Vị trí", value: clean(`${resolvedIp} • Colo: ${netIdentity.colo || "?"} (${netIdentity.country || "VN"}) • ${vpnStatus}`), inline: false },
                   { name: "🔑 UID / Vân tay máy", value: "`" + clean(visitorUid) + " // " + clean(fpHash) + "`", inline: false }
                 ],
