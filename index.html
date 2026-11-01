@@ -167,7 +167,7 @@
       scrollbar-width: none;
     }
 
-    /* ========== PERSONA 5 / PERSONA 3R CINEMATIC COMIC TRANSITION (0.72S SMOOTH) ========== */
+    /* ========== SILK AURORA & SAKURA HUD TRANSITION (100% GPU COMPOSITED, ZERO-JANK) ========== */
     #persona-transition-layer {
       position: fixed;
       inset: 0;
@@ -176,53 +176,35 @@
       opacity: 0;
       visibility: hidden;
       overflow: hidden;
-      will-change: opacity, transform;
+      contain: strict;
     }
 
-    .persona-curtain {
-      position: absolute;
-      top: -30%;
-      bottom: -30%;
-      left: -35%;
-      right: -35%;
-      pointer-events: none;
-      transform: translate3d(-125%, 0, 0) skewX(-18deg);
-      will-change: transform;
-    }
-
-    .persona-curtain-dark {
-      background: #070910;
-      border-right: 4px solid #fde047;
-      z-index: 1;
-    }
-
-    .persona-curtain-crimson {
-      background: linear-gradient(135deg, #e11d48 0%, #be123c 60%, #881337 100%);
-      box-shadow: 0 0 50px rgba(244, 63, 94, 0.75);
-      border-right: 5px solid #ffffff;
-      z-index: 2;
-    }
-
-    .persona-speedlines {
+    .aurora-veil-backdrop {
       position: absolute;
       inset: 0;
-      z-index: 3;
-      pointer-events: none;
-      background: repeating-linear-gradient(
-        -18deg,
-        rgba(255, 255, 255, 0.08) 0px,
-        rgba(255, 255, 255, 0.08) 2px,
-        transparent 2px,
-        transparent 14px
-      );
+      background: #060811;
       opacity: 0;
+      will-change: opacity;
+      transform: translateZ(0);
+    }
+
+    .aurora-veil-glow {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 30% 35%, var(--blob-1), transparent 55%),
+        radial-gradient(circle at 70% 65%, var(--blob-2), transparent 55%),
+        radial-gradient(circle at 50% 50%, rgba(251, 113, 133, 0.25), rgba(7, 9, 18, 0.95) 70%);
+      opacity: 0;
+      will-change: transform, opacity;
+      transform: translate3d(0, 0, 0) scale3d(0.94, 0.94, 1);
     }
 
     .persona-center-badge {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) skewX(-14deg) scale(0.85);
+      transform: translate3d(-50%, -44%, 0) scale3d(0.94, 0.94, 1);
       z-index: 4;
       pointer-events: none;
       text-align: center;
@@ -230,93 +212,94 @@
       will-change: transform, opacity;
     }
 
+    .hud-transition-card {
+      padding: 1.1rem 2.2rem;
+      border-radius: 1.1rem;
+      background: rgba(10, 13, 24, 0.88);
+      border: 1px solid rgba(251, 113, 133, 0.35);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    }
+
     .persona-badge-sub {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.35em;
-      color: #fde047;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.32em;
+      color: #fda4af;
       text-transform: uppercase;
-      text-shadow: 0 0 10px rgba(253, 224, 71, 0.6);
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
 
     .persona-badge-main {
-      font-family: 'JetBrains Mono', 'Inter', sans-serif;
-      font-size: clamp(1.6rem, 5vw, 3.4rem);
+      font-family: 'Inter', 'Noto Sans JP', sans-serif;
+      font-size: clamp(1.25rem, 3.8vw, 2.2rem);
       font-weight: 900;
-      letter-spacing: 0.12em;
-      color: #ffffff;
+      letter-spacing: 0.14em;
+      background: linear-gradient(90deg, #ffffff 0%, #fecdd3 48%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
       text-transform: uppercase;
-      text-shadow: 4px 4px 0px #be123c, -2px -2px 0px #070910, 0 0 24px rgba(251, 113, 133, 0.8);
       white-space: nowrap;
     }
 
     .persona-badge-deco {
-      width: 80%;
-      height: 4px;
-      margin: 6px auto 0 auto;
-      background: linear-gradient(90deg, transparent 0%, #fde047 30%, #ffffff 50%, #fde047 70%, transparent 100%);
-      box-shadow: 0 0 12px #fde047;
+      width: 100%;
+      height: 2px;
+      margin: 8px auto 0 auto;
+      background: linear-gradient(90deg, transparent 0%, var(--blob-1) 30%, #ffffff 50%, var(--blob-4) 70%, transparent 100%);
+      transform: scaleX(0.2);
+      transform-origin: center;
+      will-change: transform;
     }
 
-    /* Active persona transition animation */
+    /* Active Silk Aurora transition animation */
     body.is-persona-shifting #persona-transition-layer {
       opacity: 1;
       visibility: visible;
     }
 
-    body.is-persona-shifting .persona-curtain-dark {
-      animation: personaDarkSlash 0.72s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+    body.is-persona-shifting .aurora-veil-backdrop {
+      animation: auroraBackdropFade 0.64s cubic-bezier(0.22, 1, 0.36, 1) both !important;
     }
 
-    body.is-persona-shifting .persona-curtain-crimson {
-      animation: personaCrimsonSlash 0.72s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both !important;
-    }
-
-    body.is-persona-shifting .persona-speedlines {
-      animation: personaSpeedlinesFlash 0.72s ease both !important;
+    body.is-persona-shifting .aurora-veil-glow {
+      animation: auroraGlowPulse 0.64s cubic-bezier(0.22, 1, 0.36, 1) both !important;
     }
 
     body.is-persona-shifting .persona-center-badge {
-      animation: personaBadgePop 0.72s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+      animation: auroraBadgeGlide 0.64s cubic-bezier(0.22, 1, 0.36, 1) both !important;
     }
 
-    body.is-persona-shifting main:not(.is-hidden) {
-      animation: personaPageEnter 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both !important;
+    body.is-persona-shifting .persona-badge-deco {
+      animation: auroraLineExpand 0.64s cubic-bezier(0.22, 1, 0.36, 1) both !important;
     }
 
-    @keyframes personaDarkSlash {
-      0% { transform: translate3d(-125%, 0, 0) skewX(-18deg); }
-      38% { transform: translate3d(0%, 0, 0) skewX(-18deg); }
-      62% { transform: translate3d(0%, 0, 0) skewX(-18deg); }
-      100% { transform: translate3d(125%, 0, 0) skewX(-18deg); }
-    }
-
-    @keyframes personaCrimsonSlash {
-      0% { transform: translate3d(-125%, 0, 0) skewX(-18deg); }
-      40% { transform: translate3d(0%, 0, 0) skewX(-18deg); }
-      60% { transform: translate3d(0%, 0, 0) skewX(-18deg); }
-      100% { transform: translate3d(125%, 0, 0) skewX(-18deg); }
-    }
-
-    @keyframes personaSpeedlinesFlash {
+    @keyframes auroraBackdropFade {
       0% { opacity: 0; }
-      28% { opacity: 0.95; }
-      72% { opacity: 0.95; }
+      32% { opacity: 0.96; }
+      68% { opacity: 0.96; }
       100% { opacity: 0; }
     }
 
-    @keyframes personaBadgePop {
-      0% { opacity: 0; transform: translate(-50%, -50%) skewX(-14deg) scale(0.68); }
-      34% { opacity: 1; transform: translate(-50%, -50%) skewX(-14deg) scale(1.04); }
-      66% { opacity: 1; transform: translate(-50%, -50%) skewX(-14deg) scale(1); }
-      100% { opacity: 0; transform: translate(-50%, -50%) skewX(-14deg) scale(1.16); filter: blur(4px); }
+    @keyframes auroraGlowPulse {
+      0% { opacity: 0; transform: translate3d(0, 0, 0) scale3d(0.92, 0.92, 1); }
+      35% { opacity: 0.42; transform: translate3d(0, 0, 0) scale3d(1, 1, 1); }
+      65% { opacity: 0.42; transform: translate3d(0, 0, 0) scale3d(1.03, 1.03, 1); }
+      100% { opacity: 0; transform: translate3d(0, 0, 0) scale3d(1.08, 1.08, 1); }
     }
 
-    @keyframes personaPageEnter {
-      0% { opacity: 0.2; transform: translate3d(0, 18px, 0) scale(0.985); filter: brightness(1.15); }
-      60% { opacity: 1; transform: translate3d(0, -2px, 0) scale(1.002); filter: brightness(1.03); }
-      100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: none; }
+    @keyframes auroraBadgeGlide {
+      0% { opacity: 0; transform: translate3d(-50%, -38%, 0) scale3d(0.92, 0.92, 1); }
+      30% { opacity: 1; transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1); }
+      70% { opacity: 1; transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1); }
+      100% { opacity: 0; transform: translate3d(-50%, -58%, 0) scale3d(0.96, 0.96, 1); }
+    }
+
+    @keyframes auroraLineExpand {
+      0% { transform: scaleX(0.1); }
+      40% { transform: scaleX(1); }
+      75% { transform: scaleX(1); }
+      100% { transform: scaleX(0.2); }
     }
 
     /* ========== VIBRANT & EYE-SOOTHING APPLE MUSIC FLUID BACKGROUND ========== */
@@ -549,12 +532,13 @@
 
     /* ========== PAGE TRANSITION & INACTIVE PAGE PAUSE ========== */
     .page-view {
-      transition: opacity 0.28s ease, transform 0.28s ease;
+      transition: opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1), transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
     }
     .page-view.is-hidden {
       display: none !important;
       opacity: 0;
-      transform: translate3d(0, 8px, 0);
+      transform: translate3d(0, 10px, 0) scale3d(0.99, 0.99, 1);
     }
     .page-view.is-hidden *,
     .page-view.is-hidden *::after {
@@ -562,7 +546,7 @@
     }
     .page-view.is-entering {
       opacity: 0;
-      transform: translate3d(0, 8px, 0);
+      transform: translate3d(0, 10px, 0) scale3d(0.99, 0.99, 1);
     }
 
     /* ========== GLASSMORPHISM & HUD CORNERS ========== */
@@ -1456,15 +1440,16 @@
 </head>
 
 <body class="selection:bg-rose-500 selection:text-white hover-expand-enabled">
-  <!-- PERSONA 5 / PERSONA 3R CINEMATIC COMIC TRANSITION LAYER -->
+  <!-- SILK AURORA & SAKURA HUD TRANSITION LAYER (100% GPU COMPOSITED, ZERO JANK) -->
   <div id="persona-transition-layer" aria-hidden="true">
-    <div class="persona-curtain persona-curtain-dark"></div>
-    <div class="persona-curtain persona-curtain-crimson"></div>
-    <div class="persona-speedlines"></div>
+    <div class="aurora-veil-backdrop"></div>
+    <div class="aurora-veil-glow"></div>
     <div class="persona-center-badge">
-      <div class="persona-badge-sub font-mono-code">// SYSTEM SHIFT</div>
-      <div id="persona-badge-title" class="persona-badge-main">WRAPPED × REPLAY</div>
-      <div class="persona-badge-deco"></div>
+      <div class="hud-transition-card">
+        <div class="persona-badge-sub font-mono-code">✦ SONIC TELEMETRY // SHIFT ✦</div>
+        <div id="persona-badge-title" class="persona-badge-main">WRAPPED × REPLAY</div>
+        <div class="persona-badge-deco"></div>
+      </div>
     </div>
   </div>
 
@@ -3592,7 +3577,7 @@
     </div>
   </aside>
 
-  <!-- ================= V36.1 ENGINE: INSTANT 70% AUDIO, AUTO ECO-MODE, ZERO-IDLE CANVAS & TELEMETRY ================= -->
+  <!-- ================= V36.2 ENGINE: SILK AURORA TRANSITION, INSTANT 70% AUDIO & TELEMETRY ================= -->
   <script>
     const DISCORD_USER_ID = new URLSearchParams(window.location.search).get("discord_id") || localStorage.getItem("vunn_discord_id") || "856710730485465098";
 
@@ -3784,7 +3769,7 @@
       volumeBar.value = "0.70";
     }
 
-    // ====== PERSONA-STYLE PUNCHY SOUND EFFECT (WEB AUDIO API) ======
+    // ====== SOFT HARMONIC CRYSTAL CHIME SFX (MATCHES SAKURA & AUDIOPHILE AESTHETIC) ======
     function playPersonaSfx() {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -3792,29 +3777,32 @@
         const ctx = new AudioCtx();
         const now = ctx.currentTime;
 
-        const osc = ctx.createOscillator();
+        const osc1 = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
         const gain = ctx.createGain();
-        const filter = ctx.createBiquadFilter();
 
-        osc.type = "sawtooth";
-        osc.frequency.setValueAtTime(540, now);
-        osc.frequency.exponentialRampToValueAtTime(120, now + 0.18);
+        osc1.type = "sine";
+        osc2.type = "triangle";
 
-        filter.type = "bandpass";
-        filter.frequency.setValueAtTime(1400, now);
-        filter.frequency.exponentialRampToValueAtTime(320, now + 0.18);
-        filter.Q.setValueAtTime(2.5, now);
+        osc1.frequency.setValueAtTime(528, now);
+        osc1.frequency.exponentialRampToValueAtTime(792, now + 0.24);
 
-        gain.gain.setValueAtTime(0.045, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+        osc2.frequency.setValueAtTime(1056, now);
+        osc2.frequency.exponentialRampToValueAtTime(1584, now + 0.24);
 
-        osc.connect(filter);
-        filter.connect(gain);
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.032, now + 0.035);
+        gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.28);
+
+        osc1.connect(gain);
+        osc2.connect(gain);
         gain.connect(ctx.destination);
 
-        osc.start(now);
-        osc.stop(now + 0.24);
-        setTimeout(() => { ctx.close().catch(() => {}); }, 380);
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + 0.30);
+        osc2.stop(now + 0.30);
+        setTimeout(() => { ctx.close().catch(() => {}); }, 360);
       } catch (e) {}
     }
 
@@ -4021,7 +4009,7 @@
 
     let countRafId = null;
 
-    // ====== PERSONA-STYLE SMOOTH 0.72S PAGE SWITCHING (300MS APEX) ======
+    // ====== SILK AURORA & SAKURA HUD PAGE TRANSITION (FRAME-STAGGERED FOR 0.0MS JANK) ======
     function switchPage(targetPage) {
       if (targetPage === currentPage || isPageTransitioning) return;
       isPageTransitioning = true;
@@ -4036,59 +4024,69 @@
         badgeTitle.textContent = targetPage === 2 ? "WRAPPED × REPLAY" : "PROFILE & HUD";
       }
 
-      // 1. Play Persona slash sound effect
+      // 1. Play soft harmonic crystal chime
       playPersonaSfx();
 
-      // 2. Trigger diagonal slash curtains (0.72s total)
-      document.body.classList.remove("is-persona-shifting");
-      const layer = document.getElementById("persona-transition-layer");
-      if (layer) void layer.offsetWidth;
+      // 2. Start GPU-composited Aurora Veil
       document.body.classList.add("is-persona-shifting");
 
-      // 3. Apex of transition (300ms): swap DOM seamlessly
+      // 3. Swap DOM at veil apex (220ms) while screen is 96% covered
       setTimeout(() => {
         window.scrollTo({ top: 0, behavior: "instant" });
 
         if (targetPage === 2) {
           if (sakuraLayer) sakuraLayer.classList.add("is-hidden-rain");
-
           document.body.classList.add("on-page-2");
+
           page1.classList.add("is-hidden");
           page2.classList.remove("is-hidden");
           page2.classList.add("is-entering");
+
           if (topBtn) {
             topBtn.innerHTML = "<span>← BACK TO PROFILE</span>";
             topBtn.onclick = () => switchPage(1);
           }
 
+          // Wait 2 animation frames for layout to settle before lifting veil & running counters
           requestAnimationFrame(() => {
-            page2.classList.remove("is-entering");
-            triggerPage2Animations();
+            requestAnimationFrame(() => {
+              page2.classList.remove("is-entering");
+            });
           });
         } else {
           if (sakuraLayer) sakuraLayer.classList.remove("is-hidden-rain");
-
           document.body.classList.remove("on-page-2");
+
           page2.classList.add("is-hidden");
           page1.classList.remove("is-hidden");
           page1.classList.add("is-entering");
+
           if (topBtn) {
             topBtn.innerHTML = "<span>WRAPPED × REPLAY →</span>";
             topBtn.onclick = () => switchPage(2);
           }
 
           requestAnimationFrame(() => {
-            page1.classList.remove("is-entering");
+            requestAnimationFrame(() => {
+              page1.classList.remove("is-entering");
+            });
           });
         }
-      }, 300);
+      }, 220);
 
-      // 4. End transition (720ms)
+      // 4. Trigger Page 2 count-up & progress bar animations after DOM swap has settled (380ms)
+      if (targetPage === 2) {
+        setTimeout(() => {
+          triggerPage2Animations();
+        }, 380);
+      }
+
+      // 5. Clean up transition state (650ms)
       clearTimeout(personaTransitionTimeout);
       personaTransitionTimeout = setTimeout(() => {
         document.body.classList.remove("is-persona-shifting");
         isPageTransitioning = false;
-      }, 720);
+      }, 650);
     }
 
     function triggerPage2Animations(scopeEl = document.getElementById("page-2")) {
@@ -5301,4 +5299,5 @@
   </script>
 </body>
 </html>
+
 
