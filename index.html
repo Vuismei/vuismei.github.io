@@ -1108,6 +1108,126 @@
       background: #ffffff;
       box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
     }
+
+    /* ========== MASTER AUDIOPHILE TYPOGRAPHY & BADGE ========== */
+    @keyframes audiophileShine {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .master-audiophile-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.3rem 0.85rem;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.16) 0%, rgba(15, 23, 42, 0.85) 50%, rgba(251, 191, 36, 0.16) 100%);
+      border: 1px solid rgba(251, 191, 36, 0.45);
+      box-shadow: 0 0 22px rgba(251, 113, 133, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+
+    .master-audiophile-text {
+      font-family: 'Inter', sans-serif;
+      font-weight: 900;
+      font-size: 0.74rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #fff1f2 0%, #fde047 25%, #fb7185 50%, #38bdf8 75%, #fff1f2 100%);
+      background-size: 220% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: audiophileShine 5.5s linear infinite;
+      filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.35));
+    }
+
+    /* ========== INTERACTIVE NEKO EASTER EGG ========== */
+    .neko-interactive {
+      cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .neko-interactive:hover {
+      transform: translate3d(0, -3px, 0) scale(1.015);
+      border-color: rgba(251, 113, 133, 0.65);
+      box-shadow: 0 12px 30px -8px rgba(244, 63, 94, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    }
+    .neko-interactive:active {
+      transform: scale(0.97);
+    }
+
+    @keyframes nekoBounce {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      30% { transform: translateY(-7px) rotate(-4deg); }
+      60% { transform: translateY(-3px) rotate(4deg); }
+    }
+    .neko-jump {
+      animation: nekoBounce 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .meow-bubble {
+      position: absolute;
+      top: -12px;
+      right: 12px;
+      background: linear-gradient(135deg, #fb7185, #e11d48);
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 999px;
+      box-shadow: 0 4px 14px rgba(244, 63, 94, 0.55);
+      opacity: 0;
+      transform: translateY(6px) scale(0.85);
+      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+      z-index: 25;
+    }
+    .meow-bubble.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* ========== PERSONA-STYLE HUD MINI VINYL PLAYER ========== */
+    .persona-mini-orb {
+      position: fixed;
+      bottom: 1.15rem;
+      right: 1.15rem;
+      z-index: 45;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.45rem 0.75rem 0.45rem 0.45rem;
+      border-radius: 9999px;
+      background: rgba(9, 12, 24, 0.92);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1.5px solid rgba(251, 113, 133, 0.65);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.75), 0 0 22px rgba(244, 63, 94, 0.35);
+      transform: translate3d(0, 24px, 0) scale(0.82);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease, border-color 0.25s ease;
+    }
+    .persona-mini-orb.is-active {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .persona-mini-orb:hover {
+      border-color: #fde047;
+      box-shadow: 0 16px 38px rgba(0, 0, 0, 0.8), 0 0 26px rgba(251, 191, 36, 0.45);
+    }
+
+    .gacha-dock-panel {
+      transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease;
+      transform-origin: bottom right;
+    }
+    .gacha-dock-panel.is-minimized {
+      transform: translate3d(0, 36px, 0) scale(0.92);
+      opacity: 0;
+      pointer-events: none;
+    }
   </style>
 </head>
 
@@ -1273,10 +1393,10 @@
   <div id="sakura-global-layer" aria-hidden="true"></div>
 
   <!-- TOAST NOTIFICATION -->
-  <div id="toast-box" class="fixed top-4 right-4 z-50 pointer-events-none opacity-0 -translate-y-2 transition-all duration-200">
-    <div class="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-slate-950/90 border border-white/20 text-white text-xs font-mono-code shadow-2xl backdrop-blur-xl">
-      <span class="w-2 h-2 rounded-full bg-rose-400"></span>
-      <span id="toast-text">COPIED: vuismei</span>
+  <div id="toast-box" class="fixed top-4 right-4 z-50 pointer-events-none opacity-0 -translate-y-2 transition-all duration-200 max-w-sm">
+    <div class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-950/95 border border-rose-400/40 text-white text-xs font-mono-code shadow-[0_10px_30px_rgba(244,63,94,0.3)] backdrop-blur-xl">
+      <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping shrink-0"></span>
+      <span id="toast-text" class="leading-relaxed">COPIED: vuismei</span>
     </div>
   </div>
 
@@ -1576,8 +1696,12 @@
               </span>
             </div>
 
-            <div class="font-mono-code text-xs text-sky-200/90">
-              <span>&gt; THE SPATIAL &amp; SPEED PURIST // 80:20 ANALYTICAL</span><span class="animate-pulse">_</span>
+            <div class="pt-0.5">
+              <div class="master-audiophile-badge">
+                <span class="w-2 h-2 rounded-full bg-amber-300 animate-pulse shadow-[0_0_10px_#fde047]"></span>
+                <span class="master-audiophile-text">✦ MASTER AUDIOPHILE ✦</span>
+                <span class="text-[10px] font-mono-code text-rose-200/90 hidden sm:inline border-l border-white/15 pl-2">DSD256 • HI-RES</span>
+              </div>
             </div>
 
             <blockquote class="p-3 rounded-lg bg-black/35 border-l-2 border-rose-400 space-y-1">
@@ -1592,14 +1716,15 @@
           </div>
         </div>
 
-        <!-- Starry Neko Box -->
-        <div class="neko-frame self-stretch sm:self-auto flex flex-col justify-between shrink-0">
+        <!-- Starry Neko Box (Interactive Easter Egg) -->
+        <div id="neko-easter-box" onclick="petStarryNeko()" title="Click để vuốt ve mèo sao!" class="neko-frame neko-interactive relative self-stretch sm:self-auto flex flex-col justify-between shrink-0 select-none">
+          <span id="neko-meow-bubble" class="meow-bubble">Meow~ ♪</span>
           <div class="flex items-center justify-between text-[10px] font-mono-code text-slate-400 border-b border-white/10 pb-1.5 mb-2">
             <span class="flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
               DISCORD.BIO
             </span>
-            <span>22 JUN 2021</span>
+            <span class="text-rose-300 font-bold">[ PET ME 🐾 ]</span>
           </div>
           <div class="star-sky">
             <div>* &nbsp;&nbsp;&nbsp;. &nbsp;&nbsp;&nbsp;&nbsp;* &nbsp;&nbsp;. &nbsp;* . *</div>
@@ -1607,9 +1732,9 @@
             <div>* &nbsp;&nbsp;&nbsp;* . &nbsp;&nbsp;✦ ✧ &nbsp;. ✧ *</div>
             <div>&nbsp;. *</div>
           </div>
-          <div class="cat-art" aria-label="Starry Neko">
+          <div id="neko-ascii-art" class="cat-art" aria-label="Starry Neko">
             <div class="cat-indent">／l、</div>
-            <div>（ﾟ､ ｡ ７</div>
+            <div id="neko-face-line">（ﾟ､ ｡ ７</div>
             <div class="cat-indent">l &nbsp;~ヽ</div>
             <div class="cat-indent">じしと ) ノ</div>
           </div>
@@ -1694,10 +1819,10 @@
           <span>DISCORD // vuismei</span>
         </a>
 
-        <a href="./Ho_So_Ban_Than_Book_Edition_V35_4.docx" download class="social-pill !bg-rose-500/20 !border-rose-400/40">
-          <svg class="w-3.5 h-3.5 text-rose-300 fill-none stroke-current" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-          <span>ARCHIVE V35.4 (.DOCX)</span>
-        </a>
+        <button type="button" onclick="openArchiveModal()" class="social-pill !bg-rose-500/20 !border-rose-400/40 hover:!bg-rose-500/35">
+          <svg class="w-3.5 h-3.5 text-rose-300 fill-none stroke-current" stroke-width="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          <span>READ ARCHIVE V35.4</span>
+        </button>
 
         <button type="button" onmouseenter="prewarmRandomTrack()" onclick="triggerGachaTrack()" class="social-pill !bg-white/15 !border-white/30">
           <svg class="w-3.5 h-3.5 text-rose-300 fill-none stroke-current" stroke-width="2" viewBox="0 0 24 24">
@@ -2967,10 +3092,117 @@
     </div>
   </main>
 
+  <!-- ================= ARCHIVE V35.4 GLASS MODAL READER (IN-WEB PREVIEW) ================= -->
+  <div id="archive-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xl transition-opacity">
+    <div class="glass-card max-w-3xl w-full max-h-[85vh] flex flex-col !bg-slate-950/95 !border-rose-400/40 shadow-[0_25px_70px_rgba(0,0,0,0.85)] overflow-hidden">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-gradient-to-r from-rose-500/15 via-transparent to-sky-500/15">
+        <div class="flex items-center gap-2.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-rose-400 animate-pulse"></span>
+          <div>
+            <div class="text-[10px] font-mono-code text-rose-300 font-bold uppercase tracking-widest">BOOK EDITION ARCHIVE // DIRECT READER</div>
+            <h3 class="text-sm sm:text-base font-black text-white">HỒ SƠ BẢN THÂN &amp; SONIC TELEMETRY V35.4 — VuNn (@vuismei)</h3>
+          </div>
+        </div>
+        <button type="button" onclick="closeArchiveModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-rose-500/30 border border-white/15 flex items-center justify-center text-slate-300 hover:text-white transition cursor-pointer" title="Đóng cửa sổ">
+          ✕
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-5 sm:p-6 overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-200 leading-relaxed">
+        <div class="p-3.5 rounded-xl bg-rose-500/10 border border-rose-400/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <div class="font-mono-code text-[11px] text-rose-300 font-bold">👋 CHÀO BẠN MỚI TỪ DISCORD!</div>
+            <p class="text-xs text-slate-300 mt-0.5">Đây là bản tóm tắt nhanh để bạn đọc trực tiếp trên web mà không cần tải file. Nếu hợp gu mục nào thì nhắn cho mình trên Discord nhé!</p>
+          </div>
+          <button type="button" onclick="copyDiscordId()" class="social-pill shrink-0 !bg-rose-500/30 !border-rose-300/50 text-white">
+            <span>💬 Nhắn @vuismei</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          <div class="p-4 rounded-xl bg-white/[0.04] border border-white/10 space-y-1.5">
+            <div class="font-mono-code text-[11px] text-amber-300 font-bold">01 // CHÂN DUNG &amp; PHONG CÁCH SỐNG</div>
+            <p class="text-xs text-slate-300">• <strong>Biệt danh:</strong> VuNn / 詠ノな (Listening Age: 23).</p>
+            <p class="text-xs text-slate-300">• <strong>Nhịp sinh học:</strong> Cú đêm chính hiệu — <strong>60.33%</strong> tổng thời gian nghe nhạc diễn ra từ 20:00 tối đến 05:00 sáng (Đỉnh điểm lúc 21:00).</p>
+            <p class="text-xs text-slate-300">• <strong>Châm ngôn:</strong> Yêu sự tĩnh lặng, chiều sâu tâm lý trong <em>Monogatari Series</em>, <em>Evangelion</em>, <em>Bunny Girl Senpai</em> và <em>Project SEKAI (プロセカ)</em>.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white/[0.04] border border-white/10 space-y-1.5">
+            <div class="font-mono-code text-[11px] text-sky-300 font-bold">02 // KỶ LỤC ÂM NHẠC (2022–2026)</div>
+            <p class="text-xs text-slate-300">• <strong>Tổng thời lượng:</strong> <strong>635,685 phút (10,594.8 giờ)</strong> — tương đương 441.4 ngày nhạc phát liên tục không nghỉ.</p>
+            <p class="text-xs text-slate-300">• <strong>Độ bền bỉ:</strong> Chuỗi <strong>526 ngày liên tiếp</strong> không đứt quãng; 96.19% số ngày sống đều có âm nhạc.</p>
+            <p class="text-xs text-slate-300">• <strong>Top 0.0057% Thế Giới:</strong> Fan đứng đầu toàn cầu của <em>Tokyo Philharmonic Orchestra</em> (Miku Symphony).</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white/[0.04] border border-white/10 space-y-1.5">
+            <div class="font-mono-code text-[11px] text-rose-300 font-bold">03 // TRỤ CỘT GU NHẠC (V-INDIE × J-POP × OST)</div>
+            <p class="text-xs text-slate-300">• <strong>Việt Nam:</strong> Ngọt (#1: 331.4h — gấp 12.6× TB VN), Sơn Tùng M-TP (#2: 158.9h), Thắng (#5: 126.4h — gấp 14.0× TB VN), Đen, Tuấn Ngọc, Trịnh Công Sơn.</p>
+            <p class="text-xs text-slate-300">• <strong>Nhật Bản &amp; Quốc Tế:</strong> YOASOBI, Fujii Kaze, RADWIMPS, yama, ZUTOMAYO, King Gnu (<em>AIZO</em> 642 plays), Kensuke Ushio (<em>Chainsaw Man Reze Arc OST</em>), BABYMETAL, Zeph.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white/[0.04] border border-white/10 space-y-1.5">
+            <div class="font-mono-code text-[11px] text-emerald-300 font-bold">04 // MASTER AUDIOPHILE RIG &amp; FOOBAR2000</div>
+            <p class="text-xs text-slate-300">• <strong>Kho nhạc Local:</strong> 3,710 files Hi-Res FLAC 24bit/192kHz, WAV CD gốc &amp; Native DSD256 / SACD ISO (98% Pure Lossless).</p>
+            <p class="text-xs text-slate-300">• <strong>Hardware Chain:</strong> Lecoo Pro 14 ➔ Foobar2000 (ASIO Bit-Perfect) ➔ DAC/Amp <strong>FiiO K7</strong> (Dual AK4493SEQ + THX AAA 788+) ➔ IEM <strong>Moondrop Kadenz</strong>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-5 py-3.5 border-t border-white/10 bg-black/50 flex flex-wrap items-center justify-between gap-3">
+        <span class="text-[11px] font-mono-code text-slate-400">Bạn muốn lưu bản đầy đủ 100 trang số liệu về máy?</span>
+        <div class="flex items-center gap-2">
+          <a href="./Ho_So_Ban_Than_Book_Edition_V35_4.docx" download class="social-pill !bg-white/10 !border-white/20 text-xs">
+            <svg class="w-3.5 h-3.5 text-rose-300 fill-none stroke-current" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            <span>Tải bản gốc (.DOCX)</span>
+          </a>
+          <button type="button" onclick="closeArchiveModal(); switchPage(2);" class="cta-wrapped-btn !py-1.5 !px-3.5 text-xs">
+            <span>Khám phá 29 Node Wrapped →</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PERSONA-STYLE MINIMIZED VINYL ORB (CORNER HUD) ================= -->
+  <div id="persona-mini-player" class="persona-mini-orb" title="Nhấp vào đĩa để Play/Pause • Nhấp nút mở rộng để bật toàn bộ bảng Gacha">
+    <div id="mini-vinyl-disc" onclick="togglePlay()" class="vinyl-record !w-11 !h-11 shrink-0" title="Play / Pause">
+      <img id="mini-vinyl-cover" src="https://files.catbox.moe/6yr9eo.jpg" alt="Mini Vinyl" decoding="async" />
+      <div class="vinyl-grooves"></div>
+      <div class="vinyl-hole !w-2.5 !h-2.5"></div>
+    </div>
+    <div class="min-w-0 max-w-[145px] sm:max-w-[180px] cursor-pointer" onclick="togglePlayerMinimize(false)">
+      <div class="flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-[9px] font-mono-code font-extrabold uppercase tracking-wider text-rose-300">SONIC HUD</span>
+      </div>
+      <div id="mini-track-title" class="text-xs font-extrabold text-white truncate">Fukashigi no Carte</div>
+    </div>
+    <button type="button" onclick="triggerGachaTrack()" title="Đổi bài Gacha ngẫu nhiên" class="w-7 h-7 rounded-full bg-rose-500/25 hover:bg-rose-500/45 border border-rose-400/40 flex items-center justify-center text-rose-200 transition cursor-pointer">
+      <svg class="w-3.5 h-3.5 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="4"/>
+        <circle cx="8.5" cy="8.5" r="1" fill="currentColor"/>
+        <circle cx="15.5" cy="8.5" r="1" fill="currentColor"/>
+        <circle cx="12" cy="12" r="1" fill="currentColor"/>
+      </svg>
+    </button>
+    <button type="button" onclick="togglePlayerMinimize(false)" title="Mở rộng thanh phát nhạc" class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/25 border border-white/20 flex items-center justify-center text-white transition cursor-pointer">
+      <svg class="w-3.5 h-3.5 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+    </button>
+  </div>
+
   <!-- ================= FLOATING 5-DECK INSTANT GACHA PLAYER ================= -->
-  <aside class="fixed bottom-3 inset-x-3 max-w-4xl mx-auto z-40">
+  <aside id="gacha-player-dock" class="gacha-dock-panel fixed bottom-3 inset-x-3 max-w-4xl mx-auto z-40">
     <div class="glass-card px-4 py-2.5 sm:px-5 sm:py-3 !bg-slate-950/90 !border-white/20 shadow-2xl space-y-2">
-      <div id="track-chips-row" class="flex items-center gap-1.5 pb-1.5 border-b border-white/10 overflow-x-auto no-scrollbar"></div>
+      <div class="flex items-center justify-between gap-2 pb-1.5 border-b border-white/10">
+        <div id="track-chips-row" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar flex-1"></div>
+        <button type="button" onclick="togglePlayerMinimize(true)" title="Thu gọn thành đĩa xoay góc màn hình (Persona HUD)" class="shrink-0 inline-flex items-center gap-1 px-2 py-1 rounded-md bg-white/10 hover:bg-rose-500/30 border border-white/15 text-[10px] font-mono-code font-bold text-slate-200 hover:text-white transition cursor-pointer">
+          <span>MINI HUD</span>
+          <svg class="w-3 h-3 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24"><path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/></svg>
+        </button>
+      </div>
 
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3 min-w-[210px] flex-1">
@@ -3042,7 +3274,7 @@
               <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
             </svg>
           </button>
-          <input id="volume-bar" type="range" min="0" max="1" step="0.02" value="0.85" class="w-16" />
+          <input id="volume-bar" type="range" min="0" max="1" step="0.01" value="0.10" class="w-16" />
         </div>
       </div>
     </div>
@@ -3104,7 +3336,10 @@
     let allExpanded = false;
     let rafPending = false;
     let isSeeking = false;
-    let userVolume = 0.85;
+    let userVolume = 0.10;
+    let fadeRafId = null;
+    let hasTriggeredInitialFade = false;
+    let playerMinimized = false;
     let userMuted = false;
     let bgWarmStarted = false;
     let currentPage = 1;
@@ -3113,6 +3348,11 @@
 
     const vinylDisc = document.getElementById("vinyl-disc");
     const vinylCover = document.getElementById("vinyl-cover");
+    const miniVinylDisc = document.getElementById("mini-vinyl-disc");
+    const miniVinylCover = document.getElementById("mini-vinyl-cover");
+    const miniTrackTitle = document.getElementById("mini-track-title");
+    const gachaPlayerDock = document.getElementById("gacha-player-dock");
+    const personaMiniPlayer = document.getElementById("persona-mini-player");
     const trackBadge = document.getElementById("track-badge");
     const trackTitle = document.getElementById("track-title");
     const trackArtist = document.getElementById("track-artist");
@@ -3130,6 +3370,123 @@
     const sakuraLayer = document.getElementById("sakura-global-layer");
     const vnClockEl = document.getElementById("vn-clock");
     const allStatNodes = Array.from(document.querySelectorAll(".stat-node"));
+
+    // ====== 5-SECOND SMOOTH AUDIO FADE-IN (10% -> 85%) ======
+    function startSmoothVolumeFadeIn() {
+      if (hasTriggeredInitialFade) return;
+      hasTriggeredInitialFade = true;
+
+      const startVol = 0.10;
+      const targetVol = 0.85;
+      const fadeDuration = 5000; // 5 giây
+      const startTime = performance.now();
+
+      userVolume = startVol;
+      if (volumeBar) volumeBar.value = startVol.toFixed(2);
+      for (let i = 0; i < audioDecks.length; i++) {
+        audioDecks[i].volume = startVol;
+      }
+
+      function stepFade(now) {
+        if (userMuted) return;
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / fadeDuration, 1);
+        // Đường cong mượt giúp tai thích nghi dễ chịu
+        const currentVol = startVol + (targetVol - startVol) * progress;
+        userVolume = currentVol;
+        if (volumeBar) volumeBar.value = currentVol.toFixed(2);
+        for (let i = 0; i < audioDecks.length; i++) {
+          audioDecks[i].volume = currentVol;
+        }
+        if (progress < 1) {
+          fadeRafId = requestAnimationFrame(stepFade);
+        }
+      }
+      fadeRafId = requestAnimationFrame(stepFade);
+    }
+
+    // ====== WEB AUDIO API CUTE "MEOW~" SYNTH + ICEBREAKER TOAST ======
+    let nekoTimeout = null;
+    function playCuteMeowSound() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const now = ctx.currentTime;
+
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+
+        // Đường cong cao độ tiếng mèo kêu "Meow~" (520Hz -> 920Hz -> 440Hz)
+        osc.frequency.setValueAtTime(520, now);
+        osc.frequency.exponentialRampToValueAtTime(920, now + 0.14);
+        osc.frequency.exponentialRampToValueAtTime(430, now + 0.42);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.18, now + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.44);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.45);
+        setTimeout(() => ctx.close().catch(() => {}), 550);
+      } catch (e) {}
+    }
+
+    function petStarryNeko() {
+      playCuteMeowSound();
+      const box = document.getElementById("neko-easter-box");
+      const bubble = document.getElementById("neko-meow-bubble");
+      const face = document.getElementById("neko-face-line");
+
+      if (box) {
+        box.classList.remove("neko-jump");
+        void box.offsetWidth;
+        box.classList.add("neko-jump");
+      }
+      if (bubble) bubble.classList.add("is-visible");
+      if (face) face.textContent = "（≧ ω ≦ ７";
+
+      showToast("Meow~ 🐾 Hay thức khuya cày nhạc • Rủ bàn về Anime, J-Pop, V-Indie hay Audio là tôi sẽ xuất hiện!", 4800);
+
+      clearTimeout(nekoTimeout);
+      nekoTimeout = setTimeout(() => {
+        if (bubble) bubble.classList.remove("is-visible");
+        if (face) face.textContent = "（ﾟ､ ｡ ７";
+      }, 2800);
+    }
+
+    // ====== ARCHIVE V35.4 GLASS MODAL READER ======
+    function openArchiveModal() {
+      const modal = document.getElementById("archive-modal");
+      if (modal) modal.classList.remove("hidden");
+    }
+
+    function closeArchiveModal() {
+      const modal = document.getElementById("archive-modal");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    // ====== PERSONA-STYLE MINIMIZE / EXPAND GACHA PLAYER ======
+    let userManuallyToggledPlayer = false;
+    function togglePlayerMinimize(minimize, isManual = true) {
+      if (isManual) userManuallyToggledPlayer = true;
+      playerMinimized = minimize;
+      if (gachaPlayerDock) gachaPlayerDock.classList.toggle("is-minimized", minimize);
+      if (personaMiniPlayer) personaMiniPlayer.classList.toggle("is-active", minimize);
+    }
+
+    // Tự động thu gọn thành đĩa xoay góc màn hình khi cuộn sâu xuống dưới (nếu người dùng chưa tự khóa tay)
+    window.addEventListener("scroll", () => {
+      if (userManuallyToggledPlayer) return;
+      if (window.scrollY > 220 && !playerMinimized) {
+        togglePlayerMinimize(true, false);
+      } else if (window.scrollY <= 80 && playerMinimized) {
+        togglePlayerMinimize(false, false);
+      }
+    }, { passive: true });
 
     const sectionMap = {
       artists: document.getElementById("sec-artists"),
@@ -3523,13 +3880,16 @@
       deck.addEventListener("play", () => {
         if (idx !== currentIndex) return;
         vinylDisc.classList.add("is-playing");
+        if (miniVinylDisc) miniVinylDisc.classList.add("is-playing");
         setPlayButtonUI(true);
         audioStatus.textContent = "● PLAYING";
+        startSmoothVolumeFadeIn();
       });
 
       deck.addEventListener("playing", () => {
         if (idx !== currentIndex) return;
         vinylDisc.classList.add("is-playing");
+        if (miniVinylDisc) miniVinylDisc.classList.add("is-playing");
         setPlayButtonUI(true);
         audioStatus.textContent = "● PLAYING";
         startBackgroundWarmQueue();
@@ -3538,6 +3898,7 @@
       deck.addEventListener("pause", () => {
         if (idx !== currentIndex) return;
         vinylDisc.classList.remove("is-playing");
+        if (miniVinylDisc) miniVinylDisc.classList.remove("is-playing");
         setPlayButtonUI(false);
         audioStatus.textContent = "PAUSED";
       });
@@ -3717,7 +4078,7 @@
     }
 
     let toastTimeout = null;
-    function showToast(msg) {
+    function showToast(msg, durationMs = 2400) {
       const box = document.getElementById("toast-box");
       document.getElementById("toast-text").textContent = msg;
       box.classList.remove("opacity-0", "-translate-y-2");
@@ -3726,7 +4087,7 @@
       toastTimeout = setTimeout(() => {
         box.classList.remove("opacity-100", "translate-y-0");
         box.classList.add("opacity-0", "-translate-y-2");
-      }, 2200);
+      }, durationMs);
     }
 
     function copyTextToClipboard(text, toastMsg) {
@@ -3757,6 +4118,11 @@
     seekBar.addEventListener("change", () => { isSeeking = false; });
 
     volumeBar.addEventListener("input", () => {
+      if (fadeRafId) {
+        cancelAnimationFrame(fadeRafId);
+        fadeRafId = null;
+      }
+      hasTriggeredInitialFade = true;
       userVolume = parseFloat(volumeBar.value);
       userMuted = userVolume === 0;
       for (let i = 0; i < audioDecks.length; i++) {
@@ -3796,6 +4162,8 @@
       root.style.setProperty("--cover-url", `url('${track.coverUrl}')`);
 
       vinylCover.src = track.coverUrl;
+      if (miniVinylCover) miniVinylCover.src = track.coverUrl;
+      if (miniTrackTitle) miniTrackTitle.textContent = track.title;
       trackBadge.textContent = track.badge;
       trackTitle.textContent = track.title;
       trackArtist.textContent = track.artist;
