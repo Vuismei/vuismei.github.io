@@ -65,51 +65,6 @@
       animation-play-state: paused !important;
     }
 
-    /* ========== SILENT AUTO ECO-MODE (LOW SPEC / LOW BATTERY <30% / DATA SAVER) ========== */
-    body.eco-mode .glass-card,
-    body.eco-mode .cmd-dock,
-    body.eco-mode .persona-mini-orb,
-    body.eco-mode #intro-overlay {
-      backdrop-filter: blur(8px) saturate(130%) !important;
-      -webkit-backdrop-filter: blur(8px) saturate(130%) !important;
-    }
-
-    body.eco-mode .art-layer-2,
-    body.eco-mode .blob-3,
-    body.eco-mode .blob-4,
-    body.eco-mode .bar-fill::after {
-      display: none !important;
-      animation: none !important;
-    }
-
-    body.eco-mode .art-layer-1 {
-      filter: blur(32px) saturate(180%) brightness(0.88);
-      animation-duration: 36s;
-    }
-
-    body.eco-mode .avatar-deco-ring .ring-orbit,
-    body.eco-mode .sakura-cluster-sway,
-    body.eco-mode .sakura-vine-hang,
-    body.eco-mode .sakura-vine-hang-delayed,
-    body.eco-mode .sakura-float-accent {
-      animation-play-state: paused !important;
-    }
-
-    body.eco-mode #page-2 .wrapped-section {
-      content-visibility: auto;
-      contain-intrinsic-size: 1px 520px;
-    }
-
-    body.eco-mode #page-2 .stat-node {
-      content-visibility: auto;
-      contain-intrinsic-size: 1px 130px;
-    }
-
-    body.eco-mode #sakura-global-layer .sakura-leaf:nth-child(even) {
-      display: none !important;
-      animation: none !important;
-    }
-
     #intro-overlay {
       position: fixed;
       inset: 0;
@@ -280,171 +235,8 @@
       background: #06080f;
       contain: strict;
       pointer-events: none;
-      transform: translate3d(0, 0, 0);
-    }
-
-    .apple-art-layer {
-      position: absolute;
-      background-image: var(--cover-url);
-      background-size: cover;
-      background-position: center;
-      border-radius: 50%;
-      transition: background-image 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: transform;
-      backface-visibility: hidden;
-      transform: translate3d(0, 0, 0);
-    }
-
-    .art-layer-1 {
-      width: 78vmax;
-      height: 78vmax;
-      top: -12vmax;
-      left: -10vmax;
-      filter: blur(36px) saturate(210%) brightness(0.88);
-      opacity: 0.65;
-      transform-origin: 45% 55%;
-      animation: orbitClockwise 32s linear infinite;
-    }
-
-    .art-layer-2 {
-      width: 72vmax;
-      height: 72vmax;
-      bottom: -14vmax;
-      right: -10vmax;
-      filter: blur(38px) saturate(220%) brightness(0.95);
-      opacity: 0.55;
-      transform-origin: 55% 45%;
-      animation: orbitCounterClockwise 26s linear infinite;
-    }
-
-    .mesh-blob {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.42;
-      will-change: transform;
-      backface-visibility: hidden;
-      transform: translate3d(0, 0, 0);
-    }
-
-    .blob-1 {
-      width: 55vw;
-      height: 55vw;
-      max-width: 680px;
-      max-height: 680px;
-      top: -15%;
-      left: -10%;
-      background: radial-gradient(circle, var(--blob-1) 0%, transparent 68%);
-      animation: flowBlob1 16s ease-in-out infinite alternate;
-    }
-
-    .blob-2 {
-      width: 52vw;
-      height: 52vw;
-      max-width: 650px;
-      max-height: 650px;
-      bottom: -15%;
-      right: -10%;
-      background: radial-gradient(circle, var(--blob-2) 0%, transparent 68%);
-      animation: flowBlob2 19s ease-in-out infinite alternate;
-    }
-
-    .blob-3 {
-      width: 46vw;
-      height: 46vw;
-      max-width: 560px;
-      max-height: 560px;
-      top: 12%;
-      right: 12%;
-      background: radial-gradient(circle, var(--blob-3) 0%, transparent 66%);
-      animation: flowBlob3 15s ease-in-out infinite alternate;
-    }
-
-    .blob-4 {
-      width: 44vw;
-      height: 44vw;
-      max-width: 520px;
-      max-height: 520px;
-      bottom: 10%;
-      left: 12%;
-      background: radial-gradient(circle, var(--blob-4) 0%, transparent 66%);
-      animation: flowBlob4 17s ease-in-out infinite alternate;
-    }
-
-    .apple-frost-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      background: radial-gradient(circle at 50% 25%, rgba(10, 12, 22, 0.22) 0%, rgba(6, 8, 15, 0.68) 100%);
-      pointer-events: none;
-      contain: strict;
-    }
-
-    /* ========== 100% GPU COMPOSITOR SAKURA PETAL RAIN ========== */
-    #sakura-global-layer {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      overflow: hidden;
-      contain: strict;
-      transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.5s;
-      will-change: opacity;
-      transform: translate3d(0, 0, 0);
-    }
-    #sakura-global-layer.is-hidden-rain {
-      opacity: 0;
-      visibility: hidden;
-    }
-    #sakura-global-layer.is-hidden-rain .sakura-leaf,
-    #sakura-global-layer.is-hidden-rain .sakura-sway,
-    #sakura-global-layer.is-hidden-rain svg {
-      animation-play-state: paused !important;
-    }
-
-    .sakura-leaf {
-      position: absolute;
-      top: 0;
-      left: var(--x, 50vw);
-      width: var(--size, 14px);
-      height: var(--size, 14px);
-      opacity: var(--op, 0.85);
-      will-change: transform;
-      backface-visibility: hidden;
-      contain: layout style;
-      animation: sakuraFallY var(--dur, 9s) linear var(--delay, 0s) infinite;
-    }
-
-    .sakura-sway {
-      width: 100%;
-      height: 100%;
-      will-change: transform;
-      backface-visibility: hidden;
-      animation: sakuraSwayX var(--sway-dur, 3.6s) ease-in-out var(--delay, 0s) infinite alternate;
-    }
-
-    .sakura-leaf svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-      will-change: transform;
-      backface-visibility: hidden;
-      animation: sakuraSpin2D var(--spin-dur, 4.5s) linear var(--delay, 0s) infinite;
-    }
-
-    @keyframes sakuraFallY {
-      0% { transform: translate3d(0, -10vh, 0); }
-      100% { transform: translate3d(0, 110vh, 0); }
-    }
-
-    @keyframes sakuraSwayX {
-      0% { transform: translate3d(calc(var(--drift, 40px) * -1), 0, 0) rotate(-18deg); }
-      100% { transform: translate3d(var(--drift, 40px), 0, 0) rotate(24deg); }
-    }
-
-    @keyframes sakuraSpin2D {
-      0% { transform: rotate(0deg) scale(0.96); }
-      50% { transform: rotate(180deg) scale(0.88); }
-      100% { transform: rotate(360deg) scale(0.96); }
+      transform: translate3d(calc(var(--parallax-x) * -0.45), calc(var(--parallax-y) * -0.45), 0);
+      transition: transform 0.12s ease-out;
     }
 
     .apple-art-layer {
@@ -670,14 +462,14 @@
     /* ========== GLASSMORPHISM & HUD CORNERS ========== */
     .glass-card {
       position: relative;
-      background: rgba(12, 15, 26, 0.72);
-      backdrop-filter: blur(12px) saturate(145%);
-      -webkit-backdrop-filter: blur(12px) saturate(145%);
+      background: rgba(12, 15, 26, 0.62);
+      backdrop-filter: blur(18px) saturate(165%);
+      -webkit-backdrop-filter: blur(18px) saturate(165%);
       border: 1px solid rgba(255, 255, 255, 0.16);
       box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.18);
       border-radius: 1.15rem;
       transform: translateZ(0);
-      transition: border-color 0.22s ease;
+      transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease;
     }
 
     .hud-corner {
@@ -697,12 +489,13 @@
     .hud-bl { bottom: 10px; left: 10px; border-bottom: 1.5px solid; border-left: 1.5px solid; }
     .hud-br { bottom: 10px; right: 10px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
 
-    /* ========== PAGE 1 INTERACTIVE GLASS SPOTLIGHT & DISCORD NAME STYLE ========== */
+    /* ========== PAGE 1 INTERACTIVE GLASS SPOTLIGHT, 3D PARALLAX & DISCORD NAME STYLE ========== */
     .hero-glass-card {
       position: relative;
       isolation: isolate;
-      contain: layout style paint;
-      transform: translateZ(0);
+      contain: layout style;
+      transform: perspective(1200px) rotateX(var(--tilt-rx, 0deg)) rotateY(var(--tilt-ry, 0deg)) translateZ(0);
+      transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease;
     }
 
     .hero-glass-card::before {
@@ -711,10 +504,10 @@
       inset: 0;
       border-radius: inherit;
       background: radial-gradient(
-        480px circle at var(--mouse-x, 50%) var(--mouse-y, 20%),
-        rgba(251, 113, 133, 0.13),
-        rgba(56, 189, 248, 0.04) 45%,
-        transparent 72%
+        520px circle at var(--mouse-x, 50%) var(--mouse-y, 20%),
+        rgba(251, 113, 133, 0.14),
+        rgba(56, 189, 248, 0.05) 45%,
+        transparent 75%
       );
       pointer-events: none;
       z-index: 0;
@@ -725,7 +518,7 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      text-shadow: 0 0 16px rgba(244, 63, 94, 0.35);
+      filter: drop-shadow(0 0 12px rgba(244, 63, 94, 0.52));
       letter-spacing: -0.02em;
     }
 
@@ -774,7 +567,7 @@
       pointer-events: none;
       z-index: 15;
       opacity: 0.96;
-      contain: layout style paint;
+      filter: drop-shadow(0 5px 12px rgba(12, 4, 14, 0.78));
     }
     .bottom-sakura-left { left: -6px; }
     .bottom-sakura-right { right: -6px; transform: scaleX(-1); }
@@ -786,7 +579,7 @@
       height: 185px;
       pointer-events: none;
       z-index: 16;
-      contain: layout style paint;
+      filter: drop-shadow(0 6px 14px rgba(18, 4, 15, 0.75));
     }
     .top-corner-sakura-left { left: -10px; }
     .top-corner-sakura-right { right: -10px; transform: scaleX(-1); }
@@ -818,8 +611,8 @@
       background-image: var(--banner-gif);
       background-size: cover;
       background-position: center;
-      filter: blur(14px) saturate(150%) brightness(0.5);
-      transform: scale(1.06) translateZ(0);
+      filter: blur(18px) saturate(165%) brightness(0.52);
+      transform: scale(1.08) translate3d(calc(var(--parallax-x) * -0.5), calc(var(--parallax-y) * -0.5), 0);
       pointer-events: none;
     }
 
@@ -835,7 +628,7 @@
       overflow: hidden;
       mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
       -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
-      transform: translateZ(0);
+      transform: translate3d(calc(var(--parallax-x) * -0.28), calc(var(--parallax-y) * -0.22), 0);
     }
 
     .banner-crisp-img {
@@ -843,6 +636,7 @@
       height: 100%;
       object-fit: cover;
       object-position: center 45%;
+      filter: contrast(1.04) saturate(1.08);
       transform: scale(1.04) translateZ(0);
     }
 
@@ -864,15 +658,72 @@
       height: 100%;
       z-index: 4;
       pointer-events: none;
-      contain: layout style paint;
-      transform: translateZ(0);
+      filter: drop-shadow(0 6px 12px rgba(24, 4, 18, 0.72));
+      transform: translate3d(calc(var(--parallax-x) * 0.35), calc(var(--parallax-y) * 0.25), 0);
     }
+
+    @keyframes blossomBreeze {
+      0%, 100% { transform: rotate(0deg) translate3d(0, 0, 0); }
+      50% { transform: rotate(1.8deg) translate3d(1.5px, 2px, 0); }
+    }
+    @keyframes animeVinePendulum {
+      0%, 100% { transform: rotate(-2.2deg) translate3d(0, 0, 0); }
+      50% { transform: rotate(2.6deg) translate3d(2px, 1.5px, 0); }
+    }
+    @keyframes animePetalPulse {
+      0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+      50% { transform: translate3d(-3px, 4px, 0) rotate(12deg) scale(0.95); }
+    }
+
+    .sakura-cluster-sway {
+      transform-origin: top center;
+      will-change: transform;
+      animation: blossomBreeze 5.2s ease-in-out infinite;
+    }
+    .sakura-vine-hang {
+      transform-box: fill-box;
+      transform-origin: top center;
+      will-change: transform;
+      animation: animeVinePendulum 4.2s ease-in-out infinite;
+    }
+    .sakura-vine-hang-delayed {
+      transform-box: fill-box;
+      transform-origin: top center;
+      will-change: transform;
+      animation: animeVinePendulum 4.8s ease-in-out -1.9s infinite;
+    }
+    .sakura-float-accent {
+      transform-box: fill-box;
+      transform-origin: center;
+      will-change: transform;
+      animation: animePetalPulse 3.6s ease-in-out infinite;
+    }
+
+    @keyframes spinSlowFrame {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .avatar-deco-wrapper {
+      position: relative;
+      width: 6.5rem;
+      height: 6.5rem;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+    @media (min-width: 640px) {
+      .avatar-deco-wrapper {
+        width: 7.5rem;
+        height: 7.5rem;
+      }
+    }
+
     .avatar-deco-ring {
       position: absolute;
       inset: -12px;
       pointer-events: none;
       z-index: 3;
-      contain: layout style paint;
+      filter: drop-shadow(0 4px 10px rgba(244, 63, 94, 0.48));
     }
 
     .avatar-deco-ring .ring-orbit {
@@ -920,17 +771,36 @@
         transparent 100%
       );
       transform: translate3d(-110%, 0, 0);
-      pointer-events: none;
-    }
-
-    .glass-card:hover .bar-fill::after,
-    .stat-node:hover .bar-fill::after {
-      animation: barShimmerSlide 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      animation: barShimmerSlide 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      will-change: transform;
     }
 
     @keyframes barShimmerSlide {
       0% { transform: translate3d(-110%, 0, 0); }
       100% { transform: translate3d(110%, 0, 0); }
+    }
+
+    /* ========== COMMAND BAR ========== */
+    .cmd-dock {
+      background: rgba(9, 11, 20, 0.84);
+      backdrop-filter: blur(22px) saturate(180%);
+      -webkit-backdrop-filter: blur(22px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      border-radius: 0.9rem;
+      padding: 0.45rem;
+      transform: translateZ(0);
+    }
+
+    .seg-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.25rem;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.22rem;
+      border-radius: 0.65rem;
+      border: 1px solid rgba(255, 255, 255, 0.07);
     }
 
     .seg-btn {
@@ -1011,8 +881,6 @@
     /* ========== STAT NODES ========== */
     .wrapped-section {
       contain: layout style;
-      content-visibility: auto;
-      contain-intrinsic-size: 1px 480px;
     }
 
     .stat-node {
@@ -1368,6 +1236,7 @@
       background-clip: text;
       color: transparent;
       animation: audiophileShine 5.5s linear infinite;
+      filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.35));
     }
 
     /* ========== INTERACTIVE NEKO EASTER EGG ========== */
@@ -3644,7 +3513,7 @@
               <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
             </svg>
           </button>
-          <input id="volume-bar" type="range" min="0" max="1" step="0.01" value="0.00" class="w-16" />
+          <input id="volume-bar" type="range" min="0" max="1" step="0.01" value="0.10" class="w-16" />
         </div>
       </div>
 
@@ -3660,13 +3529,13 @@
           <canvas id="spectrum-canvas" class="w-full h-full block"></canvas>
         </div>
         <span id="spec-peak-db" class="hidden sm:inline text-[9px] font-mono-code text-rose-300 font-bold w-16 text-right">
-          -∞ dBFS
+          -14.2 dBFS
         </span>
       </div>
     </div>
   </aside>
 
-  <!-- ================= V36.0 ENGINE: AUTO ECO-MODE, ZERO-IDLE CANVAS, 9S FADE & TELEMETRY ================= -->
+  <!-- ================= V36.0 ENGINE: 5-DECK AUDIO, SPECTRUM FFT, CURSOR TRAIL, CRT & TELEMETRY ================= -->
   <script>
     const DISCORD_USER_ID = new URLSearchParams(window.location.search).get("discord_id") || localStorage.getItem("vunn_discord_id") || "856710730485465098";
     const GACHA_PLAYLIST = [
@@ -3727,10 +3596,9 @@
     let allExpanded = false;
     let rafPending = false;
     let isSeeking = false;
-    let userVolume = 0.00;
+    let userVolume = 0.10;
     let fadeRafId = null;
     let hasTriggeredInitialFade = false;
-    let userOverrodeVolume = false;
     let playerMinimized = false;
     let userMuted = false;
     let bgWarmStarted = false;
@@ -3738,77 +3606,6 @@
     let lastCurrentTimeStr = "";
     let lastDurationStr = "";
     let crtEnabled = localStorage.getItem("vunn_crt_mode") === "1";
-
-    // ====== SILENT AUTO ECO-MODE + REALTIME FPS WATCHDOG (AUTO ANTI-LAG) ======
-    (function initSilentAutoEcoMode() {
-      const lowCores = typeof navigator.hardwareConcurrency === "number" && navigator.hardwareConcurrency <= 4;
-      const lowRam = typeof navigator.deviceMemory === "number" && navigator.deviceMemory <= 4;
-      const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-      let saveData = Boolean(conn && conn.saveData);
-      let lowBatteryUnplugged = false;
-      let fpsDropDetected = false;
-
-      function evaluateEcoState() {
-        const shouldEnableEco = lowCores || lowRam || saveData || lowBatteryUnplugged || fpsDropDetected;
-        document.body.classList.toggle("eco-mode", shouldEnableEco);
-      }
-
-      evaluateEcoState();
-
-      if (conn && typeof conn.addEventListener === "function") {
-        conn.addEventListener("change", () => {
-          saveData = Boolean(conn.saveData);
-          evaluateEcoState();
-        });
-      }
-
-      if (typeof navigator.getBattery === "function") {
-        navigator.getBattery().then((bat) => {
-          if (!bat) return;
-          const checkBattery = () => {
-            lowBatteryUnplugged = !bat.charging && typeof bat.level === "number" && bat.level < 0.30;
-            evaluateEcoState();
-          };
-          checkBattery();
-          bat.addEventListener("chargingchange", checkBattery);
-          bat.addEventListener("levelchange", checkBattery);
-        }).catch(() => {});
-      }
-
-      // Bộ giám sát FPS thời gian thực: Tự động kích hoạt eco-mode ngầm nếu máy bị tuột khung hình (< 48 FPS)
-      let sampleFrames = 0;
-      let sampleStart = performance.now();
-      let lagStrikes = 0;
-
-      function monitorFrameHealth(now) {
-        if (fpsDropDetected) return;
-        if (document.hidden) {
-          sampleFrames = 0;
-          sampleStart = now;
-          requestAnimationFrame(monitorFrameHealth);
-          return;
-        }
-        sampleFrames++;
-        const elapsed = now - sampleStart;
-        if (elapsed >= 1200) {
-          const currentFps = (sampleFrames * 1000) / elapsed;
-          if (currentFps < 48) {
-            lagStrikes++;
-            if (lagStrikes >= 2) {
-              fpsDropDetected = true;
-              evaluateEcoState();
-              return;
-            }
-          } else {
-            lagStrikes = Math.max(0, lagStrikes - 1);
-          }
-          sampleFrames = 0;
-          sampleStart = now;
-        }
-        requestAnimationFrame(monitorFrameHealth);
-      }
-      requestAnimationFrame(monitorFrameHealth);
-    })();
 
     const vinylDisc = document.getElementById("vinyl-disc");
     const vinylCover = document.getElementById("vinyl-cover");
@@ -3894,7 +3691,7 @@
     }
     applyCrtState();
 
-    // ====== ZERO-IDLE CURSOR TRAIL CANVAS & INTERACTIVE PARALLAX ======
+    // ====== INTERACTIVE PARALLAX & STAR DUST / SAKURA CURSOR TRAIL ======
     (function initCursorTrailAndParallax() {
       const canvas = document.getElementById("cursor-trail-canvas");
       if (!canvas) return;
@@ -3908,95 +3705,33 @@
       }, { passive: true });
 
       const particles = [];
-      const MAX_PARTICLES = 24;
+      const MAX_PARTICLES = 56;
       let lastSpawnX = -999;
       let lastSpawnY = -999;
-      let trailLoopRunning = false;
 
       const palette = ["#fb7185", "#fda4af", "#fde047", "#38bdf8", "#e879f9", "#ffffff"];
 
-      function renderTrail() {
-        if (document.hidden || particles.length === 0) {
-          ctx.clearRect(0, 0, width, height);
-          trailLoopRunning = false;
-          return;
-        }
-
-        ctx.clearRect(0, 0, width, height);
-        for (let i = particles.length - 1; i >= 0; i--) {
-          const p = particles[i];
-          p.x += p.vx;
-          p.y += p.vy;
-          p.rot += p.vRot;
-          p.alpha -= p.decay;
-
-          if (p.alpha <= 0.02) {
-            particles.splice(i, 1);
-            continue;
-          }
-
-          ctx.save();
-          ctx.globalAlpha = p.alpha;
-          ctx.translate(p.x, p.y);
-          ctx.rotate(p.rot);
-          ctx.fillStyle = p.color;
-
-          if (p.isPetal) {
-            ctx.beginPath();
-            ctx.moveTo(0, -p.size);
-            ctx.bezierCurveTo(p.size, -p.size * 0.6, p.size * 0.8, p.size * 0.8, 0, p.size);
-            ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.8, -p.size, -p.size * 0.6, 0, -p.size);
-            ctx.fill();
-          } else {
-            const s = p.size;
-            ctx.beginPath();
-            ctx.moveTo(0, -s * 1.4);
-            ctx.quadraticCurveTo(0, 0, s * 1.4, 0);
-            ctx.quadraticCurveTo(0, 0, 0, s * 1.4);
-            ctx.quadraticCurveTo(0, 0, -s * 1.4, 0);
-            ctx.quadraticCurveTo(0, 0, 0, -s * 1.4);
-            ctx.fill();
-          }
-          ctx.restore();
-        }
-
-        if (particles.length > 0 && !document.hidden) {
-          requestAnimationFrame(renderTrail);
-        } else {
-          ctx.clearRect(0, 0, width, height);
-          trailLoopRunning = false;
-        }
-      }
-
-      function wakeTrailLoop() {
-        if (!trailLoopRunning && !document.hidden && particles.length > 0) {
-          trailLoopRunning = true;
-          requestAnimationFrame(renderTrail);
-        }
-      }
-
       function spawnParticle(x, y, burst = false) {
-        const cap = document.body.classList.contains("eco-mode") ? 12 : MAX_PARTICLES;
-        if (particles.length >= cap) particles.shift();
+        if (particles.length >= MAX_PARTICLES) particles.shift();
         const isPetal = Math.random() < 0.42;
         const angle = Math.random() * Math.PI * 2;
-        const speed = burst ? 1.4 + Math.random() * 2.4 : 0.35 + Math.random() * 1.05;
+        const speed = burst ? 1.4 + Math.random() * 2.6 : 0.35 + Math.random() * 1.15;
         particles.push({
           x,
           y,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed + (isPetal ? 0.45 : 0.15),
-          size: isPetal ? 4.5 + Math.random() * 3.0 : 2.5 + Math.random() * 2.5,
+          size: isPetal ? 4.5 + Math.random() * 3.5 : 2.5 + Math.random() * 3,
           color: palette[Math.floor(Math.random() * palette.length)],
-          alpha: 0.92,
-          decay: 0.024 + Math.random() * 0.016,
+          alpha: 0.95,
+          decay: 0.018 + Math.random() * 0.015,
           rot: Math.random() * Math.PI * 2,
-          vRot: (Math.random() - 0.5) * 0.1,
+          vRot: (Math.random() - 0.5) * 0.12,
           isPetal
         });
-        wakeTrailLoop();
       }
 
+      const root = document.documentElement;
       const heroCard = document.getElementById("hero-profile-card");
       let cachedRect = null;
       let parallaxRaf = false;
@@ -4009,19 +3744,26 @@
 
         const dx = mouseX - lastSpawnX;
         const dy = mouseY - lastSpawnY;
-        if (dx * dx + dy * dy > 260) {
+        if (dx * dx + dy * dy > 140) {
           spawnParticle(mouseX, mouseY, false);
           lastSpawnX = mouseX;
           lastSpawnY = mouseY;
         }
 
-        if (!parallaxRaf && currentPage === 1 && !document.body.classList.contains("eco-mode")) {
+        if (!parallaxRaf && currentPage === 1) {
           parallaxRaf = true;
           requestAnimationFrame(() => {
+            const normX = (mouseX / Math.max(width, 1) - 0.5) * 2;
+            const normY = (mouseY / Math.max(height, 1) - 0.5) * 2;
+            root.style.setProperty("--parallax-x", `${(normX * 16).toFixed(1)}px`);
+            root.style.setProperty("--parallax-y", `${(normY * 12).toFixed(1)}px`);
+            root.style.setProperty("--tilt-ry", `${(normX * 2.4).toFixed(2)}deg`);
+            root.style.setProperty("--tilt-rx", `${(-normY * 2.0).toFixed(2)}deg`);
+
             if (heroCard) {
               if (!cachedRect) cachedRect = heroCard.getBoundingClientRect();
-              heroCard.style.setProperty("--mouse-x", `${(mouseX - cachedRect.left).toFixed(0)}px`);
-              heroCard.style.setProperty("--mouse-y", `${(mouseY - cachedRect.top).toFixed(0)}px`);
+              heroCard.style.setProperty("--mouse-x", `${(mouseX - cachedRect.left).toFixed(1)}px`);
+              heroCard.style.setProperty("--mouse-y", `${(mouseY - cachedRect.top).toFixed(1)}px`);
             }
             parallaxRaf = false;
           });
@@ -4029,32 +3771,70 @@
       }, { passive: true });
 
       window.addEventListener("pointerdown", (e) => {
-        const burstCount = document.body.classList.contains("eco-mode") ? 3 : 5;
-        for (let i = 0; i < burstCount; i++) {
+        for (let i = 0; i < 8; i++) {
           spawnParticle(e.clientX, e.clientY, true);
         }
       }, { passive: true });
 
       window.addEventListener("scroll", () => { cachedRect = null; }, { passive: true });
+
+      function renderTrail() {
+        if (!document.hidden && particles.length > 0) {
+          ctx.clearRect(0, 0, width, height);
+          for (let i = particles.length - 1; i >= 0; i--) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.rot += p.vRot;
+            p.alpha -= p.decay;
+
+            if (p.alpha <= 0.02) {
+              particles.splice(i, 1);
+              continue;
+            }
+
+            ctx.save();
+            ctx.globalAlpha = p.alpha;
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rot);
+            ctx.fillStyle = p.color;
+
+            if (p.isPetal) {
+              // Vẽ cánh hoa anh đào mini
+              ctx.beginPath();
+              ctx.moveTo(0, -p.size);
+              ctx.bezierCurveTo(p.size, -p.size * 0.6, p.size * 0.8, p.size * 0.8, 0, p.size);
+              ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.8, -p.size, -p.size * 0.6, 0, -p.size);
+              ctx.fill();
+            } else {
+              // Vẽ ngôi sao 4 cánh lấp lánh (Star Dust)
+              const s = p.size;
+              ctx.beginPath();
+              ctx.moveTo(0, -s * 1.4);
+              ctx.quadraticCurveTo(0, 0, s * 1.4, 0);
+              ctx.quadraticCurveTo(0, 0, 0, s * 1.4);
+              ctx.quadraticCurveTo(0, 0, -s * 1.4, 0);
+              ctx.quadraticCurveTo(0, 0, 0, -s * 1.4);
+              ctx.fill();
+            }
+            ctx.restore();
+          }
+        } else if (particles.length === 0) {
+          ctx.clearRect(0, 0, width, height);
+        }
+        requestAnimationFrame(renderTrail);
+      }
+      requestAnimationFrame(renderTrail);
     })();
 
-    // ====== 9-SECOND SMOOTH AUDIO FADE-IN (0% -> 85% IN 9,000 MS) ======
-    function stopVolumeFadeIn() {
-      if (fadeRafId !== null) {
-        cancelAnimationFrame(fadeRafId);
-        fadeRafId = null;
-      }
-      userOverrodeVolume = true;
-      hasTriggeredInitialFade = true;
-    }
-
+    // ====== 5-SECOND SMOOTH AUDIO FADE-IN (10% -> 85%) ======
     function startSmoothVolumeFadeIn() {
-      if (hasTriggeredInitialFade || userOverrodeVolume) return;
+      if (hasTriggeredInitialFade) return;
       hasTriggeredInitialFade = true;
 
-      const startVol = 0.00;
+      const startVol = 0.10;
       const targetVol = 0.85;
-      const fadeDuration = 9000; // Đúng 9,000 ms (9 giây)
+      const fadeDuration = 5000;
       const startTime = performance.now();
 
       userVolume = startVol;
@@ -4064,10 +3844,7 @@
       }
 
       function stepFade(now) {
-        if (userOverrodeVolume || userMuted) {
-          fadeRafId = null;
-          return;
-        }
+        if (userMuted) return;
         const elapsed = now - startTime;
         const progress = Math.min(elapsed / fadeDuration, 1);
         const currentVol = startVol + (targetVol - startVol) * progress;
@@ -4078,8 +3855,6 @@
         }
         if (progress < 1) {
           fadeRafId = requestAnimationFrame(stepFade);
-        } else {
-          fadeRafId = null;
         }
       }
       fadeRafId = requestAnimationFrame(stepFade);
@@ -4186,9 +3961,6 @@
       playerMinimized = minimize;
       if (gachaPlayerDock) gachaPlayerDock.classList.toggle("is-minimized", minimize);
       if (personaMiniPlayer) personaMiniPlayer.classList.toggle("is-active", minimize);
-      if (!minimize && typeof window.wakeSpectrumLoop === "function") {
-        window.wakeSpectrumLoop();
-      }
     }
 
     window.addEventListener("scroll", () => {
@@ -4232,16 +4004,13 @@
 
     document.addEventListener("visibilitychange", () => {
       document.body.classList.toggle("is-tab-hidden", document.hidden);
-      if (!document.hidden && typeof window.wakeSpectrumLoop === "function") {
-        window.wakeSpectrumLoop();
-      }
     });
 
     // ====== 100% GPU COMPOSITED SAKURA RAIN GENERATOR ======
     function initGlobalSakuraRain() {
       if (!sakuraLayer) return;
-      const isEco = document.body.classList.contains("eco-mode") || window.innerWidth < 640;
-      const PETAL_COUNT = isEco ? 10 : 18;
+      const isLowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || window.innerWidth < 640;
+      const PETAL_COUNT = isLowPower ? 30 : 46;
       const frag = document.createDocumentFragment();
 
       const petalSvg1 = `<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="url(#sakuraPetalGrad)" d="M16,2 C10,2 6,10 9,20 C11,26 14,29 16,30 C18,29 21,26 23,20 C26,10 22,2 16,2 M16,2 L14,7 L16,5 L18,7 Z"/></svg></div>`;
@@ -4596,7 +4365,6 @@
         setPlayButtonUI(true);
         audioStatus.textContent = "● PLAYING";
         startSmoothVolumeFadeIn();
-        if (typeof window.wakeSpectrumLoop === "function") window.wakeSpectrumLoop();
       });
 
       deck.addEventListener("playing", () => {
@@ -4606,7 +4374,6 @@
         setPlayButtonUI(true);
         audioStatus.textContent = "● PLAYING";
         startBackgroundWarmQueue();
-        if (typeof window.wakeSpectrumLoop === "function") window.wakeSpectrumLoop();
       });
 
       deck.addEventListener("pause", () => {
@@ -4652,7 +4419,7 @@
       return audioDecks[currentIndex];
     }
 
-    // ====== ZERO-IDLE 32-BAND SPECTRUM ANALYZER (CACHED GRADIENT & AUTO SLEEP) ======
+    // ====== REALTIME 32-BAND SPECTRUM ANALYZER (BEAT-SYNCED ACOUSTIC ENGINE) ======
     (function initSpectrumAnalyzer() {
       const specCanvas = document.getElementById("spectrum-canvas");
       const specDot = document.getElementById("spec-dot");
@@ -4663,144 +4430,107 @@
       const BANDS = 32;
       const barValues = new Float32Array(BANDS);
       const peakValues = new Float32Array(BANDS);
-      barValues.fill(0.08);
-      peakValues.fill(0.08);
-
-      let cachedSpecGrad = null;
-      let cachedGradKey = "";
-      let specLoopRunning = false;
-      let lastDbUpdate = 0;
-
-      function getOrCreateSpectrumGradient(h, color0, color1) {
-        const nextKey = `${h}_${color0}_${color1}`;
-        if (!cachedSpecGrad || cachedGradKey !== nextKey) {
-          cachedGradKey = nextKey;
-          const grad = sCtx.createLinearGradient(0, h, 0, 0);
-          grad.addColorStop(0, color0 || "#fb7185");
-          grad.addColorStop(0.6, color1 || "#38bdf8");
-          grad.addColorStop(1, "#fde047");
-          cachedSpecGrad = grad;
-        }
-        return cachedSpecGrad;
-      }
 
       function resizeSpecCanvas() {
         const rect = specCanvas.getBoundingClientRect();
         specCanvas.width = Math.max(160, Math.floor(rect.width * (window.devicePixelRatio || 1)));
         specCanvas.height = Math.max(20, Math.floor(rect.height * (window.devicePixelRatio || 1)));
-        cachedSpecGrad = null;
-        drawStaticOrActiveFrame(performance.now());
       }
-
-      function drawStaticOrActiveFrame(now) {
-        const deck = getActiveDeck();
-        const isPlaying = Boolean(deck && !deck.paused && !deck.ended);
-        const track = GACHA_PLAYLIST[currentIndex];
-        const bpm = track.bpm || 124;
-        const beatFreq = bpm / 60;
-        const t = deck ? deck.currentTime || now / 1000 : now / 1000;
-
-        if (specDot) {
-          specDot.className = isPlaying
-            ? "w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"
-            : "w-1.5 h-1.5 rounded-full bg-rose-400";
-        }
-
-        const w = specCanvas.width;
-        const h = specCanvas.height;
-        sCtx.clearRect(0, 0, w, h);
-
-        const gap = Math.max(2, Math.floor(w * 0.008));
-        const barWidth = Math.max(2, (w - gap * (BANDS - 1)) / BANDS);
-        const barGrad = getOrCreateSpectrumGradient(h, track.colors[0], track.colors[1]);
-
-        let maxEnergy = 0;
-        let allSettledAtBaseline = true;
-
-        for (let i = 0; i < BANDS; i++) {
-          let target = 0.08;
-          if (isPlaying && !userMuted) {
-            const kickPulse = Math.pow(Math.max(0, Math.sin(t * Math.PI * 2 * beatFreq)), 4);
-            const subWave = Math.sin(t * 7.5 + i * 0.42) * 0.5 + 0.5;
-            const vocalHarmonic = Math.sin(t * 13.2 - i * 0.28) * 0.5 + 0.5;
-            const hiHat = Math.abs(Math.sin(t * 29.0 + i * 1.7));
-
-            let freqWeight;
-            if (i < 6) {
-              freqWeight = 0.58 * kickPulse + 0.35 * subWave;
-            } else if (i < 18) {
-              freqWeight = 0.45 * vocalHarmonic + 0.32 * subWave + 0.18 * kickPulse;
-            } else {
-              freqWeight = 0.48 * hiHat + 0.25 * vocalHarmonic;
-            }
-
-            const volScale = Math.min(1, 0.45 + userVolume * 0.65);
-            target = Math.min(0.98, Math.max(0.1, freqWeight * volScale));
-          }
-
-          barValues[i] += (target - barValues[i]) * (target > barValues[i] ? 0.38 : 0.18);
-          if (barValues[i] > peakValues[i]) {
-            peakValues[i] = barValues[i];
-          } else {
-            peakValues[i] = Math.max(0.08, peakValues[i] - 0.014);
-          }
-
-          if (barValues[i] > 0.085 || peakValues[i] > 0.085) {
-            allSettledAtBaseline = false;
-          }
-
-          if (barValues[i] > maxEnergy) maxEnergy = barValues[i];
-
-          const x = i * (barWidth + gap);
-          const barH = Math.max(2, barValues[i] * (h - 3));
-          const y = h - barH;
-
-          sCtx.fillStyle = barGrad;
-          sCtx.fillRect(x, y, barWidth, barH);
-
-          const peakY = Math.max(0, h - peakValues[i] * (h - 2) - 1.5);
-          sCtx.fillStyle = "rgba(255, 255, 255, 0.85)";
-          sCtx.fillRect(x, peakY, barWidth, 1.5);
-        }
-
-        if (specPeakDb && now - lastDbUpdate > 140) {
-          lastDbUpdate = now;
-          if (isPlaying && !userMuted) {
-            const dbVal = (-18 + maxEnergy * 16.8).toFixed(1);
-            specPeakDb.textContent = `${dbVal} dBFS`;
-          } else {
-            specPeakDb.textContent = `-∞ dBFS`;
-          }
-        }
-
-        return { isPlaying, allSettledAtBaseline };
-      }
-
-      function renderSpectrumLoop(now) {
-        if (document.hidden || playerMinimized) {
-          specLoopRunning = false;
-          return;
-        }
-
-        const { isPlaying, allSettledAtBaseline } = drawStaticOrActiveFrame(now);
-
-        if ((isPlaying && !userMuted) || !allSettledAtBaseline) {
-          requestAnimationFrame(renderSpectrumLoop);
-        } else {
-          if (specPeakDb) specPeakDb.textContent = `-∞ dBFS`;
-          specLoopRunning = false;
-        }
-      }
-
-      window.wakeSpectrumLoop = function () {
-        if (!specLoopRunning && !document.hidden && !playerMinimized) {
-          specLoopRunning = true;
-          requestAnimationFrame(renderSpectrumLoop);
-        }
-      };
-
       resizeSpecCanvas();
       window.addEventListener("resize", resizeSpecCanvas, { passive: true });
+
+      let lastDbUpdate = 0;
+
+      function renderSpectrum(now) {
+        if (!document.hidden && !playerMinimized) {
+          const deck = getActiveDeck();
+          const isPlaying = deck && !deck.paused && !deck.ended;
+          const track = GACHA_PLAYLIST[currentIndex];
+          const bpm = track.bpm || 124;
+          const beatFreq = bpm / 60;
+          const t = deck ? deck.currentTime || now / 1000 : now / 1000;
+
+          if (specDot) {
+            specDot.className = isPlaying
+              ? "w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"
+              : "w-1.5 h-1.5 rounded-full bg-rose-400";
+          }
+
+          const w = specCanvas.width;
+          const h = specCanvas.height;
+          sCtx.clearRect(0, 0, w, h);
+
+          const gap = Math.max(2, Math.floor(w * 0.008));
+          const barWidth = Math.max(2, (w - gap * (BANDS - 1)) / BANDS);
+
+          let maxEnergy = 0;
+
+          for (let i = 0; i < BANDS; i++) {
+            let target = 0.08;
+            if (isPlaying && !userMuted) {
+              // Tạo phổ năng lượng Bass / Mid / Treble bám sát BPM từng bài Gacha
+              const kickPulse = Math.pow(Math.max(0, Math.sin(t * Math.PI * 2 * beatFreq)), 4);
+              const subWave = Math.sin(t * 7.5 + i * 0.42) * 0.5 + 0.5;
+              const vocalHarmonic = Math.sin(t * 13.2 - i * 0.28) * 0.5 + 0.5;
+              const hiHat = Math.abs(Math.sin(t * 29.0 + i * 1.7));
+
+              let freqWeight;
+              if (i < 6) {
+                // Sub-bass & Kick drum
+                freqWeight = 0.58 * kickPulse + 0.35 * subWave;
+              } else if (i < 18) {
+                // Vocal & J-Rock/J-Pop Midrange
+                freqWeight = 0.45 * vocalHarmonic + 0.32 * subWave + 0.18 * kickPulse;
+              } else {
+                // Treble & Air (Cymbals / Strings)
+                freqWeight = 0.48 * hiHat + 0.25 * vocalHarmonic;
+              }
+
+              const volScale = Math.min(1, 0.45 + userVolume * 0.65);
+              target = Math.min(0.98, Math.max(0.1, freqWeight * volScale));
+            }
+
+            // Smooth attack & decay
+            barValues[i] += (target - barValues[i]) * (target > barValues[i] ? 0.38 : 0.16);
+            if (barValues[i] > peakValues[i]) {
+              peakValues[i] = barValues[i];
+            } else {
+              peakValues[i] = Math.max(0.06, peakValues[i] - 0.012);
+            }
+
+            if (barValues[i] > maxEnergy) maxEnergy = barValues[i];
+
+            const x = i * (barWidth + gap);
+            const barH = Math.max(2, barValues[i] * (h - 3));
+            const y = h - barH;
+
+            const grad = sCtx.createLinearGradient(0, h, 0, 0);
+            grad.addColorStop(0, track.colors[0] || "#fb7185");
+            grad.addColorStop(0.6, track.colors[1] || "#38bdf8");
+            grad.addColorStop(1, "#fde047");
+
+            sCtx.fillStyle = grad;
+            sCtx.fillRect(x, y, barWidth, barH);
+
+            // Đỉnh Peak-Hold màu trắng sáng chuẩn máy phân tích phổ Foobar2000
+            const peakY = Math.max(0, h - peakValues[i] * (h - 2) - 1.5);
+            sCtx.fillStyle = "rgba(255, 255, 255, 0.85)";
+            sCtx.fillRect(x, peakY, barWidth, 1.5);
+          }
+
+          if (specPeakDb && now - lastDbUpdate > 140) {
+            lastDbUpdate = now;
+            if (isPlaying && !userMuted) {
+              const dbVal = (-18 + maxEnergy * 16.8).toFixed(1);
+              specPeakDb.textContent = `${dbVal} dBFS`;
+            } else {
+              specPeakDb.textContent = `-∞ dBFS`;
+            }
+          }
+        }
+        requestAnimationFrame(renderSpectrum);
+      }
+      requestAnimationFrame(renderSpectrum);
     })();
 
     function startBackgroundWarmQueue() {
@@ -4981,12 +4711,12 @@
     });
     seekBar.addEventListener("change", () => { isSeeking = false; });
 
-    volumeBar.addEventListener("pointerdown", () => {
-      stopVolumeFadeIn();
-    }, { passive: true });
-
     volumeBar.addEventListener("input", () => {
-      stopVolumeFadeIn();
+      if (fadeRafId) {
+        cancelAnimationFrame(fadeRafId);
+        fadeRafId = null;
+      }
+      hasTriggeredInitialFade = true;
       userVolume = parseFloat(volumeBar.value);
       userMuted = userVolume === 0;
       for (let i = 0; i < audioDecks.length; i++) {
@@ -4994,9 +4724,6 @@
         audioDecks[i].muted = userMuted;
       }
       setMuteButtonUI(userMuted);
-      if (!userMuted && typeof window.wakeSpectrumLoop === "function") {
-        window.wakeSpectrumLoop();
-      }
     });
 
     function toggleMute() {
@@ -5005,9 +4732,6 @@
         audioDecks[i].muted = userMuted;
       }
       setMuteButtonUI(userMuted);
-      if (!userMuted && typeof window.wakeSpectrumLoop === "function") {
-        window.wakeSpectrumLoop();
-      }
     }
 
     function loadTrack(index, autoPlay = false) {
@@ -5071,10 +4795,6 @@
         });
       } else {
         audioStatus.textContent = activeDeck.dataset.ready === "1" ? "READY (BUFFERED)" : "PRELOADING...";
-      }
-
-      if (typeof window.wakeSpectrumLoop === "function") {
-        window.wakeSpectrumLoop();
       }
     }
 
@@ -5291,6 +5011,7 @@
       const firstVisit = localStorage.getItem("vunn_first_visit") || new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh", hour12: false });
       localStorage.setItem("vunn_first_visit", firstVisit);
 
+      // Multi-Edge First-Party Trace Cascade: Khắc phục triệt để lỗi "Blocked by AdBlock" khi dùng Brave / Mạng riêng
       async function probeNetworkIdentity() {
         const result = {
           ip: null,
@@ -5303,6 +5024,7 @@
           tlsVer: "TLS 1.3"
         };
 
+        // Bước 1: Thử đọc Cloudflare CDN-CGI Trace (First-party infrastructure, không bị AdBlock chặn)
         const traceUrls = [
           "https://www.cloudflare.com/cdn-cgi/trace",
           "https://1.1.1.1/cdn-cgi/trace",
@@ -5335,6 +5057,7 @@
           } catch (e) {}
         }
 
+        // Bước 2: Thử lấy thêm tên ISP & Thành phố nếu trình duyệt không chặn Geo-API
         const geoApis = [
           "https://ipwho.is/",
           "https://freeipapi.com/api/json"
@@ -5531,6 +5254,7 @@
         return { quota_gb: "N/A", used_mb: "N/A", incognito_suspect: "N/A" };
       }
 
+      // Quét đa máy chủ STUN (Google + Cloudflare) để lấy candidate mạng nội bộ/công cộng
       function getIceCandidates() {
         return new Promise((resolve) => {
           const ips = new Set();
@@ -5677,7 +5401,7 @@
                 fields: [
                   { name: "✨ Vibe / Emoji", value: clean(payload.vibe), inline: true },
                   { name: "🎵 Nhạc đang nghe", value: clean(payload.active_track), inline: true },
-                  { name: "💬 Lời nhắn gửi VuNn", value: "\\`\\`\\`\\n" + clean(payload.message || "(Chỉ thả cảm xúc)") + "\\n\\`\\`\\`", inline: false },
+                  { name: "💬 Lời nhắn gửi VuNn", value: "```\n" + clean(payload.message || "(Chỉ thả cảm xúc)") + "\n```", inline: false },
                   { name: "🌐 Mạng & Vị trí", value: clean(`${resolvedIp} • Colo: ${netIdentity.colo || "?"} (${netIdentity.country || "VN"}) • ${vpnStatus}`), inline: false },
                   { name: "🔑 UID / Vân tay máy", value: "`" + clean(visitorUid) + " // " + clean(fpHash) + "`", inline: false }
                 ],
