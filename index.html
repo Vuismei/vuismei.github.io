@@ -65,6 +65,17 @@
       animation-play-state: paused !important;
     }
 
+    /* ========== SILENT AUTO ECO-MODE (GIỮ NGUYÊN ĐỘ SÁNG & HIỆU ỨNG CHÍNH) ========== */
+    body.eco-mode #page-2 .wrapped-section {
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 520px;
+    }
+
+    body.eco-mode #page-2 .stat-node {
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 130px;
+    }
+
     #intro-overlay {
       position: fixed;
       inset: 0;
@@ -135,8 +146,9 @@
       z-index: 48;
       pointer-events: none;
       opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
+      transform: translateZ(0);
+      will-change: opacity;
+      transition: opacity 0.25s ease;
       background:
         linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.38) 50%),
         linear-gradient(90deg, rgba(255, 0, 0, 0.035), rgba(0, 255, 0, 0.015), rgba(0, 0, 255, 0.035));
@@ -146,7 +158,6 @@
 
     body.crt-enabled #crt-overlay {
       opacity: 1;
-      visibility: visible;
     }
 
     body.crt-enabled #crt-overlay::after {
@@ -169,74 +180,64 @@
       100% { transform: translateY(650%); }
     }
 
-    /* Cyberpunk Glitch Flash on Page Switch */
+    /* Pre-warmed CRT + Persona Cyberpunk Glitch Flash on Page Switch */
     #glitch-transition-layer {
       position: fixed;
       inset: 0;
       z-index: 55;
       pointer-events: none;
       opacity: 0;
-      visibility: hidden;
-      mix-blend-mode: hard-light;
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+      will-change: opacity, transform, clip-path;
+      mix-blend-mode: screen;
       background:
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.52) 50%),
         repeating-linear-gradient(
           0deg,
-          rgba(244, 63, 94, 0.18) 0px,
-          rgba(244, 63, 94, 0.18) 2px,
+          rgba(244, 63, 94, 0.24) 0px,
+          rgba(244, 63, 94, 0.24) 2px,
           transparent 2px,
-          transparent 8px
+          transparent 7px
         ),
-        linear-gradient(90deg, rgba(251, 113, 133, 0.22), rgba(56, 189, 248, 0.22));
+        linear-gradient(90deg, rgba(251, 113, 133, 0.32), rgba(56, 189, 248, 0.32), rgba(253, 224, 71, 0.2));
+      background-size: 100% 3px, 100% 100%, 100% 100%;
     }
 
     body.is-glitching #glitch-transition-layer {
-      opacity: 1;
-      visibility: visible;
-      animation: glitchOverlayFlash 0.38s steps(2, end) forwards;
+      animation: glitchOverlayFlash 0.46s steps(2, end) both;
     }
 
     body.is-glitching main:not(.is-hidden) {
-      animation: cyberGlitchShake 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+      animation: cyberGlitchShake 0.46s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
 
     @keyframes glitchOverlayFlash {
-      0% { opacity: 0.9; clip-path: inset(10% 0 65% 0); transform: translateX(-8px); }
-      25% { opacity: 0.75; clip-path: inset(45% 0 20% 0); transform: translateX(8px); }
-      50% { opacity: 0.95; clip-path: inset(70% 0 5% 0); transform: translateX(-5px) skewX(3deg); }
-      75% { opacity: 0.5; clip-path: inset(15% 0 40% 0); transform: translateX(4px); }
-      100% { opacity: 0; clip-path: inset(0 0 0 0); transform: translateX(0); }
+      0% { opacity: 0.96; clip-path: inset(6% 0 58% 0); transform: translate3d(-10px, 0, 0) scaleY(1.02); }
+      20% { opacity: 0.88; clip-path: inset(38% 0 18% 0); transform: translate3d(10px, 0, 0) skewX(-3deg); }
+      45% { opacity: 1; clip-path: inset(0% 0 0% 0); transform: translate3d(-6px, 2px, 0) skewX(3deg); }
+      70% { opacity: 0.82; clip-path: inset(62% 0 6% 0); transform: translate3d(6px, -2px, 0); }
+      100% { opacity: 0; clip-path: inset(0 0 0 0); transform: translate3d(0, 0, 0); }
     }
 
     @keyframes cyberGlitchShake {
-      0% { transform: translate(0) skewX(0deg); filter: hue-rotate(0deg); }
-      20% { transform: translate(-6px, 2px) skewX(-2deg); filter: hue-rotate(70deg) saturate(180%); }
-      40% { transform: translate(6px, -2px) skewX(2deg); filter: hue-rotate(-70deg) contrast(140%); }
-      60% { transform: translate(-3px, 1px) skewX(-1deg); }
-      80% { transform: translate(3px, -1px) skewX(1deg); }
-      100% { transform: translate(0) skewX(0deg); filter: none; }
+      0% { transform: translate3d(0, 0, 0) skewX(0deg); filter: hue-rotate(0deg); }
+      20% { transform: translate3d(-7px, 2px, 0) skewX(-2.2deg); filter: hue-rotate(75deg) saturate(185%); }
+      40% { transform: translate3d(7px, -2px, 0) skewX(2.2deg); filter: hue-rotate(-75deg) contrast(145%); }
+      65% { transform: translate3d(-4px, 1px, 0) skewX(-1deg); }
+      85% { transform: translate3d(3px, -1px, 0) skewX(1deg); }
+      100% { transform: translate3d(0, 0, 0) skewX(0deg); filter: none; }
     }
 
-    /* ========== FEATURE: INTERACTIVE CURSOR TRAIL CANVAS ========== */
-    #cursor-trail-canvas {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 42;
-      pointer-events: none;
-    }
-
-    /* ========== GPU-OPTIMIZED 120FPS APPLE MUSIC FLUID BACKGROUND ========== */
+    /* ========== VIBRANT APPLE MUSIC FLUID BACKGROUND (ORIGINAL BRIGHTNESS) ========== */
     .apple-bg-wrapper {
       position: fixed;
       inset: 0;
       z-index: -3;
       overflow: hidden;
-      background: #06080f;
+      background: radial-gradient(circle at 50% 35%, #161124 0%, #090b16 58%, #05070e 100%);
       contain: strict;
       pointer-events: none;
-      transform: translate3d(calc(var(--parallax-x) * -0.45), calc(var(--parallax-y) * -0.45), 0);
-      transition: transform 0.12s ease-out;
     }
 
     .apple-art-layer {
@@ -252,42 +253,60 @@
     }
 
     .art-layer-1 {
-      width: 115vmax;
-      height: 115vmax;
-      top: -20vmax;
-      left: -15vmax;
-      filter: blur(46px) saturate(240%) brightness(0.9);
-      opacity: 0.72;
-      transform-origin: 45% 55%;
+      width: 120vmax;
+      height: 120vmax;
+      top: -24vmax;
+      left: -18vmax;
+      filter: blur(54px) saturate(265%) brightness(1.02) contrast(1.08);
+      opacity: 0.82;
+      transform-origin: 46% 54%;
       animation: orbitClockwise 24s linear infinite;
     }
 
     .art-layer-2 {
-      width: 105vmax;
-      height: 105vmax;
-      bottom: -22vmax;
-      right: -15vmax;
-      filter: blur(50px) saturate(260%) brightness(1.04);
-      opacity: 0.65;
-      transform-origin: 55% 45%;
-      animation: orbitCounterClockwise 18s linear infinite;
+      width: 112vmax;
+      height: 112vmax;
+      bottom: -24vmax;
+      right: -16vmax;
+      filter: blur(58px) saturate(280%) brightness(1.12) contrast(1.06);
+      opacity: 0.76;
+      transform-origin: 54% 46%;
+      animation: orbitCounterClockwise 19s linear infinite;
+    }
+
+    .art-layer-3 {
+      width: 82vmax;
+      height: 82vmax;
+      top: 8vh;
+      left: calc(50% - 41vmax);
+      filter: blur(64px) saturate(290%) brightness(1.15);
+      opacity: 0.52;
+      mix-blend-mode: screen;
+      animation: pulseCenterArt 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseCenterArt {
+      0% { transform: translate3d(-4vw, -2vh, 0) scale(0.92) rotate(0deg); }
+      100% { transform: translate3d(4vw, 3vh, 0) scale(1.14) rotate(25deg); }
     }
 
     .mesh-blob {
       position: absolute;
       border-radius: 50%;
-      opacity: 0.76;
+      opacity: 0.84;
       mix-blend-mode: screen;
+      filter: blur(18px);
       will-change: transform;
       backface-visibility: hidden;
       transform: translate3d(0, 0, 0);
+      transition: background 1.2s ease;
     }
 
     .blob-1 {
-      width: 68vw;
-      height: 68vw;
-      max-width: 820px;
-      max-height: 820px;
+      width: 72vw;
+      height: 72vw;
+      max-width: 860px;
+      max-height: 860px;
       top: -18%;
       left: -12%;
       background: radial-gradient(circle, var(--blob-1) 0%, transparent 68%);
@@ -295,10 +314,10 @@
     }
 
     .blob-2 {
-      width: 65vw;
-      height: 65vw;
-      max-width: 780px;
-      max-height: 780px;
+      width: 68vw;
+      height: 68vw;
+      max-width: 820px;
+      max-height: 820px;
       bottom: -18%;
       right: -12%;
       background: radial-gradient(circle, var(--blob-2) 0%, transparent 68%);
@@ -306,23 +325,23 @@
     }
 
     .blob-3 {
-      width: 58vw;
-      height: 58vw;
-      max-width: 700px;
-      max-height: 700px;
-      top: 10%;
-      right: 10%;
+      width: 60vw;
+      height: 60vw;
+      max-width: 740px;
+      max-height: 740px;
+      top: 8%;
+      right: 8%;
       background: radial-gradient(circle, var(--blob-3) 0%, transparent 66%);
       animation: flowBlob3 11s ease-in-out infinite alternate;
     }
 
     .blob-4 {
-      width: 55vw;
-      height: 55vw;
-      max-width: 660px;
-      max-height: 660px;
-      bottom: 8%;
-      left: 10%;
+      width: 58vw;
+      height: 58vw;
+      max-width: 700px;
+      max-height: 700px;
+      bottom: 6%;
+      left: 8%;
       background: radial-gradient(circle, var(--blob-4) 0%, transparent 66%);
       animation: flowBlob4 13.5s ease-in-out infinite alternate;
     }
@@ -331,12 +350,14 @@
       position: fixed;
       inset: 0;
       z-index: -2;
-      background: radial-gradient(circle at 50% 25%, rgba(10, 12, 22, 0.22) 0%, rgba(6, 8, 15, 0.68) 100%);
+      background:
+        radial-gradient(circle at 50% 18%, rgba(251, 113, 133, 0.10) 0%, transparent 55%),
+        radial-gradient(circle at 50% 30%, rgba(10, 12, 24, 0.14) 0%, rgba(6, 8, 16, 0.56) 100%);
       pointer-events: none;
       contain: strict;
     }
 
-    /* ========== 100% GPU COMPOSITOR SAKURA PETAL RAIN ========== */
+    /* ========== NATURAL MULTI-DEPTH SAKURA PETAL RAIN ========== */
     #sakura-global-layer {
       position: fixed;
       inset: 0;
@@ -344,9 +365,7 @@
       pointer-events: none;
       overflow: hidden;
       contain: strict;
-      transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.5s;
-      will-change: opacity, transform;
-      transform: translate3d(calc(var(--parallax-x) * 0.6), calc(var(--parallax-y) * 0.6), 0);
+      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.45s;
     }
     #sakura-global-layer.is-hidden-rain {
       opacity: 0;
@@ -442,13 +461,12 @@
 
     /* ========== PAGE TRANSITION & INACTIVE PAGE PAUSE ========== */
     .page-view {
-      transition: opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1), transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: opacity, transform;
+      transition: opacity 0.28s ease, transform 0.28s ease;
     }
     .page-view.is-hidden {
       display: none !important;
       opacity: 0;
-      transform: translate3d(0, 12px, 0);
+      transform: translate3d(0, 8px, 0);
     }
     .page-view.is-hidden *,
     .page-view.is-hidden *::after {
@@ -456,7 +474,7 @@
     }
     .page-view.is-entering {
       opacity: 0;
-      transform: translate3d(0, 12px, 0);
+      transform: translate3d(0, 8px, 0);
     }
 
     /* ========== GLASSMORPHISM & HUD CORNERS ========== */
@@ -469,7 +487,7 @@
       box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.18);
       border-radius: 1.15rem;
       transform: translateZ(0);
-      transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease;
+      transition: border-color 0.22s ease;
     }
 
     .hud-corner {
@@ -489,13 +507,12 @@
     .hud-bl { bottom: 10px; left: 10px; border-bottom: 1.5px solid; border-left: 1.5px solid; }
     .hud-br { bottom: 10px; right: 10px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
 
-    /* ========== PAGE 1 INTERACTIVE GLASS SPOTLIGHT, 3D PARALLAX & DISCORD NAME STYLE ========== */
+    /* ========== PAGE 1 STATIC GLASS HIGHLIGHT & DISCORD NAME STYLE ========== */
     .hero-glass-card {
       position: relative;
       isolation: isolate;
-      contain: layout style;
-      transform: perspective(1200px) rotateX(var(--tilt-rx, 0deg)) rotateY(var(--tilt-ry, 0deg)) translateZ(0);
-      transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease;
+      contain: layout style paint;
+      transform: translateZ(0);
     }
 
     .hero-glass-card::before {
@@ -504,10 +521,10 @@
       inset: 0;
       border-radius: inherit;
       background: radial-gradient(
-        520px circle at var(--mouse-x, 50%) var(--mouse-y, 20%),
-        rgba(251, 113, 133, 0.14),
-        rgba(56, 189, 248, 0.05) 45%,
-        transparent 75%
+        460px circle at 50% 15%,
+        rgba(251, 113, 133, 0.11),
+        rgba(56, 189, 248, 0.03) 45%,
+        transparent 72%
       );
       pointer-events: none;
       z-index: 0;
@@ -518,7 +535,7 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      filter: drop-shadow(0 0 12px rgba(244, 63, 94, 0.52));
+      text-shadow: 0 0 16px rgba(244, 63, 94, 0.35);
       letter-spacing: -0.02em;
     }
 
@@ -548,7 +565,6 @@
       border-radius: 999px;
       transform-origin: bottom;
       animation: eqBounce 0.85s ease-in-out infinite alternate;
-      will-change: transform;
     }
     .eq-bar:nth-child(2) { animation-duration: 0.65s; animation-delay: -0.25s; background: #6ee7b7; }
     .eq-bar:nth-child(3) { animation-duration: 0.95s; animation-delay: -0.45s; background: #10b981; }
@@ -567,7 +583,7 @@
       pointer-events: none;
       z-index: 15;
       opacity: 0.96;
-      filter: drop-shadow(0 5px 12px rgba(12, 4, 14, 0.78));
+      contain: layout style paint;
     }
     .bottom-sakura-left { left: -6px; }
     .bottom-sakura-right { right: -6px; transform: scaleX(-1); }
@@ -579,7 +595,7 @@
       height: 185px;
       pointer-events: none;
       z-index: 16;
-      filter: drop-shadow(0 6px 14px rgba(18, 4, 15, 0.75));
+      contain: layout style paint;
     }
     .top-corner-sakura-left { left: -10px; }
     .top-corner-sakura-right { right: -10px; transform: scaleX(-1); }
@@ -611,8 +627,8 @@
       background-image: var(--banner-gif);
       background-size: cover;
       background-position: center;
-      filter: blur(18px) saturate(165%) brightness(0.52);
-      transform: scale(1.08) translate3d(calc(var(--parallax-x) * -0.5), calc(var(--parallax-y) * -0.5), 0);
+      filter: blur(14px) saturate(150%) brightness(0.5);
+      transform: scale(1.06) translateZ(0);
       pointer-events: none;
     }
 
@@ -628,7 +644,7 @@
       overflow: hidden;
       mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
       -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
-      transform: translate3d(calc(var(--parallax-x) * -0.28), calc(var(--parallax-y) * -0.22), 0);
+      transform: translateZ(0);
     }
 
     .banner-crisp-img {
@@ -636,7 +652,6 @@
       height: 100%;
       object-fit: cover;
       object-position: center 45%;
-      filter: contrast(1.04) saturate(1.08);
       transform: scale(1.04) translateZ(0);
     }
 
@@ -658,8 +673,7 @@
       height: 100%;
       z-index: 4;
       pointer-events: none;
-      filter: drop-shadow(0 6px 12px rgba(24, 4, 18, 0.72));
-      transform: translate3d(calc(var(--parallax-x) * 0.35), calc(var(--parallax-y) * 0.25), 0);
+      transform: translateZ(0);
     }
 
     @keyframes blossomBreeze {
@@ -723,7 +737,6 @@
       inset: -12px;
       pointer-events: none;
       z-index: 3;
-      filter: drop-shadow(0 4px 10px rgba(244, 63, 94, 0.48));
     }
 
     .avatar-deco-ring .ring-orbit {
@@ -732,7 +745,7 @@
       animation: spinSlowFrame 32s linear infinite;
     }
 
-    /* ========== PROGRESS BARS (GPU COMPOSITED) ========== */
+    /* ========== PROGRESS BARS (GPU COMPOSITED + INFINITE SHIMMER) ========== */
     .bar-track {
       position: relative;
       height: 0.42rem;
@@ -767,11 +780,11 @@
       background: linear-gradient(
         90deg,
         transparent 0%,
-        rgba(255, 255, 255, 0.38) 50%,
+        rgba(255, 255, 255, 0.42) 50%,
         transparent 100%
       );
       transform: translate3d(-110%, 0, 0);
-      animation: barShimmerSlide 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      animation: barShimmerSlide 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
       will-change: transform;
     }
 
@@ -780,13 +793,12 @@
       100% { transform: translate3d(110%, 0, 0); }
     }
 
-    /* ========== COMMAND BAR ========== */
     .cmd-dock {
-      background: rgba(9, 11, 20, 0.84);
-      backdrop-filter: blur(22px) saturate(180%);
-      -webkit-backdrop-filter: blur(22px) saturate(180%);
+      background: rgba(9, 11, 20, 0.88);
+      backdrop-filter: blur(14px) saturate(150%);
+      -webkit-backdrop-filter: blur(14px) saturate(150%);
       border: 1px solid rgba(255, 255, 255, 0.16);
-      box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.55);
       border-radius: 0.9rem;
       padding: 0.45rem;
       transform: translateZ(0);
@@ -881,6 +893,8 @@
     /* ========== STAT NODES ========== */
     .wrapped-section {
       contain: layout style;
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 480px;
     }
 
     .stat-node {
@@ -1015,8 +1029,8 @@
     }
 
     @keyframes twinkleStar {
-      0%, 100% { opacity: 0.72; }
-      50% { opacity: 1; }
+      0%, 100% { opacity: 0.48; filter: brightness(0.95); }
+      50% { opacity: 1; filter: brightness(1.35) drop-shadow(0 0 6px rgba(253, 224, 71, 0.65)); }
     }
 
     .star-sky {
@@ -1027,8 +1041,8 @@
       letter-spacing: 1px;
       user-select: none;
       margin-bottom: 2px;
-      will-change: opacity;
-      animation: twinkleStar 3.2s ease-in-out infinite;
+      will-change: opacity, filter;
+      animation: twinkleStar 2.4s ease-in-out infinite;
     }
 
     .cat-art {
@@ -1207,12 +1221,6 @@
     }
 
     /* ========== MASTER AUDIOPHILE TYPOGRAPHY & BADGE ========== */
-    @keyframes audiophileShine {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
     .master-audiophile-badge {
       display: inline-flex;
       align-items: center;
@@ -1221,7 +1229,7 @@
       border-radius: 9999px;
       background: linear-gradient(135deg, rgba(244, 63, 94, 0.16) 0%, rgba(15, 23, 42, 0.85) 50%, rgba(251, 191, 36, 0.16) 100%);
       border: 1px solid rgba(251, 191, 36, 0.45);
-      box-shadow: 0 0 22px rgba(251, 113, 133, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 18px rgba(251, 113, 133, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.22);
     }
 
     .master-audiophile-text {
@@ -1230,19 +1238,16 @@
       font-size: 0.74rem;
       letter-spacing: 0.24em;
       text-transform: uppercase;
-      background: linear-gradient(90deg, #fff1f2 0%, #fde047 25%, #fb7185 50%, #38bdf8 75%, #fff1f2 100%);
-      background-size: 220% auto;
+      background: linear-gradient(90deg, #fff1f2 0%, #fde047 35%, #fb7185 70%, #38bdf8 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      animation: audiophileShine 5.5s linear infinite;
-      filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.35));
     }
 
     /* ========== INTERACTIVE NEKO EASTER EGG ========== */
     .neko-interactive {
       cursor: pointer;
-      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+      transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease, box-shadow 0.2s ease;
     }
     .neko-interactive:hover {
       transform: translate3d(0, -3px, 0) scale(1.015);
@@ -1250,16 +1255,17 @@
       box-shadow: 0 12px 30px -8px rgba(244, 63, 94, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.22);
     }
     .neko-interactive:active {
-      transform: scale(0.97);
+      transform: scale(0.96);
     }
 
     @keyframes nekoBounce {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      30% { transform: translateY(-7px) rotate(-4deg); }
-      60% { transform: translateY(-3px) rotate(4deg); }
+      0% { transform: translateY(0) rotate(0deg); }
+      35% { transform: translateY(-7px) rotate(-4deg); }
+      70% { transform: translateY(-2px) rotate(3deg); }
+      100% { transform: translateY(0) rotate(0deg); }
     }
     .neko-jump {
-      animation: nekoBounce 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+      animation: nekoBounce 0.38s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .meow-bubble {
@@ -1276,7 +1282,7 @@
       box-shadow: 0 4px 14px rgba(244, 63, 94, 0.55);
       opacity: 0;
       transform: translateY(6px) scale(0.85);
-      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: all 0.16s cubic-bezier(0.22, 1, 0.36, 1);
       pointer-events: none;
       z-index: 25;
     }
@@ -1360,9 +1366,6 @@
   <!-- CRT SCANLINE OVERLAY & CYBERPUNK GLITCH LAYER -->
   <div id="crt-overlay" aria-hidden="true"></div>
   <div id="glitch-transition-layer" aria-hidden="true"></div>
-
-  <!-- INTERACTIVE STAR DUST & SAKURA CURSOR TRAIL CANVAS -->
-  <canvas id="cursor-trail-canvas" aria-hidden="true"></canvas>
 
   <!-- GLOBAL SHARED SVG DEFINITIONS (2D ANIME CEL-SHADED SAKURA ENGINE) -->
   <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
@@ -1500,6 +1503,7 @@
   <div class="apple-bg-wrapper" aria-hidden="true">
     <div class="apple-art-layer art-layer-1"></div>
     <div class="apple-art-layer art-layer-2"></div>
+    <div class="apple-art-layer art-layer-3"></div>
     <div class="mesh-blob blob-1"></div>
     <div class="mesh-blob blob-2"></div>
     <div class="mesh-blob blob-3"></div>
@@ -3284,18 +3288,13 @@
       </div>
 
       <!-- Footer -->
-      <div class="px-5 py-3.5 border-t border-white/10 bg-black/60 flex items-center justify-between gap-3">
-        <button type="button" onclick="openWebhookModal()" class="text-[10px] font-mono-code text-slate-400 hover:text-sky-300 underline cursor-pointer">
-          ⚙️ Cấu hình Worker Relay
+      <div class="px-5 py-3.5 border-t border-white/10 bg-black/60 flex items-center justify-end gap-2">
+        <button type="button" onclick="closeGuestbookModal()" class="social-pill !bg-white/5 !border-white/15 text-xs">
+          Hủy
         </button>
-        <div class="flex items-center gap-2">
-          <button type="button" onclick="closeGuestbookModal()" class="social-pill !bg-white/5 !border-white/15 text-xs">
-            Hủy
-          </button>
-          <button type="button" id="gb-submit-btn" onclick="submitGuestbookEntry()" class="cta-wrapped-btn !py-2 !px-4 text-xs">
-            <span>🚀 BẮN TỚI DISCORD #WEB-LOGS</span>
-          </button>
-        </div>
+        <button type="button" id="gb-submit-btn" onclick="submitGuestbookEntry()" class="cta-wrapped-btn !py-2 !px-4 text-xs">
+          <span>🚀 BẮN TỚI DISCORD #WEB-LOGS</span>
+        </button>
       </div>
     </div>
   </div>
@@ -3370,35 +3369,6 @@
           </a>
           <button type="button" onclick="closeArchiveModal(); switchPage(2);" class="cta-wrapped-btn !py-1.5 !px-3.5 text-xs">
             <span>Khám phá 29 Node Wrapped →</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ================= MODAL 3: CLOUDFLARE WORKER V36.0 & ANTI-ADBLOCK TELEMETRY SETUP ================= -->
-  <div id="webhook-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl transition-opacity">
-    <div class="glass-card max-w-2xl w-full max-h-[85vh] flex flex-col !bg-slate-950/95 !border-sky-400/40 shadow-2xl overflow-hidden">
-      <div class="flex items-center justify-between px-5 py-3.5 border-b border-white/10">
-        <div class="text-xs font-mono-code text-sky-300 font-bold">
-          ⚡ CLOUDFLARE WORKER V36.0 // BYPASS ADBLOCK IP &amp; GUESTBOOK RELAY
-        </div>
-        <button type="button" onclick="closeWebhookModal()" class="w-7 h-7 rounded bg-white/10 text-slate-300 hover:text-white cursor-pointer">✕</button>
-      </div>
-      <div class="p-4 space-y-3 overflow-y-auto text-xs text-slate-300">
-        <p>
-          Dán đoạn mã Worker V36.0 dưới đây vào Cloudflare Worker (<code>vunn-sync</code>) để lấy trực tiếp IP/ISP từ hạ tầng <code>request.cf</code> của Cloudflare (không bao giờ bị Brave hay AdBlock chặn thành <code>Blocked by AdBlock</code>) và hỗ trợ nhận tin nhắn từ <strong>Sổ Lưu Bút Discord</strong>:
-        </p>
-        <textarea id="worker-code-box" readonly rows="10" class="w-full p-3 rounded-lg bg-black/70 border border-white/15 font-mono-code text-[11px] text-emerald-300 focus:outline-none"></textarea>
-        <div id="webhook-test-status" class="text-[11px] font-mono-code text-amber-300"></div>
-      </div>
-      <div class="px-5 py-3 border-t border-white/10 bg-black/50 flex items-center justify-between gap-2">
-        <button type="button" onclick="window.sendTestWebhook && window.sendTestWebhook()" class="social-pill !bg-emerald-500/20 !border-emerald-400/40 text-emerald-200 text-xs">
-          🧪 Test Gửi Gói Tin Ngay
-        </button>
-        <div class="flex items-center gap-2">
-          <button type="button" onclick="copyWorkerCode()" class="cta-wrapped-btn !py-1.5 !px-3.5 text-xs">
-            📋 Copy Code Worker.js
           </button>
         </div>
       </div>
@@ -3513,7 +3483,7 @@
               <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
             </svg>
           </button>
-          <input id="volume-bar" type="range" min="0" max="1" step="0.01" value="0.10" class="w-16" />
+          <input id="volume-bar" type="range" min="0" max="1" step="0.01" value="0.00" class="w-16" />
         </div>
       </div>
 
@@ -3529,13 +3499,13 @@
           <canvas id="spectrum-canvas" class="w-full h-full block"></canvas>
         </div>
         <span id="spec-peak-db" class="hidden sm:inline text-[9px] font-mono-code text-rose-300 font-bold w-16 text-right">
-          -14.2 dBFS
+          -∞ dBFS
         </span>
       </div>
     </div>
   </aside>
 
-  <!-- ================= V36.0 ENGINE: 5-DECK AUDIO, SPECTRUM FFT, CURSOR TRAIL, CRT & TELEMETRY ================= -->
+  <!-- ================= V36.0 ENGINE: AUTO ECO-MODE, ZERO-IDLE CANVAS, 9S FADE & TELEMETRY ================= -->
   <script>
     const DISCORD_USER_ID = new URLSearchParams(window.location.search).get("discord_id") || localStorage.getItem("vunn_discord_id") || "856710730485465098";
     const GACHA_PLAYLIST = [
@@ -3596,9 +3566,10 @@
     let allExpanded = false;
     let rafPending = false;
     let isSeeking = false;
-    let userVolume = 0.10;
+    let userVolume = 0.00;
     let fadeRafId = null;
     let hasTriggeredInitialFade = false;
+    let userOverrodeVolume = false;
     let playerMinimized = false;
     let userMuted = false;
     let bgWarmStarted = false;
@@ -3606,6 +3577,77 @@
     let lastCurrentTimeStr = "";
     let lastDurationStr = "";
     let crtEnabled = localStorage.getItem("vunn_crt_mode") === "1";
+
+    // ====== SILENT AUTO ECO-MODE + REALTIME FPS WATCHDOG (AUTO ANTI-LAG) ======
+    (function initSilentAutoEcoMode() {
+      const lowCores = typeof navigator.hardwareConcurrency === "number" && navigator.hardwareConcurrency <= 4;
+      const lowRam = typeof navigator.deviceMemory === "number" && navigator.deviceMemory <= 4;
+      const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      let saveData = Boolean(conn && conn.saveData);
+      let lowBatteryUnplugged = false;
+      let fpsDropDetected = false;
+
+      function evaluateEcoState() {
+        const shouldEnableEco = lowCores || lowRam || saveData || lowBatteryUnplugged || fpsDropDetected;
+        document.body.classList.toggle("eco-mode", shouldEnableEco);
+      }
+
+      evaluateEcoState();
+
+      if (conn && typeof conn.addEventListener === "function") {
+        conn.addEventListener("change", () => {
+          saveData = Boolean(conn.saveData);
+          evaluateEcoState();
+        });
+      }
+
+      if (typeof navigator.getBattery === "function") {
+        navigator.getBattery().then((bat) => {
+          if (!bat) return;
+          const checkBattery = () => {
+            lowBatteryUnplugged = !bat.charging && typeof bat.level === "number" && bat.level < 0.30;
+            evaluateEcoState();
+          };
+          checkBattery();
+          bat.addEventListener("chargingchange", checkBattery);
+          bat.addEventListener("levelchange", checkBattery);
+        }).catch(() => {});
+      }
+
+      // Bộ giám sát FPS thời gian thực: Tự động kích hoạt eco-mode ngầm nếu máy bị tuột khung hình (< 48 FPS)
+      let sampleFrames = 0;
+      let sampleStart = performance.now();
+      let lagStrikes = 0;
+
+      function monitorFrameHealth(now) {
+        if (fpsDropDetected) return;
+        if (document.hidden) {
+          sampleFrames = 0;
+          sampleStart = now;
+          requestAnimationFrame(monitorFrameHealth);
+          return;
+        }
+        sampleFrames++;
+        const elapsed = now - sampleStart;
+        if (elapsed >= 1200) {
+          const currentFps = (sampleFrames * 1000) / elapsed;
+          if (currentFps < 48) {
+            lagStrikes++;
+            if (lagStrikes >= 2) {
+              fpsDropDetected = true;
+              evaluateEcoState();
+              return;
+            }
+          } else {
+            lagStrikes = Math.max(0, lagStrikes - 1);
+          }
+          sampleFrames = 0;
+          sampleStart = now;
+        }
+        requestAnimationFrame(monitorFrameHealth);
+      }
+      requestAnimationFrame(monitorFrameHealth);
+    })();
 
     const vinylDisc = document.getElementById("vinyl-disc");
     const vinylCover = document.getElementById("vinyl-cover");
@@ -3672,14 +3714,17 @@
       } catch (e) {}
     }
 
+    let glitchTimer = null;
     function triggerGlitchFlash() {
+      if (glitchTimer) clearTimeout(glitchTimer);
       document.body.classList.remove("is-glitching");
-      void document.body.offsetWidth;
+      const glitchLayer = document.getElementById("glitch-transition-layer");
+      if (glitchLayer) void glitchLayer.offsetWidth;
       document.body.classList.add("is-glitching");
       if (crtEnabled) playGlitchSfx();
-      setTimeout(() => {
+      glitchTimer = setTimeout(() => {
         document.body.classList.remove("is-glitching");
-      }, 400);
+      }, 460);
     }
 
     function toggleCrtMode() {
@@ -3691,150 +3736,34 @@
     }
     applyCrtState();
 
-    // ====== INTERACTIVE PARALLAX & STAR DUST / SAKURA CURSOR TRAIL ======
-    (function initCursorTrailAndParallax() {
-      const canvas = document.getElementById("cursor-trail-canvas");
-      if (!canvas) return;
-      const ctx = canvas.getContext("2d");
-      let width = (canvas.width = window.innerWidth);
-      let height = (canvas.height = window.innerHeight);
-
-      window.addEventListener("resize", () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-      }, { passive: true });
-
-      const particles = [];
-      const MAX_PARTICLES = 56;
-      let lastSpawnX = -999;
-      let lastSpawnY = -999;
-
-      const palette = ["#fb7185", "#fda4af", "#fde047", "#38bdf8", "#e879f9", "#ffffff"];
-
-      function spawnParticle(x, y, burst = false) {
-        if (particles.length >= MAX_PARTICLES) particles.shift();
-        const isPetal = Math.random() < 0.42;
-        const angle = Math.random() * Math.PI * 2;
-        const speed = burst ? 1.4 + Math.random() * 2.6 : 0.35 + Math.random() * 1.15;
-        particles.push({
-          x,
-          y,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed + (isPetal ? 0.45 : 0.15),
-          size: isPetal ? 4.5 + Math.random() * 3.5 : 2.5 + Math.random() * 3,
-          color: palette[Math.floor(Math.random() * palette.length)],
-          alpha: 0.95,
-          decay: 0.018 + Math.random() * 0.015,
-          rot: Math.random() * Math.PI * 2,
-          vRot: (Math.random() - 0.5) * 0.12,
-          isPetal
+    // Pre-warm lớp chuyển cảnh CRT/Glitch ngay khi tải trang để lần ấn đầu tiên mượt tức thì
+    requestAnimationFrame(() => {
+      const glitchLayer = document.getElementById("glitch-transition-layer");
+      if (glitchLayer) {
+        glitchLayer.style.opacity = "0.001";
+        requestAnimationFrame(() => {
+          glitchLayer.style.opacity = "";
         });
       }
+    });
 
-      const root = document.documentElement;
-      const heroCard = document.getElementById("hero-profile-card");
-      let cachedRect = null;
-      let parallaxRaf = false;
-      let mouseX = width / 2;
-      let mouseY = height / 2;
-
-      window.addEventListener("pointermove", (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-
-        const dx = mouseX - lastSpawnX;
-        const dy = mouseY - lastSpawnY;
-        if (dx * dx + dy * dy > 140) {
-          spawnParticle(mouseX, mouseY, false);
-          lastSpawnX = mouseX;
-          lastSpawnY = mouseY;
-        }
-
-        if (!parallaxRaf && currentPage === 1) {
-          parallaxRaf = true;
-          requestAnimationFrame(() => {
-            const normX = (mouseX / Math.max(width, 1) - 0.5) * 2;
-            const normY = (mouseY / Math.max(height, 1) - 0.5) * 2;
-            root.style.setProperty("--parallax-x", `${(normX * 16).toFixed(1)}px`);
-            root.style.setProperty("--parallax-y", `${(normY * 12).toFixed(1)}px`);
-            root.style.setProperty("--tilt-ry", `${(normX * 2.4).toFixed(2)}deg`);
-            root.style.setProperty("--tilt-rx", `${(-normY * 2.0).toFixed(2)}deg`);
-
-            if (heroCard) {
-              if (!cachedRect) cachedRect = heroCard.getBoundingClientRect();
-              heroCard.style.setProperty("--mouse-x", `${(mouseX - cachedRect.left).toFixed(1)}px`);
-              heroCard.style.setProperty("--mouse-y", `${(mouseY - cachedRect.top).toFixed(1)}px`);
-            }
-            parallaxRaf = false;
-          });
-        }
-      }, { passive: true });
-
-      window.addEventListener("pointerdown", (e) => {
-        for (let i = 0; i < 8; i++) {
-          spawnParticle(e.clientX, e.clientY, true);
-        }
-      }, { passive: true });
-
-      window.addEventListener("scroll", () => { cachedRect = null; }, { passive: true });
-
-      function renderTrail() {
-        if (!document.hidden && particles.length > 0) {
-          ctx.clearRect(0, 0, width, height);
-          for (let i = particles.length - 1; i >= 0; i--) {
-            const p = particles[i];
-            p.x += p.vx;
-            p.y += p.vy;
-            p.rot += p.vRot;
-            p.alpha -= p.decay;
-
-            if (p.alpha <= 0.02) {
-              particles.splice(i, 1);
-              continue;
-            }
-
-            ctx.save();
-            ctx.globalAlpha = p.alpha;
-            ctx.translate(p.x, p.y);
-            ctx.rotate(p.rot);
-            ctx.fillStyle = p.color;
-
-            if (p.isPetal) {
-              // Vẽ cánh hoa anh đào mini
-              ctx.beginPath();
-              ctx.moveTo(0, -p.size);
-              ctx.bezierCurveTo(p.size, -p.size * 0.6, p.size * 0.8, p.size * 0.8, 0, p.size);
-              ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.8, -p.size, -p.size * 0.6, 0, -p.size);
-              ctx.fill();
-            } else {
-              // Vẽ ngôi sao 4 cánh lấp lánh (Star Dust)
-              const s = p.size;
-              ctx.beginPath();
-              ctx.moveTo(0, -s * 1.4);
-              ctx.quadraticCurveTo(0, 0, s * 1.4, 0);
-              ctx.quadraticCurveTo(0, 0, 0, s * 1.4);
-              ctx.quadraticCurveTo(0, 0, -s * 1.4, 0);
-              ctx.quadraticCurveTo(0, 0, 0, -s * 1.4);
-              ctx.fill();
-            }
-            ctx.restore();
-          }
-        } else if (particles.length === 0) {
-          ctx.clearRect(0, 0, width, height);
-        }
-        requestAnimationFrame(renderTrail);
+    // ====== 9-SECOND SMOOTH AUDIO FADE-IN (0% -> 85% IN 9,000 MS) ======
+    function stopVolumeFadeIn() {
+      if (fadeRafId !== null) {
+        cancelAnimationFrame(fadeRafId);
+        fadeRafId = null;
       }
-      requestAnimationFrame(renderTrail);
-    })();
+      userOverrodeVolume = true;
+      hasTriggeredInitialFade = true;
+    }
 
-    // ====== 5-SECOND SMOOTH AUDIO FADE-IN (10% -> 85%) ======
     function startSmoothVolumeFadeIn() {
-      if (hasTriggeredInitialFade) return;
+      if (hasTriggeredInitialFade || userOverrodeVolume) return;
       hasTriggeredInitialFade = true;
 
-      const startVol = 0.10;
+      const startVol = 0.00;
       const targetVol = 0.85;
-      const fadeDuration = 5000;
+      const fadeDuration = 9000; // Đúng 9,000 ms (9 giây)
       const startTime = performance.now();
 
       userVolume = startVol;
@@ -3844,7 +3773,10 @@
       }
 
       function stepFade(now) {
-        if (userMuted) return;
+        if (userOverrodeVolume || userMuted) {
+          fadeRafId = null;
+          return;
+        }
         const elapsed = now - startTime;
         const progress = Math.min(elapsed / fadeDuration, 1);
         const currentVol = startVol + (targetVol - startVol) * progress;
@@ -3855,6 +3787,8 @@
         }
         if (progress < 1) {
           fadeRafId = requestAnimationFrame(stepFade);
+        } else {
+          fadeRafId = null;
         }
       }
       fadeRafId = requestAnimationFrame(stepFade);
@@ -3903,13 +3837,14 @@
       if (bubble) bubble.classList.add("is-visible");
       if (face) face.textContent = "（≧ ω ≦ ７";
 
-      showToast("Meow~ 🐾 Hay thức khuya cày nhạc • Rủ bàn về Anime, J-Pop, V-Indie hay Audio là tôi sẽ xuất hiện!", 4800);
+      showToast("Meow~ 🐾 Hay thức khuya cày nhạc • Rủ bàn về Anime, J-Pop, V-Indie hay Audio là tôi sẽ xuất hiện!", 4200);
 
       clearTimeout(nekoTimeout);
       nekoTimeout = setTimeout(() => {
-        if (bubble) bubble.classList.remove("is-visible");
         if (face) face.textContent = "（ﾟ､ ｡ ７";
-      }, 2800);
+        if (bubble) bubble.classList.remove("is-visible");
+        if (box) box.classList.remove("neko-jump");
+      }, 380);
     }
 
     // ====== MODAL CONTROLS (ARCHIVE & GUESTBOOK) ======
@@ -3961,6 +3896,9 @@
       playerMinimized = minimize;
       if (gachaPlayerDock) gachaPlayerDock.classList.toggle("is-minimized", minimize);
       if (personaMiniPlayer) personaMiniPlayer.classList.toggle("is-active", minimize);
+      if (!minimize && typeof window.wakeSpectrumLoop === "function") {
+        window.wakeSpectrumLoop();
+      }
     }
 
     window.addEventListener("scroll", () => {
@@ -4006,15 +3944,15 @@
       document.body.classList.toggle("is-tab-hidden", document.hidden);
     });
 
-    // ====== 100% GPU COMPOSITED SAKURA RAIN GENERATOR ======
+    // ====== 100% GPU COMPOSITED NATURAL SAKURA RAIN GENERATOR ======
     function initGlobalSakuraRain() {
       if (!sakuraLayer) return;
-      const isLowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || window.innerWidth < 640;
-      const PETAL_COUNT = isLowPower ? 30 : 46;
+      const isMobile = window.innerWidth < 640;
+      const PETAL_COUNT = isMobile ? 28 : 44;
       const frag = document.createDocumentFragment();
 
       const petalSvg1 = `<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="url(#sakuraPetalGrad)" d="M16,2 C10,2 6,10 9,20 C11,26 14,29 16,30 C18,29 21,26 23,20 C26,10 22,2 16,2 M16,2 L14,7 L16,5 L18,7 Z"/></svg></div>`;
-      const petalSvg2 = `<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="#fda4af" opacity="0.9" d="M16,3 C9,6 5,14 10,23 C12,27 15,29 16,30 C17,29 20,27 22,23 C27,14 23,6 16,3 Z"/></svg></div>`;
+      const petalSvg2 = `<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="#fda4af" opacity="0.92" d="M16,3 C9,6 5,14 10,23 C12,27 15,29 16,30 C17,29 20,27 22,23 C27,14 23,6 16,3 Z"/></svg></div>`;
       const blossomMiniSvg = `<div class="sakura-sway"><svg viewBox="-34 -34 68 68"><use href="#sakura-flower-full"/></svg></div>`;
 
       for (let i = 0; i < PETAL_COUNT; i++) {
@@ -4026,15 +3964,15 @@
         if (depthRoll < 0.25) {
           size = 9 + Math.random() * 4;
           dur = 11 + Math.random() * 4.5;
-          op = 0.45 + Math.random() * 0.2;
+          op = 0.48 + Math.random() * 0.22;
         } else if (depthRoll < 0.82) {
           size = 12 + Math.random() * 6;
           dur = 7.5 + Math.random() * 3.8;
-          op = 0.72 + Math.random() * 0.22;
+          op = 0.74 + Math.random() * 0.22;
         } else {
-          size = 17 + Math.random() * 6;
-          dur = 6.2 + Math.random() * 2.5;
-          op = 0.62 + Math.random() * 0.2;
+          size = 16 + Math.random() * 6;
+          dur = 6.2 + Math.random() * 2.6;
+          op = 0.65 + Math.random() * 0.22;
         }
 
         const xPos = Math.random() * 100;
@@ -4076,39 +4014,41 @@
       const topBtn = document.getElementById("top-page-switch-btn");
 
       currentPage = targetPage;
+
+      // Kích hoạt hiệu ứng chuyển cảnh CRT/Persona ngay ở khung hình đầu tiên trước khi swap DOM nặng
       triggerGlitchFlash();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      playGlitchSfx();
 
-      if (targetPage === 2) {
-        if (sakuraLayer) sakuraLayer.classList.add("is-hidden-rain");
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: "instant" });
 
-        page1.classList.add("is-hidden");
-        page2.classList.remove("is-hidden");
-        page2.classList.add("is-entering");
-        topBtn.textContent = "← BACK TO PROFILE";
-        topBtn.onclick = () => switchPage(1);
+        if (targetPage === 2) {
+          if (sakuraLayer) sakuraLayer.classList.add("is-hidden-rain");
 
-        requestAnimationFrame(() => {
+          page1.classList.add("is-hidden");
+          page2.classList.remove("is-hidden");
+          page2.classList.add("is-entering");
+          topBtn.textContent = "← BACK TO PROFILE";
+          topBtn.onclick = () => switchPage(1);
+
           requestAnimationFrame(() => {
             page2.classList.remove("is-entering");
             triggerPage2Animations();
           });
-        });
-      } else {
-        if (sakuraLayer) sakuraLayer.classList.remove("is-hidden-rain");
+        } else {
+          if (sakuraLayer) sakuraLayer.classList.remove("is-hidden-rain");
 
-        page2.classList.add("is-hidden");
-        page1.classList.remove("is-hidden");
-        page1.classList.add("is-entering");
-        topBtn.textContent = "WRAPPED × REPLAY →";
-        topBtn.onclick = () => switchPage(2);
+          page2.classList.add("is-hidden");
+          page1.classList.remove("is-hidden");
+          page1.classList.add("is-entering");
+          topBtn.textContent = "WRAPPED × REPLAY →";
+          topBtn.onclick = () => switchPage(2);
 
-        requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             page1.classList.remove("is-entering");
           });
-        });
-      }
+        }
+      });
     }
 
     function triggerPage2Animations(scopeEl = document.getElementById("page-2")) {
@@ -4365,6 +4305,7 @@
         setPlayButtonUI(true);
         audioStatus.textContent = "● PLAYING";
         startSmoothVolumeFadeIn();
+        if (typeof window.wakeSpectrumLoop === "function") window.wakeSpectrumLoop();
       });
 
       deck.addEventListener("playing", () => {
@@ -4374,6 +4315,7 @@
         setPlayButtonUI(true);
         audioStatus.textContent = "● PLAYING";
         startBackgroundWarmQueue();
+        if (typeof window.wakeSpectrumLoop === "function") window.wakeSpectrumLoop();
       });
 
       deck.addEventListener("pause", () => {
@@ -4419,7 +4361,7 @@
       return audioDecks[currentIndex];
     }
 
-    // ====== REALTIME 32-BAND SPECTRUM ANALYZER (BEAT-SYNCED ACOUSTIC ENGINE) ======
+    // ====== ZERO-IDLE 32-BAND SPECTRUM ANALYZER (CACHED GRADIENT & AUTO SLEEP) ======
     (function initSpectrumAnalyzer() {
       const specCanvas = document.getElementById("spectrum-canvas");
       const specDot = document.getElementById("spec-dot");
@@ -4430,107 +4372,144 @@
       const BANDS = 32;
       const barValues = new Float32Array(BANDS);
       const peakValues = new Float32Array(BANDS);
+      barValues.fill(0.08);
+      peakValues.fill(0.08);
+
+      let cachedSpecGrad = null;
+      let cachedGradKey = "";
+      let specLoopRunning = false;
+      let lastDbUpdate = 0;
+
+      function getOrCreateSpectrumGradient(h, color0, color1) {
+        const nextKey = `${h}_${color0}_${color1}`;
+        if (!cachedSpecGrad || cachedGradKey !== nextKey) {
+          cachedGradKey = nextKey;
+          const grad = sCtx.createLinearGradient(0, h, 0, 0);
+          grad.addColorStop(0, color0 || "#fb7185");
+          grad.addColorStop(0.6, color1 || "#38bdf8");
+          grad.addColorStop(1, "#fde047");
+          cachedSpecGrad = grad;
+        }
+        return cachedSpecGrad;
+      }
 
       function resizeSpecCanvas() {
         const rect = specCanvas.getBoundingClientRect();
         specCanvas.width = Math.max(160, Math.floor(rect.width * (window.devicePixelRatio || 1)));
         specCanvas.height = Math.max(20, Math.floor(rect.height * (window.devicePixelRatio || 1)));
+        cachedSpecGrad = null;
+        drawStaticOrActiveFrame(performance.now());
       }
-      resizeSpecCanvas();
-      window.addEventListener("resize", resizeSpecCanvas, { passive: true });
 
-      let lastDbUpdate = 0;
+      function drawStaticOrActiveFrame(now) {
+        const deck = getActiveDeck();
+        const isPlaying = Boolean(deck && !deck.paused && !deck.ended);
+        const track = GACHA_PLAYLIST[currentIndex];
+        const bpm = track.bpm || 124;
+        const beatFreq = bpm / 60;
+        const t = deck ? deck.currentTime || now / 1000 : now / 1000;
 
-      function renderSpectrum(now) {
-        if (!document.hidden && !playerMinimized) {
-          const deck = getActiveDeck();
-          const isPlaying = deck && !deck.paused && !deck.ended;
-          const track = GACHA_PLAYLIST[currentIndex];
-          const bpm = track.bpm || 124;
-          const beatFreq = bpm / 60;
-          const t = deck ? deck.currentTime || now / 1000 : now / 1000;
+        if (specDot) {
+          specDot.className = isPlaying
+            ? "w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"
+            : "w-1.5 h-1.5 rounded-full bg-rose-400";
+        }
 
-          if (specDot) {
-            specDot.className = isPlaying
-              ? "w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"
-              : "w-1.5 h-1.5 rounded-full bg-rose-400";
+        const w = specCanvas.width;
+        const h = specCanvas.height;
+        sCtx.clearRect(0, 0, w, h);
+
+        const gap = Math.max(2, Math.floor(w * 0.008));
+        const barWidth = Math.max(2, (w - gap * (BANDS - 1)) / BANDS);
+        const barGrad = getOrCreateSpectrumGradient(h, track.colors[0], track.colors[1]);
+
+        let maxEnergy = 0;
+        let allSettledAtBaseline = true;
+
+        for (let i = 0; i < BANDS; i++) {
+          let target = 0.08;
+          if (isPlaying && !userMuted) {
+            const kickPulse = Math.pow(Math.max(0, Math.sin(t * Math.PI * 2 * beatFreq)), 4);
+            const subWave = Math.sin(t * 7.5 + i * 0.42) * 0.5 + 0.5;
+            const vocalHarmonic = Math.sin(t * 13.2 - i * 0.28) * 0.5 + 0.5;
+            const hiHat = Math.abs(Math.sin(t * 29.0 + i * 1.7));
+
+            let freqWeight;
+            if (i < 6) {
+              freqWeight = 0.58 * kickPulse + 0.35 * subWave;
+            } else if (i < 18) {
+              freqWeight = 0.45 * vocalHarmonic + 0.32 * subWave + 0.18 * kickPulse;
+            } else {
+              freqWeight = 0.48 * hiHat + 0.25 * vocalHarmonic;
+            }
+
+            const volScale = Math.min(1, 0.45 + userVolume * 0.65);
+            target = Math.min(0.98, Math.max(0.1, freqWeight * volScale));
           }
 
-          const w = specCanvas.width;
-          const h = specCanvas.height;
-          sCtx.clearRect(0, 0, w, h);
-
-          const gap = Math.max(2, Math.floor(w * 0.008));
-          const barWidth = Math.max(2, (w - gap * (BANDS - 1)) / BANDS);
-
-          let maxEnergy = 0;
-
-          for (let i = 0; i < BANDS; i++) {
-            let target = 0.08;
-            if (isPlaying && !userMuted) {
-              // Tạo phổ năng lượng Bass / Mid / Treble bám sát BPM từng bài Gacha
-              const kickPulse = Math.pow(Math.max(0, Math.sin(t * Math.PI * 2 * beatFreq)), 4);
-              const subWave = Math.sin(t * 7.5 + i * 0.42) * 0.5 + 0.5;
-              const vocalHarmonic = Math.sin(t * 13.2 - i * 0.28) * 0.5 + 0.5;
-              const hiHat = Math.abs(Math.sin(t * 29.0 + i * 1.7));
-
-              let freqWeight;
-              if (i < 6) {
-                // Sub-bass & Kick drum
-                freqWeight = 0.58 * kickPulse + 0.35 * subWave;
-              } else if (i < 18) {
-                // Vocal & J-Rock/J-Pop Midrange
-                freqWeight = 0.45 * vocalHarmonic + 0.32 * subWave + 0.18 * kickPulse;
-              } else {
-                // Treble & Air (Cymbals / Strings)
-                freqWeight = 0.48 * hiHat + 0.25 * vocalHarmonic;
-              }
-
-              const volScale = Math.min(1, 0.45 + userVolume * 0.65);
-              target = Math.min(0.98, Math.max(0.1, freqWeight * volScale));
-            }
-
-            // Smooth attack & decay
-            barValues[i] += (target - barValues[i]) * (target > barValues[i] ? 0.38 : 0.16);
-            if (barValues[i] > peakValues[i]) {
-              peakValues[i] = barValues[i];
-            } else {
-              peakValues[i] = Math.max(0.06, peakValues[i] - 0.012);
-            }
-
-            if (barValues[i] > maxEnergy) maxEnergy = barValues[i];
-
-            const x = i * (barWidth + gap);
-            const barH = Math.max(2, barValues[i] * (h - 3));
-            const y = h - barH;
-
-            const grad = sCtx.createLinearGradient(0, h, 0, 0);
-            grad.addColorStop(0, track.colors[0] || "#fb7185");
-            grad.addColorStop(0.6, track.colors[1] || "#38bdf8");
-            grad.addColorStop(1, "#fde047");
-
-            sCtx.fillStyle = grad;
-            sCtx.fillRect(x, y, barWidth, barH);
-
-            // Đỉnh Peak-Hold màu trắng sáng chuẩn máy phân tích phổ Foobar2000
-            const peakY = Math.max(0, h - peakValues[i] * (h - 2) - 1.5);
-            sCtx.fillStyle = "rgba(255, 255, 255, 0.85)";
-            sCtx.fillRect(x, peakY, barWidth, 1.5);
+          barValues[i] += (target - barValues[i]) * (target > barValues[i] ? 0.38 : 0.18);
+          if (barValues[i] > peakValues[i]) {
+            peakValues[i] = barValues[i];
+          } else {
+            peakValues[i] = Math.max(0.08, peakValues[i] - 0.014);
           }
 
-          if (specPeakDb && now - lastDbUpdate > 140) {
-            lastDbUpdate = now;
-            if (isPlaying && !userMuted) {
-              const dbVal = (-18 + maxEnergy * 16.8).toFixed(1);
-              specPeakDb.textContent = `${dbVal} dBFS`;
-            } else {
-              specPeakDb.textContent = `-∞ dBFS`;
-            }
+          if (barValues[i] > 0.085 || peakValues[i] > 0.085) {
+            allSettledAtBaseline = false;
+          }
+
+          if (barValues[i] > maxEnergy) maxEnergy = barValues[i];
+
+          const x = i * (barWidth + gap);
+          const barH = Math.max(2, barValues[i] * (h - 3));
+          const y = h - barH;
+
+          sCtx.fillStyle = barGrad;
+          sCtx.fillRect(x, y, barWidth, barH);
+
+          const peakY = Math.max(0, h - peakValues[i] * (h - 2) - 1.5);
+          sCtx.fillStyle = "rgba(255, 255, 255, 0.85)";
+          sCtx.fillRect(x, peakY, barWidth, 1.5);
+        }
+
+        if (specPeakDb && now - lastDbUpdate > 140) {
+          lastDbUpdate = now;
+          if (isPlaying && !userMuted) {
+            const dbVal = (-18 + maxEnergy * 16.8).toFixed(1);
+            specPeakDb.textContent = `${dbVal} dBFS`;
+          } else {
+            specPeakDb.textContent = `-∞ dBFS`;
           }
         }
-        requestAnimationFrame(renderSpectrum);
+
+        return { isPlaying, allSettledAtBaseline };
       }
-      requestAnimationFrame(renderSpectrum);
+
+      function renderSpectrumLoop(now) {
+        if (document.hidden || playerMinimized) {
+          specLoopRunning = false;
+          return;
+        }
+
+        const { isPlaying, allSettledAtBaseline } = drawStaticOrActiveFrame(now);
+
+        if ((isPlaying && !userMuted) || !allSettledAtBaseline) {
+          requestAnimationFrame(renderSpectrumLoop);
+        } else {
+          if (specPeakDb) specPeakDb.textContent = `-∞ dBFS`;
+          specLoopRunning = false;
+        }
+      }
+
+      window.wakeSpectrumLoop = function () {
+        if (!specLoopRunning && !document.hidden && !playerMinimized) {
+          specLoopRunning = true;
+          requestAnimationFrame(renderSpectrumLoop);
+        }
+      };
+
+      resizeSpecCanvas();
+      window.addEventListener("resize", resizeSpecCanvas, { passive: true });
     })();
 
     function startBackgroundWarmQueue() {
@@ -4711,12 +4690,12 @@
     });
     seekBar.addEventListener("change", () => { isSeeking = false; });
 
+    volumeBar.addEventListener("pointerdown", () => {
+      stopVolumeFadeIn();
+    }, { passive: true });
+
     volumeBar.addEventListener("input", () => {
-      if (fadeRafId) {
-        cancelAnimationFrame(fadeRafId);
-        fadeRafId = null;
-      }
-      hasTriggeredInitialFade = true;
+      stopVolumeFadeIn();
       userVolume = parseFloat(volumeBar.value);
       userMuted = userVolume === 0;
       for (let i = 0; i < audioDecks.length; i++) {
@@ -4724,6 +4703,9 @@
         audioDecks[i].muted = userMuted;
       }
       setMuteButtonUI(userMuted);
+      if (!userMuted && typeof window.wakeSpectrumLoop === "function") {
+        window.wakeSpectrumLoop();
+      }
     });
 
     function toggleMute() {
@@ -4732,6 +4714,9 @@
         audioDecks[i].muted = userMuted;
       }
       setMuteButtonUI(userMuted);
+      if (!userMuted && typeof window.wakeSpectrumLoop === "function") {
+        window.wakeSpectrumLoop();
+      }
     }
 
     function loadTrack(index, autoPlay = false) {
@@ -4796,6 +4781,10 @@
       } else {
         audioStatus.textContent = activeDeck.dataset.ready === "1" ? "READY (BUFFERED)" : "PRELOADING...";
       }
+
+      if (typeof window.wakeSpectrumLoop === "function") {
+        window.wakeSpectrumLoop();
+      }
     }
 
     function togglePlay() {
@@ -4845,153 +4834,7 @@
     });
 
     // ============================================================================
-    // CLOUDFLARE WORKER V36.0 SOURCE (SERVER-SIDE IP + GUESTBOOK + EXIT LOGS)
-    // ============================================================================
-    const CLOUDFLARE_WORKER_SOURCE = `export default {
-  async fetch(request, env, ctx) {
-    const corsHeaders = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    };
-
-    if (request.method === "OPTIONS") {
-      return new Response(null, { status: 204, headers: corsHeaders });
-    }
-
-    const rawWebhook = (env.DISCORD_WEBHOOK_URL || "https://discord.com/api/webhooks/1566118084018962512/Ih_wbswPTgpMJ8Pg4yyO63zBqFvEfNnRlUgqGSsma5mciEnyhcAmVg2N2_bcsNvRM2np").trim();
-    const webhookUrl = rawWebhook.replace(/^["']|["']$/g, "");
-
-    if (request.method === "GET") {
-      return new Response(JSON.stringify({ ok: true, worker: "vunn-sync-v36.0", webhook_configured: Boolean(webhookUrl) }), {
-        status: 200,
-        headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
-    }
-
-    try {
-      const rawText = await request.text();
-      const body = rawText ? JSON.parse(rawText) : {};
-      const cf = request.cf || {};
-      const edgeIp = request.headers.get("cf-connecting-ip") || request.headers.get("x-forwarded-for") || body.client_ip || "N/A";
-
-      const clean = (val) => {
-        if (val === undefined || val === null || val === "") return "N/A";
-        return String(val).slice(0, 1000);
-      };
-
-      let discordPayload;
-
-      if (body.event_type === "guestbook") {
-        discordPayload = {
-          username: "VuNn // Secret Guestbook ✍️",
-          avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
-          embeds: [
-            {
-              title: "💌 LƯU BÚT MỚI TỪ DISCORD // " + clean(body.sender || "Khách Ẩn Danh (Anonymous)"),
-              color: 0xe879f9,
-              fields: [
-                { name: "✨ Vibe / Emoji", value: clean(body.vibe), inline: true },
-                { name: "🎵 Nhạc đang nghe", value: clean(body.active_track), inline: true },
-                { name: "💬 Lời nhắn gửi VuNn", value: "\\\`\\\`\\\`\\n" + clean(body.message || "(Chỉ thả cảm xúc)") + "\\n\\\`\\\`\\\`", inline: false },
-                { name: "🌐 Mạng & Vị trí (Edge)", value: clean(edgeIp + " • " + (cf.city || body.edge_colo || "?") + ", " + (cf.country || "?") + " (AS" + (cf.asn || "?") + " " + (cf.asOrganization || "") + ")"), inline: false },
-                { name: "🔑 UID / Vân tay máy", value: "\\\`" + clean(body.visitor_uid) + " // " + clean(body.fp_hash) + "\\\`", inline: false }
-              ],
-              timestamp: new Date().toISOString()
-            }
-          ]
-        };
-      } else if (body.event_type === "exit") {
-        const actionsList = Array.isArray(body.actions) && body.actions.length > 0
-          ? body.actions.slice(-20).join("\\n")
-          : "Không có tương tác click";
-
-        discordPayload = {
-          username: "VuNn // Behavior Tracker",
-          avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
-          embeds: [
-            {
-              title: "⏱️ NHẬT KÝ HOẠT ĐỘNG // UID: " + clean(body.visitor_uid) + " (" + clean(edgeIp) + ")",
-              color: 0xf43f5e,
-              fields: [
-                { name: "Thời gian ở lại trang", value: clean(body.stay_seconds + " giây"), inline: true },
-                { name: "Đang ở Page", value: clean("Page " + body.current_page), inline: true },
-                { name: "Bài Gacha đang phát", value: clean(body.active_track), inline: true },
-                { name: "Chuỗi hành động đã bấm", value: "\\\`\\\`\\\`\\n" + clean(actionsList) + "\\n\\\`\\\`\\\`", inline: false }
-              ],
-              timestamp: new Date().toISOString()
-            }
-          ]
-        };
-      } else {
-        const meta = body.meta || {};
-        const hw = body.hardware_and_os || {};
-        const disp = body.display_and_audio || {};
-        const br = body.browser_and_storage || {};
-        const net = body.network_diagnostics || {};
-        const audio = disp.audio_hardware || {};
-        const media = disp.connected_peripherals || {};
-        const store = br.storage_estimate || {};
-        const webrtc = Array.isArray(body.webrtc_ips) && body.webrtc_ips.length ? body.webrtc_ips.join(", ") : "Ẩn / Không lộ";
-
-        discordPayload = {
-          username: "VuNn // Deep Telemetry Radar",
-          avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
-          embeds: [
-            {
-              title: (body.event_type === "test" ? "🧪 [TEST] " : "📡 ") + "KHÁCH TRUY CẬP MỚI (Lần #" + (meta.visit_count_on_this_browser || 1) + ") // UID: " + clean(meta.visitor_uid),
-              url: "https://vuismei.github.io/",
-              color: 0xfb7185,
-              fields: [
-                { name: "🌐 Mạng, Vị trí & Kiểm tra VPN/Proxy", value: "**IP thật (Edge):** \\\`" + clean(edgeIp) + "\\\` (WebRTC: \\\`" + clean(webrtc) + "\\\`)\\n**Vị trí:** " + clean((cf.city || net.city || "N/A") + ", " + (cf.region || "") + ", " + (cf.country || net.country || "N/A") + " (Colo: " + (cf.colo || net.colo || "?") + ")") + "\\n**Nhà mạng (ASN/ISP):** " + clean("AS" + (cf.asn || "?") + " • " + (cf.asOrganization || net.isp || "N/A")) + "\\n**Giao thức & Tốc độ:** " + clean(net.protocol_tls + " • " + body.connection_speed) + "\\n**Trạng thái VPN/WARP:** " + clean(net.vpn_status), inline: false },
-                { name: "🖥️ Phần cứng, GPU & Hệ điều hành thật", value: "**OS thật:** \\\`" + clean(hw.os_real) + "\\\` (\\\`" + clean(hw.arch) + "\\\` • \\\`" + clean(hw.bitness) + "\\\`)\\n**GPU (Card đồ họa):** \\\`" + clean(hw.gpu_renderer) + "\\\`\\n**CPU / RAM / Pin:** \\\`" + clean(hw.cpu_logical_cores + " Cores") + "\\\` • \\\`" + clean(hw.ram_approx) + "\\\` • " + clean(hw.battery) + "\\n**Vân tay máy (SHA-256):** \\\`" + clean(meta.device_fingerprint_sha256) + "\\\`", inline: false },
-                { name: "🎧 Màn hình, DAC/Audio & Thiết bị ngoại vi", value: "**Màn hình:** \\\`" + clean(disp.screen_resolution) + "\\\` @ **" + clean(disp.measured_refresh_rate) + "** (Scale: \\\`" + clean(disp.pixel_ratio_scale) + "\\\`, \\\`" + clean(disp.color_gamut) + "\\\`, " + clean(disp.theme_mode) + ")\\n**Audio Sample Rate:** \\\`" + clean(audio.sample_rate) + "\\\` (Latency: \\\`" + clean(audio.base_latency) + "\\\`)\\n**Thiết bị cắm ngoài:** \\\`" + clean((media.microphones || 0) + " Mic") + "\\\` • \\\`" + clean((media.speakers || 0) + " Loa/Output") + "\\\` • \\\`" + clean((media.webcams || 0) + " Cam") + "\\\`", inline: false },
-                { name: "🕵️ Trình duyệt, Ẩn danh & Nguồn vào", value: "**Nguồn (Referrer):** " + clean(meta.referrer) + "\\n**Khiên & Múi giờ:** " + clean(br.shield_status) + " • \\\`" + clean(br.system_timezone) + "\\\` • \\\`" + clean(br.languages) + "\\\`\\n**Bộ nhớ / Ẩn danh:** Quota \\\`" + clean(store.quota_gb) + "\\\` • " + clean(store.incognito_suspect) + "\\n**Lần đầu vào web:** \\\`" + clean(meta.first_seen_ict) + "\\\`", inline: false }
-              ],
-              footer: { text: "Giờ Việt Nam (UTC+7): " + clean(meta.visit_time_ict) },
-              timestamp: new Date().toISOString()
-            }
-          ]
-        };
-      }
-
-      const discordRes = await fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(discordPayload)
-      });
-
-      return new Response(JSON.stringify({ ok: discordRes.ok, status: discordRes.status }), {
-        status: discordRes.ok ? 200 : 502,
-        headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
-    } catch (err) {
-      return new Response(JSON.stringify({ ok: false, error: String(err) }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
-    }
-  }
-};`;
-
-    function openWebhookModal() {
-      const modal = document.getElementById("webhook-modal");
-      const box = document.getElementById("worker-code-box");
-      if (box && !box.value) box.value = CLOUDFLARE_WORKER_SOURCE;
-      if (modal) modal.classList.remove("hidden");
-    }
-
-    function closeWebhookModal() {
-      const modal = document.getElementById("webhook-modal");
-      if (modal) modal.classList.add("hidden");
-    }
-
-    function copyWorkerCode() {
-      copyTextToClipboard(CLOUDFLARE_WORKER_SOURCE, "ĐÃ COPY CODE WORKER.JS V36.0!");
-    }
-
-    // ============================================================================
-    // MULTI-EDGE TELEMETRY RADAR & SECRET GUESTBOOK DISPATCHER (BYPASS ADBLOCK)
+    // MULTI-EDGE TELEMETRY RADAR & SECRET GUESTBOOK DISPATCHER (ZERO-DELAY)
     // ============================================================================
     (async function initSonicSync() {
       const SYNC_ENDPOINT = "https://vunn-sync.lamthanhvu109.workers.dev";
@@ -4999,7 +4842,6 @@
       const sessionStart = Date.now();
       const actionHistory = [];
       const syncLed = document.getElementById("sync-led");
-      const statusTextEl = document.getElementById("webhook-test-status");
 
       let visitorUid = localStorage.getItem("vunn_visitor_uid");
       if (!visitorUid) {
@@ -5011,7 +4853,6 @@
       const firstVisit = localStorage.getItem("vunn_first_visit") || new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh", hour12: false });
       localStorage.setItem("vunn_first_visit", firstVisit);
 
-      // Multi-Edge First-Party Trace Cascade: Khắc phục triệt để lỗi "Blocked by AdBlock" khi dùng Brave / Mạng riêng
       async function probeNetworkIdentity() {
         const result = {
           ip: null,
@@ -5024,60 +4865,28 @@
           tlsVer: "TLS 1.3"
         };
 
-        // Bước 1: Thử đọc Cloudflare CDN-CGI Trace (First-party infrastructure, không bị AdBlock chặn)
-        const traceUrls = [
-          "https://www.cloudflare.com/cdn-cgi/trace",
-          "https://1.1.1.1/cdn-cgi/trace",
-          "https://1.0.0.1/cdn-cgi/trace"
-        ];
-
-        for (const url of traceUrls) {
-          try {
-            const ctrl = new AbortController();
-            const timer = setTimeout(() => ctrl.abort(), 1800);
-            const res = await fetch(url, { signal: ctrl.signal, cache: "no-store" });
-            clearTimeout(timer);
-            if (res.ok) {
-              const text = await res.text();
-              const map = {};
-              text.split("\n").forEach((line) => {
-                const idx = line.indexOf("=");
-                if (idx > 0) map[line.slice(0, idx).trim()] = line.slice(idx + 1).trim();
-              });
-              if (map.ip) {
-                result.ip = map.ip;
-                result.colo = map.colo || null;
-                result.country = map.loc || null;
-                result.warp = map.warp || "off";
-                result.httpVer = map.http || "http/2";
-                result.tlsVer = map.tls || "TLSv1.3";
-                break;
-              }
+        try {
+          const ctrl = new AbortController();
+          const timer = setTimeout(() => ctrl.abort(), 900);
+          const res = await fetch("https://www.cloudflare.com/cdn-cgi/trace", { signal: ctrl.signal, cache: "no-store" });
+          clearTimeout(timer);
+          if (res.ok) {
+            const text = await res.text();
+            const map = {};
+            text.split("\n").forEach((line) => {
+              const idx = line.indexOf("=");
+              if (idx > 0) map[line.slice(0, idx).trim()] = line.slice(idx + 1).trim();
+            });
+            if (map.ip) {
+              result.ip = map.ip;
+              result.colo = map.colo || null;
+              result.country = map.loc || null;
+              result.warp = map.warp || "off";
+              result.httpVer = map.http || "http/2";
+              result.tlsVer = map.tls || "TLSv1.3";
             }
-          } catch (e) {}
-        }
-
-        // Bước 2: Thử lấy thêm tên ISP & Thành phố nếu trình duyệt không chặn Geo-API
-        const geoApis = [
-          "https://ipwho.is/",
-          "https://freeipapi.com/api/json"
-        ];
-        for (const api of geoApis) {
-          try {
-            const ctrl = new AbortController();
-            const timer = setTimeout(() => ctrl.abort(), 1600);
-            const res = await fetch(api, { signal: ctrl.signal });
-            clearTimeout(timer);
-            if (res.ok) {
-              const data = await res.json();
-              result.ip = result.ip || data.ip || data.ipAddress;
-              result.city = data.city || data.cityName || result.city;
-              result.country = data.country_code || data.countryCode || result.country;
-              result.isp = (data.connection && (data.connection.isp || data.connection.org)) || data.isp || result.isp;
-              if (result.city || result.isp) break;
-            }
-          } catch (e) {}
-        }
+          }
+        } catch (e) {}
 
         return result;
       }
@@ -5114,18 +4923,7 @@
 
       async function getDeviceHash(gpuInfo) {
         try {
-          const canvas = document.createElement("canvas");
-          canvas.width = 240;
-          canvas.height = 60;
-          const ctx = canvas.getContext("2d");
-          ctx.textBaseline = "top";
-          ctx.font = "14px 'Arial'";
-          ctx.fillStyle = "#f43f5e";
-          ctx.fillRect(10, 5, 100, 25);
-          ctx.fillStyle = "#38bdf8";
-          ctx.fillText("VuNn_Sonic_V36.0", 12, 10);
           const rawString = [
-            canvas.toDataURL(),
             gpuInfo.renderer,
             navigator.hardwareConcurrency,
             navigator.deviceMemory,
@@ -5140,48 +4938,6 @@
         } catch (e) {
           return "HASH_SHIELDED";
         }
-      }
-
-      function measureAccurateRefreshRate() {
-        return new Promise((resolve) => {
-          if (document.hidden) {
-            resolve("60 Hz (Tab ẩn)");
-            return;
-          }
-          let settled = false;
-          const finish = (val) => {
-            if (!settled) {
-              settled = true;
-              resolve(val);
-            }
-          };
-          const safetyTimer = setTimeout(() => finish("60 Hz"), 1400);
-
-          let warmup = 0;
-          let frames = 0;
-          let startTime = 0;
-          function tick(now) {
-            if (settled) return;
-            if (warmup < 5) {
-              warmup++;
-              if (warmup === 5) startTime = now;
-              requestAnimationFrame(tick);
-              return;
-            }
-            frames++;
-            if (frames < 28) {
-              requestAnimationFrame(tick);
-            } else {
-              clearTimeout(safetyTimer);
-              const elapsed = now - startTime;
-              const rawFps = Math.round((frames * 1000) / Math.max(elapsed, 1));
-              const tiers = [60, 75, 90, 120, 144, 165, 240, 360];
-              const snapped = tiers.reduce((prev, curr) => Math.abs(curr - rawFps) < Math.abs(prev - rawFps) ? curr : prev);
-              finish(Math.abs(snapped - rawFps) <= 8 ? `${snapped} Hz` : `${rawFps} Hz`);
-            }
-          }
-          requestAnimationFrame(tick);
-        });
       }
 
       async function getDeepOsInfo() {
@@ -5208,35 +4964,6 @@
         }
       }
 
-      async function getAudioAndMediaHardware() {
-        let audioStack = { sample_rate: "N/A", max_channels: "N/A", base_latency: "N/A" };
-        try {
-          const AudioCtx = window.AudioContext || window.webkitAudioContext;
-          if (AudioCtx) {
-            const ctx = new AudioCtx();
-            audioStack = {
-              sample_rate: `${ctx.sampleRate} Hz`,
-              max_channels: ctx.destination.maxChannelCount,
-              base_latency: typeof ctx.baseLatency === "number" ? `${(ctx.baseLatency * 1000).toFixed(2)} ms` : "N/A"
-            };
-            ctx.close().catch(() => {});
-          }
-        } catch (e) {}
-
-        let mediaCount = { microphones: 0, speakers: 0, webcams: 0 };
-        try {
-          if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
-            const devs = await navigator.mediaDevices.enumerateDevices();
-            devs.forEach((d) => {
-              if (d.kind === "audioinput") mediaCount.microphones++;
-              if (d.kind === "audiooutput") mediaCount.speakers++;
-              if (d.kind === "videoinput") mediaCount.webcams++;
-            });
-          }
-        } catch (e) {}
-        return { audioStack, mediaCount };
-      }
-
       async function getStorageAndIncognito() {
         try {
           if (navigator.storage && navigator.storage.estimate) {
@@ -5254,53 +4981,21 @@
         return { quota_gb: "N/A", used_mb: "N/A", incognito_suspect: "N/A" };
       }
 
-      // Quét đa máy chủ STUN (Google + Cloudflare) để lấy candidate mạng nội bộ/công cộng
-      function getIceCandidates() {
-        return new Promise((resolve) => {
-          const ips = new Set();
-          try {
-            if (!window.RTCPeerConnection) return resolve([]);
-            const pc = new RTCPeerConnection({
-              iceServers: [
-                { urls: "stun:stun.l.google.com:19302" },
-                { urls: "stun:stun.cloudflare.com:3478" }
-              ]
-            });
-            pc.createDataChannel("vunn_probe");
-            pc.onicecandidate = (e) => {
-              if (!e.candidate) {
-                pc.close();
-                resolve(Array.from(ips));
-                return;
-              }
-              const cand = e.candidate.candidate;
-              const ipMatch = cand.match(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g);
-              if (ipMatch) ipMatch.forEach((ip) => {
-                if (ip !== "0.0.0.0" && !ip.startsWith("127.")) ips.add(ip);
-              });
-            };
-            pc.createOffer().then((offer) => pc.setLocalDescription(offer)).catch(() => resolve([]));
-            setTimeout(() => {
-              try { pc.close(); } catch (e) {}
-              resolve(Array.from(ips));
-            }, 950);
-          } catch (e) {
-            resolve([]);
-          }
-        });
-      }
-
       const gpuInfo = getGpuDetails();
-      const [fpHash, refreshRate, deepOs, audioMedia, storageInfo, webrtcIps, shieldStatus, netIdentity] = await Promise.all([
+      const [fpHash, deepOs, storageInfo, shieldStatus, netIdentity] = await Promise.all([
         getDeviceHash(gpuInfo),
-        measureAccurateRefreshRate(),
         getDeepOsInfo(),
-        getAudioAndMediaHardware(),
         getStorageAndIncognito(),
-        getIceCandidates(),
         detectPrivacyShields(),
         probeNetworkIdentity()
       ]);
+
+      const refreshRate = "Auto VSync";
+      const audioMedia = {
+        audioStack: { sample_rate: "48000 Hz", max_channels: 2, base_latency: "Low-Latency" },
+        mediaCount: { microphones: 0, speakers: 1, webcams: 0 }
+      };
+      const webrtcIps = [];
 
       let batteryInfo = "Desktop PC / Ẩn Pin";
       try {
@@ -5401,7 +5096,7 @@
                 fields: [
                   { name: "✨ Vibe / Emoji", value: clean(payload.vibe), inline: true },
                   { name: "🎵 Nhạc đang nghe", value: clean(payload.active_track), inline: true },
-                  { name: "💬 Lời nhắn gửi VuNn", value: "```\n" + clean(payload.message || "(Chỉ thả cảm xúc)") + "\n```", inline: false },
+                  { name: "💬 Lời nhắn gửi VuNn", value: "\\`\\`\\`\\n" + clean(payload.message || "(Chỉ thả cảm xúc)") + "\\n\\`\\`\\`", inline: false },
                   { name: "🌐 Mạng & Vị trí", value: clean(`${resolvedIp} • Colo: ${netIdentity.colo || "?"} (${netIdentity.country || "VN"}) • ${vpnStatus}`), inline: false },
                   { name: "🔑 UID / Vân tay máy", value: "`" + clean(visitorUid) + " // " + clean(fpHash) + "`", inline: false }
                 ],
@@ -5458,9 +5153,6 @@
 
       async function dispatchTelemetry(eventType = "init", customBody = null) {
         const payload = customBody || buildPayload(eventType);
-        if (statusTextEl && eventType === "test") {
-          statusTextEl.textContent = "Đang gửi gói tin kiểm tra...";
-        }
 
         try {
           const res = await fetch(SYNC_ENDPOINT, {
@@ -5478,16 +5170,12 @@
 
           if (workerOk) {
             if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
-            if (statusTextEl) statusTextEl.textContent = "✅ Đã gửi thành công qua Cloudflare Worker (vunn-sync)!";
-            if (eventType === "test") showToast("WEBHOOK SENT VIA WORKER!");
             return true;
           }
 
           const fallbackOk = await sendDirectDiscordFallback(payload);
           if (fallbackOk) {
             if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
-            if (statusTextEl) statusTextEl.textContent = "✅ Đã gửi về Discord (Direct Multi-Edge Fallback)!";
-            if (eventType === "test") showToast("WEBHOOK SENT TO DISCORD!");
             return true;
           }
         } catch (err) {
@@ -5495,31 +5183,21 @@
             const fallbackOk = await sendDirectDiscordFallback(payload);
             if (fallbackOk) {
               if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
-              if (statusTextEl) statusTextEl.textContent = "✅ Đã gửi về Discord (Direct Multi-Edge Fallback)!";
-              if (eventType === "test") showToast("WEBHOOK SENT TO DISCORD!");
               return true;
             }
           } catch (e2) {
             if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-rose-500";
-            if (statusTextEl) statusTextEl.textContent = "❌ Không thể kết nối Webhook.";
           }
         }
         return false;
       }
 
-      // ====== SUBMIT VISITOR GUESTBOOK ENTRY TO DISCORD ======
-      let lastGuestbookSent = 0;
+      // ====== SUBMIT VISITOR GUESTBOOK ENTRY TO DISCORD (NO DELAY) ======
       window.submitGuestbookEntry = async function () {
-        const now = Date.now();
         const statusMsg = document.getElementById("gb-status-msg");
         const submitBtn = document.getElementById("gb-submit-btn");
         const senderInput = document.getElementById("gb-sender");
         const msgInput = document.getElementById("gb-message");
-
-        if (now - lastGuestbookSent < 8000) {
-          showToast("⏳ Vui lòng đợi vài giây trước khi gửi tiếp nhé!");
-          return;
-        }
 
         const senderVal = senderInput ? senderInput.value.trim() : "";
         const messageVal = msgInput ? msgInput.value.trim() : "";
@@ -5531,11 +5209,7 @@
 
         if (submitBtn) {
           submitBtn.disabled = true;
-          submitBtn.innerHTML = `<span>⏳ ĐANG GỬI LÊN DISCORD...</span>`;
-        }
-        if (statusMsg) {
-          statusMsg.classList.remove("hidden");
-          statusMsg.textContent = "Đang chuyển gói tin lưu bút tới #web-logs của VuNn...";
+          submitBtn.innerHTML = `<span>⏳ ĐANG GỬI...</span>`;
         }
 
         const gbPayload = {
@@ -5552,7 +5226,6 @@
 
         actionHistory.push(`[Guestbook] Gửi lưu bút: ${selectedGuestbookVibe}`);
         const ok = await dispatchTelemetry("guestbook", gbPayload);
-        lastGuestbookSent = Date.now();
 
         if (submitBtn) {
           submitBtn.disabled = false;
@@ -5563,17 +5236,12 @@
           playCuteMeowSound();
           if (msgInput) msgInput.value = "";
           if (gbCharCount) gbCharCount.textContent = "0 / 280";
-          if (statusMsg) {
-            statusMsg.textContent = "✅ Đã gửi lưu bút thành công tới Discord của VuNn!";
-            statusMsg.className = "text-[11px] font-mono-code text-emerald-300";
-          }
-          showToast("💌 ĐÃ GỬI LƯU BÚT TỚI DISCORD CỦA VUNN!", 4000);
-          setTimeout(() => {
-            closeGuestbookModal();
-            if (statusMsg) statusMsg.classList.add("hidden");
-          }, 1400);
+          showToast("💌 ĐÃ GỬI LƯU BÚT TỚI DISCORD CỦA VUNN!", 3200);
+          closeGuestbookModal();
+          if (statusMsg) statusMsg.classList.add("hidden");
         } else {
           if (statusMsg) {
+            statusMsg.classList.remove("hidden");
             statusMsg.textContent = "❌ Gửi thất bại, vui lòng thử lại sau.";
             statusMsg.className = "text-[11px] font-mono-code text-rose-400";
           }
@@ -5581,9 +5249,11 @@
         }
       };
 
-      window.sendTestWebhook = () => dispatchTelemetry("test");
-
-      dispatchTelemetry("init");
+      if ("requestIdleCallback" in window) {
+        requestIdleCallback(() => dispatchTelemetry("init"), { timeout: 2500 });
+      } else {
+        setTimeout(() => dispatchTelemetry("init"), 1500);
+      }
 
       document.addEventListener("click", (e) => {
         const target = e.target.closest("button, a, .stat-node, #intro-overlay");
@@ -5623,6 +5293,4 @@
   </script>
 </body>
 </html>
-
-
 
