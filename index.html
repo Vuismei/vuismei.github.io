@@ -67,6 +67,31 @@
       animation-play-state: paused !important;
     }
 
+
+    /* ========== SILENT AUTO ECO-MODE & WEAK DEVICE OPTIMIZATIONS ========== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .apple-art-layer, .mesh-blob { display: none !important; }
+      #sakura-global-layer { display: none !important; }
+    }
+
+    body.on-page-2 .apple-art-layer,
+    body.on-page-2 .mesh-blob {
+      animation-play-state: paused !important;
+    }
+
+    body.eco-mode .apple-art-layer { animation-duration: 52s !important; }
+    body.eco-mode .mesh-blob { animation-duration: 26s !important; }
+    body.eco-mode .sakura-leaf { animation-duration: 16s !important; }
+    body.eco-mode .sakura-sway { animation-play-state: paused !important; }
+    body.eco-mode .sakura-leaf svg { animation-play-state: paused !important; }
+    body.eco-mode .avatar-deco-ring .ring-orbit { animation-duration: 64s !important; }
+    body.eco-mode .bar-fill::after { animation-play-state: paused !important; }
+
     /* ========== SILENT AUTO ECO-MODE (GIỮ NGUYÊN ĐỘ SÁNG & HIỆU ỨNG CHÍNH) ========== */
     body.eco-mode #page-2 .wrapped-section {
       content-visibility: auto;
@@ -253,23 +278,23 @@
     }
 
     body.is-persona-shifting .persona-curtain-dark {
-      animation: personaDarkSlash 0.44s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation: personaDarkSlash 0.72s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
     body.is-persona-shifting .persona-curtain-crimson {
-      animation: personaCrimsonSlash 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.03s both;
+      animation: personaCrimsonSlash 0.72s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
     }
 
     body.is-persona-shifting .persona-speedlines {
-      animation: personaSpeedlinesFlash 0.44s ease both;
+      animation: personaSpeedlinesFlash 0.72s ease both;
     }
 
     body.is-persona-shifting .persona-center-badge {
-      animation: personaBadgePop 0.44s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation: personaBadgePop 0.72s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
     body.is-persona-shifting main:not(.is-hidden) {
-      animation: personaPageEnter 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both;
+      animation: personaPageEnter 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
     }
 
     @keyframes personaDarkSlash {
@@ -301,10 +326,8 @@
     }
 
     @keyframes personaPageEnter {
-      0% { opacity: 0.2; transform: translate3d(0, 18px, 0) scale(0.985); filter: brightness(1.25); }
-      100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: none; }
-    }
-      60% { opacity: 1; transform: translate3d(0, -3px, 0) scale(1.002); filter: brightness(1.05); }
+      0% { opacity: 0.2; transform: translate3d(0, 18px, 0) scale(0.985); filter: brightness(1.15); }
+      60% { opacity: 1; transform: translate3d(0, -2px, 0) scale(1.002); filter: brightness(1.03); }
       100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: none; }
     }
 
@@ -314,7 +337,7 @@
       inset: 0;
       z-index: -3;
       overflow: hidden;
-      background: radial-gradient(circle at 50% 35%, #191229 0%, #0a0d1a 58%, #060810 100%);
+      background: radial-gradient(ellipse 130% 110% at 50% 25%, #0e0c1a 0%, #070914 55%, #030408 100%);
       contain: strict;
       pointer-events: none;
     }
@@ -336,8 +359,8 @@
       height: 86vmax;
       top: -16vmax;
       left: -12vmax;
-      filter: blur(38px) saturate(260%) brightness(1.04);
-      opacity: 0.80;
+      filter: blur(46px) saturate(160%) brightness(0.68);
+      opacity: 0.58;
       transform-origin: 46% 54%;
       animation: orbitClockwise 26s linear infinite;
     }
@@ -347,8 +370,8 @@
       height: 82vmax;
       bottom: -16vmax;
       right: -12vmax;
-      filter: blur(40px) saturate(275%) brightness(1.10);
-      opacity: 0.74;
+      filter: blur(48px) saturate(165%) brightness(0.64);
+      opacity: 0.52;
       transform-origin: 54% 46%;
       animation: orbitCounterClockwise 21s linear infinite;
     }
@@ -358,8 +381,8 @@
       height: 68vmax;
       top: 12vh;
       left: calc(50% - 34vmax);
-      filter: blur(42px) saturate(280%) brightness(1.14);
-      opacity: 0.48;
+      filter: blur(52px) saturate(150%) brightness(0.58);
+      opacity: 0.32;
       animation: pulseCenterArt 15s ease-in-out infinite alternate;
     }
 
@@ -371,7 +394,7 @@
     .mesh-blob {
       position: absolute;
       border-radius: 50%;
-      opacity: 0.78;
+      opacity: 0.42;
       mix-blend-mode: screen;
       will-change: transform;
       backface-visibility: hidden;
@@ -428,8 +451,8 @@
       inset: 0;
       z-index: -2;
       background:
-        radial-gradient(circle at 50% 18%, rgba(251, 113, 133, 0.10) 0%, transparent 55%),
-        radial-gradient(circle at 50% 30%, rgba(10, 12, 24, 0.14) 0%, rgba(6, 8, 16, 0.56) 100%);
+        radial-gradient(ellipse at 50% 18%, rgba(251, 113, 133, 0.04) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 60%, rgba(10, 12, 24, 0.35) 0%, rgba(4, 5, 10, 0.75) 100%);
       pointer-events: none;
       contain: strict;
     }
@@ -590,9 +613,9 @@
       isolation: isolate;
       contain: layout style paint;
       transform: translateZ(0);
-      background: rgba(10, 13, 24, 0.26) !important;
-      backdrop-filter: blur(5px) saturate(145%) !important;
-      -webkit-backdrop-filter: blur(5px) saturate(145%) !important;
+      background: rgba(8, 10, 20, 0.42) !important;
+      backdrop-filter: blur(8px) saturate(125%) !important;
+      -webkit-backdrop-filter: blur(8px) saturate(125%) !important;
       border: 1px solid rgba(255, 255, 255, 0.22);
       box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.24);
     }
@@ -1444,7 +1467,7 @@
   </style>
 </head>
 
-<body class="pb-48 selection:bg-rose-500 selection:text-white hover-expand-enabled">
+<body class="selection:bg-rose-500 selection:text-white hover-expand-enabled">
   <!-- PAGE TRANSITION LAYER -->
   <!-- PERSONA 5 / PERSONA 3R CINEMATIC COMIC TRANSITION LAYER -->
   <div id="persona-transition-layer" aria-hidden="true">
@@ -1620,16 +1643,18 @@
       <span class="font-bold tracking-wider text-white">VUNN // @vuismei</span>
     </div>
     <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
-      <!-- Nút mở nhanh Sổ Lưu Bút Discord -->
-      <button type="button" onclick="openGuestbookModal()" class="bg-fuchsia-500/20 hover:bg-fuchsia-500/35 border border-fuchsia-400/45 text-fuchsia-100 px-2.5 py-1 rounded-md font-bold transition cursor-pointer flex items-center gap-1">
-        <span>✍️ KÝ LƯU BÚT</span>
+      <!-- Nút mở nhanh Sổ Lưu Bút Discord (Header Primary) -->
+      <button type="button" onclick="openGuestbookModal()" class="bg-gradient-to-r from-fuchsia-500/25 to-pink-500/25 hover:from-fuchsia-500/40 hover:to-pink-500/40 border border-fuchsia-400/50 hover:border-fuchsia-300 text-fuchsia-100 shadow-[0_0_12px_rgba(217,70,239,0.25)] px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer flex items-center gap-1.5 active:scale-95" title="Mở Sổ Lưu Bút Discord">
+        <span>✍️</span><span>KÝ LƯU BÚT</span>
       </button>
 
       <div id="vn-clock" class="hidden sm:block bg-white/5 border border-white/10 px-3 py-1 rounded-md backdrop-blur-md">
         00:00:00 ICT (UTC+7)
       </div>
-      <button type="button" id="top-page-switch-btn" onclick="switchPage(2)" class="bg-rose-500/25 hover:bg-rose-500/40 border border-rose-400/50 text-rose-100 px-3 py-1 rounded-md font-bold transition cursor-pointer">
-        WRAPPED × REPLAY →
+
+      <!-- Nút chuyển trang Persona Wrapped (Header Primary) -->
+      <button type="button" id="top-page-switch-btn" onclick="switchPage(2)" class="bg-gradient-to-r from-rose-500/25 to-orange-500/25 hover:from-rose-500/40 hover:to-orange-500/40 border border-rose-400/50 hover:border-rose-300 text-rose-100 shadow-[0_0_12px_rgba(244,63,94,0.25)] px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer flex items-center gap-1.5 active:scale-95" title="Chuyển sang Spotify Wrapped & Apple Music Replay">
+        <span>WRAPPED × REPLAY →</span>
       </button>
     </div>
   </header>
@@ -1637,7 +1662,7 @@
   <!-- ========================================================================= -->
   <!-- PAGE 1: MINIMALIST BIO CARD + GIF BANNER + SAKURA FRAME + LIVE LANYARD   -->
   <!-- ========================================================================= -->
-  <main id="page-1" class="page-view max-w-6xl mx-auto px-4 min-h-[calc(100vh-16.5rem)] flex flex-col justify-center pt-2 pb-8">
+  <main id="page-1" class="page-view max-w-6xl mx-auto px-4 flex flex-col justify-center pt-2 pb-6">
     <section id="hero-profile-card" class="glass-card hero-glass-card p-5 sm:p-7 w-full overflow-hidden">
       <span class="hud-corner hud-tl"></span>
       <span class="hud-corner hud-tr"></span>
@@ -1946,15 +1971,15 @@
             <div class="flex items-center justify-between gap-2">
               <span id="lanyard-act-type" class="text-[10px] font-mono-code uppercase tracking-wider text-sky-300 font-bold flex items-center gap-1.5">
                 <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
-                PLAYING // RICH PRESENCE
+                ACTIVE // DEV WORKSPACE
               </span>
-              <span id="lanyard-act-timer" class="text-[10px] font-mono-code text-emerald-300 font-bold">19:10:32</span>
+              <span id="lanyard-act-timer" class="text-[10px] font-mono-code text-emerald-300 font-bold">04:22:18</span>
             </div>
             <div id="lanyard-act-name" class="text-xs sm:text-sm font-extrabold text-white truncate mt-0.5">
-              V u N n （詠ノな）
+              Visual Studio Code // vuismei
             </div>
             <div id="lanyard-act-details" class="text-[11px] font-mono-code text-slate-300 truncate">
-              BUSY / SLEEP = NO REPLY • ocean.
+              Editing discord/index.html • Hi-Res Audio On
             </div>
           </div>
         </div>
@@ -2013,11 +2038,6 @@
           <span>DISCORD // vuismei</span>
         </a>
 
-        <!-- NÚT KÝ LƯU BÚT DISCORD SECRET GUESTBOOK -->
-        <button type="button" onclick="openGuestbookModal()" class="social-pill !bg-gradient-to-r !from-rose-500/25 !to-fuchsia-500/25 !border-rose-400/50 hover:!border-rose-300 text-rose-100 shadow-[0_0_16px_rgba(244,63,94,0.25)]">
-          <span>✍️ KÝ LƯU BÚT</span>
-        </button>
-
         <button type="button" onclick="openArchiveModal()" class="social-pill !bg-rose-500/20 !border-rose-400/40 hover:!bg-rose-500/35">
           <svg class="w-3.5 h-3.5 text-rose-300 fill-none stroke-current" stroke-width="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
           <span>READ ARCHIVE</span>
@@ -2034,11 +2054,6 @@
           </svg>
           <span>SHUFFLE THEME</span>
         </button>
-
-        <button type="button" onclick="switchPage(2)" class="cta-wrapped-btn ml-auto">
-          <span>WRAPPED × REPLAY // 635,685 MIN</span>
-          <svg class="w-4 h-4 fill-none stroke-current" stroke-width="2.4" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
-        </button>
       </div>
     </section>
   </main>
@@ -2046,7 +2061,7 @@
   <!-- ========================================================================= -->
   <!-- PAGE 2: SPOTIFY WRAPPED × APPLE MUSIC REPLAY ULTIMATE FLEX                -->
   <!-- ========================================================================= -->
-  <main id="page-2" class="page-view is-hidden max-w-6xl mx-auto px-4 space-y-6 mt-2">
+  <main id="page-2" class="page-view is-hidden max-w-6xl mx-auto px-4 space-y-6 mt-2 pb-28">
     <!-- PAGE 2 TOP BAR -->
     <div class="flex flex-wrap items-center justify-between gap-3 glass-card px-4 py-3">
       <div class="flex items-center gap-3">
@@ -3568,7 +3583,7 @@
               <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
             </svg>
           </button>
-          <input id="volume-bar" type="range" min="0" max="1" step="0.01" value="0.00" class="w-16" />
+          <input id="volume-bar" type="range" min="0" max="1" step="0.01" value="0.70" class="w-16" />
         </div>
       </div>
 
@@ -3607,30 +3622,40 @@
         colors: ["#f43f5e", "#6366f1", "#fb923c", "#38bdf8"]
       },
       {
-        shortName: "02 // Platinum Disco",
+        shortName: "02 // Nyan Nyan Rock",
+        title: "Nyan Nyan Rock Version",
+        artist: "Black Hanekawa • Monogatari Series Rock Mix",
+        badge: "GACHA #2 • MONOGATARI ROCK",
+        audioUrl: "https://files.catbox.moe/mmsaia.mp3",
+        coverUrl: "https://files.catbox.moe/6pq8mh.png",
+        bpm: 138,
+        colors: ["#a855f7", "#ec4899", "#ef4444", "#6366f1"]
+      },
+      {
+        shortName: "03 // Platinum Disco",
         title: "Platinum Disco (白金ディスコ)",
         artist: "Yuka Iguchi (Araragi Tsukihi) • Nisemonogatari OP3",
-        badge: "GACHA #2 • NISEMONOGATARI",
+        badge: "GACHA #3 • NISEMONOGATARI",
         audioUrl: "https://files.catbox.moe/f6aslo.mp3",
         coverUrl: "https://files.catbox.moe/4phbet.png",
         bpm: 126,
         colors: ["#ec4899", "#06b6d4", "#f43f5e", "#8b5cf6"]
       },
       {
-        shortName: "03 // Renai Circulation",
+        shortName: "04 // Renai Circulation",
         title: "Renai Circulation (恋愛サーキュレーション)",
         artist: "Kana Hanazawa (Sengoku Nadeko) • Bakemonogatari OP4",
-        badge: "GACHA #3 • BAKEMONOGATARI",
+        badge: "GACHA #4 • BAKEMONOGATARI",
         audioUrl: "https://files.catbox.moe/mzshho.mp3",
         coverUrl: "https://files.catbox.moe/mqsu6e.jpg",
         bpm: 120,
         colors: ["#fb7185", "#f472b6", "#fbbf24", "#c084fc"]
       },
       {
-        shortName: "04 // Rolling Girl",
+        shortName: "05 // Rolling Girl",
         title: "Rolling Girl (ローリンガール)",
         artist: "wowaka feat. Hatsune Miku (初音ミク) • Vocaloid Legend",
-        badge: "GACHA #4 • WOWAKA × MIKU",
+        badge: "GACHA #5 • WOWAKA × MIKU",
         audioUrl: "https://files.catbox.moe/xyxjob.mp3",
         coverUrl: "https://files.catbox.moe/wdbpfr.jpg",
         bpm: 195,
@@ -3643,7 +3668,7 @@
     let allExpanded = false;
     let rafPending = false;
     let isSeeking = false;
-    let userVolume = 0.00;
+    let userVolume = 0.70;
     let fadeRafId = null;
     let hasTriggeredInitialFade = false;
     let userOverrodeVolume = false;
@@ -3841,9 +3866,9 @@
       if (hasTriggeredInitialFade || userOverrodeVolume) return;
       hasTriggeredInitialFade = true;
 
-      const startVol = 0.00;
-      const targetVol = 0.85;
-      const fadeDuration = 9000;
+      const startVol = 0.35;
+      const targetVol = 0.70;
+      const fadeDuration = 800;
       const startTime = performance.now();
 
       userVolume = startVol;
@@ -4000,7 +4025,7 @@
     function initGlobalSakuraRain() {
       if (!sakuraLayer) return;
       const isMobile = window.innerWidth < 640;
-      const PETAL_COUNT = isMobile ? 32 : 56;
+      const PETAL_COUNT = isMobile ? 55 : 88;
       const frag = document.createDocumentFragment();
 
       const petalSvg1 = '<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="url(#sakuraPetalGrad)" d="M16,2 C10,2 6,10 9,20 C11,26 14,29 16,30 C18,29 21,26 23,20 C26,10 22,2 16,2 M16,2 L14,7 L16,5 L18,7 Z"/></svg></div>';
@@ -4082,13 +4107,14 @@
       if (layer) void layer.offsetWidth; // Force reflow to re-trigger animation
       document.body.classList.add("is-persona-shifting");
 
-      // 3. Apex of transition (~180ms): screen is completely masked
+      // 3. Apex of transition (~300ms): screen is completely masked
       setTimeout(() => {
         window.scrollTo({ top: 0, behavior: "instant" });
 
         if (targetPage === 2) {
           if (sakuraLayer) sakuraLayer.classList.add("is-hidden-rain");
 
+          document.body.classList.add("on-page-2");
           page1.classList.add("is-hidden");
           page2.classList.remove("is-hidden");
           page2.classList.add("is-entering");
@@ -4104,6 +4130,7 @@
         } else {
           if (sakuraLayer) sakuraLayer.classList.remove("is-hidden-rain");
 
+          document.body.classList.remove("on-page-2");
           page2.classList.add("is-hidden");
           page1.classList.remove("is-hidden");
           page1.classList.add("is-entering");
@@ -4116,14 +4143,14 @@
             page1.classList.remove("is-entering");
           });
         }
-      }, 180);
+      }, 300);
 
-      // 4. End transition (~440ms)
+      // 4. End transition (~720ms)
       clearTimeout(personaTransitionTimeout);
       personaTransitionTimeout = setTimeout(() => {
         document.body.classList.remove("is-persona-shifting");
         isPageTransitioning = false;
-      }, 440);
+      }, 720);
     }
 
     function triggerPage2Animations(scopeEl = document.getElementById("page-2")) {
@@ -4240,9 +4267,9 @@
 
       if (gameAct) {
         document.getElementById("lanyard-act-type").innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> PLAYING // LIVE`;
-        document.getElementById("lanyard-act-name").textContent = gameAct.name || "V u N n （詠ノな）";
+        document.getElementById("lanyard-act-name").textContent = gameAct.name || "Visual Studio Code // vuismei";
         const detailsText = [gameAct.details, gameAct.state].filter(Boolean).join(" • ");
-        document.getElementById("lanyard-act-details").textContent = detailsText || "BUSY / SLEEP = NO REPLY • ocean.";
+        document.getElementById("lanyard-act-details").textContent = detailsText || "Editing discord/index.html • Hi-Res Audio On";
 
         if (gameAct.timestamps && gameAct.timestamps.start) {
           lanyardActivityStart = gameAct.timestamps.start;
@@ -4906,9 +4933,19 @@
       try {
         const deck = getActiveDeck();
         if (deck) {
-          deck.play().catch(() => {
-            if (audioStatus) audioStatus.textContent = "PRESS PLAY";
-          });
+          deck.volume = userVolume || 0.70;
+          deck.muted = false;
+          const playPromise = deck.play();
+          if (playPromise !== undefined) {
+            playPromise.then(() => {
+              if (audioStatus) audioStatus.textContent = "● PLAYING";
+              if (vinylDisc) vinylDisc.classList.add("is-playing");
+              if (miniVinylDisc) miniVinylDisc.classList.add("is-playing");
+              setPlayButtonUI(true);
+            }).catch(() => {
+              if (audioStatus) audioStatus.textContent = "PRESS PLAY";
+            });
+          }
         }
       } catch (e) {}
 
