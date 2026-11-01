@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VuNn // Sonic Telemetry & Wrapped Replay V36.0</title>
+  <title>VuNn // Profile & Wrapped Replay</title>
 
   <!-- OPENGRAPH & DISCORD EMBED META TAGS -->
-  <meta name="description" content="VuNn (@vuismei) — 635,685 Minutes Streamed (10,594.8h) • Top 0.0057% Global Fan • 526 Days Streak • Sonic Telemetry & Wrapped V36.0" />
-  <meta name="theme-color" content="#fb7185" />
+  <meta name="description" content="VuNn (@vuismei) — 635,685 Minutes Streamed (10,594.8h) • Top 0.0057% Global Fan • 526 Days Streak • Profile & Wrapped Replay" />
+  <meta name="theme-color" content="#070910" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://vuismei.github.io/" />
-  <meta property="og:title" content="VuNn // Sonic Telemetry & Wrapped V36.0" />
+  <meta property="og:title" content="VuNn // Profile & Wrapped Replay" />
   <meta property="og:description" content="635,685 MIN (10,594.8h) • Top 0.0057% World • 31,102 Tracks • 526 Days Streak • The Spatial & Speed Purist" />
   <meta property="og:image" content="https://files.catbox.moe/0r6ro8.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -51,6 +51,8 @@
     html {
       scroll-behavior: smooth;
       -webkit-text-size-adjust: 100%;
+      background-color: #070910;
+      color-scheme: dark;
     }
 
     /* CRITICAL FOUC GUARD: Khóa cứng bố cục ngay từ mili-giây 0 trước khi Tailwind kịp chạy */
@@ -84,12 +86,27 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background-color: rgba(7, 9, 18, 0.92);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      background: radial-gradient(circle at 50% 40%, rgba(18, 14, 32, 0.94) 0%, rgba(7, 9, 18, 0.98) 100%);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       cursor: pointer;
-      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: opacity;
+      transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+
+    .typewriter-cursor {
+      display: inline-block;
+      width: 7px;
+      height: 13px;
+      background-color: #fb7185;
+      vertical-align: -2px;
+      margin-left: 3px;
+      animation: blinkCursor 0.75s step-end infinite;
+    }
+
+    @keyframes blinkCursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
     }
 
     .intro-play-btn {
@@ -139,48 +156,7 @@
       scrollbar-width: none;
     }
 
-    /* ========== FEATURE: CRT SCANLINES & CYBERPUNK GLITCH TRANSITIONS ========== */
-    #crt-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 48;
-      pointer-events: none;
-      opacity: 0;
-      transform: translateZ(0);
-      will-change: opacity;
-      transition: opacity 0.25s ease;
-      background:
-        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.38) 50%),
-        linear-gradient(90deg, rgba(255, 0, 0, 0.035), rgba(0, 255, 0, 0.015), rgba(0, 0, 255, 0.035));
-      background-size: 100% 3px, 6px 100%;
-      box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.65);
-    }
-
-    body.crt-enabled #crt-overlay {
-      opacity: 1;
-    }
-
-    body.crt-enabled #crt-overlay::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent 0%, rgba(251, 113, 133, 0.05) 50%, transparent 100%);
-      height: 18%;
-      animation: crtRollBar 6.5s linear infinite;
-    }
-
-    body.crt-enabled h1,
-    body.crt-enabled h2,
-    body.crt-enabled .vunn-display-name {
-      text-shadow: -1.2px 0 rgba(255, 0, 85, 0.55), 1.2px 0 rgba(0, 229, 255, 0.55);
-    }
-
-    @keyframes crtRollBar {
-      0% { transform: translateY(-100%); }
-      100% { transform: translateY(650%); }
-    }
-
-    /* Pre-warmed CRT + Persona Cyberpunk Glitch Flash on Page Switch */
+    /* ========== CLEAR CINEMATIC PAGE SWITCH WIPE & GLITCH TRANSITION ========== */
     #glitch-transition-layer {
       position: fixed;
       inset: 0;
@@ -189,53 +165,46 @@
       opacity: 0;
       transform: translate3d(0, 0, 0);
       backface-visibility: hidden;
-      will-change: opacity, transform, clip-path;
-      mix-blend-mode: screen;
+      will-change: opacity, transform;
       background:
-        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.52) 50%),
+        linear-gradient(180deg, transparent 0%, rgba(251, 113, 133, 0.45) 48%, rgba(56, 189, 248, 0.55) 52%, transparent 100%),
         repeating-linear-gradient(
           0deg,
-          rgba(244, 63, 94, 0.24) 0px,
-          rgba(244, 63, 94, 0.24) 2px,
+          rgba(15, 23, 42, 0.45) 0px,
+          rgba(15, 23, 42, 0.45) 2px,
           transparent 2px,
-          transparent 7px
-        ),
-        linear-gradient(90deg, rgba(251, 113, 133, 0.32), rgba(56, 189, 248, 0.32), rgba(253, 224, 71, 0.2));
-      background-size: 100% 3px, 100% 100%, 100% 100%;
+          transparent 6px
+        );
     }
 
     body.is-glitching #glitch-transition-layer {
-      animation: glitchOverlayFlash 0.46s steps(2, end) both;
+      animation: pageSweepTransition 0.58s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
     body.is-glitching main:not(.is-hidden) {
-      animation: cyberGlitchShake 0.46s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+      animation: pageContentReveal 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
-    @keyframes glitchOverlayFlash {
-      0% { opacity: 0.96; clip-path: inset(6% 0 58% 0); transform: translate3d(-10px, 0, 0) scaleY(1.02); }
-      20% { opacity: 0.88; clip-path: inset(38% 0 18% 0); transform: translate3d(10px, 0, 0) skewX(-3deg); }
-      45% { opacity: 1; clip-path: inset(0% 0 0% 0); transform: translate3d(-6px, 2px, 0) skewX(3deg); }
-      70% { opacity: 0.82; clip-path: inset(62% 0 6% 0); transform: translate3d(6px, -2px, 0); }
-      100% { opacity: 0; clip-path: inset(0 0 0 0); transform: translate3d(0, 0, 0); }
+    @keyframes pageSweepTransition {
+      0% { opacity: 0; transform: translate3d(0, -100%, 0); }
+      35% { opacity: 1; transform: translate3d(0, 0%, 0); }
+      70% { opacity: 0.9; transform: translate3d(0, 25%, 0); }
+      100% { opacity: 0; transform: translate3d(0, 100%, 0); }
     }
 
-    @keyframes cyberGlitchShake {
-      0% { transform: translate3d(0, 0, 0) skewX(0deg); filter: hue-rotate(0deg); }
-      20% { transform: translate3d(-7px, 2px, 0) skewX(-2.2deg); filter: hue-rotate(75deg) saturate(185%); }
-      40% { transform: translate3d(7px, -2px, 0) skewX(2.2deg); filter: hue-rotate(-75deg) contrast(145%); }
-      65% { transform: translate3d(-4px, 1px, 0) skewX(-1deg); }
-      85% { transform: translate3d(3px, -1px, 0) skewX(1deg); }
-      100% { transform: translate3d(0, 0, 0) skewX(0deg); filter: none; }
+    @keyframes pageContentReveal {
+      0% { opacity: 0.15; transform: translate3d(0, 26px, 0) scale(0.985); filter: brightness(1.35); }
+      60% { opacity: 1; transform: translate3d(0, -3px, 0) scale(1.002); filter: brightness(1.05); }
+      100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: none; }
     }
 
-    /* ========== VIBRANT APPLE MUSIC FLUID BACKGROUND (ORIGINAL BRIGHTNESS) ========== */
+    /* ========== VIBRANT APPLE MUSIC FLUID BACKGROUND (OPTIMIZED GPU TEXTURE SIZE) ========== */
     .apple-bg-wrapper {
       position: fixed;
       inset: 0;
       z-index: -3;
       overflow: hidden;
-      background: radial-gradient(circle at 50% 35%, #161124 0%, #090b16 58%, #05070e 100%);
+      background: radial-gradient(circle at 50% 35%, #191229 0%, #0a0d1a 58%, #060810 100%);
       contain: strict;
       pointer-events: none;
     }
@@ -253,49 +222,47 @@
     }
 
     .art-layer-1 {
-      width: 120vmax;
-      height: 120vmax;
-      top: -24vmax;
-      left: -18vmax;
-      filter: blur(54px) saturate(265%) brightness(1.02) contrast(1.08);
-      opacity: 0.82;
+      width: 86vmax;
+      height: 86vmax;
+      top: -16vmax;
+      left: -12vmax;
+      filter: blur(38px) saturate(260%) brightness(1.04);
+      opacity: 0.80;
       transform-origin: 46% 54%;
-      animation: orbitClockwise 24s linear infinite;
+      animation: orbitClockwise 26s linear infinite;
     }
 
     .art-layer-2 {
-      width: 112vmax;
-      height: 112vmax;
-      bottom: -24vmax;
-      right: -16vmax;
-      filter: blur(58px) saturate(280%) brightness(1.12) contrast(1.06);
-      opacity: 0.76;
+      width: 82vmax;
+      height: 82vmax;
+      bottom: -16vmax;
+      right: -12vmax;
+      filter: blur(40px) saturate(275%) brightness(1.10);
+      opacity: 0.74;
       transform-origin: 54% 46%;
-      animation: orbitCounterClockwise 19s linear infinite;
+      animation: orbitCounterClockwise 21s linear infinite;
     }
 
     .art-layer-3 {
-      width: 82vmax;
-      height: 82vmax;
-      top: 8vh;
-      left: calc(50% - 41vmax);
-      filter: blur(64px) saturate(290%) brightness(1.15);
-      opacity: 0.52;
-      mix-blend-mode: screen;
-      animation: pulseCenterArt 14s ease-in-out infinite alternate;
+      width: 68vmax;
+      height: 68vmax;
+      top: 12vh;
+      left: calc(50% - 34vmax);
+      filter: blur(42px) saturate(280%) brightness(1.14);
+      opacity: 0.48;
+      animation: pulseCenterArt 15s ease-in-out infinite alternate;
     }
 
     @keyframes pulseCenterArt {
-      0% { transform: translate3d(-4vw, -2vh, 0) scale(0.92) rotate(0deg); }
-      100% { transform: translate3d(4vw, 3vh, 0) scale(1.14) rotate(25deg); }
+      0% { transform: translate3d(-4vw, -2vh, 0) scale(0.95) rotate(0deg); }
+      100% { transform: translate3d(4vw, 3vh, 0) scale(1.16) rotate(22deg); }
     }
 
     .mesh-blob {
       position: absolute;
       border-radius: 50%;
-      opacity: 0.84;
+      opacity: 0.78;
       mix-blend-mode: screen;
-      filter: blur(18px);
       will-change: transform;
       backface-visibility: hidden;
       transform: translate3d(0, 0, 0);
@@ -480,9 +447,9 @@
     /* ========== GLASSMORPHISM & HUD CORNERS ========== */
     .glass-card {
       position: relative;
-      background: rgba(12, 15, 26, 0.62);
-      backdrop-filter: blur(18px) saturate(165%);
-      -webkit-backdrop-filter: blur(18px) saturate(165%);
+      background: rgba(12, 15, 26, 0.56);
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
       border: 1px solid rgba(255, 255, 255, 0.16);
       box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.18);
       border-radius: 1.15rem;
@@ -507,12 +474,17 @@
     .hud-bl { bottom: 10px; left: 10px; border-bottom: 1.5px solid; border-left: 1.5px solid; }
     .hud-br { bottom: 10px; right: 10px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
 
-    /* ========== PAGE 1 STATIC GLASS HIGHLIGHT & DISCORD NAME STYLE ========== */
+    /* ========== PAGE 1 TRANSLUCENT GLASS SO FALLING SAKURA SHINES THROUGH ========== */
     .hero-glass-card {
       position: relative;
       isolation: isolate;
       contain: layout style paint;
       transform: translateZ(0);
+      background: rgba(10, 13, 24, 0.26) !important;
+      backdrop-filter: blur(5px) saturate(145%) !important;
+      -webkit-backdrop-filter: blur(5px) saturate(145%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.24);
     }
 
     .hero-glass-card::before {
@@ -522,8 +494,8 @@
       border-radius: inherit;
       background: radial-gradient(
         460px circle at 50% 15%,
-        rgba(251, 113, 133, 0.11),
-        rgba(56, 189, 248, 0.03) 45%,
+        rgba(251, 113, 133, 0.09),
+        rgba(56, 189, 248, 0.02) 45%,
         transparent 72%
       );
       pointer-events: none;
@@ -1020,8 +992,8 @@
 
     /* ========== ASCII NEKO BOX ========== */
     .neko-frame {
-      background: rgba(10, 12, 22, 0.52);
-      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(10, 12, 22, 0.34);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: 0.9rem;
       padding: 0.95rem 1.2rem;
       min-width: 220px;
@@ -1363,8 +1335,7 @@
 </head>
 
 <body class="pb-48 selection:bg-rose-500 selection:text-white hover-expand-enabled">
-  <!-- CRT SCANLINE OVERLAY & CYBERPUNK GLITCH LAYER -->
-  <div id="crt-overlay" aria-hidden="true"></div>
+  <!-- PAGE TRANSITION LAYER -->
   <div id="glitch-transition-layer" aria-hidden="true"></div>
 
   <!-- GLOBAL SHARED SVG DEFINITIONS (2D ANIME CEL-SHADED SAKURA ENGINE) -->
@@ -1482,19 +1453,19 @@
     </defs>
   </svg>
 
-  <!-- INTRO OVERLAY -->
-  <div id="intro-overlay" onclick="enterSite()" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#070912]/90 backdrop-blur-2xl cursor-pointer transition-opacity duration-500">
+  <!-- INTRO OVERLAY (TYPEWRITER NATURAL HOLD WHILE ASSETS WARM UP) -->
+  <div id="intro-overlay" onclick="enterSite()" class="fixed inset-0 z-50 flex flex-col items-center justify-center cursor-pointer">
     <div class="text-center space-y-3.5 select-none p-6" style="text-align: center; padding: 1.5rem;">
       <div class="intro-play-btn w-14 h-14 mx-auto rounded-full border border-rose-400/60 bg-rose-500/10 flex items-center justify-center animate-pulse text-rose-300 shadow-[0_0_24px_rgba(244,63,94,0.35)]">
         <svg width="24" height="24" style="width: 24px; height: 24px; transform: translateX(1px);" class="w-6 h-6 fill-current translate-x-0.5" viewBox="0 0 24 24">
           <path fill="currentColor" d="M8 5.14v14l11-7-11-7z"/>
         </svg>
       </div>
-      <p style="font-size: 13px; font-weight: 700; letter-spacing: 0.2em; color: #ffffff; margin-bottom: 0.5rem;" class="font-mono-code text-xs sm:text-sm font-bold text-white tracking-[0.2em] uppercase">
-        [ CLICK ANYWHERE TO ENTER ]
+      <p style="font-size: 13px; font-weight: 700; letter-spacing: 0.2em; color: #ffffff; margin-bottom: 0.5rem; min-height: 1.5rem;" class="font-mono-code text-xs sm:text-sm font-bold text-white tracking-[0.2em] uppercase">
+        <span id="intro-typewriter-text"></span><span class="typewriter-cursor"></span>
       </p>
       <p id="preload-hint" style="font-size: 11px; color: #6ee7b7;" class="text-[11px] font-mono-code text-emerald-300">
-        [ ヴン・センパイ // SONIC TELEMETRY V36.0 ]_
+        [ ヴン・センパイ // AUDIO &amp; SAKURA ENGINE ]_
       </p>
     </div>
   </div>
@@ -1525,16 +1496,10 @@
   <!-- TOP STATUS BAR -->
   <header class="max-w-6xl mx-auto px-4 pt-4 pb-1 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono-code text-slate-300">
     <div class="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1 rounded-md backdrop-blur-md">
-      <span id="sync-led" class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" title="Telemetry Radar Status"></span>
-      <span class="font-bold tracking-wider text-white">VUNN // TELEMETRY.V36.0</span>
+      <span id="sync-led" class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" title="Online Status"></span>
+      <span class="font-bold tracking-wider text-white">VUNN // @vuismei</span>
     </div>
     <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
-      <!-- Nút bật/tắt CRT Scanlines & Glitch Mode -->
-      <button type="button" id="crt-toggle-btn" onclick="toggleCrtMode()" class="bg-white/5 hover:bg-white/15 border border-white/15 px-2.5 py-1 rounded-md font-bold text-slate-200 transition cursor-pointer flex items-center gap-1.5" title="Bật/Tắt màn hình TV cổ điển CRT Scanlines & Glitch">
-        <span id="crt-led" class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-        <span id="crt-label">📺 CRT: OFF</span>
-      </button>
-
       <!-- Nút mở nhanh Sổ Lưu Bút Discord -->
       <button type="button" onclick="openGuestbookModal()" class="bg-fuchsia-500/20 hover:bg-fuchsia-500/35 border border-fuchsia-400/45 text-fuchsia-100 px-2.5 py-1 rounded-md font-bold transition cursor-pointer flex items-center gap-1">
         <span>✍️ KÝ LƯU BÚT</span>
@@ -1813,12 +1778,12 @@
               </div>
             </div>
 
-            <blockquote class="p-3 rounded-lg bg-black/35 border-l-2 border-rose-400 space-y-1">
+            <blockquote class="p-3 rounded-lg bg-black/20 border-l-2 border-rose-400 space-y-1">
               <p class="text-xs sm:text-sm font-medium text-slate-100 italic">
                 “Người ta chỉ tự mình cứu lấy bản thân thôi. Chẳng ai có thể cứu được ai cả.”
                 <span class="not-italic font-bold text-rose-300 ml-1">— Oshino Meme</span>
               </p>
-              <p class="text-[11px] font-mono-code text-slate-400">
+              <p class="text-[11px] font-mono-code text-slate-300">
                 "what are you looking at me for" • <span class="text-rose-300 font-semibold">BUSY / SLEEP = NO REPLY</span> | 𝑜𝒸𝑒𝒶𝓃.
               </p>
             </blockquote>
@@ -1851,9 +1816,9 @@
       </div>
 
       <!-- ================= REAL-TIME LANYARD DISCORD & SPOTIFY RICH PRESENCE ================= -->
-      <div class="mt-4 pt-3.5 border-t border-white/10 grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="mt-4 pt-3.5 border-t border-white/15 grid grid-cols-1 md:grid-cols-2 gap-3">
         <!-- Card 1: Playing / Custom Rich Presence -->
-        <div class="flex items-center gap-3.5 p-3 rounded-xl bg-black/30 border border-white/10">
+        <div class="flex items-center gap-3.5 p-3 rounded-xl bg-black/20 border border-white/15">
           <div class="relative w-12 h-12 rounded-lg overflow-hidden bg-slate-900 border border-white/15 shrink-0">
             <img id="lanyard-act-img" src="https://files.catbox.moe/0r6ro8.jpg" alt="Activity" decoding="async" class="w-full h-full object-cover" />
           </div>
@@ -1868,14 +1833,14 @@
             <div id="lanyard-act-name" class="text-xs sm:text-sm font-extrabold text-white truncate mt-0.5">
               V u N n （詠ノな）
             </div>
-            <div id="lanyard-act-details" class="text-[11px] font-mono-code text-slate-400 truncate">
+            <div id="lanyard-act-details" class="text-[11px] font-mono-code text-slate-300 truncate">
               BUSY / SLEEP = NO REPLY • ocean.
             </div>
           </div>
         </div>
 
         <!-- Card 2: Live Listening to Spotify -->
-        <div class="flex items-center gap-3.5 p-3 rounded-xl bg-black/35 border border-white/10 hover:border-emerald-400/35 transition-colors">
+        <div class="flex items-center gap-3.5 p-3 rounded-xl bg-black/20 border border-white/15 hover:border-emerald-400/40 transition-colors">
           <div class="relative w-12 h-12 rounded-lg overflow-hidden bg-slate-900 border border-white/15 shrink-0 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
             <img id="lanyard-spot-img" src="https://files.catbox.moe/6yr9eo.jpg" alt="Spotify Cover" decoding="async" class="w-full h-full object-cover" />
           </div>
@@ -1935,7 +1900,7 @@
 
         <button type="button" onclick="openArchiveModal()" class="social-pill !bg-rose-500/20 !border-rose-400/40 hover:!bg-rose-500/35">
           <svg class="w-3.5 h-3.5 text-rose-300 fill-none stroke-current" stroke-width="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          <span>READ ARCHIVE V36.0</span>
+          <span>READ ARCHIVE</span>
         </button>
 
         <button type="button" onmouseenter="prewarmRandomTrack()" onclick="triggerGachaTrack()" class="social-pill !bg-white/15 !border-white/30">
@@ -3198,7 +3163,7 @@
                     <div>• <strong>Rachel Podger Vivaldi DSD64:</strong> 37/37 files</div>
                   </div>
                   <div class="tree-subitem space-y-1">
-                    <div class="font-mono-code text-sky-300 font-bold">SIGNAL CHAIN &amp; V36.0 FORMULA</div>
+                    <div class="font-mono-code text-sky-300 font-bold">SIGNAL CHAIN &amp; AUDIO FORMULA</div>
                     <div>• <strong>Lecoo Pro 14</strong> ➔ <strong>Foobar2000 (ASIO DSD)</strong> ➔ <strong>FiiO K7</strong> (Dual AK4493SEQ + THX AAA 788+ 2000mW) ➔ <strong>Moondrop Kadenz</strong> &amp; Loa rời.</div>
                     <div>• <strong>Formula:</strong> <code>2.4D (Stage) + 2.3C (Treble) + 2.2B (Mid) + 1.5E (Dyn) + 1.2A (Fast Bass) + 0.4F</code>.</div>
                   </div>
@@ -3299,7 +3264,7 @@
     </div>
   </div>
 
-  <!-- ================= MODAL 2: ARCHIVE V36.0 GLASS MODAL READER ================= -->
+  <!-- ================= MODAL 2: ARCHIVE GLASS MODAL READER ================= -->
   <div id="archive-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xl transition-opacity">
     <div class="glass-card max-w-3xl w-full max-h-[85vh] flex flex-col !bg-slate-950/95 !border-rose-400/40 shadow-[0_25px_70px_rgba(0,0,0,0.85)] overflow-hidden">
       <div class="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-gradient-to-r from-rose-500/15 via-transparent to-sky-500/15">
@@ -3307,7 +3272,7 @@
           <span class="w-2.5 h-2.5 rounded-full bg-rose-400 animate-pulse"></span>
           <div>
             <div class="text-[10px] font-mono-code text-rose-300 font-bold uppercase tracking-widest">BOOK EDITION ARCHIVE // DIRECT READER</div>
-            <h3 class="text-sm sm:text-base font-black text-white">HỒ SƠ BẢN THÂN &amp; SONIC TELEMETRY V36.0 — VuNn (@vuismei)</h3>
+            <h3 class="text-sm sm:text-base font-black text-white">HỒ SƠ BẢN THÂN &amp; ÂM NHẠC — VuNn (@vuismei)</h3>
           </div>
         </div>
         <button type="button" onclick="closeArchiveModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-rose-500/30 border border-white/15 flex items-center justify-center text-slate-300 hover:text-white transition cursor-pointer" title="Đóng cửa sổ">
@@ -3576,7 +3541,23 @@
     let currentPage = 1;
     let lastCurrentTimeStr = "";
     let lastDurationStr = "";
-    let crtEnabled = localStorage.getItem("vunn_crt_mode") === "1";
+
+    // ====== TYPEWRITER INTRO HOLD (GIỮ CHÂN TỰ NHIÊN TRONG LÚC NẠP TÀI NGUYÊN) ======
+    (function initIntroTypewriter() {
+      const targetEl = document.getElementById("intro-typewriter-text");
+      if (!targetEl) return;
+      const fullText = "[ CLICK ANYWHERE TO ENTER ]";
+      let charIndex = 0;
+
+      function typeNextChar() {
+        if (charIndex <= fullText.length) {
+          targetEl.textContent = fullText.slice(0, charIndex);
+          charIndex++;
+          setTimeout(typeNextChar, 48);
+        }
+      }
+      setTimeout(typeNextChar, 180);
+    })();
 
     // ====== SILENT AUTO ECO-MODE + REALTIME FPS WATCHDOG (AUTO ANTI-LAG) ======
     (function initSilentAutoEcoMode() {
@@ -3674,25 +3655,8 @@
     const vnClockEl = document.getElementById("vn-clock");
     const allStatNodes = Array.from(document.querySelectorAll(".stat-node"));
 
-    // ====== CRT SCANLINES & CYBERPUNK GLITCH TRANSITION CONTROLS ======
-    function applyCrtState() {
-      document.body.classList.toggle("crt-enabled", crtEnabled);
-      const crtLabel = document.getElementById("crt-label");
-      const crtLed = document.getElementById("crt-led");
-      const crtBtn = document.getElementById("crt-toggle-btn");
-      if (crtLabel) crtLabel.textContent = crtEnabled ? "📺 CRT: ON" : "📺 CRT: OFF";
-      if (crtLed) {
-        crtLed.className = crtEnabled
-          ? "w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981]"
-          : "w-1.5 h-1.5 rounded-full bg-slate-400";
-      }
-      if (crtBtn) {
-        crtBtn.classList.toggle("border-rose-400/50", crtEnabled);
-        crtBtn.classList.toggle("bg-rose-500/20", crtEnabled);
-      }
-    }
-
-    function playGlitchSfx() {
+    // ====== PAGE TRANSITION WIPE & SFX ======
+    function playTransitionSfx() {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         if (!AudioCtx) return;
@@ -3700,17 +3664,16 @@
         const now = ctx.currentTime;
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.type = "sawtooth";
-        osc.frequency.setValueAtTime(140, now);
-        osc.frequency.exponentialRampToValueAtTime(680, now + 0.06);
-        osc.frequency.setValueAtTime(95, now + 0.07);
-        gain.gain.setValueAtTime(0.04, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(280, now);
+        osc.frequency.exponentialRampToValueAtTime(620, now + 0.14);
+        gain.gain.setValueAtTime(0.03, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.start(now);
-        osc.stop(now + 0.15);
-        setTimeout(() => ctx.close().catch(() => {}), 220);
+        osc.stop(now + 0.17);
+        setTimeout(() => ctx.close().catch(() => {}), 240);
       } catch (e) {}
     }
 
@@ -3721,38 +3684,116 @@
       const glitchLayer = document.getElementById("glitch-transition-layer");
       if (glitchLayer) void glitchLayer.offsetWidth;
       document.body.classList.add("is-glitching");
-      if (crtEnabled) playGlitchSfx();
+      playTransitionSfx();
       glitchTimer = setTimeout(() => {
         document.body.classList.remove("is-glitching");
-      }, 460);
+      }, 600);
     }
-
-    function toggleCrtMode() {
-      crtEnabled = !crtEnabled;
-      localStorage.setItem("vunn_crt_mode", crtEnabled ? "1" : "0");
-      applyCrtState();
-      triggerGlitchFlash();
-      showToast(crtEnabled ? "📺 CRT SCANLINES & GLITCH: ON" : "📺 CRT SCANLINES: OFF");
-    }
-    applyCrtState();
-
-    // Pre-warm lớp chuyển cảnh CRT/Glitch ngay khi tải trang để lần ấn đầu tiên mượt tức thì
-    requestAnimationFrame(() => {
-      const glitchLayer = document.getElementById("glitch-transition-layer");
-      if (glitchLayer) {
-        glitchLayer.style.opacity = "0.001";
-        requestAnimationFrame(() => {
-          glitchLayer.style.opacity = "";
-        });
-      }
-    });
 
     // ====== 9-SECOND SMOOTH AUDIO FADE-IN (0% -> 85% IN 9,000 MS) ======
-    function stopVolumeFadeIn() {
-      if (fadeRafId !== null) {
-        cancelAnimationFrame(fadeRafId);
-        fadeRafId = null;
+    // ====== 100% GPU COMPOSITED LUSH & NATURAL SAKURA RAIN GENERATOR ======
+    function initGlobalSakuraRain() {
+      if (!sakuraLayer) return;
+      const isMobile = window.innerWidth < 640;
+      const PETAL_COUNT = isMobile ? 46 : 78;
+      const frag = document.createDocumentFragment();
+
+      const petalSvg1 = `<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="url(#sakuraPetalGrad)" d="M16,2 C10,2 6,10 9,20 C11,26 14,29 16,30 C18,29 21,26 23,20 C26,10 22,2 16,2 M16,2 L14,7 L16,5 L18,7 Z"/></svg></div>`;
+      const petalSvg2 = `<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="#fda4af" opacity="0.95" d="M16,3 C9,6 5,14 10,23 C12,27 15,29 16,30 C17,29 20,27 22,23 C27,14 23,6 16,3 Z"/></svg></div>`;
+      const blossomMiniSvg = `<div class="sakura-sway"><svg viewBox="-34 -34 68 68"><use href="#sakura-flower-full"/></svg></div>`;
+
+      for (let i = 0; i < PETAL_COUNT; i++) {
+        const leaf = document.createElement("div");
+        leaf.className = "sakura-leaf";
+
+        const depthRoll = Math.random();
+        let size, dur, op;
+        if (depthRoll < 0.25) {
+          size = 9 + Math.random() * 4;
+          dur = 10 + Math.random() * 4.5;
+          op = 0.55 + Math.random() * 0.22;
+        } else if (depthRoll < 0.78) {
+          size = 13 + Math.random() * 6;
+          dur = 7 + Math.random() * 3.6;
+          op = 0.78 + Math.random() * 0.20;
+        } else {
+          size = 17 + Math.random() * 6;
+          dur = 5.8 + Math.random() * 2.5;
+          op = 0.72 + Math.random() * 0.22;
+        }
+
+        const xPos = Math.random() * 100;
+        const delay = -(Math.random() * 15);
+        const swayDur = 2.6 + Math.random() * 2.4;
+        const spinDur = 3.2 + Math.random() * 3.5;
+        const drift = 34 + Math.random() * 52;
+
+        leaf.style.setProperty("--x", `${xPos.toFixed(2)}vw`);
+        leaf.style.setProperty("--size", `${size.toFixed(1)}px`);
+        leaf.style.setProperty("--dur", `${dur.toFixed(2)}s`);
+        leaf.style.setProperty("--delay", `${delay.toFixed(2)}s`);
+        leaf.style.setProperty("--sway-dur", `${swayDur.toFixed(2)}s`);
+        leaf.style.setProperty("--spin-dur", `${spinDur.toFixed(2)}s`);
+        leaf.style.setProperty("--drift", `${drift.toFixed(0)}px`);
+        leaf.style.setProperty("--op", op.toFixed(2));
+
+        if (i % 8 === 0) {
+          leaf.innerHTML = blossomMiniSvg;
+        } else if (i % 2 === 0) {
+          leaf.innerHTML = petalSvg1;
+        } else {
+          leaf.innerHTML = petalSvg2;
+        }
+
+        frag.appendChild(leaf);
       }
+      sakuraLayer.appendChild(frag);
+    }
+
+    initGlobalSakuraRain();
+
+    let countRafId = null;
+
+    function switchPage(targetPage) {
+      if (targetPage === currentPage) return;
+      const page1 = document.getElementById("page-1");
+      const page2 = document.getElementById("page-2");
+      const topBtn = document.getElementById("top-page-switch-btn");
+
+      currentPage = targetPage;
+      triggerGlitchFlash();
+
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "instant" });
+
+        if (targetPage === 2) {
+          if (sakuraLayer) sakuraLayer.classList.add("is-hidden-rain");
+
+          page1.classList.add("is-hidden");
+          page2.classList.remove("is-hidden");
+          page2.classList.add("is-entering");
+          topBtn.textContent = "← BACK TO PROFILE";
+          topBtn.onclick = () => switchPage(1);
+
+          requestAnimationFrame(() => {
+            page2.classList.remove("is-entering");
+            triggerPage2Animations();
+          });
+        } else {
+          if (sakuraLayer) sakuraLayer.classList.remove("is-hidden-rain");
+
+          page2.classList.add("is-hidden");
+          page1.classList.remove("is-hidden");
+          page1.classList.add("is-entering");
+          topBtn.textContent = "WRAPPED × REPLAY →";
+          topBtn.onclick = () => switchPage(2);
+
+          requestAnimationFrame(() => {
+            page1.classList.remove("is-entering");
+          });
+        }
+      }, 150);
+    }
       userOverrodeVolume = true;
       hasTriggeredInitialFade = true;
     }
@@ -4817,8 +4858,9 @@
       const overlay = document.getElementById("intro-overlay");
       if (overlay) {
         overlay.style.opacity = "0";
+        overlay.style.transform = "scale(1.03)";
         overlay.style.pointerEvents = "none";
-        setTimeout(() => overlay.remove(), 480);
+        setTimeout(() => overlay.remove(), 500);
       }
       getActiveDeck().play().catch(() => {});
     }
@@ -4826,21 +4868,13 @@
     loadTrack(currentIndex, false);
     updateExtendStatus();
 
-    window.addEventListener("DOMContentLoaded", () => {
-      getActiveDeck().play().then(() => {
-        const overlay = document.getElementById("intro-overlay");
-        if (overlay) overlay.remove();
-      }).catch(() => {});
-    });
-
     // ============================================================================
-    // MULTI-EDGE TELEMETRY RADAR & SECRET GUESTBOOK DISPATCHER (ZERO-DELAY)
+    // LIGHTWEIGHT VISITOR INFO (VERSION, NETWORK/LOCATION, BROWSER/SECURITY, SOURCE)
+    // + GUARANTEED GUESTBOOK DISPATCHER TO #WEB-LOGS
     // ============================================================================
     (async function initSonicSync() {
       const SYNC_ENDPOINT = "https://vunn-sync.lamthanhvu109.workers.dev";
       const FALLBACK_DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1566118084018962512/Ih_wbswPTgpMJ8Pg4yyO63zBqFvEfNnRlUgqGSsma5mciEnyhcAmVg2N2_bcsNvRM2np";
-      const sessionStart = Date.now();
-      const actionHistory = [];
       const syncLed = document.getElementById("sync-led");
 
       let visitorUid = localStorage.getItem("vunn_visitor_uid");
@@ -4867,7 +4901,7 @@
 
         try {
           const ctrl = new AbortController();
-          const timer = setTimeout(() => ctrl.abort(), 900);
+          const timer = setTimeout(() => ctrl.abort(), 1200);
           const res = await fetch("https://www.cloudflare.com/cdn-cgi/trace", { signal: ctrl.signal, cache: "no-store" });
           clearTimeout(timer);
           if (res.ok) {
@@ -4891,22 +4925,6 @@
         return result;
       }
 
-      function getGpuDetails() {
-        try {
-          const canvas = document.createElement("canvas");
-          const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-          if (!gl) return { vendor: "N/A", renderer: "WebGL Disabled", version: "N/A" };
-          const dbg = gl.getExtension("WEBGL_debug_renderer_info");
-          return {
-            vendor: dbg ? gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL) : gl.getParameter(gl.VENDOR),
-            renderer: dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
-            version: gl.getParameter(gl.VERSION)
-          };
-        } catch (e) {
-          return { vendor: "Shielded", renderer: "Shielded", version: "N/A" };
-        }
-      }
-
       async function detectPrivacyShields() {
         const flags = [];
         try {
@@ -4917,113 +4935,46 @@
         } catch (e) {}
         if (/OPR\/|Opera/i.test(navigator.userAgent)) flags.push("Opera GX");
         if (navigator.doNotTrack === "1" || window.globalPrivacyControl) flags.push("GPC/DNT");
-        if (!window.RTCPeerConnection) flags.push("WebRTC Disabled");
         return flags.length > 0 ? `🛡️ ${flags.join(" • ")}` : "Tiêu chuẩn (Normal)";
       }
 
-      async function getDeviceHash(gpuInfo) {
-        try {
-          const rawString = [
-            gpuInfo.renderer,
-            navigator.hardwareConcurrency,
-            navigator.deviceMemory,
-            screen.width + "x" + screen.height + "x" + screen.colorDepth,
-            Intl.DateTimeFormat().resolvedOptions().timeZone,
-            navigator.language
-          ].join("||");
-          const msgBuffer = new TextEncoder().encode(rawString);
-          const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
-          const hashArray = Array.from(new Uint8Array(hashBuffer));
-          return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("").substring(0, 20).toUpperCase();
-        } catch (e) {
-          return "HASH_SHIELDED";
-        }
+      function parseBrowserVersion() {
+        const ua = navigator.userAgent || "";
+        let browser = "Unknown Browser";
+        const edg = ua.match(/Edg\/([\d.]+)/);
+        const opr = ua.match(/OPR\/([\d.]+)/);
+        const chr = ua.match(/Chrome\/([\d.]+)/);
+        const ffx = ua.match(/Firefox\/([\d.]+)/);
+        const saf = ua.match(/Version\/([\d.]+).*Safari/);
+        if (edg) browser = `Edge ${edg[1]}`;
+        else if (opr) browser = `Opera ${opr[1]}`;
+        else if (chr) browser = `Chrome ${chr[1]}`;
+        else if (ffx) browser = `Firefox ${ffx[1]}`;
+        else if (saf) browser = `Safari ${saf[1]}`;
+        return `${browser} (${navigator.platform || "OS"})`;
       }
 
-      async function getDeepOsInfo() {
-        if (!navigator.userAgentData || !navigator.userAgentData.getHighEntropyValues) {
-          return { os_real: navigator.platform || "N/A", arch: "x86_64", bitness: "64-bit", model: "PC / Desktop" };
-        }
-        try {
-          const ua = await navigator.userAgentData.getHighEntropyValues(["architecture", "bitness", "model", "platform", "platformVersion"]);
-          let osName = ua.platform || "Unknown";
-          if (osName === "Windows" && ua.platformVersion) {
-            const major = parseInt(ua.platformVersion.split(".")[0], 10);
-            osName = major >= 13 ? `Windows 11 (Build ${ua.platformVersion})` : `Windows 10 (Build ${ua.platformVersion})`;
-          } else if (ua.platformVersion) {
-            osName = `${osName} ${ua.platformVersion}`;
-          }
-          return {
-            os_real: osName,
-            arch: ua.architecture || "x86",
-            bitness: ua.bitness ? `${ua.bitness}-bit` : "64-bit",
-            model: ua.model || "PC / Desktop"
-          };
-        } catch (e) {
-          return { os_real: navigator.platform || "N/A", arch: "x86", bitness: "64-bit", model: "PC / Desktop" };
-        }
-      }
-
-      async function getStorageAndIncognito() {
-        try {
-          if (navigator.storage && navigator.storage.estimate) {
-            const est = await navigator.storage.estimate();
-            const quotaMB = Math.round((est.quota || 0) / (1024 * 1024));
-            const usageMB = ((est.usage || 0) / (1024 * 1024)).toFixed(2);
-            const isLikelyIncognito = quotaMB > 0 && quotaMB < 1500;
-            return {
-              quota_gb: `${(quotaMB / 1024).toFixed(2)} GB (${quotaMB} MB)`,
-              used_mb: `${usageMB} MB`,
-              incognito_suspect: isLikelyIncognito ? "⚠️ Có dấu hiệu Ẩn danh (Quota thấp)" : "Không (Normal Mode)"
-            };
-          }
-        } catch (e) {}
-        return { quota_gb: "N/A", used_mb: "N/A", incognito_suspect: "N/A" };
-      }
-
-      const gpuInfo = getGpuDetails();
-      const [fpHash, deepOs, storageInfo, shieldStatus, netIdentity] = await Promise.all([
-        getDeviceHash(gpuInfo),
-        getDeepOsInfo(),
-        getStorageAndIncognito(),
+      const [shieldStatus, netIdentity] = await Promise.all([
         detectPrivacyShields(),
         probeNetworkIdentity()
       ]);
 
-      const refreshRate = "Auto VSync";
-      const audioMedia = {
-        audioStack: { sample_rate: "48000 Hz", max_channels: 2, base_latency: "Low-Latency" },
-        mediaCount: { microphones: 0, speakers: 1, webcams: 0 }
-      };
-      const webrtcIps = [];
-
-      let batteryInfo = "Desktop PC / Ẩn Pin";
-      try {
-        if (navigator.getBattery) {
-          const bat = await navigator.getBattery();
-          if (bat && typeof bat.level === "number" && Number.isFinite(bat.level)) {
-            batteryInfo = `${Math.round(bat.level * 100)}% (${bat.charging ? "Đang cắm sạc ⚡" : "Đang dùng pin 🔋"})`;
-          }
-        }
-      } catch (e) {}
-
+      const browserVersionInfo = parseBrowserVersion();
       const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {};
-      const navEntry = (performance.getEntriesByType && performance.getEntriesByType("navigation")[0]) || {};
-      const nextHop = navEntry.nextHopProtocol || netIdentity.httpVer || "h2";
       const networkSpeed = conn.effectiveType
-        ? `${conn.effectiveType.toUpperCase()} • Downlink: ${conn.downlink ?? "?"} Mbps • RTT: ${conn.rtt ?? "?"} ms`
-        : `RTT ước tính: ${Math.round(navEntry.responseStart - navEntry.requestStart) || "?"} ms`;
+        ? `${conn.effectiveType.toUpperCase()} • ${conn.downlink ?? "?"} Mbps • RTT ${conn.rtt ?? "?"} ms`
+        : "Standard Broadband";
 
       const sysTz = Intl.DateTimeFormat().resolvedOptions().timeZone || "N/A";
       const isVnTz = /Saigon|Ho_Chi_Minh|Bangkok|Jakarta/i.test(sysTz);
-      let vpnStatus = "✅ Khớp múi giờ thật (Direct Connection)";
+      let vpnStatus = "✅ Khớp múi giờ thật (Direct)";
       if (netIdentity.warp && netIdentity.warp !== "off") {
-        vpnStatus = `🛡️ Đang bật Cloudflare WARP (${netIdentity.warp.toUpperCase()})`;
+        vpnStatus = `🛡️ Cloudflare WARP (${netIdentity.warp.toUpperCase()})`;
       } else if (netIdentity.country && netIdentity.country !== "VN" && isVnTz) {
-        vpnStatus = `⚠️ Phát hiện VPN / Server riêng (IP ${netIdentity.country} nhưng Múi giờ máy ${sysTz})`;
+        vpnStatus = `⚠️ Nghi vấn VPN (IP ${netIdentity.country} / TZ ${sysTz})`;
       }
 
-      const resolvedIp = netIdentity.ip || (webrtcIps.length > 0 ? webrtcIps[0] : "Đợi Cloudflare Edge giải mã");
+      const resolvedIp = netIdentity.ip || "Cloudflare Edge";
 
       function buildPayload(eventType = "init") {
         const nowVN = new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh", hour12: false });
@@ -5035,7 +4986,7 @@
           meta: {
             visit_time_ict: nowVN,
             visitor_uid: visitorUid,
-            device_fingerprint_sha256: fpHash,
+            device_fingerprint_sha256: browserVersionInfo,
             visit_count_on_this_browser: visitCount,
             first_seen_ict: firstVisit,
             page_url: window.location.href,
@@ -5046,38 +4997,36 @@
             colo: netIdentity.colo || "Edge",
             city: netIdentity.city || "N/A",
             country: netIdentity.country || "VN",
-            isp: netIdentity.isp || "Cloudflare Edge / Private Network",
-            protocol_tls: `${nextHop.toUpperCase()} (${netIdentity.tlsVer})`,
+            isp: netIdentity.isp || "Cloudflare Edge",
+            protocol_tls: `${(netIdentity.httpVer || "H2").toUpperCase()} (${netIdentity.tlsVer})`,
             vpn_status: vpnStatus
           },
-          webrtc_ips: webrtcIps,
+          webrtc_ips: [],
           connection_speed: networkSpeed,
           hardware_and_os: {
-            ...deepOs,
-            cpu_logical_cores: navigator.hardwareConcurrency || "N/A",
-            ram_approx: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "N/A",
-            gpu_vendor: gpuInfo.vendor,
-            gpu_renderer: gpuInfo.renderer,
-            gpu_webgl_version: gpuInfo.version,
-            battery: batteryInfo
+            os_real: browserVersionInfo,
+            arch: "Lite-Mode",
+            bitness: "Web",
+            cpu_logical_cores: "-",
+            ram_approx: "-",
+            gpu_renderer: "Skipped (Lite Mode)",
+            battery: "-"
           },
           display_and_audio: {
-            screen_resolution: `${window.screen.width}x${window.screen.height} (${window.screen.colorDepth}-bit)`,
-            available_screen: `${window.screen.availWidth}x${window.screen.availHeight}`,
-            window_viewport: `${window.innerWidth}x${window.innerHeight}`,
+            screen_resolution: `${window.innerWidth}x${window.innerHeight}`,
+            measured_refresh_rate: "-",
             pixel_ratio_scale: `${window.devicePixelRatio || 1}x`,
-            measured_refresh_rate: refreshRate,
-            theme_mode: window.matchMedia("(prefers-color-scheme: dark)").matches ? "Dark Mode 🌙" : "Light Mode ☀️",
-            color_gamut: window.matchMedia("(color-gamut: p3)").matches ? "Wide P3 Gamut" : "sRGB",
-            audio_hardware: audioMedia.audioStack,
-            connected_peripherals: audioMedia.mediaCount
+            color_gamut: "-",
+            theme_mode: "Dark",
+            audio_hardware: { sample_rate: "-", base_latency: "-" },
+            connected_peripherals: { microphones: 0, speakers: 0, webcams: 0 }
           },
           browser_and_storage: {
             user_agent: navigator.userAgent,
-            shield_status: shieldStatus,
+            shield_status: `${browserVersionInfo} • ${shieldStatus}`,
             system_timezone: sysTz,
             languages: navigator.languages ? navigator.languages.join(", ") : navigator.language,
-            storage_estimate: storageInfo
+            storage_estimate: { quota_gb: "-", incognito_suspect: "Skipped" }
           }
         };
       }
@@ -5091,14 +5040,14 @@
             avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
             embeds: [
               {
-                title: "💌 LƯU BÚT MỚI TỪ DISCORD // " + clean(payload.sender || "Khách Ẩn Danh (Anonymous)"),
+                title: "💌 LƯU BÚT MỚI // " + clean(payload.sender || "Khách Ẩn Danh"),
                 color: 0xe879f9,
                 fields: [
                   { name: "✨ Vibe / Emoji", value: clean(payload.vibe), inline: true },
                   { name: "🎵 Nhạc đang nghe", value: clean(payload.active_track), inline: true },
                   { name: "💬 Lời nhắn gửi VuNn", value: "\\`\\`\\`\\n" + clean(payload.message || "(Chỉ thả cảm xúc)") + "\\n\\`\\`\\`", inline: false },
                   { name: "🌐 Mạng & Vị trí", value: clean(`${resolvedIp} • Colo: ${netIdentity.colo || "?"} (${netIdentity.country || "VN"}) • ${vpnStatus}`), inline: false },
-                  { name: "🔑 UID / Vân tay máy", value: "`" + clean(visitorUid) + " // " + clean(fpHash) + "`", inline: false }
+                  { name: "🕵️ Trình duyệt & Nguồn", value: clean(`${browserVersionInfo} • ${shieldStatus} • Ref: ${document.referrer || "Direct"}`), inline: false }
                 ],
                 timestamp: new Date().toISOString()
               }
@@ -5114,27 +5063,21 @@
         }
 
         const meta = payload.meta || {};
-        const hw = payload.hardware_and_os || {};
-        const disp = payload.display_and_audio || {};
         const br = payload.browser_and_storage || {};
         const net = payload.network_diagnostics || {};
-        const audio = disp.audio_hardware || {};
-        const media = disp.connected_peripherals || {};
-        const store = br.storage_estimate || {};
-        const webrtc = Array.isArray(payload.webrtc_ips) && payload.webrtc_ips.length ? payload.webrtc_ips.join(", ") : "Ẩn";
 
         const directEmbed = {
-          username: "VuNn // Deep Telemetry Radar",
+          username: "VuNn // Visitor Access",
           avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
           embeds: [
             {
-              title: (payload.event_type === "test" ? "🧪 [TEST] " : "📡 ") + "KHÁCH TRUY CẬP MỚI (Lần #" + (meta.visit_count_on_this_browser || 1) + ") // UID: " + clean(meta.visitor_uid),
+              title: "📡 KHÁCH TRUY CẬP (Lần #" + (meta.visit_count_on_this_browser || 1) + ") // UID: " + clean(meta.visitor_uid),
               color: 0xfb7185,
               fields: [
-                { name: "🌐 Mạng, Vị trí & Kiểm tra VPN", value: `**IP (Trace):** \`${clean(net.resolved_ip)}\` (WebRTC: \`${clean(webrtc)}\`)\n**Vị trí / Colo:** ${clean(net.city)}, ${clean(net.country)} (Edge Colo: \`${clean(net.colo)}\`)\n**Nhà mạng:** ${clean(net.isp)}\n**Giao thức & Tốc độ:** \`${clean(net.protocol_tls)}\` • \`${clean(payload.connection_speed)}\`\n**Trạng thái VPN:** ${clean(net.vpn_status)}`, inline: false },
-                { name: "🖥️ Phần cứng, GPU & Hệ điều hành thật", value: `**OS thật:** \`${clean(hw.os_real)}\` (\`${clean(hw.arch)}\` • \`${clean(hw.bitness)}\` • Model: \`${clean(hw.model)}\`)\n**GPU (Card đồ họa):** \`${clean(hw.gpu_renderer)}\`\n**CPU / RAM / Pin:** \`${clean(hw.cpu_logical_cores)} Cores\` • \`${clean(hw.ram_approx)}\` • ${clean(hw.battery)}\n**Vân tay máy (SHA-256):** \`${clean(meta.device_fingerprint_sha256)}\``, inline: false },
-                { name: "🎧 Màn hình, DAC/Audio & Thiết bị ngoại vi", value: `**Màn hình:** \`${clean(disp.screen_resolution)}\` @ **${clean(disp.measured_refresh_rate)}** (Scale: \`${clean(disp.pixel_ratio_scale)}\`, \`${clean(disp.color_gamut)}\`, ${clean(disp.theme_mode)})\n**Audio Sample Rate:** \`${clean(audio.sample_rate)}\` (Latency: \`${clean(audio.base_latency)}\`)\n**Thiết bị cắm ngoài:** \`${media.microphones || 0} Mic\` • \`${media.speakers || 0} Loa/Output\` • \`${media.webcams || 0} Cam\``, inline: false },
-                { name: "🕵️ Trình duyệt, Ẩn danh & Nguồn vào", value: `**Nguồn (Referrer):** ${clean(meta.referrer)}\n**Khiên & Múi giờ:** ${clean(br.shield_status)} • \`${clean(br.system_timezone)}\` • \`${clean(br.languages)}\`\n**Bộ nhớ / Ẩn danh:** Quota \`${clean(store.quota_gb)}\` • ${clean(store.incognito_suspect)}\n**Lần đầu vào web:** \`${clean(meta.first_seen_ict)}\``, inline: false }
+                { name: "🔖 Thông tin phiên bản", value: `**Trình duyệt / OS:** \`${clean(browserVersionInfo)}\`\n**Lần truy cập:** \`#${clean(meta.visit_count_on_this_browser)}\` (Lần đầu: \`${clean(meta.first_seen_ict)}\`)`, inline: false },
+                { name: "🌐 Mạng & Vị trí", value: `**IP:** \`${clean(net.resolved_ip)}\` • **Colo/ Quốc gia:** \`${clean(net.colo)}\` (${clean(net.country)})\n**Giao thức & Tốc độ:** \`${clean(net.protocol_tls)}\` • \`${clean(payload.connection_speed)}\`\n**VPN / WARP:** ${clean(net.vpn_status)}`, inline: false },
+                { name: "🛡️ Trình duyệt & Bảo mật", value: `**Khiên bảo mật:** ${clean(br.shield_status)}\n**Múi giờ & Ngôn ngữ:** \`${clean(br.system_timezone)}\` • \`${clean(br.languages)}\``, inline: false },
+                { name: "🔗 Nguồn truy cập", value: `**Referrer:** ${clean(meta.referrer)}\n**URL:** ${clean(meta.page_url)}`, inline: false }
               ],
               footer: { text: "Giờ Việt Nam (UTC+7): " + clean(meta.visit_time_ict) },
               timestamp: new Date().toISOString()
@@ -5172,27 +5115,21 @@
             if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
             return true;
           }
+        } catch (err) {}
 
+        try {
           const fallbackOk = await sendDirectDiscordFallback(payload);
           if (fallbackOk) {
             if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
             return true;
           }
-        } catch (err) {
-          try {
-            const fallbackOk = await sendDirectDiscordFallback(payload);
-            if (fallbackOk) {
-              if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
-              return true;
-            }
-          } catch (e2) {
-            if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-rose-500";
-          }
+        } catch (e2) {
+          if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-rose-500";
         }
         return false;
       }
 
-      // ====== SUBMIT VISITOR GUESTBOOK ENTRY TO DISCORD (NO DELAY) ======
+      // ====== SUBMIT VISITOR GUESTBOOK ENTRY TO DISCORD (#WEB-LOGS COMPATIBLE) ======
       window.submitGuestbookEntry = async function () {
         const statusMsg = document.getElementById("gb-status-msg");
         const submitBtn = document.getElementById("gb-submit-btn");
@@ -5212,20 +5149,74 @@
           submitBtn.innerHTML = `<span>⏳ ĐANG GỬI...</span>`;
         }
 
+        const senderDisplay = senderVal || "Khách Ẩn Danh (Anonymous)";
+        const messageDisplay = messageVal || `(Chỉ thả cảm xúc: ${selectedGuestbookVibe})`;
+        const nowVN = new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh", hour12: false });
+
+        // Đóng gói tương thích kép: Vừa hỗ trợ Worker mới (event_type: guestbook), vừa tương thích 100% với Worker cũ trên Cloudflare (đọc trường meta & browser_and_storage)
         const gbPayload = {
           event_type: "guestbook",
-          sender: senderVal || "Khách Ẩn Danh (Anonymous Discord Friend)",
+          sender: senderDisplay,
           vibe: selectedGuestbookVibe,
-          message: messageVal || `(Gửi nhanh cảm xúc: ${selectedGuestbookVibe})`,
+          message: messageDisplay,
           active_track: GACHA_PLAYLIST[currentIndex].title,
-          visitor_uid: visitorUid,
-          fp_hash: fpHash,
+          visitor_uid: `💌 LƯU BÚT TỪ: ${senderDisplay}`,
+          fp_hash: browserVersionInfo,
           client_ip: resolvedIp,
-          edge_colo: netIdentity.colo || "Edge"
+          edge_colo: netIdentity.colo || "Edge",
+          meta: {
+            visit_time_ict: nowVN,
+            visitor_uid: `💌 LƯU BÚT // ${senderDisplay}`,
+            device_fingerprint_sha256: selectedGuestbookVibe,
+            visit_count_on_this_browser: visitCount,
+            first_seen_ict: firstVisit,
+            page_url: window.location.href,
+            referrer: `💬 LỜI NHẮN: "${messageDisplay}" | ✨ Vibe: ${selectedGuestbookVibe} | 👤 Người gửi: ${senderDisplay}`
+          },
+          network_diagnostics: {
+            resolved_ip: resolvedIp,
+            colo: netIdentity.colo || "Edge",
+            city: netIdentity.city || "N/A",
+            country: netIdentity.country || "VN",
+            isp: "Guestbook Message",
+            protocol_tls: `${(netIdentity.httpVer || "H2").toUpperCase()} (${netIdentity.tlsVer})`,
+            vpn_status: vpnStatus
+          },
+          webrtc_ips: [],
+          connection_speed: `🎵 Nhạc đang nghe: ${GACHA_PLAYLIST[currentIndex].title}`,
+          hardware_and_os: {
+            os_real: `👤 Người gửi: ${senderDisplay}`,
+            arch: selectedGuestbookVibe,
+            bitness: "Guestbook",
+            cpu_logical_cores: "-",
+            ram_approx: "-",
+            gpu_renderer: `💬 ${messageDisplay}`,
+            battery: "-"
+          },
+          display_and_audio: {
+            screen_resolution: `${window.innerWidth}x${window.innerHeight}`,
+            measured_refresh_rate: "Guestbook",
+            pixel_ratio_scale: "1x",
+            color_gamut: "sRGB",
+            theme_mode: "💌 Lưu Bút",
+            audio_hardware: { sample_rate: GACHA_PLAYLIST[currentIndex].shortName, base_latency: "-" },
+            connected_peripherals: { microphones: 0, speakers: 0, webcams: 0 }
+          },
+          browser_and_storage: {
+            user_agent: navigator.userAgent,
+            shield_status: `💌 LƯU BÚT: "${messageDisplay}" (${selectedGuestbookVibe})`,
+            system_timezone: sysTz,
+            languages: navigator.language || "vi-VN",
+            storage_estimate: { quota_gb: "-", incognito_suspect: `👤 Từ: ${senderDisplay}` }
+          }
         };
 
-        actionHistory.push(`[Guestbook] Gửi lưu bút: ${selectedGuestbookVibe}`);
-        const ok = await dispatchTelemetry("guestbook", gbPayload);
+        // Gửi song song tới Worker Relay và Fallback Webhook để đảm bảo 100% có tin nhắn trong #web-logs
+        const [workerSent, directSent] = await Promise.all([
+          dispatchTelemetry("guestbook", gbPayload),
+          sendDirectDiscordFallback(gbPayload).catch(() => false)
+        ]);
+        const ok = workerSent || directSent;
 
         if (submitBtn) {
           submitBtn.disabled = false;
@@ -5250,45 +5241,10 @@
       };
 
       if ("requestIdleCallback" in window) {
-        requestIdleCallback(() => dispatchTelemetry("init"), { timeout: 2500 });
+        requestIdleCallback(() => dispatchTelemetry("init"), { timeout: 3000 });
       } else {
-        setTimeout(() => dispatchTelemetry("init"), 1500);
+        setTimeout(() => dispatchTelemetry("init"), 1800);
       }
-
-      document.addEventListener("click", (e) => {
-        const target = e.target.closest("button, a, .stat-node, #intro-overlay");
-        if (!target) return;
-        const label = (target.innerText || target.getAttribute("title") || target.id || "Element").replace(/\s+/g, " ").trim().substring(0, 45);
-        const sec = Math.round((Date.now() - sessionStart) / 1000);
-        actionHistory.push(`[+${sec}s] Click: ${label}`);
-      }, { passive: true });
-
-      let exitSent = false;
-      window.addEventListener("visibilitychange", () => {
-        if (document.visibilityState === "hidden" && !exitSent && actionHistory.length > 0) {
-          exitSent = true;
-          const exitPayload = {
-            event_type: "exit",
-            visitor_uid: visitorUid,
-            client_ip: resolvedIp,
-            stay_seconds: Math.round((Date.now() - sessionStart) / 1000),
-            current_page: currentPage,
-            active_track: GACHA_PLAYLIST[currentIndex].title,
-            actions: actionHistory
-          };
-          const exitData = JSON.stringify(exitPayload);
-          if (navigator.sendBeacon) {
-            navigator.sendBeacon(SYNC_ENDPOINT, new Blob([exitData], { type: "text/plain;charset=UTF-8" }));
-          } else {
-            fetch(SYNC_ENDPOINT, {
-              method: "POST",
-              headers: { "Content-Type": "text/plain;charset=UTF-8" },
-              body: exitData,
-              keepalive: true
-            }).catch(() => {});
-          }
-        }
-      });
     })();
   </script>
 </body>
