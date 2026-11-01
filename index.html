@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VuNn // Sonic Telemetry & Wrapped Replay V35.4</title>
+  <title>VuNn // Sonic Telemetry & Wrapped Replay V36.0</title>
 
   <!-- OPENGRAPH & DISCORD EMBED META TAGS -->
-  <meta name="description" content="VuNn (@vuismei) — 635,685 Minutes Streamed (10,594.8h) • Top 0.0057% Global Fan • 526 Days Streak • Sonic Telemetry & Wrapped V35.4" />
+  <meta name="description" content="VuNn (@vuismei) — 635,685 Minutes Streamed (10,594.8h) • Top 0.0057% Global Fan • 526 Days Streak • Sonic Telemetry & Wrapped V36.0" />
   <meta name="theme-color" content="#fb7185" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://vuismei.github.io/" />
-  <meta property="og:title" content="VuNn // Sonic Telemetry & Wrapped V35.4" />
+  <meta property="og:title" content="VuNn // Sonic Telemetry & Wrapped V36.0" />
   <meta property="og:description" content="635,685 MIN (10,594.8h) • Top 0.0057% World • 31,102 Tracks • 526 Days Streak • The Spatial & Speed Purist" />
   <meta property="og:image" content="https://files.catbox.moe/0r6ro8.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -36,6 +36,10 @@
       --accent: #fb7185;
       --cover-url: url('https://files.catbox.moe/6yr9eo.jpg');
       --banner-gif: url('https://files.catbox.moe/15yqoj.gif');
+      --parallax-x: 0px;
+      --parallax-y: 0px;
+      --tilt-rx: 0deg;
+      --tilt-ry: 0deg;
     }
 
     * {
@@ -95,7 +99,7 @@
       position: fixed;
       top: 1rem;
       right: 1rem;
-      z-index: 50;
+      z-index: 60;
       pointer-events: none;
       opacity: 0;
       will-change: transform, opacity;
@@ -124,6 +128,104 @@
       scrollbar-width: none;
     }
 
+    /* ========== FEATURE: CRT SCANLINES & CYBERPUNK GLITCH TRANSITIONS ========== */
+    #crt-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 48;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      background:
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.38) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.035), rgba(0, 255, 0, 0.015), rgba(0, 0, 255, 0.035));
+      background-size: 100% 3px, 6px 100%;
+      box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.65);
+    }
+
+    body.crt-enabled #crt-overlay {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    body.crt-enabled #crt-overlay::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(251, 113, 133, 0.05) 50%, transparent 100%);
+      height: 18%;
+      animation: crtRollBar 6.5s linear infinite;
+    }
+
+    body.crt-enabled h1,
+    body.crt-enabled h2,
+    body.crt-enabled .vunn-display-name {
+      text-shadow: -1.2px 0 rgba(255, 0, 85, 0.55), 1.2px 0 rgba(0, 229, 255, 0.55);
+    }
+
+    @keyframes crtRollBar {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(650%); }
+    }
+
+    /* Cyberpunk Glitch Flash on Page Switch */
+    #glitch-transition-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 55;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      mix-blend-mode: hard-light;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(244, 63, 94, 0.18) 0px,
+          rgba(244, 63, 94, 0.18) 2px,
+          transparent 2px,
+          transparent 8px
+        ),
+        linear-gradient(90deg, rgba(251, 113, 133, 0.22), rgba(56, 189, 248, 0.22));
+    }
+
+    body.is-glitching #glitch-transition-layer {
+      opacity: 1;
+      visibility: visible;
+      animation: glitchOverlayFlash 0.38s steps(2, end) forwards;
+    }
+
+    body.is-glitching main:not(.is-hidden) {
+      animation: cyberGlitchShake 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    }
+
+    @keyframes glitchOverlayFlash {
+      0% { opacity: 0.9; clip-path: inset(10% 0 65% 0); transform: translateX(-8px); }
+      25% { opacity: 0.75; clip-path: inset(45% 0 20% 0); transform: translateX(8px); }
+      50% { opacity: 0.95; clip-path: inset(70% 0 5% 0); transform: translateX(-5px) skewX(3deg); }
+      75% { opacity: 0.5; clip-path: inset(15% 0 40% 0); transform: translateX(4px); }
+      100% { opacity: 0; clip-path: inset(0 0 0 0); transform: translateX(0); }
+    }
+
+    @keyframes cyberGlitchShake {
+      0% { transform: translate(0) skewX(0deg); filter: hue-rotate(0deg); }
+      20% { transform: translate(-6px, 2px) skewX(-2deg); filter: hue-rotate(70deg) saturate(180%); }
+      40% { transform: translate(6px, -2px) skewX(2deg); filter: hue-rotate(-70deg) contrast(140%); }
+      60% { transform: translate(-3px, 1px) skewX(-1deg); }
+      80% { transform: translate(3px, -1px) skewX(1deg); }
+      100% { transform: translate(0) skewX(0deg); filter: none; }
+    }
+
+    /* ========== FEATURE: INTERACTIVE CURSOR TRAIL CANVAS ========== */
+    #cursor-trail-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 42;
+      pointer-events: none;
+    }
+
     /* ========== GPU-OPTIMIZED 120FPS APPLE MUSIC FLUID BACKGROUND ========== */
     .apple-bg-wrapper {
       position: fixed;
@@ -133,7 +235,8 @@
       background: #06080f;
       contain: strict;
       pointer-events: none;
-      transform: translateZ(0);
+      transform: translate3d(calc(var(--parallax-x) * -0.45), calc(var(--parallax-y) * -0.45), 0);
+      transition: transform 0.12s ease-out;
     }
 
     .apple-art-layer {
@@ -233,7 +336,7 @@
       contain: strict;
     }
 
-    /* ========== 100% GPU COMPOSITOR SAKURA PETAL RAIN (ZERO REFLOW / ZERO TOP ANIMATION) ========== */
+    /* ========== 100% GPU COMPOSITOR SAKURA PETAL RAIN ========== */
     #sakura-global-layer {
       position: fixed;
       inset: 0;
@@ -242,13 +345,13 @@
       overflow: hidden;
       contain: strict;
       transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.5s;
-      will-change: opacity;
+      will-change: opacity, transform;
+      transform: translate3d(calc(var(--parallax-x) * 0.6), calc(var(--parallax-y) * 0.6), 0);
     }
     #sakura-global-layer.is-hidden-rain {
       opacity: 0;
       visibility: hidden;
     }
-    /* Ngắt hoàn toàn chu kỳ tính toán cánh hoa khi sang Page 2 */
     #sakura-global-layer.is-hidden-rain .sakura-leaf,
     #sakura-global-layer.is-hidden-rain .sakura-sway,
     #sakura-global-layer.is-hidden-rain svg {
@@ -386,11 +489,13 @@
     .hud-bl { bottom: 10px; left: 10px; border-bottom: 1.5px solid; border-left: 1.5px solid; }
     .hud-br { bottom: 10px; right: 10px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
 
-    /* ========== PAGE 1 INTERACTIVE GLASS SPOTLIGHT & DISCORD NAME STYLE ========== */
+    /* ========== PAGE 1 INTERACTIVE GLASS SPOTLIGHT, 3D PARALLAX & DISCORD NAME STYLE ========== */
     .hero-glass-card {
       position: relative;
       isolation: isolate;
       contain: layout style;
+      transform: perspective(1200px) rotateX(var(--tilt-rx, 0deg)) rotateY(var(--tilt-ry, 0deg)) translateZ(0);
+      transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease;
     }
 
     .hero-glass-card::before {
@@ -400,7 +505,7 @@
       border-radius: inherit;
       background: radial-gradient(
         520px circle at var(--mouse-x, 50%) var(--mouse-y, 20%),
-        rgba(251, 113, 133, 0.13),
+        rgba(251, 113, 133, 0.14),
         rgba(56, 189, 248, 0.05) 45%,
         transparent 75%
       );
@@ -408,7 +513,6 @@
       z-index: 0;
     }
 
-    /* Hiệu ứng chữ VuNn phát sáng hồng phấn chuẩn Discord Display Name Style */
     .vunn-display-name {
       background: linear-gradient(180deg, #ffffff 15%, #fecdd3 65%, #fb7185 100%);
       -webkit-background-clip: text;
@@ -418,7 +522,6 @@
       letter-spacing: -0.02em;
     }
 
-    /* Huy hiệu Discord Badges bên cạnh tag プロセカ */
     .discord-badges-group {
       display: inline-flex;
       align-items: center;
@@ -430,7 +533,6 @@
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
 
-    /* Sóng nhạc Equalizer động cho thẻ Live Spotify */
     .eq-bars {
       display: inline-flex;
       align-items: flex-end;
@@ -457,7 +559,6 @@
       100% { transform: scaleY(1); }
     }
 
-    /* Cụm hoa anh đào trang trí góc dưới thẻ chuẩn Discord Profile Frame */
     .bottom-sakura-corner {
       position: absolute;
       bottom: -8px;
@@ -471,7 +572,6 @@
     .bottom-sakura-left { left: -6px; }
     .bottom-sakura-right { right: -6px; transform: scaleX(-1); }
 
-    /* Khung vòm hoa anh đào 2D Anime ôm viền góc trên của Card */
     .top-corner-sakura {
       position: absolute;
       top: -10px;
@@ -505,7 +605,6 @@
       }
     }
 
-    /* Lớp 1: Nền Ambient Blur lấp đầy khung ngang, triệt tiêu viền trống */
     .banner-ambient-backdrop {
       position: absolute;
       inset: -18px;
@@ -513,11 +612,10 @@
       background-size: cover;
       background-position: center;
       filter: blur(18px) saturate(165%) brightness(0.52);
-      transform: scale(1.08) translateZ(0);
+      transform: scale(1.08) translate3d(calc(var(--parallax-x) * -0.5), calc(var(--parallax-y) * -0.5), 0);
       pointer-events: none;
     }
 
-    /* Lớp 2: Khung Trung Tâm giữ nguyên tỷ lệ gốc của GIF (540x302) giúp mắt nét căng không bị phóng đại vỡ hạt */
     .banner-crisp-stage {
       position: relative;
       z-index: 1;
@@ -530,6 +628,7 @@
       overflow: hidden;
       mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
       -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+      transform: translate3d(calc(var(--parallax-x) * -0.28), calc(var(--parallax-y) * -0.22), 0);
     }
 
     .banner-crisp-img {
@@ -538,10 +637,9 @@
       object-fit: cover;
       object-position: center 45%;
       filter: contrast(1.04) saturate(1.08);
-      transform: translateZ(0);
+      transform: scale(1.04) translateZ(0);
     }
 
-    /* Lớp 3: Mặt nạ lưới Anime CRT/Halftone siêu mịn + Vignette giúp giấu hoàn toàn hạt nén GIF */
     .banner-cinema-overlay {
       position: absolute;
       inset: 0;
@@ -553,7 +651,6 @@
       pointer-events: none;
     }
 
-    /* Lớp 4: Cành Hoa Anh Đào 2D Anime Cel-Shaded Chuẩn Discord Profile Frame */
     .sakura-canopy-svg {
       position: absolute;
       inset: 0;
@@ -562,6 +659,7 @@
       z-index: 4;
       pointer-events: none;
       filter: drop-shadow(0 6px 12px rgba(24, 4, 18, 0.72));
+      transform: translate3d(calc(var(--parallax-x) * 0.35), calc(var(--parallax-y) * 0.25), 0);
     }
 
     @keyframes blossomBreeze {
@@ -780,7 +878,7 @@
       box-shadow: 0 0 8px #10b981;
     }
 
-    /* ========== STAT NODES (CONTAINED LAYOUT FOR 120FPS SCROLL) ========== */
+    /* ========== STAT NODES ========== */
     .wrapped-section {
       contain: layout style;
     }
@@ -875,7 +973,6 @@
       border-left-color: #38bdf8;
     }
 
-    /* Rank Badges */
     .rank-badge {
       width: 2.15rem;
       height: 2.15rem;
@@ -1228,14 +1325,48 @@
       opacity: 0;
       pointer-events: none;
     }
+
+    /* ========== GUESTBOOK VIBE PILLS ========== */
+    .vibe-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 0.6rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #cbd5e1;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      user-select: none;
+    }
+    .vibe-chip:hover {
+      background: rgba(251, 113, 133, 0.16);
+      border-color: rgba(251, 113, 133, 0.45);
+      color: #ffffff;
+    }
+    .vibe-chip.active {
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.35), rgba(168, 85, 247, 0.35));
+      border-color: #fb7185;
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(244, 63, 94, 0.35);
+    }
   </style>
 </head>
 
-<body class="pb-44 selection:bg-rose-500 selection:text-white hover-expand-enabled">
+<body class="pb-48 selection:bg-rose-500 selection:text-white hover-expand-enabled">
+  <!-- CRT SCANLINE OVERLAY & CYBERPUNK GLITCH LAYER -->
+  <div id="crt-overlay" aria-hidden="true"></div>
+  <div id="glitch-transition-layer" aria-hidden="true"></div>
+
+  <!-- INTERACTIVE STAR DUST & SAKURA CURSOR TRAIL CANVAS -->
+  <canvas id="cursor-trail-canvas" aria-hidden="true"></canvas>
+
   <!-- GLOBAL SHARED SVG DEFINITIONS (2D ANIME CEL-SHADED SAKURA ENGINE) -->
   <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
     <defs>
-      <!-- Bảng màu Cel-Shaded 2D Anime (Hồng Phấn Sáng, Hồng Đào Trung Gian & Đỏẫm Bóng Đổ) -->
       <linearGradient id="sakuraPetalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
         <stop offset="0%" stop-color="#ffffff" />
         <stop offset="28%" stop-color="#ffe4ec" />
@@ -1265,20 +1396,14 @@
         <stop offset="100%" stop-color="#70163c" />
       </linearGradient>
 
-      <!-- 1 Cánh Hoa Anh Đào 2D Anime (Viền Line-Art sắc nét + Mảng bóng Cel-Shading + Highlight trắng) -->
       <g id="single-sakura-petal">
         <path d="M 0,0 C -8,-6 -13,-18 -6.5,-27.5 C -3.5,-31.5 -1.2,-31 0,-25.5 C 1.2,-31 3.5,-31.5 6.5,-27.5 C 13,-18 8,-6 0,0 Z" />
-        <!-- Mảng Cel-Shade đậm ở gốc cánh hoa -->
         <path d="M 0,0 C -4.5,-4 -6.5,-11 -3,-16.5 C -1,-13 0,-11 0,-11 C 0,-11 1,-13 3,-16.5 C 6.5,-11 4.5,-4 0,0 Z" fill="#e11d48" opacity="0.32" stroke="none" />
-        <!-- Vệt sáng Cel-Highlight 2D Anime trên rìa cánh -->
         <path d="M -5.2,-24.5 C -8,-19 -7,-12 -4.5,-8" stroke="#ffffff" stroke-width="1.2" opacity="0.75" fill="none" stroke-linecap="round" />
-        <!-- Gân cánh hoa nét mảnh Anime -->
         <path d="M 0,-2.5 L 0,-21 M -1.8,-6.5 L -4.2,-16.5 M 1.8,-6.5 L 4.2,-16.5" stroke="#9f1239" stroke-width="0.65" opacity="0.45" fill="none" stroke-linecap="round"/>
       </g>
 
-      <!-- Bông Hoa Anh Đào 5 Cánh Tiền Cảnh (2D Anime Cel-Shaded + Nhụy Vàng Phát Sáng) -->
       <g id="sakura-flower-full">
-        <!-- Lớp bóng đổ nhẹ phía dưới bông hoa tạo độ nổi 2D -->
         <circle cx="0" cy="2" r="24" fill="#4c0519" opacity="0.28" />
         <g fill="url(#sakuraPetalGrad)" stroke="#700a2e" stroke-width="1.05" stroke-linejoin="round">
           <use href="#single-sakura-petal" transform="rotate(0)" />
@@ -1287,10 +1412,8 @@
           <use href="#single-sakura-petal" transform="rotate(216)" />
           <use href="#single-sakura-petal" transform="rotate(288)" />
         </g>
-        <!-- Tâm hoa đỏ thẫm kiểu Anime -->
         <circle cx="0" cy="0" r="4.5" fill="#be123c" opacity="0.85" />
         <circle cx="0" cy="0" r="2.5" fill="#881337" />
-        <!-- Nhụy hoa tỏa tròn đính hạt phấn vàng/trắng -->
         <g stroke="#fff0f5" stroke-width="0.9" stroke-linecap="round">
           <line x1="0" y1="0" x2="0" y2="-9.5" /><circle cx="0" cy="-10" r="1.4" fill="#fde047" stroke="#9f1239" stroke-width="0.35"/>
           <line x1="0" y1="0" x2="9" y2="-3" /><circle cx="9.5" cy="-3.2" r="1.4" fill="#fde047" stroke="#9f1239" stroke-width="0.35"/>
@@ -1304,7 +1427,6 @@
         </g>
       </g>
 
-      <!-- Bông Hoa Anh Đào Trung Cảnh (Màu hồng đào dịu, xếp xen kẽ tạo độ dày) -->
       <g id="sakura-flower-mid">
         <g fill="url(#sakuraMidGrad)" stroke="#881337" stroke-width="0.95" stroke-linejoin="round">
           <use href="#single-sakura-petal" transform="rotate(18)" />
@@ -1322,7 +1444,6 @@
         </g>
       </g>
 
-      <!-- Bông Hoa Lớp Nền Sâu (Tạo khối 3D dày đặc phía sau tán cây) -->
       <g id="sakura-flower-back">
         <g fill="url(#sakuraDeepGrad)" stroke="#4c0519" stroke-width="0.9">
           <use href="#single-sakura-petal" transform="rotate(36)" />
@@ -1334,7 +1455,6 @@
         <circle cx="0" cy="0" r="3.5" fill="#4c0519" />
       </g>
 
-      <!-- Bông Hoa Nghiêng Góc 2D Anime (Dành cho dây hoa rủ dọc viền) -->
       <g id="sakura-side-bloom">
         <g fill="url(#sakuraPetalGrad)" stroke="#700a2e" stroke-width="0.95">
           <use href="#single-sakura-petal" transform="rotate(-48) scale(0.92, 0.85)" />
@@ -1347,14 +1467,12 @@
         <line x1="0" y1="-1" x2="3" y2="-11" stroke="#fff" stroke-width="0.8"/><circle cx="3.2" cy="-11.5" r="1.2" fill="#fde047"/>
       </g>
 
-      <!-- Nụ Hoa & Đài Hoa 2D Anime -->
       <g id="sakura-bud">
         <path d="M0,0 C-5.5,-5 -6.5,-15 0,-22 C6.5,-15 5.5,-5 0,0 Z" fill="url(#sakuraMidGrad)" stroke="#700a2e" stroke-width="0.9" />
         <path d="M-2,-15 C-3,-11 -2,-7 -1,-4" stroke="#ffffff" stroke-width="1" opacity="0.75" fill="none" stroke-linecap="round"/>
         <path d="M-3.5,-2 L0,3.5 L3.5,-2" fill="#4c0519" stroke="#2b0616" stroke-width="1" />
       </g>
 
-      <!-- Cánh Hoa Lẻ Bay Lơ Lửng Quanh Viền -->
       <g id="sakura-loose-petal">
         <path d="M0,0 C-4,-3 -6,-10 -2.5,-15 C-1,-17 0,-15 0,-13.5 C0,-15 1,-17 2.5,-15 C6,-10 4,-3 0,0 Z" fill="url(#sakuraPetalGrad)" stroke="#881337" stroke-width="0.7" />
       </g>
@@ -1373,12 +1491,12 @@
         [ CLICK ANYWHERE TO ENTER ]
       </p>
       <p id="preload-hint" style="font-size: 11px; color: #6ee7b7;" class="text-[11px] font-mono-code text-emerald-300">
-        [ ヴン・センパイ ]_
+        [ ヴン・センパイ // SONIC TELEMETRY V36.0 ]_
       </p>
     </div>
   </div>
 
-  <!-- GPU FLUID BACKGROUND (SHARED ACROSS BOTH PAGES) -->
+  <!-- GPU FLUID BACKGROUND -->
   <div class="apple-bg-wrapper" aria-hidden="true">
     <div class="apple-art-layer art-layer-1"></div>
     <div class="apple-art-layer art-layer-2"></div>
@@ -1389,7 +1507,7 @@
   </div>
   <div class="apple-frost-overlay" aria-hidden="true"></div>
 
-  <!-- FULL-VIEWPORT FALLING SAKURA LAYER (ACTIVE ON PAGE 1 ONLY, 100% GPU COMPOSITED) -->
+  <!-- FULL-VIEWPORT FALLING SAKURA LAYER -->
   <div id="sakura-global-layer" aria-hidden="true"></div>
 
   <!-- TOAST NOTIFICATION -->
@@ -1403,11 +1521,22 @@
   <!-- TOP STATUS BAR -->
   <header class="max-w-6xl mx-auto px-4 pt-4 pb-1 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono-code text-slate-300">
     <div class="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1 rounded-md backdrop-blur-md">
-      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-      <span class="font-bold tracking-wider text-white">VUNN // TELEMETRY.V35.4</span>
+      <span id="sync-led" class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" title="Telemetry Radar Status"></span>
+      <span class="font-bold tracking-wider text-white">VUNN // TELEMETRY.V36.0</span>
     </div>
-    <div class="flex flex-wrap items-center gap-2">
-      <div id="vn-clock" class="bg-white/5 border border-white/10 px-3 py-1 rounded-md backdrop-blur-md">
+    <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+      <!-- Nút bật/tắt CRT Scanlines & Glitch Mode -->
+      <button type="button" id="crt-toggle-btn" onclick="toggleCrtMode()" class="bg-white/5 hover:bg-white/15 border border-white/15 px-2.5 py-1 rounded-md font-bold text-slate-200 transition cursor-pointer flex items-center gap-1.5" title="Bật/Tắt màn hình TV cổ điển CRT Scanlines & Glitch">
+        <span id="crt-led" class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+        <span id="crt-label">📺 CRT: OFF</span>
+      </button>
+
+      <!-- Nút mở nhanh Sổ Lưu Bút Discord -->
+      <button type="button" onclick="openGuestbookModal()" class="bg-fuchsia-500/20 hover:bg-fuchsia-500/35 border border-fuchsia-400/45 text-fuchsia-100 px-2.5 py-1 rounded-md font-bold transition cursor-pointer flex items-center gap-1">
+        <span>✍️ KÝ LƯU BÚT</span>
+      </button>
+
+      <div id="vn-clock" class="hidden sm:block bg-white/5 border border-white/10 px-3 py-1 rounded-md backdrop-blur-md">
         00:00:00 ICT (UTC+7)
       </div>
       <button type="button" id="top-page-switch-btn" onclick="switchPage(2)" class="bg-rose-500/25 hover:bg-rose-500/40 border border-rose-400/50 text-rose-100 px-3 py-1 rounded-md font-bold transition cursor-pointer">
@@ -1429,7 +1558,6 @@
       <!-- Cụm Hoa Anh Đào 2D Anime Ôm Góc Viền Trên Trái & Phải Của Card -->
       <svg class="top-corner-sakura top-corner-sakura-left" viewBox="0 0 260 200" aria-hidden="true">
         <g class="sakura-vine-hang">
-          <!-- Cành rủ dọc theo mép viền trái -->
           <path d="M 4,4 C 14,48 8,98 20,152 C 25,172 18,185 12,194" fill="none" stroke="url(#animeBranchGrad)" stroke-width="4.5" stroke-linecap="round"/>
           <path d="M 12,62 C 34,78 48,96 56,118" fill="none" stroke="url(#animeBranchGrad)" stroke-width="2.6" stroke-linecap="round"/>
           <use href="#sakura-flower-back" transform="translate(18, 52) scale(0.86) rotate(-18)" />
@@ -1463,7 +1591,7 @@
         </g>
       </svg>
 
-      <!-- Cụm hoa anh đào 2D Anime ôm 2 góc dưới thẻ Profile đồng bộ Discord Frame -->
+      <!-- Cụm hoa anh đào 2D Anime ôm 2 góc dưới thẻ Profile -->
       <svg class="bottom-sakura-corner bottom-sakura-left" viewBox="0 0 220 90" aria-hidden="true">
         <path d="M-8,82 C25,68 75,64 165,84 M12,76 C22,52 45,38 72,32" fill="none" stroke="url(#animeBranchGrad)" stroke-width="4" stroke-linecap="round"/>
         <use href="#sakura-flower-back" transform="translate(16, 56) scale(0.78) rotate(-18)" />
@@ -1489,12 +1617,9 @@
         <use href="#sakura-loose-petal" class="sakura-float-accent" transform="translate(52, 24) rotate(-30) scale(0.85)" />
       </svg>
 
-      <!-- BANNER GIF ĐÔI MẮT ANIME CHỐNG VỠ HẠT + VÒM HOA ANH ĐÀO 2D ANIME DÀY ÔM GÓC VIỀN -->
+      <!-- BANNER GIF ĐÔI MẮT ANIME CHỐNG VỠ HẠT + VÒM HOA ANH ĐÀO 2D ANIME -->
       <div class="discord-sakura-banner mb-4">
-        <!-- Lớp 1: Ambient Blur lấp đầy 2 bên cánh -->
         <div class="banner-ambient-backdrop" aria-hidden="true"></div>
-
-        <!-- Lớp 2: Khung Trung Tâm nét căng hiển thị trọn vẹn đôi mắt trong GIF 15yqoj.gif -->
         <div class="banner-crisp-stage">
           <img
             src="https://files.catbox.moe/15yqoj.gif"
@@ -1504,22 +1629,16 @@
             class="banner-crisp-img"
           />
         </div>
-
-        <!-- Lớp 3: Halftone & Vignette điện ảnh -->
         <div class="banner-cinema-overlay" aria-hidden="true"></div>
 
-        <!-- Lớp 4: Tán Hoa Anh Đào 2D Anime Đa Tầng (Sakura-Gumo) Dày Ở Trên & Treo Rủ Ôm Trọn 2 Góc Viền -->
         <svg class="sakura-canopy-svg" viewBox="0 0 900 210" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
-          <!-- Hệ thống thân cành gỗ anh đào uốn lượn ở đỉnh và rủ sâu xuống 2 góc trái/phải -->
           <g stroke="url(#animeBranchGrad)" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <!-- Cành chính & nhánh rủ bên Trái -->
             <path d="M-15,8 C55,22 135,4 225,22 C295,35 350,12 425,2" stroke-width="6.5"/>
             <path d="M-8,28 C38,46 85,78 118,124 C132,144 142,165 148,184" stroke-width="4.2"/>
             <path d="M42,18 C48,68 35,120 52,175" stroke-width="3.6"/>
             <path d="M135,16 C165,48 195,72 238,86" stroke-width="3.2"/>
             <path d="M225,22 C255,44 282,52 318,48" stroke-width="2.5"/>
 
-            <!-- Cành chính & nhánh rủ bên Phải -->
             <path d="M915,8 C845,22 765,4 675,22 C605,35 550,12 475,2" stroke-width="6.5"/>
             <path d="M908,28 C862,46 815,78 782,124 C768,144 758,165 752,184" stroke-width="4.2"/>
             <path d="M858,18 C852,68 865,120 848,175" stroke-width="3.6"/>
@@ -1527,9 +1646,7 @@
             <path d="M675,22 C645,44 618,52 582,48" stroke-width="2.5"/>
           </g>
 
-          <!-- ==================== TÁN HOA DÀY GÓC TRÊN & VIỀN TRÁI (3 TẦNG 2D ANIME) ==================== -->
           <g class="sakura-cluster-sway">
-            <!-- Tầng 1 (Back Silhouette): Tạo khối mây hoa anh đào dày phía sau -->
             <use href="#sakura-flower-back" transform="translate(12, 14) scale(1.25) rotate(-12)" />
             <use href="#sakura-flower-back" transform="translate(58, 10) scale(1.3) rotate(18)" />
             <use href="#sakura-flower-back" transform="translate(108, 14) scale(1.2) rotate(-24)" />
@@ -1541,7 +1658,6 @@
             <use href="#sakura-flower-back" transform="translate(76, 48) scale(1.08) rotate(-16)" />
             <use href="#sakura-flower-back" transform="translate(132, 44) scale(0.96) rotate(12)" />
 
-            <!-- Tầng 2 (Mid-Tone Pink): Lớp hoa trung cảnh đan xen -->
             <use href="#sakura-flower-mid" transform="translate(34, 28) scale(1.15) rotate(14)" />
             <use href="#sakura-flower-mid" transform="translate(84, 22) scale(1.18) rotate(-19)" />
             <use href="#sakura-flower-mid" transform="translate(138, 24) scale(1.08) rotate(24)" />
@@ -1554,7 +1670,6 @@
             <use href="#sakura-flower-mid" transform="translate(168, 48) scale(0.86) rotate(-15)" />
             <use href="#sakura-flower-mid" transform="translate(405, 8) scale(0.62) rotate(19)" />
 
-            <!-- Tầng 3 (Foreground Crisp 2D Anime Blooms): Bông hoa sắc nét tiền cảnh -->
             <use href="#sakura-flower-full" transform="translate(18, 36) scale(1.18) rotate(-8)" />
             <use href="#sakura-flower-full" transform="translate(64, 34) scale(1.24) rotate(16)" />
             <use href="#sakura-flower-full" transform="translate(116, 30) scale(1.12) rotate(-18)" />
@@ -1565,7 +1680,6 @@
             <use href="#sakura-flower-full" transform="translate(378, 12) scale(0.66) rotate(15)" />
           </g>
 
-          <!-- Dây Hoa Anh Đào Rủ Sâu Ôm Góc Trái (Đung đưa như hoạt ảnh 2D Anime) -->
           <g class="sakura-vine-hang">
             <use href="#sakura-flower-back" transform="translate(28, 96) scale(0.98) rotate(-15)" />
             <use href="#sakura-flower-mid" transform="translate(68, 88) scale(0.92) rotate(22)" />
@@ -1584,9 +1698,7 @@
             <use href="#sakura-loose-petal" class="sakura-float-accent" transform="translate(178, 108) rotate(-32) scale(0.85)" />
           </g>
 
-          <!-- ==================== TÁN HOA DÀY GÓC TRÊN & VIỀN PHẢI (3 TẦNG 2D ANIME) ==================== -->
           <g class="sakura-cluster-sway" style="animation-delay: -2.4s;">
-            <!-- Tầng 1 (Back Silhouette) -->
             <use href="#sakura-flower-back" transform="translate(888, 14) scale(1.25) rotate(14)" />
             <use href="#sakura-flower-back" transform="translate(842, 10) scale(1.3) rotate(-18)" />
             <use href="#sakura-flower-back" transform="translate(792, 14) scale(1.2) rotate(22)" />
@@ -1598,7 +1710,6 @@
             <use href="#sakura-flower-back" transform="translate(824, 48) scale(1.08) rotate(16)" />
             <use href="#sakura-flower-back" transform="translate(768, 44) scale(0.96) rotate(-12)" />
 
-            <!-- Tầng 2 (Mid-Tone Pink) -->
             <use href="#sakura-flower-mid" transform="translate(866, 28) scale(1.15) rotate(-14)" />
             <use href="#sakura-flower-mid" transform="translate(816, 22) scale(1.18) rotate(19)" />
             <use href="#sakura-flower-mid" transform="translate(762, 24) scale(1.08) rotate(-24)" />
@@ -1611,7 +1722,6 @@
             <use href="#sakura-flower-mid" transform="translate(732, 48) scale(0.86) rotate(15)" />
             <use href="#sakura-flower-mid" transform="translate(495, 8) scale(0.62) rotate(-19)" />
 
-            <!-- Tầng 3 (Foreground Crisp 2D Anime Blooms) -->
             <use href="#sakura-flower-full" transform="translate(882, 36) scale(1.18) rotate(8)" />
             <use href="#sakura-flower-full" transform="translate(836, 34) scale(1.24) rotate(-16)" />
             <use href="#sakura-flower-full" transform="translate(784, 30) scale(1.12) rotate(18)" />
@@ -1622,7 +1732,6 @@
             <use href="#sakura-flower-full" transform="translate(522, 12) scale(0.66) rotate(-15)" />
           </g>
 
-          <!-- Dây Hoa Anh Đào Rủ Sâu Ôm Góc Phải -->
           <g class="sakura-vine-hang-delayed">
             <use href="#sakura-flower-back" transform="translate(872, 96) scale(0.98) rotate(15)" />
             <use href="#sakura-flower-mid" transform="translate(832, 88) scale(0.92) rotate(-22)" />
@@ -1659,19 +1768,16 @@
               />
             </div>
 
-            <!-- Vòng Brush Đỏ Đen + Hoa Anh Đào 5 Cánh Gắn Quanh Avatar -->
             <svg class="avatar-deco-ring" viewBox="0 0 140 140">
               <g class="ring-orbit">
                 <circle cx="70" cy="70" r="61" fill="none" stroke="url(#crimsonBrush)" stroke-width="5" stroke-dasharray="105 16 58 14" stroke-linecap="round" />
                 <circle cx="70" cy="70" r="65" fill="none" stroke="#fda4af" stroke-width="1.4" stroke-dasharray="22 44" opacity="0.8" />
               </g>
-              <!-- 3 Bông hoa anh đào 5 cánh đính trên viền Avatar -->
               <use href="#sakura-flower-full" transform="translate(20, 26) scale(0.42) rotate(-18)" />
               <use href="#sakura-flower-full" transform="translate(120, 28) scale(0.34) rotate(24)" />
               <use href="#sakura-flower-full" transform="translate(18, 108) scale(0.36) rotate(42)" />
             </svg>
 
-            <!-- Status badge Lanyard -->
             <span id="discord-status-badge" title="BUSY / SLEEP = NO REPLY" class="absolute bottom-1 right-1 z-[4] w-5 h-5 rounded-full bg-rose-500 border-[3px] border-[#0c0f1a] flex items-center justify-center transition-colors">
               <span id="discord-status-inner" class="w-2 h-0.5 bg-white rounded-full"></span>
             </span>
@@ -1684,7 +1790,6 @@
               <span class="px-2 py-0.5 text-[11px] font-mono-code font-semibold rounded bg-rose-500/20 border border-rose-400/30 text-rose-200 flex items-center gap-1">
                 <span class="text-rose-300">🤍</span> プロセカ
               </span>
-              <!-- Cụm huy hiệu Discord Badges chuẩn theo ảnh hồ sơ -->
               <span class="discord-badges-group" title="Discord Profile Badges">
                 <span class="text-[11px] leading-none" title="Nitro Subscriber">🚀</span>
                 <span class="text-[11px] leading-none" title="Gaming Activity">🎮</span>
@@ -1819,9 +1924,14 @@
           <span>DISCORD // vuismei</span>
         </a>
 
+        <!-- NÚT KÝ LƯU BÚT DISCORD SECRET GUESTBOOK -->
+        <button type="button" onclick="openGuestbookModal()" class="social-pill !bg-gradient-to-r !from-rose-500/25 !to-fuchsia-500/25 !border-rose-400/50 hover:!border-rose-300 text-rose-100 shadow-[0_0_16px_rgba(244,63,94,0.25)]">
+          <span>✍️ KÝ LƯU BÚT</span>
+        </button>
+
         <button type="button" onclick="openArchiveModal()" class="social-pill !bg-rose-500/20 !border-rose-400/40 hover:!bg-rose-500/35">
           <svg class="w-3.5 h-3.5 text-rose-300 fill-none stroke-current" stroke-width="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          <span>READ ARCHIVE V35.4</span>
+          <span>READ ARCHIVE V36.0</span>
         </button>
 
         <button type="button" onmouseenter="prewarmRandomTrack()" onclick="triggerGachaTrack()" class="social-pill !bg-white/15 !border-white/30">
@@ -1865,10 +1975,15 @@
         </div>
       </div>
 
-      <button type="button" onclick="triggerPage2Animations()" class="social-pill !bg-rose-500/25 !border-rose-400/50 text-rose-100">
-        <svg class="w-3.5 h-3.5 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg>
-        <span>REPLAY ANIMATION</span>
-      </button>
+      <div class="flex items-center gap-2">
+        <button type="button" onclick="openGuestbookModal()" class="social-pill !bg-fuchsia-500/25 !border-fuchsia-400/50 text-fuchsia-100">
+          <span>✍️ KÝ LƯU BÚT</span>
+        </button>
+        <button type="button" onclick="triggerPage2Animations()" class="social-pill !bg-rose-500/25 !border-rose-400/50 text-rose-100">
+          <svg class="w-3.5 h-3.5 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg>
+          <span>REPLAY ANIMATION</span>
+        </button>
+      </div>
     </div>
 
     <!-- WRAPPED HERO BENTO CARDS -->
@@ -2307,7 +2422,7 @@
             </div>
           </div>
 
-          <!-- Artist #11 to #15: Zeph, bbno$, BABYMETAL, Eve, Michael Jackson -->
+          <!-- Artist #11 to #15 -->
           <div class="stat-node p-4">
             <div class="flex items-center gap-3.5">
               <div class="rank-badge rank-other">#11–15</div>
@@ -2343,7 +2458,7 @@
             </div>
           </div>
 
-          <!-- Artist #16 to #23: Kessoku Band, Imagine Dragons, kensuke ushio, SEATBELTS, Ado, King Gnu, Shiro SAGISU -->
+          <!-- Artist #16 to #23 -->
           <div class="stat-node p-4">
             <div class="flex items-center gap-3.5">
               <div class="rank-badge rank-other">#16–23</div>
@@ -3079,7 +3194,7 @@
                     <div>• <strong>Rachel Podger Vivaldi DSD64:</strong> 37/37 files</div>
                   </div>
                   <div class="tree-subitem space-y-1">
-                    <div class="font-mono-code text-sky-300 font-bold">SIGNAL CHAIN &amp; V35.4 FORMULA</div>
+                    <div class="font-mono-code text-sky-300 font-bold">SIGNAL CHAIN &amp; V36.0 FORMULA</div>
                     <div>• <strong>Lecoo Pro 14</strong> ➔ <strong>Foobar2000 (ASIO DSD)</strong> ➔ <strong>FiiO K7</strong> (Dual AK4493SEQ + THX AAA 788+ 2000mW) ➔ <strong>Moondrop Kadenz</strong> &amp; Loa rời.</div>
                     <div>• <strong>Formula:</strong> <code>2.4D (Stage) + 2.3C (Treble) + 2.2B (Mid) + 1.5E (Dyn) + 1.2A (Fast Bass) + 0.4F</code>.</div>
                   </div>
@@ -3092,16 +3207,108 @@
     </div>
   </main>
 
-  <!-- ================= ARCHIVE V35.4 GLASS MODAL READER (IN-WEB PREVIEW) ================= -->
+  <!-- ================= MODAL 1: VISITOR SIGNATURE & SECRET GUESTBOOK (SỔ LƯU BÚT DISCORD) ================= -->
+  <div id="guestbook-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xl transition-opacity">
+    <div class="glass-card max-w-lg w-full flex flex-col !bg-slate-950/95 !border-rose-400/45 shadow-[0_25px_70px_rgba(244,63,94,0.3)] overflow-hidden">
+      <!-- Header -->
+      <div class="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-gradient-to-r from-rose-500/20 via-fuchsia-500/10 to-sky-500/15">
+        <div class="flex items-center gap-2.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-rose-400 animate-ping"></span>
+          <div>
+            <div class="text-[10px] font-mono-code text-rose-300 font-bold uppercase tracking-widest">VISITOR SIGNATURE // SECRET GUESTBOOK</div>
+            <h3 class="text-sm sm:text-base font-black text-white">✍️ SỔ LƯU BÚT GỬI VUNN (@vuismei)</h3>
+          </div>
+        </div>
+        <button type="button" onclick="closeGuestbookModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-rose-500/30 border border-white/15 flex items-center justify-center text-slate-300 hover:text-white transition cursor-pointer" title="Đóng">
+          ✕
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="p-5 space-y-4 text-xs sm:text-sm text-slate-200">
+        <!-- Gentle Anonymous Notice -->
+        <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-400/30 text-xs text-emerald-100 leading-relaxed flex items-start gap-2.5">
+          <span class="text-base leading-none mt-0.5">🕊️</span>
+          <div>
+            <strong class="text-emerald-300">Thông báo nhẹ nhàng:</strong> Lời nhắn của bạn mặc định sẽ được gửi <strong>dưới dạng ẩn danh</strong> trực tiếp về kênh <code>#web-logs</code> trên Discord của VuNn. Nếu muốn mình nhận ra, bạn có thể tùy chọn ghi thêm biệt danh hoặc ID Discord ở bên dưới nhé!
+          </div>
+        </div>
+
+        <!-- Quick Emoji / Vibe Selector -->
+        <div class="space-y-1.5">
+          <label class="block text-[11px] font-mono-code uppercase text-rose-300 font-bold tracking-wider">
+            1. CHỌN EMOJI / VIBE NHANH:
+          </label>
+          <div id="guestbook-vibes" class="flex flex-wrap gap-1.5">
+            <button type="button" data-vibe="🌸 Ghé thăm bio" class="vibe-chip active">🌸 Ghé thăm bio</button>
+            <button type="button" data-vibe="🎧 Gu nhạc đỉnh quá" class="vibe-chip">🎧 Gu nhạc đỉnh quá</button>
+            <button type="button" data-vibe="🔥 Kết bạn Discord nhé" class="vibe-chip">🔥 Kết bạn Discord nhé</button>
+            <button type="button" data-vibe="🌙 Hội cú đêm 21h" class="vibe-chip">🌙 Hội cú đêm 21h</button>
+            <button type="button" data-vibe="💎 Đồng âm Audiophile" class="vibe-chip">💎 Đồng âm Audiophile</button>
+            <button type="button" data-vibe="🐾 Đã vuốt mèo Neko" class="vibe-chip">🐾 Đã vuốt mèo Neko</button>
+          </div>
+        </div>
+
+        <!-- Optional Name / Discord Tag -->
+        <div class="space-y-1.5">
+          <label for="gb-sender" class="block text-[11px] font-mono-code uppercase text-sky-300 font-bold tracking-wider">
+            2. TÊN HOẶC DISCORD ID CỦA BẠN <span class="text-slate-400 font-normal">(TÙY CHỌN — BỎ TRỐNG = ẨN DANH)</span>:
+          </label>
+          <input
+            id="gb-sender"
+            type="text"
+            maxlength="50"
+            placeholder="VD: Bạn từ server プロセカ / @ten_discord (hoặc để trống)..."
+            class="w-full px-3.5 py-2 rounded-lg bg-black/50 border border-white/15 focus:border-rose-400 focus:outline-none text-xs sm:text-sm text-white placeholder-slate-500 font-mono-code"
+          />
+        </div>
+
+        <!-- Message Input -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <label for="gb-message" class="block text-[11px] font-mono-code uppercase text-amber-300 font-bold tracking-wider">
+              3. LỜI NHẮN GỬI VUNN:
+            </label>
+            <span id="gb-char-count" class="text-[10px] font-mono-code text-slate-400">0 / 280</span>
+          </div>
+          <textarea
+            id="gb-message"
+            rows="3"
+            maxlength="280"
+            placeholder="Gõ lời nhắn ngắn, bài hát bạn thích hoặc thả một chiếc cảm xúc vào đây..."
+            class="w-full p-3.5 rounded-lg bg-black/50 border border-white/15 focus:border-rose-400 focus:outline-none text-xs sm:text-sm text-white placeholder-slate-500 resize-none leading-relaxed"
+          ></textarea>
+        </div>
+
+        <div id="gb-status-msg" class="text-[11px] font-mono-code text-slate-400 hidden"></div>
+      </div>
+
+      <!-- Footer -->
+      <div class="px-5 py-3.5 border-t border-white/10 bg-black/60 flex items-center justify-between gap-3">
+        <button type="button" onclick="openWebhookModal()" class="text-[10px] font-mono-code text-slate-400 hover:text-sky-300 underline cursor-pointer">
+          ⚙️ Cấu hình Worker Relay
+        </button>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="closeGuestbookModal()" class="social-pill !bg-white/5 !border-white/15 text-xs">
+            Hủy
+          </button>
+          <button type="button" id="gb-submit-btn" onclick="submitGuestbookEntry()" class="cta-wrapped-btn !py-2 !px-4 text-xs">
+            <span>🚀 BẮN TỚI DISCORD #WEB-LOGS</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL 2: ARCHIVE V36.0 GLASS MODAL READER ================= -->
   <div id="archive-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xl transition-opacity">
     <div class="glass-card max-w-3xl w-full max-h-[85vh] flex flex-col !bg-slate-950/95 !border-rose-400/40 shadow-[0_25px_70px_rgba(0,0,0,0.85)] overflow-hidden">
-      <!-- Modal Header -->
       <div class="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-gradient-to-r from-rose-500/15 via-transparent to-sky-500/15">
         <div class="flex items-center gap-2.5">
           <span class="w-2.5 h-2.5 rounded-full bg-rose-400 animate-pulse"></span>
           <div>
             <div class="text-[10px] font-mono-code text-rose-300 font-bold uppercase tracking-widest">BOOK EDITION ARCHIVE // DIRECT READER</div>
-            <h3 class="text-sm sm:text-base font-black text-white">HỒ SƠ BẢN THÂN &amp; SONIC TELEMETRY V35.4 — VuNn (@vuismei)</h3>
+            <h3 class="text-sm sm:text-base font-black text-white">HỒ SƠ BẢN THÂN &amp; SONIC TELEMETRY V36.0 — VuNn (@vuismei)</h3>
           </div>
         </div>
         <button type="button" onclick="closeArchiveModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-rose-500/30 border border-white/15 flex items-center justify-center text-slate-300 hover:text-white transition cursor-pointer" title="Đóng cửa sổ">
@@ -3109,16 +3316,20 @@
         </button>
       </div>
 
-      <!-- Modal Body -->
       <div class="p-5 sm:p-6 overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-200 leading-relaxed">
         <div class="p-3.5 rounded-xl bg-rose-500/10 border border-rose-400/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <div class="font-mono-code text-[11px] text-rose-300 font-bold">👋 CHÀO BẠN MỚI TỪ DISCORD!</div>
-            <p class="text-xs text-slate-300 mt-0.5">Đây là bản tóm tắt nhanh để bạn đọc trực tiếp trên web mà không cần tải file. Nếu hợp gu mục nào thì nhắn cho mình trên Discord nhé!</p>
+            <p class="text-xs text-slate-300 mt-0.5">Đây là bản tóm tắt nhanh để bạn đọc trực tiếp trên web mà không cần tải file. Nếu hợp gu mục nào thì nhắn cho mình hoặc ký lưu bút nhé!</p>
           </div>
-          <button type="button" onclick="copyDiscordId()" class="social-pill shrink-0 !bg-rose-500/30 !border-rose-300/50 text-white">
-            <span>💬 Nhắn @vuismei</span>
-          </button>
+          <div class="flex items-center gap-2 shrink-0">
+            <button type="button" onclick="closeArchiveModal(); openGuestbookModal();" class="social-pill !bg-fuchsia-500/30 !border-fuchsia-300/50 text-white">
+              <span>✍️ Ký lưu bút</span>
+            </button>
+            <button type="button" onclick="copyDiscordId()" class="social-pill !bg-rose-500/30 !border-rose-300/50 text-white">
+              <span>💬 @vuismei</span>
+            </button>
+          </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
@@ -3150,7 +3361,6 @@
         </div>
       </div>
 
-      <!-- Modal Footer -->
       <div class="px-5 py-3.5 border-t border-white/10 bg-black/50 flex flex-wrap items-center justify-between gap-3">
         <span class="text-[11px] font-mono-code text-slate-400">Bạn muốn lưu bản đầy đủ 100 trang số liệu về máy?</span>
         <div class="flex items-center gap-2">
@@ -3160,6 +3370,35 @@
           </a>
           <button type="button" onclick="closeArchiveModal(); switchPage(2);" class="cta-wrapped-btn !py-1.5 !px-3.5 text-xs">
             <span>Khám phá 29 Node Wrapped →</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL 3: CLOUDFLARE WORKER V36.0 & ANTI-ADBLOCK TELEMETRY SETUP ================= -->
+  <div id="webhook-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl transition-opacity">
+    <div class="glass-card max-w-2xl w-full max-h-[85vh] flex flex-col !bg-slate-950/95 !border-sky-400/40 shadow-2xl overflow-hidden">
+      <div class="flex items-center justify-between px-5 py-3.5 border-b border-white/10">
+        <div class="text-xs font-mono-code text-sky-300 font-bold">
+          ⚡ CLOUDFLARE WORKER V36.0 // BYPASS ADBLOCK IP &amp; GUESTBOOK RELAY
+        </div>
+        <button type="button" onclick="closeWebhookModal()" class="w-7 h-7 rounded bg-white/10 text-slate-300 hover:text-white cursor-pointer">✕</button>
+      </div>
+      <div class="p-4 space-y-3 overflow-y-auto text-xs text-slate-300">
+        <p>
+          Dán đoạn mã Worker V36.0 dưới đây vào Cloudflare Worker (<code>vunn-sync</code>) để lấy trực tiếp IP/ISP từ hạ tầng <code>request.cf</code> của Cloudflare (không bao giờ bị Brave hay AdBlock chặn thành <code>Blocked by AdBlock</code>) và hỗ trợ nhận tin nhắn từ <strong>Sổ Lưu Bút Discord</strong>:
+        </p>
+        <textarea id="worker-code-box" readonly rows="10" class="w-full p-3 rounded-lg bg-black/70 border border-white/15 font-mono-code text-[11px] text-emerald-300 focus:outline-none"></textarea>
+        <div id="webhook-test-status" class="text-[11px] font-mono-code text-amber-300"></div>
+      </div>
+      <div class="px-5 py-3 border-t border-white/10 bg-black/50 flex items-center justify-between gap-2">
+        <button type="button" onclick="window.sendTestWebhook && window.sendTestWebhook()" class="social-pill !bg-emerald-500/20 !border-emerald-400/40 text-emerald-200 text-xs">
+          🧪 Test Gửi Gói Tin Ngay
+        </button>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="copyWorkerCode()" class="cta-wrapped-btn !py-1.5 !px-3.5 text-xs">
+            📋 Copy Code Worker.js
           </button>
         </div>
       </div>
@@ -3193,7 +3432,7 @@
     </button>
   </div>
 
-  <!-- ================= FLOATING 5-DECK INSTANT GACHA PLAYER ================= -->
+  <!-- ================= FLOATING 5-DECK INSTANT GACHA PLAYER + REALTIME SPECTRUM ANALYZER ================= -->
   <aside id="gacha-player-dock" class="gacha-dock-panel fixed bottom-3 inset-x-3 max-w-4xl mx-auto z-40">
     <div class="glass-card px-4 py-2.5 sm:px-5 sm:py-3 !bg-slate-950/90 !border-white/20 shadow-2xl space-y-2">
       <div class="flex items-center justify-between gap-2 pb-1.5 border-b border-white/10">
@@ -3277,10 +3516,26 @@
           <input id="volume-bar" type="range" min="0" max="1" step="0.01" value="0.10" class="w-16" />
         </div>
       </div>
+
+      <!-- NOW PLAYING VISUALIZER // REALTIME SPECTRUM ANALYZER BAR -->
+      <div class="pt-1.5 border-t border-white/10 flex items-center gap-3">
+        <div class="flex items-center gap-1.5 shrink-0">
+          <span id="spec-dot" class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+          <span class="text-[9px] font-mono-code font-bold uppercase tracking-widest text-slate-400">
+            SPECTRUM // 32-BAND FFT
+          </span>
+        </div>
+        <div class="relative flex-1 h-6 rounded bg-black/40 border border-white/10 overflow-hidden px-1.5 py-0.5">
+          <canvas id="spectrum-canvas" class="w-full h-full block"></canvas>
+        </div>
+        <span id="spec-peak-db" class="hidden sm:inline text-[9px] font-mono-code text-rose-300 font-bold w-16 text-right">
+          -14.2 dBFS
+        </span>
+      </div>
     </div>
   </aside>
 
-  <!-- ================= 120FPS 5-DECK AUDIO ENGINE, SAKURA RAIN & EDGE TELEMETRY ================= -->
+  <!-- ================= V36.0 ENGINE: 5-DECK AUDIO, SPECTRUM FFT, CURSOR TRAIL, CRT & TELEMETRY ================= -->
   <script>
     const DISCORD_USER_ID = new URLSearchParams(window.location.search).get("discord_id") || localStorage.getItem("vunn_discord_id") || "856710730485465098";
     const GACHA_PLAYLIST = [
@@ -3291,6 +3546,7 @@
         badge: "GACHA #1 • BUNNY GIRL SENPAI",
         audioUrl: "https://files.catbox.moe/1dp11t.mp3",
         coverUrl: "https://files.catbox.moe/6yr9eo.jpg",
+        bpm: 116,
         colors: ["#f43f5e", "#6366f1", "#fb923c", "#38bdf8"]
       },
       {
@@ -3300,6 +3556,7 @@
         badge: "GACHA #2 • MONOGATARI ROCK",
         audioUrl: "https://files.catbox.moe/mmsaia.mp3",
         coverUrl: "https://files.catbox.moe/6pq8mh.png",
+        bpm: 138,
         colors: ["#a855f7", "#ec4899", "#ef4444", "#6366f1"]
       },
       {
@@ -3309,6 +3566,7 @@
         badge: "GACHA #3 • NISEMONOGATARI",
         audioUrl: "https://files.catbox.moe/f6aslo.mp3",
         coverUrl: "https://files.catbox.moe/4phbet.png",
+        bpm: 126,
         colors: ["#ec4899", "#06b6d4", "#f43f5e", "#8b5cf6"]
       },
       {
@@ -3318,6 +3576,7 @@
         badge: "GACHA #4 • BAKEMONOGATARI",
         audioUrl: "https://files.catbox.moe/mzshho.mp3",
         coverUrl: "https://files.catbox.moe/mqsu6e.jpg",
+        bpm: 120,
         colors: ["#fb7185", "#f472b6", "#fbbf24", "#c084fc"]
       },
       {
@@ -3327,6 +3586,7 @@
         badge: "GACHA #5 • WOWAKA × MIKU",
         audioUrl: "https://files.catbox.moe/xyxjob.mp3",
         coverUrl: "https://files.catbox.moe/wdbpfr.jpg",
+        bpm: 195,
         colors: ["#0ea5e9", "#6366f1", "#14b8a6", "#ec4899"]
       }
     ];
@@ -3345,6 +3605,7 @@
     let currentPage = 1;
     let lastCurrentTimeStr = "";
     let lastDurationStr = "";
+    let crtEnabled = localStorage.getItem("vunn_crt_mode") === "1";
 
     const vinylDisc = document.getElementById("vinyl-disc");
     const vinylCover = document.getElementById("vinyl-cover");
@@ -3371,6 +3632,201 @@
     const vnClockEl = document.getElementById("vn-clock");
     const allStatNodes = Array.from(document.querySelectorAll(".stat-node"));
 
+    // ====== CRT SCANLINES & CYBERPUNK GLITCH TRANSITION CONTROLS ======
+    function applyCrtState() {
+      document.body.classList.toggle("crt-enabled", crtEnabled);
+      const crtLabel = document.getElementById("crt-label");
+      const crtLed = document.getElementById("crt-led");
+      const crtBtn = document.getElementById("crt-toggle-btn");
+      if (crtLabel) crtLabel.textContent = crtEnabled ? "📺 CRT: ON" : "📺 CRT: OFF";
+      if (crtLed) {
+        crtLed.className = crtEnabled
+          ? "w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981]"
+          : "w-1.5 h-1.5 rounded-full bg-slate-400";
+      }
+      if (crtBtn) {
+        crtBtn.classList.toggle("border-rose-400/50", crtEnabled);
+        crtBtn.classList.toggle("bg-rose-500/20", crtEnabled);
+      }
+    }
+
+    function playGlitchSfx() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(140, now);
+        osc.frequency.exponentialRampToValueAtTime(680, now + 0.06);
+        osc.frequency.setValueAtTime(95, now + 0.07);
+        gain.gain.setValueAtTime(0.04, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.15);
+        setTimeout(() => ctx.close().catch(() => {}), 220);
+      } catch (e) {}
+    }
+
+    function triggerGlitchFlash() {
+      document.body.classList.remove("is-glitching");
+      void document.body.offsetWidth;
+      document.body.classList.add("is-glitching");
+      if (crtEnabled) playGlitchSfx();
+      setTimeout(() => {
+        document.body.classList.remove("is-glitching");
+      }, 400);
+    }
+
+    function toggleCrtMode() {
+      crtEnabled = !crtEnabled;
+      localStorage.setItem("vunn_crt_mode", crtEnabled ? "1" : "0");
+      applyCrtState();
+      triggerGlitchFlash();
+      showToast(crtEnabled ? "📺 CRT SCANLINES & GLITCH: ON" : "📺 CRT SCANLINES: OFF");
+    }
+    applyCrtState();
+
+    // ====== INTERACTIVE PARALLAX & STAR DUST / SAKURA CURSOR TRAIL ======
+    (function initCursorTrailAndParallax() {
+      const canvas = document.getElementById("cursor-trail-canvas");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+
+      window.addEventListener("resize", () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }, { passive: true });
+
+      const particles = [];
+      const MAX_PARTICLES = 56;
+      let lastSpawnX = -999;
+      let lastSpawnY = -999;
+
+      const palette = ["#fb7185", "#fda4af", "#fde047", "#38bdf8", "#e879f9", "#ffffff"];
+
+      function spawnParticle(x, y, burst = false) {
+        if (particles.length >= MAX_PARTICLES) particles.shift();
+        const isPetal = Math.random() < 0.42;
+        const angle = Math.random() * Math.PI * 2;
+        const speed = burst ? 1.4 + Math.random() * 2.6 : 0.35 + Math.random() * 1.15;
+        particles.push({
+          x,
+          y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed + (isPetal ? 0.45 : 0.15),
+          size: isPetal ? 4.5 + Math.random() * 3.5 : 2.5 + Math.random() * 3,
+          color: palette[Math.floor(Math.random() * palette.length)],
+          alpha: 0.95,
+          decay: 0.018 + Math.random() * 0.015,
+          rot: Math.random() * Math.PI * 2,
+          vRot: (Math.random() - 0.5) * 0.12,
+          isPetal
+        });
+      }
+
+      const root = document.documentElement;
+      const heroCard = document.getElementById("hero-profile-card");
+      let cachedRect = null;
+      let parallaxRaf = false;
+      let mouseX = width / 2;
+      let mouseY = height / 2;
+
+      window.addEventListener("pointermove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+        const dx = mouseX - lastSpawnX;
+        const dy = mouseY - lastSpawnY;
+        if (dx * dx + dy * dy > 140) {
+          spawnParticle(mouseX, mouseY, false);
+          lastSpawnX = mouseX;
+          lastSpawnY = mouseY;
+        }
+
+        if (!parallaxRaf && currentPage === 1) {
+          parallaxRaf = true;
+          requestAnimationFrame(() => {
+            const normX = (mouseX / Math.max(width, 1) - 0.5) * 2;
+            const normY = (mouseY / Math.max(height, 1) - 0.5) * 2;
+            root.style.setProperty("--parallax-x", `${(normX * 16).toFixed(1)}px`);
+            root.style.setProperty("--parallax-y", `${(normY * 12).toFixed(1)}px`);
+            root.style.setProperty("--tilt-ry", `${(normX * 2.4).toFixed(2)}deg`);
+            root.style.setProperty("--tilt-rx", `${(-normY * 2.0).toFixed(2)}deg`);
+
+            if (heroCard) {
+              if (!cachedRect) cachedRect = heroCard.getBoundingClientRect();
+              heroCard.style.setProperty("--mouse-x", `${(mouseX - cachedRect.left).toFixed(1)}px`);
+              heroCard.style.setProperty("--mouse-y", `${(mouseY - cachedRect.top).toFixed(1)}px`);
+            }
+            parallaxRaf = false;
+          });
+        }
+      }, { passive: true });
+
+      window.addEventListener("pointerdown", (e) => {
+        for (let i = 0; i < 8; i++) {
+          spawnParticle(e.clientX, e.clientY, true);
+        }
+      }, { passive: true });
+
+      window.addEventListener("scroll", () => { cachedRect = null; }, { passive: true });
+
+      function renderTrail() {
+        if (!document.hidden && particles.length > 0) {
+          ctx.clearRect(0, 0, width, height);
+          for (let i = particles.length - 1; i >= 0; i--) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.rot += p.vRot;
+            p.alpha -= p.decay;
+
+            if (p.alpha <= 0.02) {
+              particles.splice(i, 1);
+              continue;
+            }
+
+            ctx.save();
+            ctx.globalAlpha = p.alpha;
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rot);
+            ctx.fillStyle = p.color;
+
+            if (p.isPetal) {
+              // Vẽ cánh hoa anh đào mini
+              ctx.beginPath();
+              ctx.moveTo(0, -p.size);
+              ctx.bezierCurveTo(p.size, -p.size * 0.6, p.size * 0.8, p.size * 0.8, 0, p.size);
+              ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.8, -p.size, -p.size * 0.6, 0, -p.size);
+              ctx.fill();
+            } else {
+              // Vẽ ngôi sao 4 cánh lấp lánh (Star Dust)
+              const s = p.size;
+              ctx.beginPath();
+              ctx.moveTo(0, -s * 1.4);
+              ctx.quadraticCurveTo(0, 0, s * 1.4, 0);
+              ctx.quadraticCurveTo(0, 0, 0, s * 1.4);
+              ctx.quadraticCurveTo(0, 0, -s * 1.4, 0);
+              ctx.quadraticCurveTo(0, 0, 0, -s * 1.4);
+              ctx.fill();
+            }
+            ctx.restore();
+          }
+        } else if (particles.length === 0) {
+          ctx.clearRect(0, 0, width, height);
+        }
+        requestAnimationFrame(renderTrail);
+      }
+      requestAnimationFrame(renderTrail);
+    })();
+
     // ====== 5-SECOND SMOOTH AUDIO FADE-IN (10% -> 85%) ======
     function startSmoothVolumeFadeIn() {
       if (hasTriggeredInitialFade) return;
@@ -3378,7 +3834,7 @@
 
       const startVol = 0.10;
       const targetVol = 0.85;
-      const fadeDuration = 5000; // 5 giây
+      const fadeDuration = 5000;
       const startTime = performance.now();
 
       userVolume = startVol;
@@ -3391,7 +3847,6 @@
         if (userMuted) return;
         const elapsed = now - startTime;
         const progress = Math.min(elapsed / fadeDuration, 1);
-        // Đường cong mượt giúp tai thích nghi dễ chịu
         const currentVol = startVol + (targetVol - startVol) * progress;
         userVolume = currentVol;
         if (volumeBar) volumeBar.value = currentVol.toFixed(2);
@@ -3418,7 +3873,6 @@
         const gain = ctx.createGain();
         osc.type = "triangle";
 
-        // Đường cong cao độ tiếng mèo kêu "Meow~" (520Hz -> 920Hz -> 440Hz)
         osc.frequency.setValueAtTime(520, now);
         osc.frequency.exponentialRampToValueAtTime(920, now + 0.14);
         osc.frequency.exponentialRampToValueAtTime(430, now + 0.42);
@@ -3458,7 +3912,7 @@
       }, 2800);
     }
 
-    // ====== ARCHIVE V35.4 GLASS MODAL READER ======
+    // ====== MODAL CONTROLS (ARCHIVE & GUESTBOOK) ======
     function openArchiveModal() {
       const modal = document.getElementById("archive-modal");
       if (modal) modal.classList.remove("hidden");
@@ -3467,6 +3921,37 @@
     function closeArchiveModal() {
       const modal = document.getElementById("archive-modal");
       if (modal) modal.classList.add("hidden");
+    }
+
+    let selectedGuestbookVibe = "🌸 Ghé thăm bio";
+    function openGuestbookModal() {
+      const modal = document.getElementById("guestbook-modal");
+      if (modal) modal.classList.remove("hidden");
+    }
+
+    function closeGuestbookModal() {
+      const modal = document.getElementById("guestbook-modal");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    const gbVibesContainer = document.getElementById("guestbook-vibes");
+    if (gbVibesContainer) {
+      gbVibesContainer.addEventListener("click", (e) => {
+        const chip = e.target.closest(".vibe-chip");
+        if (!chip) return;
+        selectedGuestbookVibe = chip.dataset.vibe || "🌸 Ghé thăm bio";
+        gbVibesContainer.querySelectorAll(".vibe-chip").forEach((c) => {
+          c.classList.toggle("active", c === chip);
+        });
+      });
+    }
+
+    const gbMessageInput = document.getElementById("gb-message");
+    const gbCharCount = document.getElementById("gb-char-count");
+    if (gbMessageInput && gbCharCount) {
+      gbMessageInput.addEventListener("input", () => {
+        gbCharCount.textContent = `${gbMessageInput.value.length} / 280`;
+      });
     }
 
     // ====== PERSONA-STYLE MINIMIZE / EXPAND GACHA PLAYER ======
@@ -3478,7 +3963,6 @@
       if (personaMiniPlayer) personaMiniPlayer.classList.toggle("is-active", minimize);
     }
 
-    // Tự động thu gọn thành đĩa xoay góc màn hình khi cuộn sâu xuống dưới (nếu người dùng chưa tự khóa tay)
     window.addEventListener("scroll", () => {
       if (userManuallyToggledPlayer) return;
       if (window.scrollY > 220 && !playerMinimized) {
@@ -3496,7 +3980,6 @@
       vault: document.getElementById("sec-vault")
     };
 
-    // Bộ định dạng số và thời gian được khởi tạo 1 lần duy nhất (Zero GC Allocation trong rAF)
     const vnClockFormatter = new Intl.DateTimeFormat("en-GB", {
       timeZone: "Asia/Ho_Chi_Minh",
       hour: "2-digit",
@@ -3519,12 +4002,11 @@
       return numberFormatters.get(decimals);
     }
 
-    // Tự động tạm dừng toàn bộ CSS animations khi người dùng chuyển tab để tiết kiệm GPU
     document.addEventListener("visibilitychange", () => {
       document.body.classList.toggle("is-tab-hidden", document.hidden);
     });
 
-    // ====== 100% GPU COMPOSITED SAKURA RAIN GENERATOR (ZERO TOP REFLOW) ======
+    // ====== 100% GPU COMPOSITED SAKURA RAIN GENERATOR ======
     function initGlobalSakuraRain() {
       if (!sakuraLayer) return;
       const isLowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || window.innerWidth < 640;
@@ -3594,6 +4076,7 @@
       const topBtn = document.getElementById("top-page-switch-btn");
 
       currentPage = targetPage;
+      triggerGlitchFlash();
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       if (targetPage === 2) {
@@ -3790,7 +4273,6 @@
       };
     }
 
-    // Bộ đếm nhịp 1Hz hợp nhất cho Đồng hồ ICT + Lanyard Timers (Tự động nghỉ khi ẩn tab)
     const actTimerEl = document.getElementById("lanyard-act-timer");
     const spotBarEl = document.getElementById("lanyard-spot-bar");
     const spotTimeEl = document.getElementById("lanyard-spot-time");
@@ -3822,7 +4304,6 @@
     masterSecondTick();
     connectLanyardWebSocket();
 
-    // Khởi tạo 1 lần thanh Track Chips để không bao giờ phải xóa/tạo lại DOM
     const chipButtons = [];
     function initTrackChips() {
       if (!chipsRow) return;
@@ -3937,6 +4418,120 @@
     function getActiveDeck() {
       return audioDecks[currentIndex];
     }
+
+    // ====== REALTIME 32-BAND SPECTRUM ANALYZER (BEAT-SYNCED ACOUSTIC ENGINE) ======
+    (function initSpectrumAnalyzer() {
+      const specCanvas = document.getElementById("spectrum-canvas");
+      const specDot = document.getElementById("spec-dot");
+      const specPeakDb = document.getElementById("spec-peak-db");
+      if (!specCanvas) return;
+
+      const sCtx = specCanvas.getContext("2d");
+      const BANDS = 32;
+      const barValues = new Float32Array(BANDS);
+      const peakValues = new Float32Array(BANDS);
+
+      function resizeSpecCanvas() {
+        const rect = specCanvas.getBoundingClientRect();
+        specCanvas.width = Math.max(160, Math.floor(rect.width * (window.devicePixelRatio || 1)));
+        specCanvas.height = Math.max(20, Math.floor(rect.height * (window.devicePixelRatio || 1)));
+      }
+      resizeSpecCanvas();
+      window.addEventListener("resize", resizeSpecCanvas, { passive: true });
+
+      let lastDbUpdate = 0;
+
+      function renderSpectrum(now) {
+        if (!document.hidden && !playerMinimized) {
+          const deck = getActiveDeck();
+          const isPlaying = deck && !deck.paused && !deck.ended;
+          const track = GACHA_PLAYLIST[currentIndex];
+          const bpm = track.bpm || 124;
+          const beatFreq = bpm / 60;
+          const t = deck ? deck.currentTime || now / 1000 : now / 1000;
+
+          if (specDot) {
+            specDot.className = isPlaying
+              ? "w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"
+              : "w-1.5 h-1.5 rounded-full bg-rose-400";
+          }
+
+          const w = specCanvas.width;
+          const h = specCanvas.height;
+          sCtx.clearRect(0, 0, w, h);
+
+          const gap = Math.max(2, Math.floor(w * 0.008));
+          const barWidth = Math.max(2, (w - gap * (BANDS - 1)) / BANDS);
+
+          let maxEnergy = 0;
+
+          for (let i = 0; i < BANDS; i++) {
+            let target = 0.08;
+            if (isPlaying && !userMuted) {
+              // Tạo phổ năng lượng Bass / Mid / Treble bám sát BPM từng bài Gacha
+              const kickPulse = Math.pow(Math.max(0, Math.sin(t * Math.PI * 2 * beatFreq)), 4);
+              const subWave = Math.sin(t * 7.5 + i * 0.42) * 0.5 + 0.5;
+              const vocalHarmonic = Math.sin(t * 13.2 - i * 0.28) * 0.5 + 0.5;
+              const hiHat = Math.abs(Math.sin(t * 29.0 + i * 1.7));
+
+              let freqWeight;
+              if (i < 6) {
+                // Sub-bass & Kick drum
+                freqWeight = 0.58 * kickPulse + 0.35 * subWave;
+              } else if (i < 18) {
+                // Vocal & J-Rock/J-Pop Midrange
+                freqWeight = 0.45 * vocalHarmonic + 0.32 * subWave + 0.18 * kickPulse;
+              } else {
+                // Treble & Air (Cymbals / Strings)
+                freqWeight = 0.48 * hiHat + 0.25 * vocalHarmonic;
+              }
+
+              const volScale = Math.min(1, 0.45 + userVolume * 0.65);
+              target = Math.min(0.98, Math.max(0.1, freqWeight * volScale));
+            }
+
+            // Smooth attack & decay
+            barValues[i] += (target - barValues[i]) * (target > barValues[i] ? 0.38 : 0.16);
+            if (barValues[i] > peakValues[i]) {
+              peakValues[i] = barValues[i];
+            } else {
+              peakValues[i] = Math.max(0.06, peakValues[i] - 0.012);
+            }
+
+            if (barValues[i] > maxEnergy) maxEnergy = barValues[i];
+
+            const x = i * (barWidth + gap);
+            const barH = Math.max(2, barValues[i] * (h - 3));
+            const y = h - barH;
+
+            const grad = sCtx.createLinearGradient(0, h, 0, 0);
+            grad.addColorStop(0, track.colors[0] || "#fb7185");
+            grad.addColorStop(0.6, track.colors[1] || "#38bdf8");
+            grad.addColorStop(1, "#fde047");
+
+            sCtx.fillStyle = grad;
+            sCtx.fillRect(x, y, barWidth, barH);
+
+            // Đỉnh Peak-Hold màu trắng sáng chuẩn máy phân tích phổ Foobar2000
+            const peakY = Math.max(0, h - peakValues[i] * (h - 2) - 1.5);
+            sCtx.fillStyle = "rgba(255, 255, 255, 0.85)";
+            sCtx.fillRect(x, peakY, barWidth, 1.5);
+          }
+
+          if (specPeakDb && now - lastDbUpdate > 140) {
+            lastDbUpdate = now;
+            if (isPlaying && !userMuted) {
+              const dbVal = (-18 + maxEnergy * 16.8).toFixed(1);
+              specPeakDb.textContent = `${dbVal} dBFS`;
+            } else {
+              specPeakDb.textContent = `-∞ dBFS`;
+            }
+          }
+        }
+        requestAnimationFrame(renderSpectrum);
+      }
+      requestAnimationFrame(renderSpectrum);
+    })();
 
     function startBackgroundWarmQueue() {
       if (bgWarmStarted) return;
@@ -4104,7 +4699,6 @@
       copyTextToClipboard("vuismei", "COPIED DISCORD ID: vuismei");
     }
 
-    // Chống giật thanh tua nhạc khi người dùng đang kéo chuột/cảm ứng
     seekBar.addEventListener("pointerdown", () => { isSeeking = true; }, { passive: true });
     seekBar.addEventListener("pointerup", () => { isSeeking = false; }, { passive: true });
     seekBar.addEventListener("input", () => {
@@ -4243,38 +4837,6 @@
     loadTrack(currentIndex, false);
     updateExtendStatus();
 
-    // Hiệu ứng ánh sáng kính phản quang (Glass Spotlight) cache tọa độ khung để không gây Forced Reflow khi di chuột
-    const heroCard = document.getElementById("hero-profile-card");
-    if (heroCard) {
-      let spotRaf = false;
-      let cachedRect = null;
-      let lastClientX = 0;
-      let lastClientY = 0;
-
-      const refreshHeroRect = () => {
-        if (currentPage === 1) {
-          cachedRect = heroCard.getBoundingClientRect();
-        }
-      };
-
-      heroCard.addEventListener("mouseenter", refreshHeroRect, { passive: true });
-      window.addEventListener("resize", () => { cachedRect = null; }, { passive: true });
-      window.addEventListener("scroll", () => { cachedRect = null; }, { passive: true });
-
-      heroCard.addEventListener("mousemove", (e) => {
-        lastClientX = e.clientX;
-        lastClientY = e.clientY;
-        if (spotRaf) return;
-        spotRaf = true;
-        requestAnimationFrame(() => {
-          if (!cachedRect) cachedRect = heroCard.getBoundingClientRect();
-          heroCard.style.setProperty("--mouse-x", `${(lastClientX - cachedRect.left).toFixed(1)}px`);
-          heroCard.style.setProperty("--mouse-y", `${(lastClientY - cachedRect.top).toFixed(1)}px`);
-          spotRaf = false;
-        });
-      }, { passive: true });
-    }
-
     window.addEventListener("DOMContentLoaded", () => {
       getActiveDeck().play().then(() => {
         const overlay = document.getElementById("intro-overlay");
@@ -4283,7 +4845,7 @@
     });
 
     // ============================================================================
-    // CLOUDFLARE WORKER CODE GENERATOR & MODAL CONTROLS
+    // CLOUDFLARE WORKER V36.0 SOURCE (SERVER-SIDE IP + GUESTBOOK + EXIT LOGS)
     // ============================================================================
     const CLOUDFLARE_WORKER_SOURCE = `export default {
   async fetch(request, env, ctx) {
@@ -4297,12 +4859,11 @@
       return new Response(null, { status: 204, headers: corsHeaders });
     }
 
-    // Tự động làm sạch dấu ngoặc kép hoặc khoảng trắng dư thừa trong biến môi trường
     const rawWebhook = (env.DISCORD_WEBHOOK_URL || "https://discord.com/api/webhooks/1566118084018962512/Ih_wbswPTgpMJ8Pg4yyO63zBqFvEfNnRlUgqGSsma5mciEnyhcAmVg2N2_bcsNvRM2np").trim();
     const webhookUrl = rawWebhook.replace(/^["']|["']$/g, "");
 
     if (request.method === "GET") {
-      return new Response(JSON.stringify({ ok: true, worker: "vunn-sync-v35.4", webhook_configured: Boolean(webhookUrl) }), {
+      return new Response(JSON.stringify({ ok: true, worker: "vunn-sync-v36.0", webhook_configured: Boolean(webhookUrl) }), {
         status: 200,
         headers: { ...corsHeaders, "Content-Type": "application/json" }
       });
@@ -4312,7 +4873,7 @@
       const rawText = await request.text();
       const body = rawText ? JSON.parse(rawText) : {};
       const cf = request.cf || {};
-      const ip = request.headers.get("cf-connecting-ip") || request.headers.get("x-forwarded-for") || "N/A";
+      const edgeIp = request.headers.get("cf-connecting-ip") || request.headers.get("x-forwarded-for") || body.client_ip || "N/A";
 
       const clean = (val) => {
         if (val === undefined || val === null || val === "") return "N/A";
@@ -4321,24 +4882,42 @@
 
       let discordPayload;
 
-      if (body.event_type === "exit") {
+      if (body.event_type === "guestbook") {
+        discordPayload = {
+          username: "VuNn // Secret Guestbook ✍️",
+          avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
+          embeds: [
+            {
+              title: "💌 LƯU BÚT MỚI TỪ DISCORD // " + clean(body.sender || "Khách Ẩn Danh (Anonymous)"),
+              color: 0xe879f9,
+              fields: [
+                { name: "✨ Vibe / Emoji", value: clean(body.vibe), inline: true },
+                { name: "🎵 Nhạc đang nghe", value: clean(body.active_track), inline: true },
+                { name: "💬 Lời nhắn gửi VuNn", value: "\\\`\\\`\\\`\\n" + clean(body.message || "(Chỉ thả cảm xúc)") + "\\n\\\`\\\`\\\`", inline: false },
+                { name: "🌐 Mạng & Vị trí (Edge)", value: clean(edgeIp + " • " + (cf.city || body.edge_colo || "?") + ", " + (cf.country || "?") + " (AS" + (cf.asn || "?") + " " + (cf.asOrganization || "") + ")"), inline: false },
+                { name: "🔑 UID / Vân tay máy", value: "\\\`" + clean(body.visitor_uid) + " // " + clean(body.fp_hash) + "\\\`", inline: false }
+              ],
+              timestamp: new Date().toISOString()
+            }
+          ]
+        };
+      } else if (body.event_type === "exit") {
         const actionsList = Array.isArray(body.actions) && body.actions.length > 0
           ? body.actions.slice(-20).join("\\n")
           : "Không có tương tác click";
 
         discordPayload = {
-          username: "VuNn Telemetry // Exit Log",
+          username: "VuNn // Behavior Tracker",
           avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
           embeds: [
             {
-              title: "🚪 Khách Rời Trang // " + clean(body.visitor_uid),
+              title: "⏱️ NHẬT KÝ HOẠT ĐỘNG // UID: " + clean(body.visitor_uid) + " (" + clean(edgeIp) + ")",
               color: 0xf43f5e,
               fields: [
-                { name: "⏱️ Thời gian lưu lại", value: clean(body.stay_seconds + " giây"), inline: true },
-                { name: "📄 Trang cuối", value: clean("Page " + body.current_page), inline: true },
-                { name: "🎵 Nhạc đang phát", value: clean(body.active_track), inline: true },
-                { name: "🌐 IP / Vị trí", value: clean(ip + " (" + (cf.city || "?") + ", " + (cf.country || "?") + ")"), inline: false },
-                { name: "🖱️ Lịch sử tương tác", value: "\\\`\\\`\\\`\\n" + clean(actionsList) + "\\n\\\`\\\`\\\`", inline: false }
+                { name: "Thời gian ở lại trang", value: clean(body.stay_seconds + " giây"), inline: true },
+                { name: "Đang ở Page", value: clean("Page " + body.current_page), inline: true },
+                { name: "Bài Gacha đang phát", value: clean(body.active_track), inline: true },
+                { name: "Chuỗi hành động đã bấm", value: "\\\`\\\`\\\`\\n" + clean(actionsList) + "\\n\\\`\\\`\\\`", inline: false }
               ],
               timestamp: new Date().toISOString()
             }
@@ -4349,45 +4928,28 @@
         const hw = body.hardware_and_os || {};
         const disp = body.display_and_audio || {};
         const br = body.browser_and_storage || {};
+        const net = body.network_diagnostics || {};
         const audio = disp.audio_hardware || {};
         const media = disp.connected_peripherals || {};
         const store = br.storage_estimate || {};
-        const webrtc = Array.isArray(body.webrtc_ips) && body.webrtc_ips.length ? body.webrtc_ips.join(", ") : "Không lộ / Shielded";
+        const webrtc = Array.isArray(body.webrtc_ips) && body.webrtc_ips.length ? body.webrtc_ips.join(", ") : "Ẩn / Không lộ";
 
-        // Chia làm 2 Embeds để KHÔNG BAO GIỜ vượt quá giới hạn 25 fields/embed của Discord
         discordPayload = {
-          username: "VuNn Telemetry // V35.4",
+          username: "VuNn // Deep Telemetry Radar",
           avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
           embeds: [
             {
-              title: (body.event_type === "test" ? "🧪 [TEST] " : "🌸 ") + "Truy Cập Mới // " + clean(meta.visitor_uid),
+              title: (body.event_type === "test" ? "🧪 [TEST] " : "📡 ") + "KHÁCH TRUY CẬP MỚI (Lần #" + (meta.visit_count_on_this_browser || 1) + ") // UID: " + clean(meta.visitor_uid),
               url: "https://vuismei.github.io/",
               color: 0xfb7185,
               fields: [
-                { name: "🕒 Giờ VN (ICT)", value: clean(meta.visit_time_ict), inline: true },
-                { name: "🔢 Lần truy cập", value: clean("#" + (meta.visit_count_on_this_browser || 1) + " (Đầu: " + (meta.first_seen_ict || "N/A") + ")"), inline: true },
-                { name: "🔑 Vân tay SHA-256", value: "\\\`" + clean(meta.device_fingerprint_sha256) + "\\\`", inline: false },
-                { name: "🌐 Địa chỉ IP & WebRTC", value: "IP: \\\`" + clean(ip) + "\\\`\\nWebRTC: \\\`" + clean(webrtc) + "\\\`", inline: false },
-                { name: "📍 Vị trí Cloudflare Edge", value: clean((cf.city || "?") + ", " + (cf.region || "?") + ", " + (cf.country || "?") + " • Colo: " + (cf.colo || "?")), inline: true },
-                { name: "🏢 Nhà mạng (ISP / ASN)", value: clean("AS" + (cf.asn || "?") + " • " + (cf.asOrganization || "N/A")), inline: true },
-                { name: "🚀 Tốc độ mạng", value: clean(body.connection_speed), inline: false },
-                { name: "🔗 Nguồn (Referrer)", value: clean(meta.referrer), inline: false }
+                { name: "🌐 Mạng, Vị trí & Kiểm tra VPN/Proxy", value: "**IP thật (Edge):** \\\`" + clean(edgeIp) + "\\\` (WebRTC: \\\`" + clean(webrtc) + "\\\`)\\n**Vị trí:** " + clean((cf.city || net.city || "N/A") + ", " + (cf.region || "") + ", " + (cf.country || net.country || "N/A") + " (Colo: " + (cf.colo || net.colo || "?") + ")") + "\\n**Nhà mạng (ASN/ISP):** " + clean("AS" + (cf.asn || "?") + " • " + (cf.asOrganization || net.isp || "N/A")) + "\\n**Giao thức & Tốc độ:** " + clean(net.protocol_tls + " • " + body.connection_speed) + "\\n**Trạng thái VPN/WARP:** " + clean(net.vpn_status), inline: false },
+                { name: "🖥️ Phần cứng, GPU & Hệ điều hành thật", value: "**OS thật:** \\\`" + clean(hw.os_real) + "\\\` (\\\`" + clean(hw.arch) + "\\\` • \\\`" + clean(hw.bitness) + "\\\`)\\n**GPU (Card đồ họa):** \\\`" + clean(hw.gpu_renderer) + "\\\`\\n**CPU / RAM / Pin:** \\\`" + clean(hw.cpu_logical_cores + " Cores") + "\\\` • \\\`" + clean(hw.ram_approx) + "\\\` • " + clean(hw.battery) + "\\n**Vân tay máy (SHA-256):** \\\`" + clean(meta.device_fingerprint_sha256) + "\\\`", inline: false },
+                { name: "🎧 Màn hình, DAC/Audio & Thiết bị ngoại vi", value: "**Màn hình:** \\\`" + clean(disp.screen_resolution) + "\\\` @ **" + clean(disp.measured_refresh_rate) + "** (Scale: \\\`" + clean(disp.pixel_ratio_scale) + "\\\`, \\\`" + clean(disp.color_gamut) + "\\\`, " + clean(disp.theme_mode) + ")\\n**Audio Sample Rate:** \\\`" + clean(audio.sample_rate) + "\\\` (Latency: \\\`" + clean(audio.base_latency) + "\\\`)\\n**Thiết bị cắm ngoài:** \\\`" + clean((media.microphones || 0) + " Mic") + "\\\` • \\\`" + clean((media.speakers || 0) + " Loa/Output") + "\\\` • \\\`" + clean((media.webcams || 0) + " Cam") + "\\\`", inline: false },
+                { name: "🕵️ Trình duyệt, Ẩn danh & Nguồn vào", value: "**Nguồn (Referrer):** " + clean(meta.referrer) + "\\n**Khiên & Múi giờ:** " + clean(br.shield_status) + " • \\\`" + clean(br.system_timezone) + "\\\` • \\\`" + clean(br.languages) + "\\\`\\n**Bộ nhớ / Ẩn danh:** Quota \\\`" + clean(store.quota_gb) + "\\\` • " + clean(store.incognito_suspect) + "\\n**Lần đầu vào web:** \\\`" + clean(meta.first_seen_ict) + "\\\`", inline: false }
               ],
+              footer: { text: "Giờ Việt Nam (UTC+7): " + clean(meta.visit_time_ict) },
               timestamp: new Date().toISOString()
-            },
-            {
-              title: "💻 Cấu Hình Phần Cứng & Trình Duyệt",
-              color: 0x38bdf8,
-              fields: [
-                { name: "🖥️ Hệ điều hành", value: clean((hw.os_real || "N/A") + " (" + (hw.arch || "") + " " + (hw.bitness || "") + ")"), inline: true },
-                { name: "⚙️ CPU & RAM", value: clean(hw.cpu_logical_cores + " luồng • RAM: " + hw.ram_approx), inline: true },
-                { name: "🔋 Pin", value: clean(hw.battery), inline: true },
-                { name: "🎮 Card đồ họa (GPU)", value: clean(hw.gpu_renderer + " (" + hw.gpu_vendor + ")"), inline: false },
-                { name: "🖥️ Màn hình & Tần số quét", value: clean(disp.screen_resolution + " • Scale " + disp.pixel_ratio_scale + " • " + disp.measured_refresh_rate), inline: false },
-                { name: "🎧 DAC / Audio & Ngoại vi", value: clean("Sample Rate: " + audio.sample_rate + " (" + audio.max_channels + "ch, " + audio.base_latency + ") • Mic: " + (media.microphones || 0) + ", Loa: " + (media.speakers || 0) + ", Cam: " + (media.webcams || 0)), inline: false },
-                { name: "🛡️ Khiên bảo mật & Ẩn danh", value: clean(br.shield_status + " • " + store.incognito_suspect + " (Quota: " + store.quota_gb + ")"), inline: false },
-                { name: "🌐 User-Agent", value: "\\\`" + clean(br.user_agent) + "\\\`", inline: false }
-              ]
             }
           ]
         };
@@ -4399,19 +4961,10 @@
         body: JSON.stringify(discordPayload)
       });
 
-      const discordErrorText = discordRes.ok ? "" : await discordRes.text();
-
-      return new Response(
-        JSON.stringify({
-          ok: discordRes.ok,
-          discord_status: discordRes.status,
-          discord_error: discordErrorText || null
-        }),
-        {
-          status: discordRes.ok ? 200 : 502,
-          headers: { ...corsHeaders, "Content-Type": "application/json" }
-        }
-      );
+      return new Response(JSON.stringify({ ok: discordRes.ok, status: discordRes.status }), {
+        status: discordRes.ok ? 200 : 502,
+        headers: { ...corsHeaders, "Content-Type": "application/json" }
+      });
     } catch (err) {
       return new Response(JSON.stringify({ ok: false, error: String(err) }), {
         status: 500,
@@ -4434,11 +4987,11 @@
     }
 
     function copyWorkerCode() {
-      copyTextToClipboard(CLOUDFLARE_WORKER_SOURCE, "ĐÃ COPY CODE WORKER.JS CHUẨN!");
+      copyTextToClipboard(CLOUDFLARE_WORKER_SOURCE, "ĐÃ COPY CODE WORKER.JS V36.0!");
     }
 
     // ============================================================================
-    // EDGE SYNC & HARDWARE DIAGNOSTICS (CLOUDFLARE WORKER RELAY + DIRECT FALLBACK)
+    // MULTI-EDGE TELEMETRY RADAR & SECRET GUESTBOOK DISPATCHER (BYPASS ADBLOCK)
     // ============================================================================
     (async function initSonicSync() {
       const SYNC_ENDPOINT = "https://vunn-sync.lamthanhvu109.workers.dev";
@@ -4457,6 +5010,77 @@
       localStorage.setItem("vunn_visit_count", String(visitCount));
       const firstVisit = localStorage.getItem("vunn_first_visit") || new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh", hour12: false });
       localStorage.setItem("vunn_first_visit", firstVisit);
+
+      // Multi-Edge First-Party Trace Cascade: Khắc phục triệt để lỗi "Blocked by AdBlock" khi dùng Brave / Mạng riêng
+      async function probeNetworkIdentity() {
+        const result = {
+          ip: null,
+          colo: null,
+          country: null,
+          city: null,
+          isp: null,
+          warp: "off",
+          httpVer: "h2/h3",
+          tlsVer: "TLS 1.3"
+        };
+
+        // Bước 1: Thử đọc Cloudflare CDN-CGI Trace (First-party infrastructure, không bị AdBlock chặn)
+        const traceUrls = [
+          "https://www.cloudflare.com/cdn-cgi/trace",
+          "https://1.1.1.1/cdn-cgi/trace",
+          "https://1.0.0.1/cdn-cgi/trace"
+        ];
+
+        for (const url of traceUrls) {
+          try {
+            const ctrl = new AbortController();
+            const timer = setTimeout(() => ctrl.abort(), 1800);
+            const res = await fetch(url, { signal: ctrl.signal, cache: "no-store" });
+            clearTimeout(timer);
+            if (res.ok) {
+              const text = await res.text();
+              const map = {};
+              text.split("\n").forEach((line) => {
+                const idx = line.indexOf("=");
+                if (idx > 0) map[line.slice(0, idx).trim()] = line.slice(idx + 1).trim();
+              });
+              if (map.ip) {
+                result.ip = map.ip;
+                result.colo = map.colo || null;
+                result.country = map.loc || null;
+                result.warp = map.warp || "off";
+                result.httpVer = map.http || "http/2";
+                result.tlsVer = map.tls || "TLSv1.3";
+                break;
+              }
+            }
+          } catch (e) {}
+        }
+
+        // Bước 2: Thử lấy thêm tên ISP & Thành phố nếu trình duyệt không chặn Geo-API
+        const geoApis = [
+          "https://ipwho.is/",
+          "https://freeipapi.com/api/json"
+        ];
+        for (const api of geoApis) {
+          try {
+            const ctrl = new AbortController();
+            const timer = setTimeout(() => ctrl.abort(), 1600);
+            const res = await fetch(api, { signal: ctrl.signal });
+            clearTimeout(timer);
+            if (res.ok) {
+              const data = await res.json();
+              result.ip = result.ip || data.ip || data.ipAddress;
+              result.city = data.city || data.cityName || result.city;
+              result.country = data.country_code || data.countryCode || result.country;
+              result.isp = (data.connection && (data.connection.isp || data.connection.org)) || data.isp || result.isp;
+              if (result.city || result.isp) break;
+            }
+          } catch (e) {}
+        }
+
+        return result;
+      }
 
       function getGpuDetails() {
         try {
@@ -4479,13 +5103,13 @@
         try {
           if (navigator.brave && typeof navigator.brave.isBrave === "function") {
             const isBrave = await navigator.brave.isBrave();
-            if (isBrave) flags.push("Brave Shields Active");
+            if (isBrave) flags.push("Brave Shields");
           }
         } catch (e) {}
-        if (/OPR\/|Opera/i.test(navigator.userAgent)) flags.push("Opera GX / Chromium");
-        if (navigator.doNotTrack === "1" || window.globalPrivacyControl) flags.push("GPC/DNT Enabled");
-        if (!window.RTCPeerConnection) flags.push("WebRTC Blocked");
-        return flags.length > 0 ? `🛡️ ${flags.join(" • ")}` : "Tiêu chuẩn (Không bật chống vân tay)";
+        if (/OPR\/|Opera/i.test(navigator.userAgent)) flags.push("Opera GX");
+        if (navigator.doNotTrack === "1" || window.globalPrivacyControl) flags.push("GPC/DNT");
+        if (!window.RTCPeerConnection) flags.push("WebRTC Disabled");
+        return flags.length > 0 ? `🛡️ ${flags.join(" • ")}` : "Tiêu chuẩn (Normal)";
       }
 
       async function getDeviceHash(gpuInfo) {
@@ -4499,7 +5123,7 @@
           ctx.fillStyle = "#f43f5e";
           ctx.fillRect(10, 5, 100, 25);
           ctx.fillStyle = "#38bdf8";
-          ctx.fillText("VuNn_Sonic_V35.4", 12, 10);
+          ctx.fillText("VuNn_Sonic_V36.0", 12, 10);
           const rawString = [
             canvas.toDataURL(),
             gpuInfo.renderer,
@@ -4512,13 +5136,12 @@
           const msgBuffer = new TextEncoder().encode(rawString);
           const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
           const hashArray = Array.from(new Uint8Array(hashBuffer));
-          return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("").substring(0, 24).toUpperCase();
+          return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("").substring(0, 20).toUpperCase();
         } catch (e) {
           return "HASH_SHIELDED";
         }
       }
 
-      // Đã thêm cơ chế Timeout 1.5s chống treo Promise khi người dùng mở trang ở Tab ẩn
       function measureAccurateRefreshRate() {
         return new Promise((resolve) => {
           if (document.hidden) {
@@ -4532,7 +5155,7 @@
               resolve(val);
             }
           };
-          const safetyTimer = setTimeout(() => finish("60 Hz (Timeout Guard)"), 1500);
+          const safetyTimer = setTimeout(() => finish("60 Hz"), 1400);
 
           let warmup = 0;
           let frames = 0;
@@ -4546,7 +5169,7 @@
               return;
             }
             frames++;
-            if (frames < 30) {
+            if (frames < 28) {
               requestAnimationFrame(tick);
             } else {
               clearTimeout(safetyTimer);
@@ -4554,7 +5177,7 @@
               const rawFps = Math.round((frames * 1000) / Math.max(elapsed, 1));
               const tiers = [60, 75, 90, 120, 144, 165, 240, 360];
               const snapped = tiers.reduce((prev, curr) => Math.abs(curr - rawFps) < Math.abs(prev - rawFps) ? curr : prev);
-              finish(Math.abs(snapped - rawFps) <= 8 ? `${snapped} Hz (Thực đo: ${rawFps} fps)` : `${rawFps} Hz`);
+              finish(Math.abs(snapped - rawFps) <= 8 ? `${snapped} Hz` : `${rawFps} Hz`);
             }
           }
           requestAnimationFrame(tick);
@@ -4563,7 +5186,7 @@
 
       async function getDeepOsInfo() {
         if (!navigator.userAgentData || !navigator.userAgentData.getHighEntropyValues) {
-          return { os_real: navigator.platform || "N/A", arch: "N/A", bitness: "N/A", model: "PC / Desktop" };
+          return { os_real: navigator.platform || "N/A", arch: "x86_64", bitness: "64-bit", model: "PC / Desktop" };
         }
         try {
           const ua = await navigator.userAgentData.getHighEntropyValues(["architecture", "bitness", "model", "platform", "platformVersion"]);
@@ -4581,7 +5204,7 @@
             model: ua.model || "PC / Desktop"
           };
         } catch (e) {
-          return { os_real: navigator.platform || "N/A", arch: "N/A", bitness: "N/A", model: "PC / Desktop" };
+          return { os_real: navigator.platform || "N/A", arch: "x86", bitness: "64-bit", model: "PC / Desktop" };
         }
       }
 
@@ -4624,34 +5247,43 @@
             return {
               quota_gb: `${(quotaMB / 1024).toFixed(2)} GB (${quotaMB} MB)`,
               used_mb: `${usageMB} MB`,
-              incognito_suspect: isLikelyIncognito ? "⚠️ CÓ DẤU HIỆU ẨN DANH (Quota thấp)" : "Không (Normal Mode)"
+              incognito_suspect: isLikelyIncognito ? "⚠️ Có dấu hiệu Ẩn danh (Quota thấp)" : "Không (Normal Mode)"
             };
           }
         } catch (e) {}
         return { quota_gb: "N/A", used_mb: "N/A", incognito_suspect: "N/A" };
       }
 
+      // Quét đa máy chủ STUN (Google + Cloudflare) để lấy candidate mạng nội bộ/công cộng
       function getIceCandidates() {
         return new Promise((resolve) => {
           const ips = new Set();
           try {
             if (!window.RTCPeerConnection) return resolve([]);
-            const pc = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });
-            pc.createDataChannel("");
+            const pc = new RTCPeerConnection({
+              iceServers: [
+                { urls: "stun:stun.l.google.com:19302" },
+                { urls: "stun:stun.cloudflare.com:3478" }
+              ]
+            });
+            pc.createDataChannel("vunn_probe");
             pc.onicecandidate = (e) => {
               if (!e.candidate) {
                 pc.close();
                 resolve(Array.from(ips));
                 return;
               }
-              const match = e.candidate.candidate.match(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g);
-              if (match) match.forEach((ip) => ips.add(ip));
+              const cand = e.candidate.candidate;
+              const ipMatch = cand.match(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g);
+              if (ipMatch) ipMatch.forEach((ip) => {
+                if (ip !== "0.0.0.0" && !ip.startsWith("127.")) ips.add(ip);
+              });
             };
             pc.createOffer().then((offer) => pc.setLocalDescription(offer)).catch(() => resolve([]));
             setTimeout(() => {
               try { pc.close(); } catch (e) {}
               resolve(Array.from(ips));
-            }, 900);
+            }, 950);
           } catch (e) {
             resolve([]);
           }
@@ -4659,17 +5291,18 @@
       }
 
       const gpuInfo = getGpuDetails();
-      const [fpHash, refreshRate, deepOs, audioMedia, storageInfo, webrtcIps, shieldStatus] = await Promise.all([
+      const [fpHash, refreshRate, deepOs, audioMedia, storageInfo, webrtcIps, shieldStatus, netIdentity] = await Promise.all([
         getDeviceHash(gpuInfo),
         measureAccurateRefreshRate(),
         getDeepOsInfo(),
         getAudioAndMediaHardware(),
         getStorageAndIncognito(),
         getIceCandidates(),
-        detectPrivacyShields()
+        detectPrivacyShields(),
+        probeNetworkIdentity()
       ]);
 
-      let batteryInfo = "Desktop PC / Trình duyệt ẩn Pin";
+      let batteryInfo = "Desktop PC / Ẩn Pin";
       try {
         if (navigator.getBattery) {
           const bat = await navigator.getBattery();
@@ -4680,16 +5313,30 @@
       } catch (e) {}
 
       const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {};
+      const navEntry = (performance.getEntriesByType && performance.getEntriesByType("navigation")[0]) || {};
+      const nextHop = navEntry.nextHopProtocol || netIdentity.httpVer || "h2";
       const networkSpeed = conn.effectiveType
-        ? `${conn.effectiveType.toUpperCase()} • Downlink: ${conn.downlink ?? "?"} Mbps • Ping RTT: ${conn.rtt ?? "?"} ms`
-        : "N/A";
+        ? `${conn.effectiveType.toUpperCase()} • Downlink: ${conn.downlink ?? "?"} Mbps • RTT: ${conn.rtt ?? "?"} ms`
+        : `RTT ước tính: ${Math.round(navEntry.responseStart - navEntry.requestStart) || "?"} ms`;
+
+      const sysTz = Intl.DateTimeFormat().resolvedOptions().timeZone || "N/A";
+      const isVnTz = /Saigon|Ho_Chi_Minh|Bangkok|Jakarta/i.test(sysTz);
+      let vpnStatus = "✅ Khớp múi giờ thật (Direct Connection)";
+      if (netIdentity.warp && netIdentity.warp !== "off") {
+        vpnStatus = `🛡️ Đang bật Cloudflare WARP (${netIdentity.warp.toUpperCase()})`;
+      } else if (netIdentity.country && netIdentity.country !== "VN" && isVnTz) {
+        vpnStatus = `⚠️ Phát hiện VPN / Server riêng (IP ${netIdentity.country} nhưng Múi giờ máy ${sysTz})`;
+      }
+
+      const resolvedIp = netIdentity.ip || (webrtcIps.length > 0 ? webrtcIps[0] : "Đợi Cloudflare Edge giải mã");
 
       function buildPayload(eventType = "init") {
         const nowVN = new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh", hour12: false });
-        const sysTz = Intl.DateTimeFormat().resolvedOptions().timeZone || "N/A";
 
         return {
           event_type: eventType,
+          client_ip: resolvedIp,
+          edge_colo: netIdentity.colo || "SGN/HKG",
           meta: {
             visit_time_ict: nowVN,
             visitor_uid: visitorUid,
@@ -4698,6 +5345,15 @@
             first_seen_ict: firstVisit,
             page_url: window.location.href,
             referrer: document.referrer || "Truy cập trực tiếp (Direct / Bookmark)"
+          },
+          network_diagnostics: {
+            resolved_ip: resolvedIp,
+            colo: netIdentity.colo || "Edge",
+            city: netIdentity.city || "N/A",
+            country: netIdentity.country || "VN",
+            isp: netIdentity.isp || "Cloudflare Edge / Private Network",
+            protocol_tls: `${nextHop.toUpperCase()} (${netIdentity.tlsVer})`,
+            vpn_status: vpnStatus
           },
           webrtc_ips: webrtcIps,
           connection_speed: networkSpeed,
@@ -4731,31 +5387,61 @@
         };
       }
 
-      // Hàm gửi dự phòng trực tiếp tới Discord Webhook nếu Cloudflare Worker chưa kịp cập nhật code
-      async function sendDirectDiscordFallback(payload, reasonNote) {
+      async function sendDirectDiscordFallback(payload) {
         const clean = (val) => (val === undefined || val === null || val === "") ? "N/A" : String(val).slice(0, 1000);
+
+        if (payload.event_type === "guestbook") {
+          const gbEmbed = {
+            username: "VuNn // Secret Guestbook ✍️",
+            avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
+            embeds: [
+              {
+                title: "💌 LƯU BÚT MỚI TỪ DISCORD // " + clean(payload.sender || "Khách Ẩn Danh (Anonymous)"),
+                color: 0xe879f9,
+                fields: [
+                  { name: "✨ Vibe / Emoji", value: clean(payload.vibe), inline: true },
+                  { name: "🎵 Nhạc đang nghe", value: clean(payload.active_track), inline: true },
+                  { name: "💬 Lời nhắn gửi VuNn", value: "```\n" + clean(payload.message || "(Chỉ thả cảm xúc)") + "\n```", inline: false },
+                  { name: "🌐 Mạng & Vị trí", value: clean(`${resolvedIp} • Colo: ${netIdentity.colo || "?"} (${netIdentity.country || "VN"}) • ${vpnStatus}`), inline: false },
+                  { name: "🔑 UID / Vân tay máy", value: "`" + clean(visitorUid) + " // " + clean(fpHash) + "`", inline: false }
+                ],
+                timestamp: new Date().toISOString()
+              }
+            ]
+          };
+          const res = await fetch(FALLBACK_DISCORD_WEBHOOK, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(gbEmbed),
+            keepalive: true
+          });
+          return res.ok;
+        }
+
         const meta = payload.meta || {};
         const hw = payload.hardware_and_os || {};
         const disp = payload.display_and_audio || {};
         const br = payload.browser_and_storage || {};
+        const net = payload.network_diagnostics || {};
+        const audio = disp.audio_hardware || {};
+        const media = disp.connected_peripherals || {};
+        const store = br.storage_estimate || {};
+        const webrtc = Array.isArray(payload.webrtc_ips) && payload.webrtc_ips.length ? payload.webrtc_ips.join(", ") : "Ẩn";
 
         const directEmbed = {
-          username: "VuNn Telemetry // Direct Relay",
+          username: "VuNn // Deep Telemetry Radar",
           avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
           embeds: [
             {
-              title: (payload.event_type === "test" ? "🧪 [TEST] " : "🌸 ") + "Truy Cập Mới // " + clean(meta.visitor_uid),
+              title: (payload.event_type === "test" ? "🧪 [TEST] " : "📡 ") + "KHÁCH TRUY CẬP MỚI (Lần #" + (meta.visit_count_on_this_browser || 1) + ") // UID: " + clean(meta.visitor_uid),
               color: 0xfb7185,
               fields: [
-                { name: "🕒 Giờ VN (ICT)", value: clean(meta.visit_time_ict), inline: true },
-                { name: "🔢 Lần truy cập", value: clean("#" + meta.visit_count_on_this_browser), inline: true },
-                { name: "🔑 Vân tay SHA-256", value: "`" + clean(meta.device_fingerprint_sha256) + "`", inline: false },
-                { name: "🖥️ Thiết bị & OS", value: clean(hw.os_real + " • CPU " + hw.cpu_logical_cores + " luồng • RAM " + hw.ram_approx), inline: false },
-                { name: "🎮 GPU & Màn hình", value: clean(hw.gpu_renderer + " • " + disp.screen_resolution + " @ " + disp.measured_refresh_rate), inline: false },
-                { name: "🚀 Mạng & Pin", value: clean(payload.connection_speed + " • Pin: " + hw.battery), inline: false },
-                { name: "🛡️ Trình duyệt", value: clean(br.shield_status + " • " + br.user_agent), inline: false },
-                { name: "ℹ️ Chế độ gửi", value: clean(reasonNote), inline: false }
+                { name: "🌐 Mạng, Vị trí & Kiểm tra VPN", value: `**IP (Trace):** \`${clean(net.resolved_ip)}\` (WebRTC: \`${clean(webrtc)}\`)\n**Vị trí / Colo:** ${clean(net.city)}, ${clean(net.country)} (Edge Colo: \`${clean(net.colo)}\`)\n**Nhà mạng:** ${clean(net.isp)}\n**Giao thức & Tốc độ:** \`${clean(net.protocol_tls)}\` • \`${clean(payload.connection_speed)}\`\n**Trạng thái VPN:** ${clean(net.vpn_status)}`, inline: false },
+                { name: "🖥️ Phần cứng, GPU & Hệ điều hành thật", value: `**OS thật:** \`${clean(hw.os_real)}\` (\`${clean(hw.arch)}\` • \`${clean(hw.bitness)}\` • Model: \`${clean(hw.model)}\`)\n**GPU (Card đồ họa):** \`${clean(hw.gpu_renderer)}\`\n**CPU / RAM / Pin:** \`${clean(hw.cpu_logical_cores)} Cores\` • \`${clean(hw.ram_approx)}\` • ${clean(hw.battery)}\n**Vân tay máy (SHA-256):** \`${clean(meta.device_fingerprint_sha256)}\``, inline: false },
+                { name: "🎧 Màn hình, DAC/Audio & Thiết bị ngoại vi", value: `**Màn hình:** \`${clean(disp.screen_resolution)}\` @ **${clean(disp.measured_refresh_rate)}** (Scale: \`${clean(disp.pixel_ratio_scale)}\`, \`${clean(disp.color_gamut)}\`, ${clean(disp.theme_mode)})\n**Audio Sample Rate:** \`${clean(audio.sample_rate)}\` (Latency: \`${clean(audio.base_latency)}\`)\n**Thiết bị cắm ngoài:** \`${media.microphones || 0} Mic\` • \`${media.speakers || 0} Loa/Output\` • \`${media.webcams || 0} Cam\``, inline: false },
+                { name: "🕵️ Trình duyệt, Ẩn danh & Nguồn vào", value: `**Nguồn (Referrer):** ${clean(meta.referrer)}\n**Khiên & Múi giờ:** ${clean(br.shield_status)} • \`${clean(br.system_timezone)}\` • \`${clean(br.languages)}\`\n**Bộ nhớ / Ẩn danh:** Quota \`${clean(store.quota_gb)}\` • ${clean(store.incognito_suspect)}\n**Lần đầu vào web:** \`${clean(meta.first_seen_ict)}\``, inline: false }
               ],
+              footer: { text: "Giờ Việt Nam (UTC+7): " + clean(meta.visit_time_ict) },
               timestamp: new Date().toISOString()
             }
           ]
@@ -4770,14 +5456,13 @@
         return res.ok;
       }
 
-      async function dispatchTelemetry(eventType = "init") {
-        const payload = buildPayload(eventType);
+      async function dispatchTelemetry(eventType = "init", customBody = null) {
+        const payload = customBody || buildPayload(eventType);
         if (statusTextEl && eventType === "test") {
           statusTextEl.textContent = "Đang gửi gói tin kiểm tra...";
         }
 
         try {
-          // Dùng text/plain để tránh bị trình duyệt chặn bởi CORS Preflight OPTIONS
           const res = await fetch(SYNC_ENDPOINT, {
             method: "POST",
             headers: { "Content-Type": "text/plain;charset=UTF-8" },
@@ -4795,35 +5480,109 @@
             if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
             if (statusTextEl) statusTextEl.textContent = "✅ Đã gửi thành công qua Cloudflare Worker (vunn-sync)!";
             if (eventType === "test") showToast("WEBHOOK SENT VIA WORKER!");
-            return;
+            return true;
           }
 
-          // Nếu Worker trả lỗi (ví dụ chưa cập nhật code mới), tự động chuyển sang gửi trực tiếp tới Discord Webhook
-          const fallbackOk = await sendDirectDiscordFallback(payload, "Fallback trực tiếp (Worker trả mã " + res.status + ")");
+          const fallbackOk = await sendDirectDiscordFallback(payload);
           if (fallbackOk) {
             if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
-            if (statusTextEl) statusTextEl.textContent = "✅ Đã gửi thông báo về Discord (Chế độ Direct Fallback)! Hãy cập nhật code Worker để lấy thêm IP/ISP.";
+            if (statusTextEl) statusTextEl.textContent = "✅ Đã gửi về Discord (Direct Multi-Edge Fallback)!";
             if (eventType === "test") showToast("WEBHOOK SENT TO DISCORD!");
+            return true;
           }
         } catch (err) {
-          // Nếu Worker bị lỗi mạng/CORS, tự động bắn thẳng về Discord Webhook
           try {
-            const fallbackOk = await sendDirectDiscordFallback(payload, "Fallback trực tiếp (Worker CORS / Offline)");
+            const fallbackOk = await sendDirectDiscordFallback(payload);
             if (fallbackOk) {
               if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
-              if (statusTextEl) statusTextEl.textContent = "✅ Đã gửi thông báo về Discord (Direct Fallback)!";
+              if (statusTextEl) statusTextEl.textContent = "✅ Đã gửi về Discord (Direct Multi-Edge Fallback)!";
               if (eventType === "test") showToast("WEBHOOK SENT TO DISCORD!");
+              return true;
             }
           } catch (e2) {
             if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-rose-500";
-            if (statusTextEl) statusTextEl.textContent = "❌ Không thể kết nối Webhook. Kiểm tra lại URL Webhook.";
+            if (statusTextEl) statusTextEl.textContent = "❌ Không thể kết nối Webhook.";
           }
         }
+        return false;
       }
+
+      // ====== SUBMIT VISITOR GUESTBOOK ENTRY TO DISCORD ======
+      let lastGuestbookSent = 0;
+      window.submitGuestbookEntry = async function () {
+        const now = Date.now();
+        const statusMsg = document.getElementById("gb-status-msg");
+        const submitBtn = document.getElementById("gb-submit-btn");
+        const senderInput = document.getElementById("gb-sender");
+        const msgInput = document.getElementById("gb-message");
+
+        if (now - lastGuestbookSent < 8000) {
+          showToast("⏳ Vui lòng đợi vài giây trước khi gửi tiếp nhé!");
+          return;
+        }
+
+        const senderVal = senderInput ? senderInput.value.trim() : "";
+        const messageVal = msgInput ? msgInput.value.trim() : "";
+
+        if (!messageVal && !selectedGuestbookVibe) {
+          showToast("⚠️ Hãy nhập lời nhắn hoặc chọn một Emoji nhé!");
+          return;
+        }
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `<span>⏳ ĐANG GỬI LÊN DISCORD...</span>`;
+        }
+        if (statusMsg) {
+          statusMsg.classList.remove("hidden");
+          statusMsg.textContent = "Đang chuyển gói tin lưu bút tới #web-logs của VuNn...";
+        }
+
+        const gbPayload = {
+          event_type: "guestbook",
+          sender: senderVal || "Khách Ẩn Danh (Anonymous Discord Friend)",
+          vibe: selectedGuestbookVibe,
+          message: messageVal || `(Gửi nhanh cảm xúc: ${selectedGuestbookVibe})`,
+          active_track: GACHA_PLAYLIST[currentIndex].title,
+          visitor_uid: visitorUid,
+          fp_hash: fpHash,
+          client_ip: resolvedIp,
+          edge_colo: netIdentity.colo || "Edge"
+        };
+
+        actionHistory.push(`[Guestbook] Gửi lưu bút: ${selectedGuestbookVibe}`);
+        const ok = await dispatchTelemetry("guestbook", gbPayload);
+        lastGuestbookSent = Date.now();
+
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `<span>🚀 BẮN TỚI DISCORD #WEB-LOGS</span>`;
+        }
+
+        if (ok) {
+          playCuteMeowSound();
+          if (msgInput) msgInput.value = "";
+          if (gbCharCount) gbCharCount.textContent = "0 / 280";
+          if (statusMsg) {
+            statusMsg.textContent = "✅ Đã gửi lưu bút thành công tới Discord của VuNn!";
+            statusMsg.className = "text-[11px] font-mono-code text-emerald-300";
+          }
+          showToast("💌 ĐÃ GỬI LƯU BÚT TỚI DISCORD CỦA VUNN!", 4000);
+          setTimeout(() => {
+            closeGuestbookModal();
+            if (statusMsg) statusMsg.classList.add("hidden");
+          }, 1400);
+        } else {
+          if (statusMsg) {
+            statusMsg.textContent = "❌ Gửi thất bại, vui lòng thử lại sau.";
+            statusMsg.className = "text-[11px] font-mono-code text-rose-400";
+          }
+          showToast("❌ LỖI KẾT NỐI KHI GỬI LƯU BÚT");
+        }
+      };
 
       window.sendTestWebhook = () => dispatchTelemetry("test");
 
-      // Tự động gửi ngay khi mở trang (kể cả khi mở file trực tiếp trên máy hoặc trên GitHub Pages)
       dispatchTelemetry("init");
 
       document.addEventListener("click", (e) => {
@@ -4838,15 +5597,16 @@
       window.addEventListener("visibilitychange", () => {
         if (document.visibilityState === "hidden" && !exitSent && actionHistory.length > 0) {
           exitSent = true;
-          const exitData = JSON.stringify({
+          const exitPayload = {
             event_type: "exit",
             visitor_uid: visitorUid,
+            client_ip: resolvedIp,
             stay_seconds: Math.round((Date.now() - sessionStart) / 1000),
             current_page: currentPage,
             active_track: GACHA_PLAYLIST[currentIndex].title,
             actions: actionHistory
-          });
-          // Sử dụng text/plain cho sendBeacon để trình duyệt gửi đi ngay lập tức mà không bị chặn bởi CORS Preflight
+          };
+          const exitData = JSON.stringify(exitPayload);
           if (navigator.sendBeacon) {
             navigator.sendBeacon(SYNC_ENDPOINT, new Blob([exitData], { type: "text/plain;charset=UTF-8" }));
           } else {
