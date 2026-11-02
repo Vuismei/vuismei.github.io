@@ -176,7 +176,7 @@
       scrollbar-width: none;
     }
 
-    /* ========== RETRO CRT TV SCANLINE & ELECTRON BEAM PAGE TRANSITION ========== */
+    /* ========== 120FPS GPU-COMPOSITED LIQUID BLUR & CHROMATIC ABERRATION FADE ========== */
     #glitch-transition-layer {
       position: fixed;
       inset: 0;
@@ -187,115 +187,79 @@
       overflow: hidden;
       contain: strict;
       will-change: opacity, transform;
+      backdrop-filter: blur(18px) saturate(190%);
+      -webkit-backdrop-filter: blur(18px) saturate(190%);
       background:
-        repeating-linear-gradient(
-          0deg,
-          rgba(0, 0, 0, 0.58) 0px,
-          rgba(0, 0, 0, 0.58) 2px,
-          rgba(255, 255, 255, 0.04) 2px,
-          rgba(255, 255, 255, 0.04) 4px
-        ),
-        linear-gradient(
-          90deg,
-          rgba(255, 0, 85, 0.14),
-          rgba(0, 255, 170, 0.06),
-          rgba(0, 195, 255, 0.14)
-        ),
-        radial-gradient(circle at 50% 50%, rgba(12, 18, 34, 0.88) 0%, rgba(3, 5, 10, 0.98) 100%);
-      box-shadow: inset 0 0 110px rgba(0, 0, 0, 0.95);
+        radial-gradient(60% 55% at 50% 50%, rgba(12, 16, 30, 0.28) 0%, rgba(7, 9, 18, 0.62) 100%);
+      transition: opacity 0.26s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.26s;
     }
 
-    /* Tia quét điện tử ngang ở giữa màn hình CRT */
+    /* Tán sắc lăng kính Đỏ - Hồng (Chromatic Red/Rose Prism Wave) */
     #glitch-transition-layer::before {
       content: "";
       position: absolute;
-      left: 0;
-      right: 0;
-      top: 50%;
-      height: 5px;
-      transform: translateY(-50%) scaleX(0);
-      background: linear-gradient(90deg, transparent 0%, #38bdf8 18%, #ffffff 50%, #fb7185 82%, transparent 100%);
-      box-shadow:
-        0 0 22px #ffffff,
-        0 0 45px #38bdf8,
-        0 0 70px #fb7185;
+      inset: -15%;
+      background:
+        radial-gradient(42% 38% at 32% 48%, rgba(244, 63, 94, 0.42) 0%, rgba(236, 72, 153, 0.16) 45%, transparent 72%),
+        radial-gradient(38% 35% at 68% 52%, rgba(99, 102, 241, 0.34) 0%, transparent 70%);
+      mix-blend-mode: screen;
+      transform: translate3d(-4%, 0, 0) scale3d(0.92, 0.92, 1);
       will-change: transform, opacity;
     }
 
-    /* Vệt sáng Phosphor quét dọc màn hình CRT */
+    /* Tán sắc lăng kính Xanh Cyan - Lam (Chromatic Cyan/Sky Prism Wave) */
     #glitch-transition-layer::after {
-      content: "CRT // SIGNAL SYNC 60Hz";
+      content: "";
       position: absolute;
-      top: 1.5rem;
-      left: 1.75rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.24em;
-      color: #6ee7b7;
-      text-shadow: -2px 0 #f43f5e, 2px 0 #38bdf8, 0 0 10px rgba(110, 231, 183, 0.8);
-      opacity: 0;
+      inset: -15%;
+      background:
+        radial-gradient(42% 38% at 68% 48%, rgba(56, 189, 248, 0.42) 0%, rgba(16, 185, 129, 0.14) 45%, transparent 72%),
+        linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.14) 50%, transparent 70%);
+      mix-blend-mode: screen;
+      transform: translate3d(4%, 0, 0) scale3d(0.92, 0.92, 1);
+      will-change: transform, opacity;
     }
 
-    body.is-glitching #glitch-transition-layer {
+    body.is-liquid-transitioning #glitch-transition-layer {
       visibility: visible;
-      animation: crtOverlayFlash 0.64s cubic-bezier(0.22, 1, 0.36, 1) both;
+      opacity: 1;
     }
 
-    body.is-glitching #glitch-transition-layer::before {
-      animation: crtElectronBeam 0.64s cubic-bezier(0.22, 1, 0.36, 1) both;
+    body.is-liquid-transitioning #glitch-transition-layer::before {
+      animation: chromaticShiftLeft 0.52s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
-    body.is-glitching #glitch-transition-layer::after {
-      animation: crtOsdBlink 0.64s steps(2, end) both;
+    body.is-liquid-transitioning #glitch-transition-layer::after {
+      animation: chromaticShiftRight 0.52s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
-    body.is-glitching main:not(.is-hidden) {
-      animation: crtTubePowerOn 0.62s cubic-bezier(0.16, 1, 0.3, 1) both;
-      transform-origin: center center;
-    }
-
-    @keyframes crtOverlayFlash {
-      0% { opacity: 0; }
-      18% { opacity: 0.96; }
-      52% { opacity: 1; }
-      82% { opacity: 0.78; }
-      100% { opacity: 0; }
-    }
-
-    @keyframes crtElectronBeam {
-      0% { opacity: 0; transform: translateY(-50%) scaleX(0.1) scaleY(1); }
-      22% { opacity: 1; transform: translateY(-50%) scaleX(1) scaleY(1.8); }
-      45% { opacity: 1; transform: translateY(-50%) scaleX(1) scaleY(140); }
-      72% { opacity: 0.55; transform: translateY(-50%) scaleX(1) scaleY(22); }
-      100% { opacity: 0; transform: translateY(-50%) scaleX(0) scaleY(0.5); }
-    }
-
-    @keyframes crtOsdBlink {
-      0%, 100% { opacity: 0; }
-      15%, 75% { opacity: 0.95; }
-    }
-
-    @keyframes crtTubePowerOn {
+    @keyframes chromaticShiftLeft {
       0% {
-        opacity: 0.2;
-        transform: scale3d(0.98, 0.015, 1);
-        filter: brightness(2.6) contrast(1.8) drop-shadow(-4px 0 0 rgba(255, 0, 85, 0.7)) drop-shadow(4px 0 0 rgba(0, 229, 255, 0.7));
+        opacity: 0;
+        transform: translate3d(-6%, 1.5%, 0) scale3d(0.9, 0.9, 1);
       }
-      38% {
+      45% {
         opacity: 1;
-        transform: scale3d(1.012, 0.04, 1);
-        filter: brightness(2.1) contrast(1.5);
-      }
-      72% {
-        opacity: 1;
-        transform: scale3d(1.004, 1.015, 1);
-        filter: brightness(1.18) drop-shadow(-1.5px 0 0 rgba(255, 0, 85, 0.4)) drop-shadow(1.5px 0 0 rgba(0, 229, 255, 0.4));
+        transform: translate3d(-1.8%, -0.5%, 0) scale3d(1.04, 1.04, 1);
       }
       100% {
+        opacity: 0;
+        transform: translate3d(3%, 0, 0) scale3d(1.1, 1.1, 1);
+      }
+    }
+
+    @keyframes chromaticShiftRight {
+      0% {
+        opacity: 0;
+        transform: translate3d(6%, -1.5%, 0) scale3d(0.9, 0.9, 1);
+      }
+      45% {
         opacity: 1;
-        transform: scale3d(1, 1, 1);
-        filter: none;
+        transform: translate3d(1.8%, 0.5%, 0) scale3d(1.04, 1.04, 1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate3d(-3%, 0, 0) scale3d(1.1, 1.1, 1);
       }
     }
 
@@ -509,14 +473,27 @@
       100% { transform: translate3d(-14vw, -15vh, 0) scale(0.92); }
     }
 
-    /* ========== PAGE TRANSITION & INACTIVE PAGE PAUSE ========== */
+    /* ========== PAGE TRANSITION & INACTIVE PAGE PAUSE (SILKY 120FPS APPLE SPRING) ========== */
     .page-view {
-      transition: opacity 0.28s ease, transform 0.28s ease;
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+      will-change: opacity, transform;
+      backface-visibility: hidden;
+      transition:
+        opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+        text-shadow 0.32s ease;
+    }
+    .page-view.is-exiting {
+      opacity: 0;
+      transform: translate3d(0, -10px, 0) scale3d(0.982, 0.982, 1);
+      text-shadow: -3px 0 rgba(244, 63, 94, 0.72), 3px 0 rgba(56, 189, 248, 0.72);
+      pointer-events: none;
     }
     .page-view.is-hidden {
       display: none !important;
       opacity: 0;
-      transform: translate3d(0, 8px, 0);
+      transform: translate3d(0, 12px, 0) scale3d(0.985, 0.985, 1);
     }
     .page-view.is-hidden *,
     .page-view.is-hidden *::after {
@@ -524,7 +501,8 @@
     }
     .page-view.is-entering {
       opacity: 0;
-      transform: translate3d(0, 8px, 0);
+      transform: translate3d(0, 14px, 0) scale3d(0.982, 0.982, 1);
+      text-shadow: -3.5px 0 rgba(244, 63, 94, 0.75), 3.5px 0 rgba(56, 189, 248, 0.75);
     }
 
     /* ========== GLASSMORPHISM & HUD CORNERS ========== */
@@ -3628,7 +3606,7 @@
     </div>
   </aside>
 
-  <!-- ================= V36.0 ENGINE: AUTO ECO-MODE, ZERO-IDLE CANVAS, 9S FADE & TELEMETRY ================= -->
+  <!-- ================= V36.2 ENGINE: 120FPS LIQUID CHROMATIC TRANSITION, AUTO ECO-MODE & TELEMETRY ================= -->
   <script>
     const DISCORD_USER_ID = new URLSearchParams(window.location.search).get("discord_id") || localStorage.getItem("vunn_discord_id") || "856710730485465098";
     const GACHA_PLAYLIST = [
@@ -3697,6 +3675,7 @@
     let userMuted = false;
     let bgWarmStarted = false;
     let currentPage = 1;
+    let isPageTransitioning = false;
     let introReadyToEnter = false;
     let hasEnteredSite = false;
     let lastCurrentTimeStr = "";
@@ -3827,8 +3806,8 @@
     const vnClockEl = document.getElementById("vn-clock");
     const allStatNodes = Array.from(document.querySelectorAll(".stat-node"));
 
-    // ====== RETRO CRT TV SWITCH SOUND & TRANSITION ======
-    function playCrtSwitchSfx() {
+    // ====== APPLE MUSIC / DISCORD LIQUID PRISM SOUND & 120FPS TRANSITION ======
+    function playLiquidPrismSfx(direction = 1) {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         if (!AudioCtx) return;
@@ -3839,18 +3818,25 @@
         const osc2 = ctx.createOscillator();
         const gain = ctx.createGain();
 
-        osc1.type = "sawtooth";
-        osc1.frequency.setValueAtTime(110, now);
-        osc1.frequency.exponentialRampToValueAtTime(1680, now + 0.08);
-        osc1.frequency.exponentialRampToValueAtTime(75, now + 0.24);
+        // Âm thanh lăng kính thủy tinh mượt mà (Spatial Glass Harmonic)
+        osc1.type = "sine";
+        osc2.type = "triangle";
 
-        osc2.type = "square";
-        osc2.frequency.setValueAtTime(60, now);
-        osc2.frequency.linearRampToValueAtTime(120, now + 0.18);
+        if (direction === 2) {
+          osc1.frequency.setValueAtTime(360, now);
+          osc1.frequency.exponentialRampToValueAtTime(720, now + 0.24);
+          osc2.frequency.setValueAtTime(540, now);
+          osc2.frequency.exponentialRampToValueAtTime(1080, now + 0.26);
+        } else {
+          osc1.frequency.setValueAtTime(640, now);
+          osc1.frequency.exponentialRampToValueAtTime(380, now + 0.24);
+          osc2.frequency.setValueAtTime(960, now);
+          osc2.frequency.exponentialRampToValueAtTime(480, now + 0.26);
+        }
 
-        gain.gain.setValueAtTime(0.001, now);
-        gain.gain.linearRampToValueAtTime(0.045, now + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.26);
+        gain.gain.setValueAtTime(0.0008, now);
+        gain.gain.linearRampToValueAtTime(0.032, now + 0.045);
+        gain.gain.exponentialRampToValueAtTime(0.0006, now + 0.28);
 
         osc1.connect(gain);
         osc2.connect(gain);
@@ -3858,23 +3844,20 @@
 
         osc1.start(now);
         osc2.start(now);
-        osc1.stop(now + 0.27);
-        osc2.stop(now + 0.27);
-        setTimeout(() => ctx.close().catch(() => {}), 340);
+        osc1.stop(now + 0.29);
+        osc2.stop(now + 0.29);
+        setTimeout(() => ctx.close().catch(() => {}), 360);
       } catch (e) {}
     }
 
-    let glitchTimer = null;
-    function triggerGlitchFlash() {
-      if (glitchTimer) clearTimeout(glitchTimer);
-      document.body.classList.remove("is-glitching");
-      const glitchLayer = document.getElementById("glitch-transition-layer");
-      if (glitchLayer) void glitchLayer.offsetWidth;
-      document.body.classList.add("is-glitching");
-      playCrtSwitchSfx();
-      glitchTimer = setTimeout(() => {
-        document.body.classList.remove("is-glitching");
-      }, 650);
+    let liquidTransitionTimer = null;
+    function triggerLiquidOverlay(direction = 1) {
+      if (liquidTransitionTimer) clearTimeout(liquidTransitionTimer);
+      document.body.classList.add("is-liquid-transitioning");
+      playLiquidPrismSfx(direction);
+      liquidTransitionTimer = setTimeout(() => {
+        document.body.classList.remove("is-liquid-transitioning");
+      }, 480);
     }
 
     // ====== 9-SECOND SMOOTH AUDIO FADE-IN (0% -> 85% IN 9,000 MS) ======
@@ -4137,46 +4120,58 @@
 
     let countRafId = null;
 
+    // ====== 120FPS SILKY LIQUID BLUR & CHROMATIC ABERRATION PAGE SWITCH ======
     function switchPage(targetPage) {
-      if (targetPage === currentPage) return;
+      if (targetPage === currentPage || isPageTransitioning) return;
+      isPageTransitioning = true;
+
       const page1 = document.getElementById("page-1");
       const page2 = document.getElementById("page-2");
       const topBtn = document.getElementById("top-page-switch-btn");
 
+      const outgoingEl = targetPage === 2 ? page1 : page2;
+      const incomingEl = targetPage === 2 ? page2 : page1;
+
       currentPage = targetPage;
 
-      triggerGlitchFlash();
+      // Pha 1: Tán sắc Chromatic nhẹ + Mờ lỏng trang hiện tại trên GPU (không gây reflow)
+      triggerLiquidOverlay(targetPage);
+      outgoingEl.classList.add("is-exiting");
 
       setTimeout(() => {
         window.scrollTo({ top: 0, behavior: "instant" });
 
+        outgoingEl.classList.remove("is-exiting");
+        outgoingEl.classList.add("is-hidden");
+
         if (targetPage === 2) {
           if (sakuraLayer) sakuraLayer.classList.add("is-hidden-rain");
-
-          page1.classList.add("is-hidden");
-          page2.classList.remove("is-hidden");
-          page2.classList.add("is-entering");
           topBtn.textContent = "← BACK TO PROFILE";
           topBtn.onclick = () => switchPage(1);
-
-          requestAnimationFrame(() => {
-            page2.classList.remove("is-entering");
-            triggerPage2Animations();
-          });
         } else {
           if (sakuraLayer) sakuraLayer.classList.remove("is-hidden-rain");
-
-          page2.classList.add("is-hidden");
-          page1.classList.remove("is-hidden");
-          page1.classList.add("is-entering");
           topBtn.textContent = "WRAPPED × REPLAY →";
           topBtn.onclick = () => switchPage(2);
-
-          requestAnimationFrame(() => {
-            page1.classList.remove("is-entering");
-          });
         }
-      }, 170);
+
+        incomingEl.classList.add("is-entering");
+        incomingEl.classList.remove("is-hidden");
+
+        // Pha 2: Double-rAF đảm bảo trình duyệt đã promote layer GPU trước khi trượt mượt vào
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            incomingEl.classList.remove("is-entering");
+            isPageTransitioning = false;
+
+            // Tách nhịp khởi chạy bộ đếm số sau 110ms để tránh nghẽn khung hình lúc vừa mở trang 2
+            if (targetPage === 2) {
+              setTimeout(() => {
+                triggerPage2Animations();
+              }, 110);
+            }
+          });
+        });
+      }, 175);
     }
 
     function triggerPage2Animations(scopeEl = document.getElementById("page-2")) {
