@@ -68,14 +68,9 @@
     }
 
     /* ========== SILENT AUTO ECO-MODE (GIỮ NGUYÊN ĐỘ SÁNG & HIỆU ỨNG CHÍNH) ========== */
-    body.eco-mode #page-2 .wrapped-section {
-      content-visibility: auto;
-      contain-intrinsic-size: 1px 520px;
-    }
-
-    body.eco-mode #page-2 .stat-node {
-      content-visibility: auto;
-      contain-intrinsic-size: 1px 130px;
+    body.eco-mode .apple-art-layer,
+    body.eco-mode .mesh-blob {
+      animation-duration: 32s !important;
     }
 
     #intro-overlay {
@@ -176,7 +171,7 @@
       scrollbar-width: none;
     }
 
-    /* ========== 120FPS GPU-COMPOSITED LIQUID BLUR & CHROMATIC ABERRATION FADE ========== */
+    /* ========== 120FPS PURE GPU COMPOSITOR PRISM SWEEP (ZERO BACKDROP READBACK) ========== */
     #glitch-transition-layer {
       position: fixed;
       inset: 0;
@@ -187,37 +182,36 @@
       overflow: hidden;
       contain: strict;
       will-change: opacity, transform;
-      backdrop-filter: blur(18px) saturate(190%);
-      -webkit-backdrop-filter: blur(18px) saturate(190%);
-      background:
-        radial-gradient(60% 55% at 50% 50%, rgba(12, 16, 30, 0.28) 0%, rgba(7, 9, 18, 0.62) 100%);
-      transition: opacity 0.26s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.26s;
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+      background: radial-gradient(65% 60% at 50% 50%, rgba(10, 14, 28, 0.18) 0%, rgba(7, 9, 18, 0.48) 100%);
+      transition: opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.22s;
     }
 
-    /* Tán sắc lăng kính Đỏ - Hồng (Chromatic Red/Rose Prism Wave) */
+    /* Luồng sáng lăng kính Đỏ - Hồng (Thuần Alpha Compositing, không dùng mix-blend-mode hay backdrop-filter gây tụt FPS) */
     #glitch-transition-layer::before {
       content: "";
       position: absolute;
-      inset: -15%;
+      inset: -10%;
       background:
-        radial-gradient(42% 38% at 32% 48%, rgba(244, 63, 94, 0.42) 0%, rgba(236, 72, 153, 0.16) 45%, transparent 72%),
-        radial-gradient(38% 35% at 68% 52%, rgba(99, 102, 241, 0.34) 0%, transparent 70%);
-      mix-blend-mode: screen;
-      transform: translate3d(-4%, 0, 0) scale3d(0.92, 0.92, 1);
+        radial-gradient(40% 36% at 35% 48%, rgba(244, 63, 94, 0.26) 0%, rgba(236, 72, 153, 0.08) 50%, transparent 72%),
+        radial-gradient(36% 32% at 65% 52%, rgba(99, 102, 241, 0.22) 0%, transparent 70%);
+      transform: translate3d(-4%, 0, 0) scale3d(0.95, 0.95, 1);
       will-change: transform, opacity;
+      backface-visibility: hidden;
     }
 
-    /* Tán sắc lăng kính Xanh Cyan - Lam (Chromatic Cyan/Sky Prism Wave) */
+    /* Luồng sáng lăng kính Xanh Cyan - Lam */
     #glitch-transition-layer::after {
       content: "";
       position: absolute;
-      inset: -15%;
+      inset: -10%;
       background:
-        radial-gradient(42% 38% at 68% 48%, rgba(56, 189, 248, 0.42) 0%, rgba(16, 185, 129, 0.14) 45%, transparent 72%),
-        linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.14) 50%, transparent 70%);
-      mix-blend-mode: screen;
-      transform: translate3d(4%, 0, 0) scale3d(0.92, 0.92, 1);
+        radial-gradient(40% 36% at 65% 48%, rgba(56, 189, 248, 0.26) 0%, rgba(16, 185, 129, 0.08) 50%, transparent 72%),
+        linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.09) 50%, transparent 65%);
+      transform: translate3d(4%, 0, 0) scale3d(0.95, 0.95, 1);
       will-change: transform, opacity;
+      backface-visibility: hidden;
     }
 
     body.is-liquid-transitioning #glitch-transition-layer {
@@ -226,40 +220,40 @@
     }
 
     body.is-liquid-transitioning #glitch-transition-layer::before {
-      animation: chromaticShiftLeft 0.52s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation: chromaticShiftLeft 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
     body.is-liquid-transitioning #glitch-transition-layer::after {
-      animation: chromaticShiftRight 0.52s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation: chromaticShiftRight 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
     @keyframes chromaticShiftLeft {
       0% {
         opacity: 0;
-        transform: translate3d(-6%, 1.5%, 0) scale3d(0.9, 0.9, 1);
+        transform: translate3d(-5%, 0, 0) scale3d(0.94, 0.94, 1);
       }
-      45% {
+      40% {
         opacity: 1;
-        transform: translate3d(-1.8%, -0.5%, 0) scale3d(1.04, 1.04, 1);
+        transform: translate3d(-1%, 0, 0) scale3d(1.02, 1.02, 1);
       }
       100% {
         opacity: 0;
-        transform: translate3d(3%, 0, 0) scale3d(1.1, 1.1, 1);
+        transform: translate3d(2.5%, 0, 0) scale3d(1.06, 1.06, 1);
       }
     }
 
     @keyframes chromaticShiftRight {
       0% {
         opacity: 0;
-        transform: translate3d(6%, -1.5%, 0) scale3d(0.9, 0.9, 1);
+        transform: translate3d(5%, 0, 0) scale3d(0.94, 0.94, 1);
       }
-      45% {
+      40% {
         opacity: 1;
-        transform: translate3d(1.8%, 0.5%, 0) scale3d(1.04, 1.04, 1);
+        transform: translate3d(1%, 0, 0) scale3d(1.02, 1.02, 1);
       }
       100% {
         opacity: 0;
-        transform: translate3d(-3%, 0, 0) scale3d(1.1, 1.1, 1);
+        transform: translate3d(-2.5%, 0, 0, 1) scale3d(1.06, 1.06, 1);
       }
     }
 
@@ -473,36 +467,76 @@
       100% { transform: translate3d(-14vw, -15vh, 0) scale(0.92); }
     }
 
-    /* ========== PAGE TRANSITION & INACTIVE PAGE PAUSE (SILKY 120FPS APPLE SPRING) ========== */
+    /* ========== PAGE TRANSITION & WARM-LAYOUT CACHE (LOCKED 120FPS APPLE SPRING) ========== */
     .page-view {
       opacity: 1;
       transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
       will-change: opacity, transform;
       backface-visibility: hidden;
+      transform-style: flat;
       transition:
-        opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-        text-shadow 0.32s ease;
+        opacity 0.34s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .page-view.is-exiting {
+
+    /* Pha thoát trang: Dùng đường cong gia tốc nhanh (0.14s) để không bị cắt ngang giữa chừng */
+    .page-view.is-exiting-left {
       opacity: 0;
-      transform: translate3d(0, -10px, 0) scale3d(0.982, 0.982, 1);
-      text-shadow: -3px 0 rgba(244, 63, 94, 0.72), 3px 0 rgba(56, 189, 248, 0.72);
+      transform: translate3d(-24px, 0, 0) scale3d(0.982, 0.982, 1);
       pointer-events: none;
+      transition:
+        opacity 0.14s cubic-bezier(0.4, 0, 1, 1),
+        transform 0.14s cubic-bezier(0.4, 0, 1, 1);
     }
-    .page-view.is-hidden {
-      display: none !important;
+
+    .page-view.is-exiting-right {
       opacity: 0;
-      transform: translate3d(0, 12px, 0) scale3d(0.985, 0.985, 1);
+      transform: translate3d(24px, 0, 0) scale3d(0.982, 0.982, 1);
+      pointer-events: none;
+      transition:
+        opacity 0.14s cubic-bezier(0.4, 0, 1, 1),
+        transform 0.14s cubic-bezier(0.4, 0, 1, 1);
     }
+
+    /* Giữ nguyên RenderTree đã tính toán sẵn trong RAM thay vì display:none để chống khựng Layout 100% */
+    .page-view.is-hidden {
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      height: 0 !important;
+      overflow: hidden !important;
+      z-index: -10 !important;
+      contain: layout style paint !important;
+      transition: none !important;
+    }
+
     .page-view.is-hidden *,
     .page-view.is-hidden *::after {
       animation-play-state: paused !important;
     }
-    .page-view.is-entering {
+
+    /* Pha vào trang: Trượt mượt theo chiều hướng với Apple Spring */
+    .page-view.is-entering-from-right {
       opacity: 0;
-      transform: translate3d(0, 14px, 0) scale3d(0.982, 0.982, 1);
-      text-shadow: -3.5px 0 rgba(244, 63, 94, 0.75), 3.5px 0 rgba(56, 189, 248, 0.75);
+      transform: translate3d(28px, 0, 0) scale3d(0.984, 0.984, 1);
+      transition: none !important;
+    }
+
+    .page-view.is-entering-from-left {
+      opacity: 0;
+      transform: translate3d(-28px, 0, 0) scale3d(0.984, 0.984, 1);
+      transition: none !important;
+    }
+
+    /* Tạm ngắt multi-pass backdrop-filter của thẻ con trong đúng 340ms chuyển trang để gom toàn trang thành 1 GPU Texture duy nhất */
+    body.is-liquid-transitioning .page-view .glass-card,
+    body.is-liquid-transitioning .page-view .cmd-dock {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
     }
 
     /* ========== GLASSMORPHISM & HUD CORNERS ========== */
@@ -1000,8 +1034,6 @@
     /* ========== STAT NODES ========== */
     .wrapped-section {
       contain: layout style;
-      content-visibility: auto;
-      contain-intrinsic-size: 1px 480px;
     }
 
     .stat-node {
@@ -3876,7 +3908,7 @@
       playLiquidPrismSfx(direction);
       liquidTransitionTimer = setTimeout(() => {
         document.body.classList.remove("is-liquid-transitioning");
-      }, 480);
+      }, 390);
     }
 
     // ====== 9-SECOND SMOOTH AUDIO FADE-IN (0% -> 70% IN 9,000 MS) ======
@@ -4170,7 +4202,7 @@
 
     let countRafId = null;
 
-    // ====== 120FPS SILKY LIQUID BLUR & CHROMATIC ABERRATION PAGE SWITCH ======
+    // ====== 120FPS SILKY DIRECTIONAL PAGE SWITCH (ZERO COLD-LAYOUT / ZERO TEXT-SHADOW REPAINT) ======
     function switchPage(targetPage) {
       if (targetPage === currentPage || isPageTransitioning) return;
       isPageTransitioning = true;
@@ -4179,21 +4211,28 @@
       const page2 = document.getElementById("page-2");
       const topBtn = document.getElementById("top-page-switch-btn");
 
-      const outgoingEl = targetPage === 2 ? page1 : page2;
-      const incomingEl = targetPage === 2 ? page2 : page1;
+      const isForward = targetPage === 2;
+      const outgoingEl = isForward ? page1 : page2;
+      const incomingEl = isForward ? page2 : page1;
+      const exitClass = isForward ? "is-exiting-left" : "is-exiting-right";
+      const enterClass = isForward ? "is-entering-from-right" : "is-entering-from-left";
 
       currentPage = targetPage;
 
+      // Pha 1: Kích hoạt màn lăng kính GPU + trượt nhẹ trang cũ ra ngoài (140ms)
       triggerLiquidOverlay(targetPage);
-      outgoingEl.classList.add("is-exiting");
+      outgoingEl.classList.add(exitClass);
 
       setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: "instant" });
+        if (window.scrollY > 0) {
+          window.scrollTo(0, 0);
+        }
 
-        outgoingEl.classList.remove("is-exiting");
+        // Ẩn trang cũ vào Warm-Cache (không dùng display:none nên không gây hủy RenderTree)
+        outgoingEl.classList.remove(exitClass);
         outgoingEl.classList.add("is-hidden");
 
-        if (targetPage === 2) {
+        if (isForward) {
           if (sakuraLayer) sakuraLayer.classList.add("is-hidden-rain");
           topBtn.textContent = "← BACK TO PROFILE";
           topBtn.onclick = () => switchPage(1);
@@ -4203,22 +4242,25 @@
           topBtn.onclick = () => switchPage(2);
         }
 
-        incomingEl.classList.add("is-entering");
+        // Đặt trang mới ở vị trí chuẩn bị trượt vào
+        incomingEl.classList.add(enterClass);
         incomingEl.classList.remove("is-hidden");
 
+        // Pha 2: Đồng bộ 2 nhịp rAF để Compositor nhận diện layer trước khi chạy Apple Spring (340ms)
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            incomingEl.classList.remove("is-entering");
-            isPageTransitioning = false;
+            incomingEl.classList.remove(enterClass);
 
-            if (targetPage === 2) {
-              setTimeout(() => {
+            setTimeout(() => {
+              isPageTransitioning = false;
+              // Chỉ chạy hiệu ứng đếm số & thanh tiến trình sau khi trang 2 đã trượt êm vào vị trí
+              if (isForward) {
                 triggerPage2Animations();
-              }, 110);
-            }
+              }
+            }, 260);
           });
         });
-      }, 175);
+      }, 140);
     }
 
     function triggerPage2Animations(scopeEl = document.getElementById("page-2")) {
@@ -4246,26 +4288,32 @@
 
       requestAnimationFrame(() => {
         for (let idx = 0; idx < bars.length; idx++) {
-          bars[idx].style.transition = `transform ${1.12 + (idx % 6) * 0.07}s cubic-bezier(0.16, 1, 0.3, 1)`;
+          bars[idx].style.transition = `transform ${1.05 + (idx % 5) * 0.06}s cubic-bezier(0.16, 1, 0.3, 1)`;
           bars[idx].classList.add("is-animated");
         }
 
-        const duration = 1350;
+        const duration = 1200;
         const startTime = performance.now();
+        let lastCounterTick = 0;
 
         function step(now) {
           const elapsed = now - startTime;
           const progress = Math.min(elapsed / duration, 1);
-          const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
 
-          for (let i = 0; i < counters.length; i++) {
-            const item = counters[i];
-            const currentVal = item.target * eased;
-            const numVal = item.decimals === 0 ? Math.round(currentVal) : currentVal;
-            const nextText = item.formatter.format(numVal) + item.suffix;
-            if (nextText !== item.lastText) {
-              item.lastText = nextText;
-              item.el.textContent = nextText;
+          // Giới hạn tần suất cập nhật DOM textContent ở ~30fps (mỗi 32ms) để không bao giờ gây nghẽn Main Thread khi cuộn trang 120Hz
+          if (now - lastCounterTick >= 32 || progress === 1) {
+            lastCounterTick = now;
+            const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+
+            for (let i = 0; i < counters.length; i++) {
+              const item = counters[i];
+              const currentVal = item.target * eased;
+              const numVal = item.decimals === 0 ? Math.round(currentVal) : currentVal;
+              const nextText = item.formatter.format(numVal) + item.suffix;
+              if (nextText !== item.lastText) {
+                item.lastText = nextText;
+                item.el.textContent = nextText;
+              }
             }
           }
 
