@@ -299,13 +299,13 @@
       }
     }
 
-    /* ========== GPU-OPTIMIZED 120FPS APPLE MUSIC FLUID BACKGROUND ========== */
+    /* ========== GPU-OPTIMIZED 120FPS APPLE MUSIC FLUID BACKGROUND (ENHANCED VIBRANCY) ========== */
     .apple-bg-wrapper {
       position: fixed;
       inset: 0;
       z-index: 0;
       overflow: hidden;
-      background: #06080f;
+      background: #080b14;
       contain: strict;
       pointer-events: none;
     }
@@ -323,23 +323,23 @@
     }
 
     .art-layer-1 {
-      width: 115vmax;
-      height: 115vmax;
+      width: 118vmax;
+      height: 118vmax;
       top: -20vmax;
       left: -15vmax;
-      filter: blur(46px) saturate(240%) brightness(0.9);
-      opacity: 0.72;
+      filter: blur(42px) saturate(265%) brightness(1.05);
+      opacity: 0.86;
       transform-origin: 45% 55%;
       animation: orbitClockwise 24s linear infinite;
     }
 
     .art-layer-2 {
-      width: 105vmax;
-      height: 105vmax;
+      width: 108vmax;
+      height: 108vmax;
       bottom: -22vmax;
       right: -15vmax;
-      filter: blur(50px) saturate(260%) brightness(1.04);
-      opacity: 0.65;
+      filter: blur(46px) saturate(285%) brightness(1.12);
+      opacity: 0.80;
       transform-origin: 55% 45%;
       animation: orbitCounterClockwise 18s linear infinite;
     }
@@ -347,7 +347,7 @@
     .mesh-blob {
       position: absolute;
       border-radius: 50%;
-      opacity: 0.76;
+      opacity: 0.88;
       mix-blend-mode: screen;
       will-change: transform;
       backface-visibility: hidden;
@@ -355,10 +355,10 @@
     }
 
     .blob-1 {
-      width: 68vw;
-      height: 68vw;
-      max-width: 820px;
-      max-height: 820px;
+      width: 70vw;
+      height: 70vw;
+      max-width: 850px;
+      max-height: 850px;
       top: -18%;
       left: -12%;
       background: radial-gradient(circle, var(--blob-1) 0%, transparent 68%);
@@ -366,10 +366,10 @@
     }
 
     .blob-2 {
-      width: 65vw;
-      height: 65vw;
-      max-width: 780px;
-      max-height: 780px;
+      width: 68vw;
+      height: 68vw;
+      max-width: 810px;
+      max-height: 810px;
       bottom: -18%;
       right: -12%;
       background: radial-gradient(circle, var(--blob-2) 0%, transparent 68%);
@@ -377,10 +377,10 @@
     }
 
     .blob-3 {
-      width: 58vw;
-      height: 58vw;
-      max-width: 700px;
-      max-height: 700px;
+      width: 60vw;
+      height: 60vw;
+      max-width: 720px;
+      max-height: 720px;
       top: 10%;
       right: 10%;
       background: radial-gradient(circle, var(--blob-3) 0%, transparent 66%);
@@ -388,10 +388,10 @@
     }
 
     .blob-4 {
-      width: 55vw;
-      height: 55vw;
-      max-width: 660px;
-      max-height: 660px;
+      width: 58vw;
+      height: 58vw;
+      max-width: 680px;
+      max-height: 680px;
       bottom: 8%;
       left: 10%;
       background: radial-gradient(circle, var(--blob-4) 0%, transparent 66%);
@@ -402,7 +402,7 @@
       position: fixed;
       inset: 0;
       z-index: 1;
-      background: radial-gradient(circle at 50% 25%, rgba(10, 12, 22, 0.22) 0%, rgba(6, 8, 15, 0.68) 100%);
+      background: radial-gradient(circle at 50% 28%, rgba(8, 10, 20, 0.10) 0%, rgba(5, 7, 14, 0.44) 100%);
       pointer-events: none;
       contain: strict;
     }
@@ -557,42 +557,33 @@
     .hud-bl { bottom: 10px; left: 10px; border-bottom: 1.5px solid; border-left: 1.5px solid; }
     .hud-br { bottom: 10px; right: 10px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
 
-    /* ========== PAGE 1 3D EXTRUDED TRANSLUCENT CRYSTAL CARD (GIỮ ĐỘ TRONG SUỐT THẤY HOA RƠI) ========== */
+    /* ========== PAGE 1 SUBTLE 3D TRANSLUCENT CRYSTAL CARD (NHẸ NHÀNG & TÔN NỀN APPLE MUSIC) ========== */
     .hero-glass-card {
       position: relative;
       isolation: isolate;
       contain: layout style paint;
-      transform: perspective(1200px) translate3d(0, -4px, 0) rotateX(0.8deg);
-      /* Giữ nguyên nền kính trong suốt để thấy rõ cánh hoa anh đào rơi phía sau */
+      transform: translate3d(0, -1px, 0);
+      /* Nền kính trong trẻo vừa phải để tôn bật màu chuyển động Apple Music & hoa anh đào rơi phía sau */
       background: linear-gradient(
         155deg,
-        rgba(255, 255, 255, 0.11) 0%,
-        rgba(10, 13, 24, 0.24) 28%,
-        rgba(10, 13, 24, 0.27) 74%,
-        rgba(251, 113, 133, 0.08) 100%
+        rgba(255, 255, 255, 0.08) 0%,
+        rgba(10, 14, 26, 0.20) 35%,
+        rgba(10, 14, 26, 0.24) 75%,
+        rgba(251, 113, 133, 0.06) 100%
       ) !important;
-      backdrop-filter: blur(5px) saturate(148%) !important;
-      -webkit-backdrop-filter: blur(5px) saturate(148%) !important;
-      border-top: 1.5px solid rgba(255, 255, 255, 0.58) !important;
-      border-left: 1.5px solid rgba(255, 255, 255, 0.38) !important;
-      border-right: 1.5px solid rgba(251, 113, 133, 0.32) !important;
-      border-bottom: 2px solid rgba(251, 113, 133, 0.48) !important;
-      /* Hệ thống đổ bóng 3D nhiều tầng tạo độ dày khối kính vật lý */
+      backdrop-filter: blur(6px) saturate(165%) !important;
+      -webkit-backdrop-filter: blur(6px) saturate(165%) !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.34) !important;
+      border-left: 1px solid rgba(255, 255, 255, 0.24) !important;
+      border-right: 1px solid rgba(255, 255, 255, 0.16) !important;
+      border-bottom: 1.5px solid rgba(251, 113, 133, 0.28) !important;
+      /* Độ nổi khối 3D thanh thoát, nhẹ nhàng, không bị dày cộp */
       box-shadow:
-        /* Viền vát sáng 3D bên trong mặt kính trên & trái */
-        inset 0 2px 2px rgba(255, 255, 255, 0.55),
-        inset 2px 0 2px rgba(255, 255, 255, 0.24),
-        /* Độ dày vát tối mặt trong cạnh dưới */
-        inset 0 -4px 6px rgba(0, 0, 0, 0.65),
-        inset 0 0 26px rgba(251, 113, 133, 0.08),
-        /* Đế khối 3D vật lý (3D Extruded Ledge) */
-        0 7px 0 rgba(7, 9, 19, 0.94),
-        0 8.5px 0 rgba(251, 113, 133, 0.45),
-        0 14px 0 rgba(4, 5, 12, 0.72),
-        /* Bóng đổ nổi bật tách hẳn khỏi nền */
-        0 28px 56px -6px rgba(0, 0, 0, 0.88),
-        0 42px 85px -12px rgba(0, 0, 0, 0.75),
-        0 0 42px rgba(244, 63, 94, 0.20) !important;
+        inset 0 1px 1px rgba(255, 255, 255, 0.32),
+        inset 0 -1.5px 3px rgba(0, 0, 0, 0.32),
+        0 3px 0 rgba(9, 12, 24, 0.55),
+        0 20px 44px -10px rgba(0, 0, 0, 0.62),
+        0 0 28px rgba(244, 63, 94, 0.10) !important;
       transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease;
     }
 
@@ -602,89 +593,72 @@
       inset: 0;
       border-radius: inherit;
       background:
-        linear-gradient(125deg, rgba(255, 255, 255, 0.14) 0%, transparent 32%),
+        linear-gradient(125deg, rgba(255, 255, 255, 0.09) 0%, transparent 30%),
         radial-gradient(
           480px circle at 50% 15%,
-          rgba(251, 113, 133, 0.11),
-          rgba(56, 189, 248, 0.03) 45%,
+          rgba(251, 113, 133, 0.08),
+          rgba(56, 189, 248, 0.02) 45%,
           transparent 72%
         );
       pointer-events: none;
       z-index: 0;
     }
 
-    /* Các khối con bên trong Card chính cũng được vát nổi 3D nhưng vẫn giữ độ trong suốt */
+    /* Các khối con bên trong Card chính nổi nhẹ nhàng, đồng bộ với mặt kính trong suốt */
     #hero-profile-card blockquote {
-      background: rgba(8, 11, 22, 0.26) !important;
-      border-top: 1px solid rgba(255, 255, 255, 0.22);
-      border-right: 1px solid rgba(255, 255, 255, 0.12);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.55);
+      background: rgba(8, 11, 22, 0.22) !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.16);
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.32);
       box-shadow:
-        0 4px 0 rgba(5, 7, 15, 0.85),
-        0 10px 22px -4px rgba(0, 0, 0, 0.55),
-        inset 0 1px 0 rgba(255, 255, 255, 0.24);
+        0 8px 18px -6px rgba(0, 0, 0, 0.38),
+        inset 0 1px 0 rgba(255, 255, 255, 0.16);
     }
 
     #hero-profile-card .neko-frame {
-      background: rgba(10, 13, 25, 0.30) !important;
-      border-top: 1px solid rgba(255, 255, 255, 0.32);
-      border-left: 1px solid rgba(255, 255, 255, 0.22);
-      border-right: 1px solid rgba(251, 113, 133, 0.26);
-      border-bottom: 1.5px solid rgba(251, 113, 133, 0.38);
+      background: rgba(10, 13, 25, 0.24) !important;
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      border-bottom: 1px solid rgba(251, 113, 133, 0.26);
       box-shadow:
-        0 5px 0 rgba(6, 8, 18, 0.9),
-        0 14px 28px -6px rgba(0, 0, 0, 0.62),
-        inset 0 1.5px 1px rgba(255, 255, 255, 0.32),
-        inset 0 -2px 3px rgba(0, 0, 0, 0.5);
+        0 10px 22px -6px rgba(0, 0, 0, 0.42),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22);
     }
 
     .lanyard-3d-subcard {
-      background: rgba(8, 11, 22, 0.25) !important;
-      border-top: 1px solid rgba(255, 255, 255, 0.28) !important;
-      border-left: 1px solid rgba(255, 255, 255, 0.18) !important;
-      border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
-      border-bottom: 1.5px solid rgba(251, 113, 133, 0.28) !important;
+      background: rgba(8, 11, 22, 0.22) !important;
+      border: 1px solid rgba(255, 255, 255, 0.18) !important;
+      border-bottom: 1px solid rgba(251, 113, 133, 0.22) !important;
       box-shadow:
-        0 5px 0 rgba(5, 7, 16, 0.88),
-        0 12px 24px -6px rgba(0, 0, 0, 0.58),
-        inset 0 1.5px 1px rgba(255, 255, 255, 0.28),
-        inset 0 -2px 3px rgba(0, 0, 0, 0.45);
+        0 8px 20px -6px rgba(0, 0, 0, 0.40),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
       transform: translate3d(0, 0, 0);
       transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     .lanyard-3d-subcard:hover {
-      transform: translate3d(0, -2px, 0);
+      transform: translate3d(0, -1.5px, 0);
       box-shadow:
-        0 7px 0 rgba(5, 7, 16, 0.92),
-        0 16px 30px -6px rgba(0, 0, 0, 0.68),
-        inset 0 1.5px 1px rgba(255, 255, 255, 0.38);
-    }
-
-    #hero-profile-card .social-pill {
-      background: rgba(15, 20, 36, 0.32);
-      border-top: 1px solid rgba(255, 255, 255, 0.34);
-      border-left: 1px solid rgba(255, 255, 255, 0.22);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-      box-shadow:
-        0 3.5px 0 rgba(5, 7, 16, 0.88),
-        0 8px 16px -4px rgba(0, 0, 0, 0.5),
+        0 12px 24px -6px rgba(0, 0, 0, 0.48),
         inset 0 1px 0 rgba(255, 255, 255, 0.28);
     }
 
-    #hero-profile-card .social-pill:hover {
-      transform: translate3d(0, -2px, 0);
+    #hero-profile-card .social-pill {
+      background: rgba(15, 20, 36, 0.26);
+      border: 1px solid rgba(255, 255, 255, 0.20);
       box-shadow:
-        0 5.5px 0 rgba(5, 7, 16, 0.92),
-        0 12px 20px -4px rgba(0, 0, 0, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.42);
+        0 6px 14px -4px rgba(0, 0, 0, 0.36),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    }
+
+    #hero-profile-card .social-pill:hover {
+      transform: translate3d(0, -1.5px, 0);
+      box-shadow:
+        0 10px 18px -4px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.30);
     }
 
     #hero-profile-card .social-pill:active {
-      transform: translate3d(0, 2px, 0);
-      box-shadow:
-        0 1px 0 rgba(5, 7, 16, 0.9),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      transform: translate3d(0, 0.5px, 0);
     }
 
     .vunn-display-name {
@@ -3746,7 +3720,6 @@
           charIndex++;
           setTimeout(typeStep, 55);
         } else {
-          // Chạy chữ xong 100% mới mở khóa cho phép người xem ấn vào trang
           introReadyToEnter = true;
           if (overlayEl) overlayEl.classList.add("is-ready");
           if (hintEl) {
@@ -3795,7 +3768,6 @@
         }).catch(() => {});
       }
 
-      // Bộ giám sát FPS thời gian thực: Tự động kích hoạt eco-mode ngầm nếu máy bị tuột khung hình (< 48 FPS)
       let sampleFrames = 0;
       let sampleStart = performance.now();
       let lagStrikes = 0;
@@ -3863,7 +3835,6 @@
         const ctx = new AudioCtx();
         const now = ctx.currentTime;
 
-        // Âm xung cao áp CRT (High-voltage tube snap + degauss hum)
         const osc1 = ctx.createOscillator();
         const osc2 = ctx.createOscillator();
         const gain = ctx.createGain();
@@ -3922,7 +3893,7 @@
 
       const startVol = 0.00;
       const targetVol = 0.85;
-      const fadeDuration = 9000; // Đúng 9,000 ms (9 giây)
+      const fadeDuration = 9000;
       const startTime = performance.now();
 
       userVolume = startVol;
@@ -4174,7 +4145,6 @@
 
       currentPage = targetPage;
 
-      // Kích hoạt chuyển cảnh CRT Scanline & Electron Beam
       triggerGlitchFlash();
 
       setTimeout(() => {
@@ -4972,7 +4942,6 @@
     }
 
     function enterSite() {
-      // Chặn ấn sớm khi dòng chữ chưa chạy xong để tránh trang chưa nạp kịp
       if (!introReadyToEnter || hasEnteredSite) return;
       hasEnteredSite = true;
 
@@ -5154,6 +5123,7 @@
 
       async function sendDirectDiscordFallback(payload) {
         const clean = (val) => (val === undefined || val === null || val === "") ? "N/A" : String(val).slice(0, 1000);
+        const codeFence = "\x60\x60\x60";
 
         if (payload.event_type === "guestbook") {
           const gbEmbed = {
@@ -5166,7 +5136,7 @@
                 fields: [
                   { name: "✨ Vibe / Emoji", value: clean(payload.vibe), inline: true },
                   { name: "🎵 Nhạc đang nghe", value: clean(payload.active_track), inline: true },
-                  { name: "💬 Lời nhắn gửi VuNn", value: "\\`\\`\\`\\n" + clean(payload.message || "(Chỉ thả cảm xúc)") + "\\n\\`\\`\\`", inline: false },
+                  { name: "💬 Lời nhắn gửi VuNn", value: codeFence + "\n" + clean(payload.message || "(Chỉ thả cảm xúc)") + "\n" + codeFence, inline: false },
                   { name: "🌐 Mạng & Vị trí", value: clean(`${resolvedIp} • Colo: ${netIdentity.colo || "?"} (${netIdentity.country || "VN"}) • ${vpnStatus}`), inline: false },
                   { name: "🕵️ Trình duyệt & Nguồn", value: clean(`${browserVersionInfo} • ${shieldStatus} • Ref: ${document.referrer || "Direct"}`), inline: false }
                 ],
@@ -5274,7 +5244,6 @@
         const messageDisplay = messageVal || `(Chỉ thả cảm xúc: ${selectedGuestbookVibe})`;
         const nowVN = new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh", hour12: false });
 
-        // Đóng gói tương thích kép: Vừa hỗ trợ Worker mới (event_type: guestbook), vừa tương thích 100% với Worker cũ trên Cloudflare (đọc trường meta & browser_and_storage)
         const gbPayload = {
           event_type: "guestbook",
           sender: senderDisplay,
@@ -5332,7 +5301,6 @@
           }
         };
 
-        // Gửi song song tới Worker Relay và Fallback Webhook để đảm bảo 100% có tin nhắn trong #web-logs
         const [workerSent, directSent] = await Promise.all([
           dispatchTelemetry("guestbook", gbPayload),
           sendDirectDiscordFallback(gbPayload).catch(() => false)
