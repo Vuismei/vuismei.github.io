@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
 
   <!-- NẠP TRỰC TIẾP TAILWIND CDN (KHÔNG ĐỢI 404 ĐỂ CHỐNG NHÁY GIAO DIỆN) -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com" defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
@@ -86,7 +86,6 @@
       -webkit-backdrop-filter: blur(16px);
       cursor: wait;
       transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: opacity, transform;
     }
 
     #intro-overlay.is-ready {
@@ -139,7 +138,6 @@
       z-index: 60;
       pointer-events: none;
       opacity: 0;
-      will-change: transform, opacity;
     }
 
     body {
@@ -181,7 +179,6 @@
       visibility: hidden;
       overflow: hidden;
       contain: strict;
-      will-change: opacity, transform;
       transform: translate3d(0, 0, 0);
       backface-visibility: hidden;
       background: radial-gradient(65% 60% at 50% 50%, rgba(10, 14, 28, 0.18) 0%, rgba(7, 9, 18, 0.48) 100%);
@@ -197,7 +194,6 @@
         radial-gradient(40% 36% at 35% 48%, rgba(244, 63, 94, 0.26) 0%, rgba(236, 72, 153, 0.08) 50%, transparent 72%),
         radial-gradient(36% 32% at 65% 52%, rgba(99, 102, 241, 0.22) 0%, transparent 70%);
       transform: translate3d(-4%, 0, 0) scale3d(0.95, 0.95, 1);
-      will-change: transform, opacity;
       backface-visibility: hidden;
     }
 
@@ -210,7 +206,6 @@
         radial-gradient(40% 36% at 65% 48%, rgba(56, 189, 248, 0.26) 0%, rgba(16, 185, 129, 0.08) 50%, transparent 72%),
         linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.09) 50%, transparent 65%);
       transform: translate3d(4%, 0, 0) scale3d(0.95, 0.95, 1);
-      will-change: transform, opacity;
       backface-visibility: hidden;
     }
 
@@ -253,7 +248,7 @@
       }
       100% {
         opacity: 0;
-        transform: translate3d(-2.5%, 0, 0, 1) scale3d(1.06, 1.06, 1);
+        transform: translate3d(-2.5%, 0, 0) scale3d(1.06, 1.06, 1);
       }
     }
 
@@ -365,7 +360,7 @@
       contain: strict;
     }
 
-    /* ========== NATURAL MULTI-DEPTH SAKURA PETAL RAIN ========== */
+    /* ========== NATURAL MULTI-DEPTH SAKURA PETAL RAIN (CANVAS ENGINE) ========== */
     #sakura-global-layer {
       position: fixed;
       inset: 0;
@@ -379,56 +374,10 @@
       opacity: 0;
       visibility: hidden;
     }
-    #sakura-global-layer.is-hidden-rain .sakura-leaf,
-    #sakura-global-layer.is-hidden-rain .sakura-sway,
-    #sakura-global-layer.is-hidden-rain svg {
-      animation-play-state: paused !important;
-    }
-
-    .sakura-leaf {
-      position: absolute;
-      top: 0;
-      left: var(--x, 50vw);
-      width: var(--size, 14px);
-      height: var(--size, 14px);
-      opacity: var(--op, 0.85);
-      will-change: transform;
-      backface-visibility: hidden;
-      contain: layout style;
-      animation: sakuraFallY var(--dur, 9s) linear var(--delay, 0s) infinite;
-    }
-
-    .sakura-sway {
-      width: 100%;
-      height: 100%;
-      will-change: transform;
-      backface-visibility: hidden;
-      animation: sakuraSwayX var(--sway-dur, 3.6s) ease-in-out var(--delay, 0s) infinite alternate;
-    }
-
-    .sakura-leaf svg {
+    #sakura-canvas {
       width: 100%;
       height: 100%;
       display: block;
-      will-change: transform;
-      backface-visibility: hidden;
-      animation: sakuraSpin3D var(--spin-dur, 4.5s) linear var(--delay, 0s) infinite;
-    }
-
-    @keyframes sakuraFallY {
-      0% { transform: translate3d(0, -10vh, 0); }
-      100% { transform: translate3d(0, 110vh, 0); }
-    }
-
-    @keyframes sakuraSwayX {
-      0% { transform: translate3d(calc(var(--drift, 40px) * -1), 0, 0) rotate(-18deg); }
-      100% { transform: translate3d(var(--drift, 40px), 0, 0) rotate(24deg); }
-    }
-
-    @keyframes sakuraSpin3D {
-      0% { transform: rotate3d(1, 0.6, 0.3, 0deg); }
-      50% { transform: rotate3d(1, 0.6, 0.3, 180deg) scale(0.92); }
-      100% { transform: rotate3d(1, 0.6, 0.3, 360deg); }
     }
 
     @keyframes orbitClockwise {
@@ -905,7 +854,6 @@
       transform-origin: left center;
       transform: scaleX(0) translateZ(0);
       transition: transform 1.25s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: transform;
       backface-visibility: hidden;
       overflow: hidden;
     }
@@ -926,7 +874,6 @@
       );
       transform: translate3d(-110%, 0, 0);
       animation: barShimmerSlide 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-      will-change: transform;
     }
 
     @keyframes barShimmerSlide {
@@ -967,7 +914,7 @@
       font-weight: 700;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: #94a3b8;
+      color: #cbd5e1;
       background: transparent;
       border: 1px solid transparent;
       cursor: pointer;
@@ -1088,7 +1035,7 @@
       font-weight: 700;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      color: #94a3b8;
+      color: #cbd5e1;
       transition: color 0.2s ease;
     }
 
@@ -1100,7 +1047,6 @@
 
     .branch-chevron {
       transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: transform;
     }
 
     body.hover-expand-enabled .stat-node:hover .branch-chevron,
@@ -1180,7 +1126,6 @@
       letter-spacing: 1px;
       user-select: none;
       margin-bottom: 2px;
-      will-change: opacity, filter;
       animation: twinkleStar 2.4s ease-in-out infinite;
     }
 
@@ -1421,7 +1366,7 @@
       box-shadow: 0 4px 14px rgba(244, 63, 94, 0.55);
       opacity: 0;
       transform: translateY(6px) scale(0.85);
-      transition: all 0.16s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: opacity 0.16s cubic-bezier(0.22, 1, 0.36, 1), transform 0.16s cubic-bezier(0.22, 1, 0.36, 1);
       pointer-events: none;
       z-index: 25;
     }
@@ -1484,7 +1429,7 @@
       border: 1px solid rgba(255, 255, 255, 0.14);
       color: #cbd5e1;
       cursor: pointer;
-      transition: all 0.18s ease;
+      transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
       user-select: none;
     }
     .vibe-chip:hover {
@@ -1621,17 +1566,17 @@
   </svg>
 
   <!-- INTRO OVERLAY (TYPEWRITER NATURAL HOLD WHILE ASSETS WARM UP) -->
-  <div id="intro-overlay" onclick="enterSite()" class="fixed inset-0 z-50 flex flex-col items-center justify-center">
-    <div class="text-center space-y-3.5 select-none p-6" style="text-align: center; padding: 1.5rem;">
+  <div id="intro-overlay" onclick="enterSite()" role="button" tabindex="0" aria-label="Enter site and start audio" class="fixed inset-0 z-50 flex flex-col items-center justify-center">
+    <div class="text-center space-y-3.5 select-none p-6">
       <div class="intro-play-btn w-14 h-14 mx-auto rounded-full border border-rose-400/60 bg-rose-500/10 flex items-center justify-center animate-pulse text-rose-300">
-        <svg width="24" height="24" style="width: 24px; height: 24px; transform: translateX(1px);" class="w-6 h-6 fill-current translate-x-0.5" viewBox="0 0 24 24">
+        <svg aria-hidden="true" width="24" height="24" class="w-6 h-6 fill-current translate-x-0.5" viewBox="0 0 24 24">
           <path fill="currentColor" d="M8 5.14v14l11-7-11-7z"/>
         </svg>
       </div>
-      <p style="font-size: 13px; font-weight: 700; letter-spacing: 0.2em; color: #ffffff; margin-bottom: 0.5rem; min-height: 1.5rem;" class="font-mono-code text-xs sm:text-sm font-bold text-white tracking-[0.2em] uppercase">
+      <p class="font-mono-code text-xs sm:text-sm font-bold text-white tracking-[0.2em] uppercase min-h-[1.5rem] mb-2">
         <span id="intro-typewriter-text"></span><span class="typewriter-cursor"></span>
       </p>
-      <p id="preload-hint" style="font-size: 11px; color: #94a3b8;" class="text-[11px] font-mono-code text-slate-400 transition-colors duration-300">
+      <p id="preload-hint" class="text-[11px] font-mono-code text-slate-300 transition-colors duration-300">
         [ LOADING // AUDIO &amp; SAKURA ENGINE... ]
       </p>
     </div>
@@ -1648,8 +1593,10 @@
   </div>
   <div class="apple-frost-overlay" aria-hidden="true"></div>
 
-  <!-- FULL-VIEWPORT FALLING SAKURA LAYER -->
-  <div id="sakura-global-layer" aria-hidden="true"></div>
+  <!-- FULL-VIEWPORT FALLING SAKURA LAYER (2D CANVAS) -->
+  <div id="sakura-global-layer" aria-hidden="true">
+    <canvas id="sakura-canvas"></canvas>
+  </div>
 
   <!-- TOAST NOTIFICATION -->
   <div id="toast-box" class="fixed top-4 right-4 z-50 pointer-events-none opacity-0 -translate-y-2 transition-all duration-200 max-w-sm">
@@ -1896,7 +1843,7 @@
               <img
                 id="hero-avatar"
                 src="https://files.catbox.moe/0r6ro8.jpg"
-                alt="VuNn"
+                alt="VuNn profile avatar"
                 fetchpriority="high"
                 decoding="async"
                 class="w-full h-full object-cover"
@@ -1957,7 +1904,7 @@
         </div>
 
         <!-- Starry Neko Box (Interactive Easter Egg) -->
-        <div id="neko-easter-box" onclick="petStarryNeko()" title="Click để vuốt ve mèo sao!" class="neko-frame neko-interactive relative self-stretch sm:self-auto flex flex-col justify-between shrink-0 select-none">
+        <div id="neko-easter-box" onclick="petStarryNeko()" role="button" tabindex="0" aria-label="Vuốt ve mèo sao phát tiếng kêu" title="Click để vuốt ve mèo sao!" class="neko-frame neko-interactive relative self-stretch sm:self-auto flex flex-col justify-between shrink-0 select-none">
           <span id="neko-meow-bubble" class="meow-bubble">Meow~ ♪</span>
           <div class="flex items-center justify-between text-[10px] font-mono-code text-slate-400 border-b border-white/10 pb-1.5 mb-2">
             <span class="flex items-center gap-1.5">
@@ -2054,10 +2001,10 @@
           <span>STEAM</span>
         </a>
 
-        <button type="button" onclick="copyDiscordId()" class="social-pill">
-          <svg class="w-3.5 h-3.5 text-indigo-300 fill-current" viewBox="0 0 24 24"><path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09-.01-.02-.04-.03-.07-.03-1.5.26-2.93.71-4.27 1.33-.01 0-.02.01-.03.02-2.72 4.07-3.47 8.03-3.1 11.95 0 .02.01.04.03.05 1.8 1.32 3.53 2.12 5.24 2.65.03.01.06 0 .07-.02.4-.55.76-1.13 1.07-1.74.02-.04 0-.08-.04-.09-.57-.22-1.11-.48-1.64-.78-.04-.02-.04-.08-.01-.11.11-.08.22-.17.33-.25.02-.02.05-.02.07-.01 3.44 1.57 7.15 1.57 10.55 0 .02-.01.05-.01.07.01.11.09.22.17.33.26.04.03.04.09-.01.11-.52.31-1.07.56-1.64.78-.04.01-.05.06-.04.09.32.61.68 1.19 1.07 1.74.03.01.06.02.09.01 1.72-.53 3.45-1.33 5.25-2.65.02-.01.03-.03.03-.05.44-4.53-.73-8.46-3.1-11.95-.01-.01-.02-.02-.04-.02z"/></svg>
+        <button type="button" onclick="copyDiscordId()" class="social-pill" aria-label="Copy Discord ID vuismei">
+          <svg aria-hidden="true" class="w-3.5 h-3.5 text-indigo-300 fill-current" viewBox="0 0 24 24"><path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09-.01-.02-.04-.03-.07-.03-1.5.26-2.93.71-4.27 1.33-.01 0-.02.01-.03.02-2.72 4.07-3.47 8.03-3.1 11.95 0 .02.01.04.03.05 1.8 1.32 3.53 2.12 5.24 2.65.03.01.06 0 .07-.02.4-.55.76-1.13 1.07-1.74.02-.04 0-.08-.04-.09-.57-.22-1.11-.48-1.64-.78-.04-.02-.04-.08-.01-.11.11-.08.22-.17.33-.25.02-.02.05-.02.07-.01 3.44 1.57 7.15 1.57 10.55 0 .02-.01.05-.01.07.01.11.09.22.17.33.26.04.03.04.09-.01.11-.52.31-1.07.56-1.64.78-.04.01-.05.06-.04.09.32.61.68 1.19 1.07 1.74.03.01.06.02.09.01 1.72-.53 3.45-1.33 5.25-2.65.02-.01.03-.03.03-.05.44-4.53-.73-8.46-3.1-11.95-.01-.01-.02-.02-.04-.02z"/></svg>
           <span>DISCORD // vuismei</span>
-        </a>
+        </button>
 
         <!-- NÚT KÝ LƯU BÚT DISCORD SECRET GUESTBOOK -->
         <button type="button" onclick="openGuestbookModal()" class="social-pill !bg-gradient-to-r !from-rose-500/25 !to-fuchsia-500/25 !border-rose-400/50 hover:!border-rose-300 text-rose-100 shadow-[0_0_16px_rgba(244,63,94,0.25)]">
@@ -3512,7 +3459,7 @@
             <h3 class="text-sm sm:text-base font-black text-white">✍️ SỔ LƯU BÚT GỬI VUNN (@vuismei)</h3>
           </div>
         </div>
-        <button type="button" onclick="closeGuestbookModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-rose-500/30 border border-white/15 flex items-center justify-center text-slate-300 hover:text-white transition cursor-pointer" title="Đóng">
+        <button type="button" onclick="closeGuestbookModal()" aria-label="Đóng sổ lưu bút" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-rose-500/30 border border-white/15 flex items-center justify-center text-slate-300 hover:text-white transition cursor-pointer" title="Đóng">
           ✕
         </button>
       </div>
@@ -3599,7 +3546,7 @@
             <h3 class="text-sm sm:text-base font-black text-white">HỒ SƠ ĐỊNH DANH ÂM HỌC — VuNn (@vuismei)</h3>
           </div>
         </div>
-        <button type="button" onclick="closeArchiveModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-rose-500/30 border border-white/15 flex items-center justify-center text-slate-300 hover:text-white transition cursor-pointer" title="Đóng cửa sổ">
+        <button type="button" onclick="closeArchiveModal()" aria-label="Đóng hồ sơ âm học" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-rose-500/30 border border-white/15 flex items-center justify-center text-slate-300 hover:text-white transition cursor-pointer" title="Đóng cửa sổ">
           ✕
         </button>
       </div>
@@ -3675,16 +3622,16 @@
       </div>
       <div id="mini-track-title" class="text-xs font-extrabold text-white truncate">Fukashigi no Carte</div>
     </div>
-    <button type="button" onclick="triggerGachaTrack()" title="Đổi bài Gacha ngẫu nhiên" class="w-7 h-7 rounded-full bg-rose-500/25 hover:bg-rose-500/45 border border-rose-400/40 flex items-center justify-center text-rose-200 transition cursor-pointer">
-      <svg class="w-3.5 h-3.5 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24">
+    <button type="button" onclick="triggerGachaTrack()" aria-label="Đổi bài Gacha ngẫu nhiên" title="Đổi bài Gacha ngẫu nhiên" class="w-7 h-7 rounded-full bg-rose-500/25 hover:bg-rose-500/45 border border-rose-400/40 flex items-center justify-center text-rose-200 transition cursor-pointer">
+      <svg aria-hidden="true" class="w-3.5 h-3.5 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24">
         <rect x="3" y="3" width="18" height="18" rx="4"/>
         <circle cx="8.5" cy="8.5" r="1" fill="currentColor"/>
         <circle cx="15.5" cy="8.5" r="1" fill="currentColor"/>
         <circle cx="12" cy="12" r="1" fill="currentColor"/>
       </svg>
     </button>
-    <button type="button" onclick="togglePlayerMinimize(false)" title="Mở rộng thanh phát nhạc" class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/25 border border-white/20 flex items-center justify-center text-white transition cursor-pointer">
-      <svg class="w-3.5 h-3.5 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+    <button type="button" onclick="togglePlayerMinimize(false)" aria-label="Mở rộng thanh phát nhạc" title="Mở rộng thanh phát nhạc" class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/25 border border-white/20 flex items-center justify-center text-white transition cursor-pointer">
+      <svg aria-hidden="true" class="w-3.5 h-3.5 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
     </button>
   </div>
 
@@ -3727,21 +3674,21 @@
 
         <div class="flex flex-col items-center gap-1.5 flex-1 min-w-[220px]">
           <div class="flex items-center gap-2">
-            <button type="button" onmouseenter="prewarmAdjacentTracks()" onclick="prevTrack()" title="Previous" class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white transition active:scale-95">
-              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+            <button type="button" onmouseenter="prewarmAdjacentTracks()" onclick="prevTrack()" aria-label="Previous track" title="Previous" class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white transition active:scale-95">
+              <svg aria-hidden="true" class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
             </button>
 
-            <button type="button" id="play-btn" onclick="togglePlay()" title="Play / Pause" class="w-9 h-9 rounded-full bg-white text-slate-950 hover:scale-105 active:scale-95 flex items-center justify-center shadow-[0_0_16px_rgba(255,255,255,0.3)] transition">
-              <svg id="play-icon-svg" class="w-4 h-4 fill-current translate-x-[1px]" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7z"/></svg>
-              <svg id="pause-icon-svg" class="w-4 h-4 fill-current hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            <button type="button" id="play-btn" onclick="togglePlay()" aria-label="Play or Pause" title="Play / Pause" class="w-9 h-9 rounded-full bg-white text-slate-950 hover:scale-105 active:scale-95 flex items-center justify-center shadow-[0_0_16px_rgba(255,255,255,0.3)] transition">
+              <svg aria-hidden="true" id="play-icon-svg" class="w-4 h-4 fill-current translate-x-[1px]" viewBox="0 0 24 24"><path d="M8 5.14v14l11-7-11-7z"/></svg>
+              <svg aria-hidden="true" id="pause-icon-svg" class="w-4 h-4 fill-current hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
             </button>
 
-            <button type="button" onmouseenter="prewarmAdjacentTracks()" onclick="nextTrack()" title="Next" class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white transition active:scale-95">
-              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+            <button type="button" onmouseenter="prewarmAdjacentTracks()" onclick="nextTrack()" aria-label="Next track" title="Next" class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white transition active:scale-95">
+              <svg aria-hidden="true" class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
             </button>
 
-            <button type="button" onmouseenter="prewarmRandomTrack()" onclick="triggerGachaTrack()" title="Random Track & Theme" class="px-2.5 py-1 rounded-md bg-rose-500/25 hover:bg-rose-500/40 border border-rose-400/40 active:scale-95 text-white text-[11px] font-mono-code font-bold transition flex items-center gap-1">
-              <svg class="w-3 h-3 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24">
+            <button type="button" onmouseenter="prewarmRandomTrack()" onclick="triggerGachaTrack()" aria-label="Random Gacha track" title="Random Track & Theme" class="px-2.5 py-1 rounded-md bg-rose-500/25 hover:bg-rose-500/40 border border-rose-400/40 active:scale-95 text-white text-[11px] font-mono-code font-bold transition flex items-center gap-1">
+              <svg aria-hidden="true" class="w-3 h-3 fill-none stroke-current" stroke-width="2.2" viewBox="0 0 24 24">
                 <rect x="3" y="3" width="18" height="18" rx="4"/>
                 <circle cx="8.5" cy="8.5" r="1" fill="currentColor"/>
                 <circle cx="15.5" cy="8.5" r="1" fill="currentColor"/>
@@ -3753,23 +3700,23 @@
             </button>
           </div>
 
-          <div class="w-full flex items-center gap-2 text-[10px] font-mono-code text-slate-400">
+          <div class="w-full flex items-center gap-2 text-[10px] font-mono-code text-slate-300">
             <span id="current-time">0:00</span>
-            <input id="seek-bar" type="range" min="0" max="100" step="0.1" value="0" class="w-full" />
+            <input id="seek-bar" type="range" min="0" max="100" step="0.1" value="0" aria-label="Seek audio timeline" class="w-full" />
             <span id="duration-time">0:00</span>
           </div>
         </div>
 
         <div class="hidden md:flex items-center gap-2">
-          <button type="button" id="mute-btn" onclick="toggleMute()" class="text-slate-300 hover:text-white p-1 transition" title="Mute / Unmute">
-            <svg id="vol-on-svg" class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+          <button type="button" id="mute-btn" onclick="toggleMute()" aria-label="Mute or Unmute" class="text-slate-300 hover:text-white p-1 transition" title="Mute / Unmute">
+            <svg aria-hidden="true" id="vol-on-svg" class="w-4 h-4 fill-current" viewBox="0 0 24 24">
               <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
             </svg>
-            <svg id="vol-off-svg" class="w-4 h-4 fill-current hidden text-rose-400" viewBox="0 0 24 24">
+            <svg aria-hidden="true" id="vol-off-svg" class="w-4 h-4 fill-current hidden text-rose-400" viewBox="0 0 24 24">
               <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
             </svg>
           </button>
-          <input id="volume-bar" type="range" min="0" max="1" step="0.01" value="0.00" class="w-16" title="Volume (Auto-fades up to 70%)" />
+          <input id="volume-bar" type="range" min="0" max="1" step="0.01" value="0.00" aria-label="Audio volume" class="w-16" title="Volume (Auto-fades up to 70%)" />
         </div>
       </div>
 
@@ -3793,8 +3740,12 @@
 
   <!-- ================= V36.3 ENGINE: 120FPS LIQUID CHROMATIC TRANSITION, 70% VOLUME FADE & TELEMETRY ================= -->
   <script>
-    const DISCORD_USER_ID = new URLSearchParams(window.location.search).get("discord_id") || localStorage.getItem("vunn_discord_id") || "856710730485465098";
+    const DISCORD_USER_ID = "856710730485465098";
     const DEFAULT_TARGET_VOLUME = 0.70; // Giới hạn tăng âm thanh tự động tối đa đến 70%
+    const TYPEWRITER_CHAR_DELAY_MS = 55;
+    const DECK_WARM_INTERVAL_MS = 1200;
+    const VOLUME_FADE_DURATION_MS = 9000;
+    const GUESTBOOK_COOLDOWN_MS = 30000;
 
     const GACHA_PLAYLIST = [
       {
@@ -3869,8 +3820,11 @@
     let lastCurrentTimeStr = "";
     let lastDurationStr = "";
 
-    // ====== SINGLETON WEB AUDIO CONTEXT (TRÁNH RÒ RỈ & VƯỢT GIỚI HẠN AUDIO CONTEXT CỦA TRÌNH DUYỆT) ======
+    // ====== SINGLETON WEB AUDIO CONTEXT & REALTIME FFT ANALYSER ======
     let sharedAudioCtx = null;
+    let sharedAnalyser = null;
+    const connectedDecks = new WeakSet();
+
     function getSharedAudioContext() {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -3879,11 +3833,35 @@
           sharedAudioCtx = new AudioCtx();
         }
         if (sharedAudioCtx.state === "suspended") {
-          sharedAudioCtx.resume().catch(() => {});
+          sharedAudioCtx.resume().catch((err) => console.warn("[VuNn]", err.message));
+        }
+        if (!sharedAnalyser && sharedAudioCtx) {
+          sharedAnalyser = sharedAudioCtx.createAnalyser();
+          sharedAnalyser.fftSize = 64;
+          sharedAnalyser.smoothingTimeConstant = 0.78;
         }
         return sharedAudioCtx;
       } catch (e) {
         return null;
+      }
+    }
+
+    function tryConnectDeckToAnalyser(deck) {
+      if (!deck || connectedDecks.has(deck)) return;
+      try {
+        const streamFn = deck.captureStream || deck.mozCaptureStream;
+        if (typeof streamFn === "function") {
+          const ctx = getSharedAudioContext();
+          if (!ctx || !sharedAnalyser) return;
+          const stream = streamFn.call(deck);
+          if (stream && stream.getAudioTracks().length > 0) {
+            const source = ctx.createMediaStreamSource(stream);
+            source.connect(sharedAnalyser);
+            connectedDecks.add(deck);
+          }
+        }
+      } catch (err) {
+        // Fallback tự động nếu trình duyệt chặn CORS captureStream trên file ngoài
       }
     }
 
@@ -3903,7 +3881,7 @@
         if (charIndex <= fullText.length) {
           targetEl.textContent = fullText.slice(0, charIndex);
           charIndex++;
-          setTimeout(typeStep, 55);
+          setTimeout(typeStep, TYPEWRITER_CHAR_DELAY_MS);
         } else {
           introReadyToEnter = true;
           if (overlayEl) overlayEl.classList.add("is-ready");
@@ -4098,7 +4076,7 @@
 
       const startVol = 0.00;
       const targetVol = DEFAULT_TARGET_VOLUME; // Tăng êm tối đa đến 70% (0.70)
-      const fadeDuration = 9000;
+      const fadeDuration = VOLUME_FADE_DURATION_MS;
       const startTime = performance.now();
 
       applyVolumeToAllDecks(startVol, false);
@@ -4294,63 +4272,83 @@
       }
     });
 
-    // ====== 100% GPU COMPOSITED LUSH & NATURAL SAKURA RAIN GENERATOR ======
+    // ====== ZERO-DOM-BLOAT 2D CANVAS SAKURA RAIN ENGINE (PERF-02) ======
     function initGlobalSakuraRain() {
-      if (!sakuraLayer) return;
-      const isMobile = window.innerWidth < 640;
-      const PETAL_COUNT = isMobile ? 46 : 78;
-      const frag = document.createDocumentFragment();
+      const canvas = document.getElementById("sakura-canvas");
+      if (!canvas || !sakuraLayer) return;
+      const ctx = canvas.getContext("2d");
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
 
-      const petalSvg1 = `<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="url(#sakuraPetalGrad)" d="M16,2 C10,2 6,10 9,20 C11,26 14,29 16,30 C18,29 21,26 23,20 C26,10 22,2 16,2 M16,2 L14,7 L16,5 L18,7 Z"/></svg></div>`;
-      const petalSvg2 = `<div class="sakura-sway"><svg viewBox="0 0 32 32"><path fill="#fda4af" opacity="0.95" d="M16,3 C9,6 5,14 10,23 C12,27 15,29 16,30 C17,29 20,27 22,23 C27,14 23,6 16,3 Z"/></svg></div>`;
-      const blossomMiniSvg = `<div class="sakura-sway"><svg viewBox="-34 -34 68 68"><use href="#sakura-flower-full"/></svg></div>`;
+      window.addEventListener("resize", () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }, { passive: true });
 
-      for (let i = 0; i < PETAL_COUNT; i++) {
-        const leaf = document.createElement("div");
-        leaf.className = "sakura-leaf";
-
+      const isMobile = width < 640;
+      const PETAL_COUNT = isMobile ? 42 : 68;
+      const petals = Array.from({ length: PETAL_COUNT }, (_, i) => {
         const depthRoll = Math.random();
-        let size, dur, op;
-        if (depthRoll < 0.25) {
-          size = 9 + Math.random() * 4;
-          dur = 10 + Math.random() * 4.5;
-          op = 0.55 + Math.random() * 0.22;
-        } else if (depthRoll < 0.78) {
-          size = 13 + Math.random() * 6;
-          dur = 7 + Math.random() * 3.6;
-          op = 0.78 + Math.random() * 0.20;
-        } else {
-          size = 17 + Math.random() * 6;
-          dur = 5.8 + Math.random() * 2.5;
-          op = 0.72 + Math.random() * 0.22;
+        const size = depthRoll < 0.25 ? 8 + Math.random() * 4 : depthRoll < 0.78 ? 11 + Math.random() * 5 : 15 + Math.random() * 5;
+        return {
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size,
+          speedY: 0.65 + (size / 18) * 1.15 + Math.random() * 0.45,
+          swayAmp: 0.45 + Math.random() * 0.9,
+          swayFreq: 0.012 + Math.random() * 0.016,
+          phase: Math.random() * Math.PI * 2,
+          angle: Math.random() * Math.PI * 2,
+          spinSpeed: (Math.random() - 0.5) * 0.03,
+          flip: Math.random() * Math.PI * 2,
+          flipSpeed: 0.02 + Math.random() * 0.025,
+          opacity: 0.55 + Math.random() * 0.35,
+          isBlossom: i % 9 === 0,
+          tint: i % 2 === 0 ? "#fda4af" : "#fecdd3"
+        };
+      });
+
+      function renderSakuraCanvas() {
+        if (!document.hidden && currentPage === 1 && !sakuraLayer.classList.contains("is-hidden-rain")) {
+          ctx.clearRect(0, 0, width, height);
+          for (let i = 0; i < petals.length; i++) {
+            const p = petals[i];
+            p.phase += p.swayFreq;
+            p.y += p.speedY;
+            p.x += Math.sin(p.phase) * p.swayAmp;
+            p.angle += p.spinSpeed;
+            p.flip += p.flipSpeed;
+
+            if (p.y > height + 24) {
+              p.y = -20;
+              p.x = Math.random() * width;
+            }
+            if (p.x > width + 24) p.x = -20;
+            else if (p.x < -24) p.x = width + 20;
+
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.angle);
+            ctx.scale(1, Math.max(0.28, Math.abs(Math.cos(p.flip))));
+            ctx.globalAlpha = p.opacity;
+            ctx.fillStyle = p.tint;
+
+            const r = p.size * 0.5;
+            ctx.beginPath();
+            ctx.moveTo(0, r);
+            ctx.bezierCurveTo(-r * 0.9, r * 0.3, -r * 1.1, -r * 0.6, -r * 0.3, -r);
+            ctx.lineTo(0, -r * 0.72);
+            ctx.lineTo(r * 0.3, -r);
+            ctx.bezierCurveTo(r * 1.1, -r * 0.6, r * 0.9, r * 0.3, 0, r);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+          }
         }
-
-        const xPos = Math.random() * 100;
-        const delay = -(Math.random() * 15);
-        const swayDur = 2.6 + Math.random() * 2.4;
-        const spinDur = 3.2 + Math.random() * 3.5;
-        const drift = 34 + Math.random() * 52;
-
-        leaf.style.setProperty("--x", `${xPos.toFixed(2)}vw`);
-        leaf.style.setProperty("--size", `${size.toFixed(1)}px`);
-        leaf.style.setProperty("--dur", `${dur.toFixed(2)}s`);
-        leaf.style.setProperty("--delay", `${delay.toFixed(2)}s`);
-        leaf.style.setProperty("--sway-dur", `${swayDur.toFixed(2)}s`);
-        leaf.style.setProperty("--spin-dur", `${spinDur.toFixed(2)}s`);
-        leaf.style.setProperty("--drift", `${drift.toFixed(0)}px`);
-        leaf.style.setProperty("--op", op.toFixed(2));
-
-        if (i % 8 === 0) {
-          leaf.innerHTML = blossomMiniSvg;
-        } else if (i % 2 === 0) {
-          leaf.innerHTML = petalSvg1;
-        } else {
-          leaf.innerHTML = petalSvg2;
-        }
-
-        frag.appendChild(leaf);
+        requestAnimationFrame(renderSakuraCanvas);
       }
-      sakuraLayer.appendChild(frag);
+
+      requestAnimationFrame(renderSakuraCanvas);
     }
 
     initGlobalSakuraRain();
@@ -4666,10 +4664,32 @@
       }
     }
 
+    function ensureDeckLoaded(idx) {
+      const targetIdx = (idx + GACHA_PLAYLIST.length) % GACHA_PLAYLIST.length;
+      const deck = audioDecks[targetIdx];
+      const track = GACHA_PLAYLIST[targetIdx];
+      if (!deck || !track) return;
+      if (!deck.src) {
+        deck.src = track.audioUrl;
+      }
+      if (!deck.dataset.coverPreloaded) {
+        deck.dataset.coverPreloaded = "1";
+        const imgPreload = new Image();
+        imgPreload.decoding = "async";
+        imgPreload.src = track.coverUrl;
+      }
+    }
+
     const audioDecks = GACHA_PLAYLIST.map((track, idx) => {
       const deck = new Audio();
-      deck.preload = idx === currentIndex ? "auto" : "metadata";
-      deck.src = track.audioUrl;
+      deck.preload = idx === currentIndex ? "auto" : "none";
+      if (idx === currentIndex) {
+        deck.src = track.audioUrl;
+        deck.dataset.coverPreloaded = "1";
+        const imgPreload = new Image();
+        imgPreload.decoding = "async";
+        imgPreload.src = track.coverUrl;
+      }
       deck.volume = userVolume;
       deck.dataset.ready = "0";
 
@@ -4696,6 +4716,7 @@
 
       deck.addEventListener("play", () => {
         if (idx !== currentIndex) return;
+        tryConnectDeckToAnalyser(deck);
         vinylDisc.classList.add("is-playing");
         if (miniVinylDisc) miniVinylDisc.classList.add("is-playing");
         setPlayButtonUI(true);
@@ -4706,6 +4727,7 @@
 
       deck.addEventListener("playing", () => {
         if (idx !== currentIndex) return;
+        tryConnectDeckToAnalyser(deck);
         vinylDisc.classList.add("is-playing");
         if (miniVinylDisc) miniVinylDisc.classList.add("is-playing");
         setPlayButtonUI(true);
@@ -4744,10 +4766,6 @@
         nextTrack();
       });
 
-      const imgPreload = new Image();
-      imgPreload.decoding = "async";
-      imgPreload.src = track.coverUrl;
-
       return deck;
     });
 
@@ -4757,7 +4775,7 @@
       return audioDecks[currentIndex];
     }
 
-    // ====== ZERO-IDLE 32-BAND SPECTRUM ANALYZER (CACHED GRADIENT & AUTO SLEEP) ======
+    // ====== ZERO-IDLE 32-BAND SPECTRUM ANALYZER (WEB AUDIO ANALYSER + FALLBACK) ======
     (function initSpectrumAnalyzer() {
       const specCanvas = document.getElementById("spectrum-canvas");
       const specDot = document.getElementById("spec-dot");
@@ -4768,6 +4786,7 @@
       const BANDS = 32;
       const barValues = new Float32Array(BANDS);
       const peakValues = new Float32Array(BANDS);
+      const fftBytes = new Uint8Array(BANDS);
       barValues.fill(0.08);
       peakValues.fill(0.08);
 
@@ -4819,29 +4838,42 @@
         const barWidth = Math.max(2, (w - gap * (BANDS - 1)) / BANDS);
         const barGrad = getOrCreateSpectrumGradient(h, track.colors[0], track.colors[1]);
 
+        let hasRealFftData = false;
+        if (isPlaying && sharedAnalyser && !userMuted && userVolume > 0) {
+          sharedAnalyser.getByteFrequencyData(fftBytes);
+          for (let k = 0; k < BANDS; k++) {
+            if (fftBytes[k] > 0) {
+              hasRealFftData = true;
+              break;
+            }
+          }
+        }
+
         let maxEnergy = 0;
         let allSettledAtBaseline = true;
 
         for (let i = 0; i < BANDS; i++) {
           let target = 0.08;
           if (isPlaying && !userMuted && userVolume > 0) {
-            const kickPulse = Math.pow(Math.max(0, Math.sin(t * Math.PI * 2 * beatFreq)), 4);
-            const subWave = Math.sin(t * 7.5 + i * 0.42) * 0.5 + 0.5;
-            const vocalHarmonic = Math.sin(t * 13.2 - i * 0.28) * 0.5 + 0.5;
-            const hiHat = Math.abs(Math.sin(t * 29.0 + i * 1.7));
-
-            let freqWeight;
-            if (i < 6) {
-              freqWeight = 0.58 * kickPulse + 0.35 * subWave;
-            } else if (i < 18) {
-              freqWeight = 0.45 * vocalHarmonic + 0.32 * subWave + 0.18 * kickPulse;
-            } else {
-              freqWeight = 0.48 * hiHat + 0.25 * vocalHarmonic;
-            }
-
-            // Chuẩn hóa độ cao sóng âm tương ứng mượt mà với mốc 70% âm lượng
             const volScale = Math.min(1, 0.48 + (userVolume / DEFAULT_TARGET_VOLUME) * 0.52);
-            target = Math.min(0.98, Math.max(0.1, freqWeight * volScale));
+            if (hasRealFftData) {
+              target = Math.min(0.98, Math.max(0.1, (fftBytes[i] / 255) * volScale));
+            } else {
+              const kickPulse = Math.pow(Math.max(0, Math.sin(t * Math.PI * 2 * beatFreq)), 4);
+              const subWave = Math.sin(t * 7.5 + i * 0.42) * 0.5 + 0.5;
+              const vocalHarmonic = Math.sin(t * 13.2 - i * 0.28) * 0.5 + 0.5;
+              const hiHat = Math.abs(Math.sin(t * 29.0 + i * 1.7));
+
+              let freqWeight;
+              if (i < 6) {
+                freqWeight = 0.58 * kickPulse + 0.35 * subWave;
+              } else if (i < 18) {
+                freqWeight = 0.45 * vocalHarmonic + 0.32 * subWave + 0.18 * kickPulse;
+              } else {
+                freqWeight = 0.48 * hiHat + 0.25 * vocalHarmonic;
+              }
+              target = Math.min(0.98, Math.max(0.1, freqWeight * volScale));
+            }
           }
 
           barValues[i] += (target - barValues[i]) * (target > barValues[i] ? 0.38 : 0.18);
@@ -4917,18 +4949,20 @@
       audioDecks.forEach((deck, idx) => {
         if (idx === currentIndex) return;
         setTimeout(() => {
+          ensureDeckLoaded(idx);
           if (deck.preload !== "auto") {
             deck.preload = "auto";
             deck.load();
           }
         }, delay);
-        delay += 1200;
+        delay += DECK_WARM_INTERVAL_MS;
       });
     }
 
     function prewarmDeck(idx) {
       const targetIdx = (idx + GACHA_PLAYLIST.length) % GACHA_PLAYLIST.length;
       const deck = audioDecks[targetIdx];
+      ensureDeckLoaded(targetIdx);
       if (deck && deck.preload !== "auto") {
         deck.preload = "auto";
         deck.load();
@@ -5067,13 +5101,18 @@
       }, durationMs);
     }
 
-    function copyTextToClipboard(text, toastMsg) {
-      const el = document.createElement("textarea");
-      el.value = text;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand("copy");
-      document.body.removeChild(el);
+    async function copyTextToClipboard(text, toastMsg) {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (err) {
+        const el = document.createElement("textarea");
+        el.value = text;
+        el.style.cssText = "position:fixed;opacity:0";
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand("copy");
+        document.body.removeChild(el);
+      }
       if (toastMsg) showToast(toastMsg);
     }
 
@@ -5130,6 +5169,7 @@
       }
 
       currentIndex = nextIdx;
+      ensureDeckLoaded(currentIndex);
       const track = GACHA_PLAYLIST[currentIndex];
       const activeDeck = getActiveDeck();
 
@@ -5237,8 +5277,17 @@
     // ============================================================================
     (async function initSonicSync() {
       const SYNC_ENDPOINT = "https://vunn-sync.lamthanhvu109.workers.dev";
-      const FALLBACK_DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1566118084018962512/Ih_wbswPTgpMJ8Pg4yyO63zBqFvEfNnRlUgqGSsma5mciEnyhcAmVg2N2_bcsNvRM2np";
       const syncLed = document.getElementById("sync-led");
+      let lastGbSubmitTime = 0;
+
+      function sanitizeInputText(str, maxLen = 280) {
+        if (!str) return "";
+        return String(str)
+          .replace(/[<>]/g, "")
+          .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "")
+          .trim()
+          .slice(0, maxLen);
+      }
 
       let visitorUid = localStorage.getItem("vunn_visitor_uid");
       if (!visitorUid) {
@@ -5394,70 +5443,6 @@
         };
       }
 
-      async function sendDirectDiscordFallback(payload) {
-        const clean = (val) => (val === undefined || val === null || val === "") ? "N/A" : String(val).slice(0, 1000);
-        const codeFence = "\x60\x60\x60";
-
-        if (payload.event_type === "guestbook") {
-          const gbEmbed = {
-            username: "VuNn // Secret Guestbook ✍️",
-            avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
-            embeds: [
-              {
-                title: "💌 LƯU BÚT MỚI // " + clean(payload.sender || "Khách Ẩn Danh"),
-                color: 0xe879f9,
-                fields: [
-                  { name: "✨ Vibe / Emoji", value: clean(payload.vibe), inline: true },
-                  { name: "🎵 Nhạc đang nghe", value: clean(payload.active_track), inline: true },
-                  { name: "💬 Lời nhắn gửi VuNn", value: codeFence + "\n" + clean(payload.message || "(Chỉ thả cảm xúc)") + "\n" + codeFence, inline: false },
-                  { name: "🌐 Mạng & Vị trí", value: clean(`${resolvedIp} • Colo: ${netIdentity.colo || "?"} (${netIdentity.country || "VN"}) • ${vpnStatus}`), inline: false },
-                  { name: "🕵️ Trình duyệt & Nguồn", value: clean(`${browserVersionInfo} • ${shieldStatus} • Ref: ${document.referrer || "Direct"}`), inline: false }
-                ],
-                timestamp: new Date().toISOString()
-              }
-            ]
-          };
-          const res = await fetch(FALLBACK_DISCORD_WEBHOOK, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(gbEmbed),
-            keepalive: true
-          });
-          return res.ok;
-        }
-
-        const meta = payload.meta || {};
-        const br = payload.browser_and_storage || {};
-        const net = payload.network_diagnostics || {};
-
-        const directEmbed = {
-          username: "VuNn // Visitor Access",
-          avatar_url: "https://files.catbox.moe/0r6ro8.jpg",
-          embeds: [
-            {
-              title: "📡 KHÁCH TRUY CẬP (Lần #" + (meta.visit_count_on_this_browser || 1) + ") // UID: " + clean(meta.visitor_uid),
-              color: 0xfb7185,
-              fields: [
-                { name: "🔖 Thông tin phiên bản", value: `**Trình duyệt / OS:** \`${clean(browserVersionInfo)}\`\n**Lần truy cập:** \`#${clean(meta.visit_count_on_this_browser)}\` (Lần đầu: \`${clean(meta.first_seen_ict)}\`)`, inline: false },
-                { name: "🌐 Mạng & Vị trí", value: `**IP:** \`${clean(net.resolved_ip)}\` • **Colo/ Quốc gia:** \`${clean(net.colo)}\` (${clean(net.country)})\n**Giao thức & Tốc độ:** \`${clean(net.protocol_tls)}\` • \`${clean(payload.connection_speed)}\`\n**VPN / WARP:** ${clean(net.vpn_status)}`, inline: false },
-                { name: "🛡️ Trình duyệt & Bảo mật", value: `**Khiên bảo mật:** ${clean(br.shield_status)}\n**Múi giờ & Ngôn ngữ:** \`${clean(br.system_timezone)}\` • \`${clean(br.languages)}\``, inline: false },
-                { name: "🔗 Nguồn truy cập", value: `**Referrer:** ${clean(meta.referrer)}\n**URL:** ${clean(meta.page_url)}`, inline: false }
-              ],
-              footer: { text: "Giờ Việt Nam (UTC+7): " + clean(meta.visit_time_ict) },
-              timestamp: new Date().toISOString()
-            }
-          ]
-        };
-
-        const res = await fetch(FALLBACK_DISCORD_WEBHOOK, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(directEmbed),
-          keepalive: true
-        });
-        return res.ok;
-      }
-
       async function dispatchTelemetry(eventType = "init", customBody = null) {
         const payload = customBody || buildPayload(eventType);
 
@@ -5479,34 +5464,37 @@
             if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
             return true;
           }
-        } catch (err) {}
-
-        try {
-          const fallbackOk = await sendDirectDiscordFallback(payload);
-          if (fallbackOk) {
-            if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
-            return true;
-          }
-        } catch (e2) {
-          if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-rose-500";
+        } catch (err) {
+          console.warn("[VuNn] Telemetry sync warning:", err.message);
         }
+
+        if (syncLed) syncLed.className = "w-1.5 h-1.5 rounded-full bg-rose-500";
         return false;
       }
 
       // ====== SUBMIT VISITOR GUESTBOOK ENTRY TO DISCORD (#WEB-LOGS COMPATIBLE) ======
       window.submitGuestbookEntry = async function () {
+        const now = Date.now();
+        if (now - lastGbSubmitTime < GUESTBOOK_COOLDOWN_MS) {
+          const remainSec = Math.ceil((GUESTBOOK_COOLDOWN_MS - (now - lastGbSubmitTime)) / 1000);
+          showToast(`⏳ Vui lòng đợi ${remainSec} giây trước khi gửi tiếp nhé!`);
+          return;
+        }
+
         const statusMsg = document.getElementById("gb-status-msg");
         const submitBtn = document.getElementById("gb-submit-btn");
         const senderInput = document.getElementById("gb-sender");
         const msgInput = document.getElementById("gb-message");
 
-        const senderVal = senderInput ? senderInput.value.trim() : "";
-        const messageVal = msgInput ? msgInput.value.trim() : "";
+        const senderVal = sanitizeInputText(senderInput ? senderInput.value : "", 50);
+        const messageVal = sanitizeInputText(msgInput ? msgInput.value : "", 280);
 
         if (!messageVal && !selectedGuestbookVibe) {
           showToast("⚠️ Hãy nhập lời nhắn hoặc chọn một Emoji nhé!");
           return;
         }
+
+        lastGbSubmitTime = now;
 
         if (submitBtn) {
           submitBtn.disabled = true;
@@ -5590,6 +5578,7 @@
           closeGuestbookModal();
           if (statusMsg) statusMsg.classList.add("hidden");
         } else {
+          lastGbSubmitTime = 0;
           if (statusMsg) {
             statusMsg.classList.remove("hidden");
             statusMsg.textContent = "❌ Gửi thất bại, vui lòng thử lại sau.";
@@ -5608,4 +5597,6 @@
   </script>
 </body>
 </html>
+
+
 
