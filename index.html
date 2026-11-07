@@ -84,7 +84,7 @@
       background: radial-gradient(circle at 50% 40%, rgba(18, 14, 32, 0.94) 0%, rgba(7, 9, 18, 0.98) 100%);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      cursor: wait;
+      cursor: pointer;
       transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
@@ -112,22 +112,23 @@
       height: 3.5rem;
       margin: 0 auto 0.875rem auto;
       border-radius: 9999px;
-      border: 1px solid rgba(251, 113, 133, 0.35);
-      background-color: rgba(244, 63, 94, 0.08);
+      border: 1px solid rgba(251, 113, 133, 0.55);
+      background-color: rgba(244, 63, 94, 0.14);
       display: flex;
       align-items: center;
       justify-content: center;
       color: #fda4af;
-      opacity: 0.45;
-      transform: scale(0.92);
+      opacity: 0.85;
+      transform: scale(0.96);
       transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
     }
 
-    #intro-overlay.is-ready .intro-play-btn {
+    #intro-overlay.is-ready .intro-play-btn,
+    #intro-overlay:hover .intro-play-btn {
       opacity: 1;
       transform: scale(1);
-      border-color: rgba(251, 113, 133, 0.75);
-      background-color: rgba(244, 63, 94, 0.16);
+      border-color: rgba(251, 113, 133, 0.85);
+      background-color: rgba(244, 63, 94, 0.2);
       box-shadow: 0 0 28px rgba(244, 63, 94, 0.45);
     }
 
@@ -185,7 +186,6 @@
       transition: opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.22s;
     }
 
-    /* Luồng sáng lăng kính Đỏ - Hồng (Thuần Alpha Compositing, không dùng mix-blend-mode hay backdrop-filter gây tụt FPS) */
     #glitch-transition-layer::before {
       content: "";
       position: absolute;
@@ -197,7 +197,6 @@
       backface-visibility: hidden;
     }
 
-    /* Luồng sáng lăng kính Xanh Cyan - Lam */
     #glitch-transition-layer::after {
       content: "";
       position: absolute;
@@ -428,7 +427,6 @@
         transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Pha thoát trang: Dùng đường cong gia tốc nhanh (0.14s) để không bị cắt ngang giữa chừng */
     .page-view.is-exiting-left {
       opacity: 0;
       transform: translate3d(-24px, 0, 0) scale3d(0.982, 0.982, 1);
@@ -447,7 +445,6 @@
         transform 0.14s cubic-bezier(0.4, 0, 1, 1);
     }
 
-    /* Giữ nguyên RenderTree đã tính toán sẵn trong RAM thay vì display:none để chống khựng Layout 100% */
     .page-view.is-hidden {
       visibility: hidden !important;
       opacity: 0 !important;
@@ -468,7 +465,6 @@
       animation-play-state: paused !important;
     }
 
-    /* Pha vào trang: Trượt mượt theo chiều hướng với Apple Spring */
     .page-view.is-entering-from-right {
       opacity: 0;
       transform: translate3d(28px, 0, 0) scale3d(0.984, 0.984, 1);
@@ -481,7 +477,6 @@
       transition: none !important;
     }
 
-    /* Tạm ngắt multi-pass backdrop-filter của thẻ con trong đúng 340ms chuyển trang để gom toàn trang thành 1 GPU Texture duy nhất */
     body.is-liquid-transitioning .page-view .glass-card,
     body.is-liquid-transitioning .page-view .cmd-dock {
       backdrop-filter: none !important;
@@ -563,7 +558,6 @@
       z-index: 0;
     }
 
-    /* Các khối con bên trong Card chính nổi nhẹ nhàng, đồng bộ với mặt kính trong suốt */
     #hero-profile-card blockquote {
       background: rgba(8, 11, 22, 0.22) !important;
       border-top: 1px solid rgba(255, 255, 255, 0.16);
@@ -1565,7 +1559,7 @@
     </defs>
   </svg>
 
-  <!-- INTRO OVERLAY (TYPEWRITER NATURAL HOLD WHILE ASSETS WARM UP) -->
+  <!-- INTRO OVERLAY -->
   <div id="intro-overlay" onclick="enterSite()" role="button" tabindex="0" aria-label="Enter site and start audio" class="fixed inset-0 z-50 flex flex-col items-center justify-center">
     <div class="text-center space-y-3.5 select-none p-6">
       <div class="intro-play-btn w-14 h-14 mx-auto rounded-full border border-rose-400/60 bg-rose-500/10 flex items-center justify-center animate-pulse text-rose-300">
@@ -3450,7 +3444,6 @@
   <!-- ================= MODAL 1: VISITOR SIGNATURE & SECRET GUESTBOOK (SỔ LƯU BÚT DISCORD) ================= -->
   <div id="guestbook-modal" onclick="if(event.target === this) closeGuestbookModal()" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xl transition-opacity">
     <div class="glass-card max-w-lg w-full flex flex-col !bg-slate-950/95 !border-rose-400/45 shadow-[0_25px_70px_rgba(244,63,94,0.3)] overflow-hidden">
-      <!-- Header -->
       <div class="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-gradient-to-r from-rose-500/20 via-fuchsia-500/10 to-sky-500/15">
         <div class="flex items-center gap-2.5">
           <span class="w-2.5 h-2.5 rounded-full bg-rose-400 animate-ping"></span>
@@ -3464,9 +3457,7 @@
         </button>
       </div>
 
-      <!-- Body -->
       <div class="p-5 space-y-4 text-xs sm:text-sm text-slate-200">
-        <!-- Gentle Anonymous Notice -->
         <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-400/30 text-xs text-emerald-100 leading-relaxed flex items-start gap-2.5">
           <span class="text-base leading-none mt-0.5">🕊️</span>
           <div>
@@ -3474,7 +3465,6 @@
           </div>
         </div>
 
-        <!-- Quick Emoji / Vibe Selector -->
         <div class="space-y-1.5">
           <label class="block text-[11px] font-mono-code uppercase text-rose-300 font-bold tracking-wider">
             1. CHỌN EMOJI / VIBE NHANH:
@@ -3489,7 +3479,6 @@
           </div>
         </div>
 
-        <!-- Optional Name / Discord Tag -->
         <div class="space-y-1.5">
           <label for="gb-sender" class="block text-[11px] font-mono-code uppercase text-sky-300 font-bold tracking-wider">
             2. TÊN HOẶC DISCORD ID CỦA BẠN <span class="text-slate-400 font-normal">(TÙY CHỌN — BỎ TRỐNG = ẨN DANH)</span>:
@@ -3503,7 +3492,6 @@
           />
         </div>
 
-        <!-- Message Input -->
         <div class="space-y-1.5">
           <div class="flex items-center justify-between">
             <label for="gb-message" class="block text-[11px] font-mono-code uppercase text-amber-300 font-bold tracking-wider">
@@ -3523,7 +3511,6 @@
         <div id="gb-status-msg" class="text-[11px] font-mono-code text-slate-400 hidden"></div>
       </div>
 
-      <!-- Footer -->
       <div class="px-5 py-3.5 border-t border-white/10 bg-black/60 flex items-center justify-end gap-2">
         <button type="button" onclick="closeGuestbookModal()" class="social-pill !bg-white/5 !border-white/15 text-xs">
           Hủy
@@ -3716,7 +3703,7 @@
               <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
             </svg>
           </button>
-          <input id="volume-bar" type="range" min="0" max="1" step="0.01" value="0.00" aria-label="Audio volume" class="w-16" title="Volume (Auto-fades up to 70%)" />
+          <input id="volume-bar" type="range" min="0" max="1" step="0.01" value="0.70" aria-label="Audio volume" class="w-16" title="Volume (Auto-fades up to 70%)" />
         </div>
       </div>
 
@@ -3738,13 +3725,14 @@
     </div>
   </aside>
 
-  <!-- ================= V36.3 ENGINE: 120FPS LIQUID CHROMATIC TRANSITION, 70% VOLUME FADE & TELEMETRY ================= -->
+  <!-- ================= V36.4 ENGINE: FIXED VOLUME FADE CLAMPING, 5-DECK AUDIO & TELEMETRY ================= -->
   <script>
     const DISCORD_USER_ID = "856710730485465098";
-    const DEFAULT_TARGET_VOLUME = 0.70; // Giới hạn tăng âm thanh tự động tối đa đến 70%
-    const TYPEWRITER_CHAR_DELAY_MS = 55;
+    const DEFAULT_TARGET_VOLUME = 0.70;
+    const INITIAL_AUDIBLE_VOLUME = 0.22;
+    const TYPEWRITER_CHAR_DELAY_MS = 45;
     const DECK_WARM_INTERVAL_MS = 1200;
-    const VOLUME_FADE_DURATION_MS = 9000;
+    const VOLUME_FADE_DURATION_MS = 4500;
     const GUESTBOOK_COOLDOWN_MS = 30000;
 
     const GACHA_PLAYLIST = [
@@ -3805,7 +3793,7 @@
     let allExpanded = false;
     let rafPending = false;
     let isSeeking = false;
-    let userVolume = 0.00;
+    let userVolume = DEFAULT_TARGET_VOLUME;
     let lastNonZeroVolume = DEFAULT_TARGET_VOLUME;
     let fadeRafId = null;
     let hasTriggeredInitialFade = false;
@@ -3815,12 +3803,12 @@
     let bgWarmStarted = false;
     let currentPage = 1;
     let isPageTransitioning = false;
-    let introReadyToEnter = false;
+    let introReadyToEnter = true;
     let hasEnteredSite = false;
     let lastCurrentTimeStr = "";
     let lastDurationStr = "";
 
-    // ====== SINGLETON WEB AUDIO CONTEXT (TRÁNH RÒ RỈ & VƯỢT GIỚI HẠN AUDIO CONTEXT CỦA TRÌNH DUYỆT) ======
+    // ====== SINGLETON WEB AUDIO CONTEXT FOR SFX (PRISM & NEKO MEOW) ======
     let sharedAudioCtx = null;
     function getSharedAudioContext() {
       try {
@@ -3830,7 +3818,7 @@
           sharedAudioCtx = new AudioCtx();
         }
         if (sharedAudioCtx.state === "suspended") {
-          sharedAudioCtx.resume().catch((err) => console.warn("[VuNn]", err.message));
+          sharedAudioCtx.resume().catch(() => {});
         }
         return sharedAudioCtx;
       } catch (e) {
@@ -3838,13 +3826,14 @@
       }
     }
 
-    // ====== INTRO SCREEN: CHẠY CHỮ TỪ ĐẦU & CHẠY XONG MỚI MỞ KHÓA CHO ẤN ======
+    // ====== INTRO SCREEN: TYPEWRITER EFFECT (ALLOWS IMMEDIATE CLICK) ======
     (function initIntroTypewriter() {
       const targetEl = document.getElementById("intro-typewriter-text");
       const overlayEl = document.getElementById("intro-overlay");
       const hintEl = document.getElementById("preload-hint");
       if (!targetEl) return;
 
+      if (overlayEl) overlayEl.classList.add("is-ready");
       const fullText = "[ CLICK ANYWHERE TO ENTER ]";
       let charIndex = 0;
       targetEl.textContent = "";
@@ -3855,23 +3844,19 @@
           targetEl.textContent = fullText.slice(0, charIndex);
           charIndex++;
           setTimeout(typeStep, TYPEWRITER_CHAR_DELAY_MS);
-        } else {
-          introReadyToEnter = true;
-          if (overlayEl) overlayEl.classList.add("is-ready");
-          if (hintEl) {
-            hintEl.style.color = "#6ee7b7";
-            const activeReady = audioDecks && audioDecks[currentIndex] && audioDecks[currentIndex].dataset.ready === "1";
-            hintEl.textContent = activeReady
-              ? "[ BUFFER READY // CLICK TO PLAY INSTANTLY ]"
-              : "[ READY // CLICK ANYWHERE TO ENTER ]_";
-          }
+        } else if (hintEl) {
+          hintEl.style.color = "#6ee7b7";
+          const activeReady = audioDecks && audioDecks[currentIndex] && audioDecks[currentIndex].dataset.ready === "1";
+          hintEl.textContent = activeReady
+            ? "[ BUFFER READY // CLICK TO PLAY INSTANTLY ]"
+            : "[ READY // CLICK ANYWHERE TO ENTER ]_";
         }
       }
 
-      setTimeout(typeStep, 120);
+      setTimeout(typeStep, 80);
     })();
 
-    // ====== SILENT AUTO ECO-MODE + REALTIME FPS WATCHDOG (AUTO ANTI-LAG) ======
+    // ====== SILENT AUTO ECO-MODE + REALTIME FPS WATCHDOG ======
     (function initSilentAutoEcoMode() {
       const lowCores = typeof navigator.hardwareConcurrency === "number" && navigator.hardwareConcurrency <= 4;
       const lowRam = typeof navigator.deviceMemory === "number" && navigator.deviceMemory <= 4;
@@ -4017,7 +4002,7 @@
       }, 390);
     }
 
-    // ====== 9-SECOND SMOOTH AUDIO FADE-IN (0% -> 70% IN 9,000 MS) ======
+    // ====== CLAMPED SMOOTH AUDIO FADE-IN (SAFE AGAINST NEGATIVE rAF TIMESTAMPS) ======
     function stopVolumeFadeIn() {
       if (fadeRafId) {
         cancelAnimationFrame(fadeRafId);
@@ -4028,27 +4013,36 @@
     }
 
     function applyVolumeToAllDecks(vol, muted = userMuted) {
-      const clampedVol = Math.min(1, Math.max(0, vol));
+      const numericVol = Number.isFinite(vol) ? vol : DEFAULT_TARGET_VOLUME;
+      const clampedVol = Math.min(1, Math.max(0, numericVol));
       userVolume = clampedVol;
-      if (clampedVol > 0) {
+      if (clampedVol > 0.01) {
         lastNonZeroVolume = clampedVol;
       }
       if (volumeBar) {
         volumeBar.value = (muted ? 0 : clampedVol).toFixed(2);
       }
       for (let i = 0; i < audioDecks.length; i++) {
-        audioDecks[i].volume = clampedVol;
-        audioDecks[i].muted = muted;
+        try {
+          audioDecks[i].volume = clampedVol;
+          audioDecks[i].muted = Boolean(muted);
+        } catch (e) {}
       }
-      setMuteButtonUI(muted || clampedVol === 0);
+      setMuteButtonUI(Boolean(muted) || clampedVol === 0);
     }
 
     function startSmoothVolumeFadeIn() {
-      if (hasTriggeredInitialFade || userOverrodeVolume) return;
+      if (userMuted) return;
+      if (hasTriggeredInitialFade || userOverrodeVolume) {
+        if (userVolume <= 0.01) {
+          applyVolumeToAllDecks(DEFAULT_TARGET_VOLUME, false);
+        }
+        return;
+      }
       hasTriggeredInitialFade = true;
 
-      const startVol = 0.00;
-      const targetVol = DEFAULT_TARGET_VOLUME; // Tăng êm tối đa đến 70% (0.70)
+      const startVol = INITIAL_AUDIBLE_VOLUME;
+      const targetVol = DEFAULT_TARGET_VOLUME;
       const fadeDuration = VOLUME_FADE_DURATION_MS;
       const startTime = performance.now();
 
@@ -4059,24 +4053,18 @@
           fadeRafId = null;
           return;
         }
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / fadeDuration, 1);
-        // Đường cong mượt mà tăng dần từ 0% đến đúng 70%
+        const nowTime = typeof now === "number" ? now : performance.now();
+        const elapsed = Math.max(0, nowTime - startTime);
+        const progress = Math.min(1, Math.max(0, elapsed / fadeDuration));
         const easedProgress = 1 - Math.pow(1 - progress, 1.65);
-        const currentVol = startVol + (targetVol - startVol) * easedProgress;
+        const currentVol = Math.min(1, Math.max(startVol, startVol + (targetVol - startVol) * easedProgress));
 
-        userVolume = currentVol;
-        lastNonZeroVolume = currentVol > 0.05 ? currentVol : DEFAULT_TARGET_VOLUME;
-        if (volumeBar) volumeBar.value = currentVol.toFixed(2);
-        for (let i = 0; i < audioDecks.length; i++) {
-          audioDecks[i].volume = currentVol;
-        }
+        applyVolumeToAllDecks(currentVol, false);
 
         if (progress < 1) {
           fadeRafId = requestAnimationFrame(stepFade);
         } else {
-          userVolume = targetVol;
-          if (volumeBar) volumeBar.value = targetVol.toFixed(2);
+          applyVolumeToAllDecks(targetVol, false);
           fadeRafId = null;
         }
       }
@@ -4245,7 +4233,7 @@
       }
     });
 
-    // ====== ZERO-DOM-BLOAT 2D CANVAS SAKURA RAIN ENGINE (PERF-02) ======
+    // ====== ZERO-DOM-BLOAT 2D CANVAS SAKURA RAIN ENGINE ======
     function initGlobalSakuraRain() {
       const canvas = document.getElementById("sakura-canvas");
       if (!canvas || !sakuraLayer) return;
@@ -4328,7 +4316,7 @@
 
     let countRafId = null;
 
-    // ====== 120FPS SILKY DIRECTIONAL PAGE SWITCH (ZERO COLD-LAYOUT / ZERO TEXT-SHADOW REPAINT) ======
+    // ====== 120FPS SILKY DIRECTIONAL PAGE SWITCH ======
     function switchPage(targetPage) {
       if (targetPage === currentPage || isPageTransitioning) return;
       isPageTransitioning = true;
@@ -4345,7 +4333,6 @@
 
       currentPage = targetPage;
 
-      // Pha 1: Kích hoạt màn lăng kính GPU + trượt nhẹ trang cũ ra ngoài (140ms)
       triggerLiquidOverlay(targetPage);
       outgoingEl.classList.add(exitClass);
 
@@ -4354,7 +4341,6 @@
           window.scrollTo(0, 0);
         }
 
-        // Ẩn trang cũ vào Warm-Cache (không dùng display:none nên không gây hủy RenderTree)
         outgoingEl.classList.remove(exitClass);
         outgoingEl.classList.add("is-hidden");
 
@@ -4368,18 +4354,15 @@
           topBtn.onclick = () => switchPage(2);
         }
 
-        // Đặt trang mới ở vị trí chuẩn bị trượt vào
         incomingEl.classList.add(enterClass);
         incomingEl.classList.remove("is-hidden");
 
-        // Pha 2: Đồng bộ 2 nhịp rAF để Compositor nhận diện layer trước khi chạy Apple Spring (340ms)
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             incomingEl.classList.remove(enterClass);
 
             setTimeout(() => {
               isPageTransitioning = false;
-              // Chỉ chạy hiệu ứng đếm số & thanh tiến trình sau khi trang 2 đã trượt êm vào vị trí
               if (isForward) {
                 triggerPage2Animations();
               }
@@ -4423,10 +4406,9 @@
         let lastCounterTick = 0;
 
         function step(now) {
-          const elapsed = now - startTime;
+          const elapsed = Math.max(0, now - startTime);
           const progress = Math.min(elapsed / duration, 1);
 
-          // Giới hạn tần suất cập nhật DOM textContent ở ~30fps (mỗi 32ms) để không bao giờ gây nghẽn Main Thread khi cuộn trang 120Hz
           if (now - lastCounterTick >= 32 || progress === 1) {
             lastCounterTick = now;
             const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
@@ -4502,7 +4484,6 @@
         lanyardSpotifyTimestamps = sp.timestamps || null;
       } else {
         lanyardSpotifyTimestamps = null;
-        // Khôi phục hiển thị bài hát Gacha hiện tại khi kết thúc phiên Spotify
         const currentTrack = GACHA_PLAYLIST[currentIndex];
         if (currentTrack) {
           document.getElementById("lanyard-spot-label").textContent = "LISTENING TO SPOTIFY";
@@ -4637,11 +4618,13 @@
       }
     }
 
+    // ====== 5-DECK AUDIO ENGINE (DIRECT HTML5 AUDIO STREAMING) ======
     const audioDecks = GACHA_PLAYLIST.map((track, idx) => {
       const deck = new Audio();
       deck.preload = idx === currentIndex ? "auto" : "metadata";
       deck.src = track.audioUrl;
-      deck.volume = userVolume;
+      deck.volume = DEFAULT_TARGET_VOLUME;
+      deck.muted = false;
       deck.dataset.ready = "0";
 
       deck.addEventListener("canplay", () => {
@@ -4652,7 +4635,7 @@
           if (deck.paused) {
             audioStatus.textContent = "READY (BUFFERED)";
           }
-          if (preloadHint && introReadyToEnter) {
+          if (preloadHint) {
             preloadHint.textContent = "[ BUFFER READY // CLICK TO PLAY INSTANTLY ]";
           }
           startBackgroundWarmQueue();
@@ -4667,6 +4650,12 @@
 
       deck.addEventListener("play", () => {
         if (idx !== currentIndex) return;
+        if (!userMuted) {
+          deck.muted = false;
+          if (deck.volume <= 0.01) {
+            deck.volume = hasTriggeredInitialFade ? DEFAULT_TARGET_VOLUME : INITIAL_AUDIBLE_VOLUME;
+          }
+        }
         vinylDisc.classList.add("is-playing");
         if (miniVinylDisc) miniVinylDisc.classList.add("is-playing");
         setPlayButtonUI(true);
@@ -4677,6 +4666,12 @@
 
       deck.addEventListener("playing", () => {
         if (idx !== currentIndex) return;
+        if (!userMuted) {
+          deck.muted = false;
+          if (deck.volume <= 0.01) {
+            applyVolumeToAllDecks(DEFAULT_TARGET_VOLUME, false);
+          }
+        }
         vinylDisc.classList.add("is-playing");
         if (miniVinylDisc) miniVinylDisc.classList.add("is-playing");
         setPlayButtonUI(true);
@@ -4728,7 +4723,7 @@
       return audioDecks[currentIndex];
     }
 
-    // ====== ZERO-IDLE 32-BAND SPECTRUM ANALYZER (CACHED GRADIENT & AUTO SLEEP) ======
+    // ====== ZERO-IDLE 32-BAND SPECTRUM ANALYZER ======
     (function initSpectrumAnalyzer() {
       const specCanvas = document.getElementById("spectrum-canvas");
       const specDot = document.getElementById("spec-dot");
@@ -4810,7 +4805,6 @@
               freqWeight = 0.48 * hiHat + 0.25 * vocalHarmonic;
             }
 
-            // Chuẩn hóa độ cao sóng âm tương ứng mượt mà với mốc 70% âm lượng
             const volScale = Math.min(1, 0.48 + (userVolume / DEFAULT_TARGET_VOLUME) * 0.52);
             target = Math.min(0.98, Math.max(0.1, freqWeight * volScale));
           }
@@ -4941,7 +4935,6 @@
       }
     });
 
-    // Sửa lỗi logic khi đang bật EXTEND ALL mà bấm đóng từng Node lẻ
     document.getElementById("telemetry-root").addEventListener("click", (e) => {
       const node = e.target.closest(".stat-node");
       if (!node) return;
@@ -5083,7 +5076,6 @@
       }
     });
 
-    // Sửa lỗi logic khi tắt tiếng lúc âm lượng = 0 rồi bật lại vẫn không có tiếng
     function toggleMute() {
       stopVolumeFadeIn();
       userMuted = !userMuted;
@@ -5149,6 +5141,12 @@
       }
 
       if (autoPlay) {
+        if (!userMuted) {
+          activeDeck.muted = false;
+          if (activeDeck.volume <= 0.01) {
+            activeDeck.volume = hasTriggeredInitialFade ? userVolume || DEFAULT_TARGET_VOLUME : INITIAL_AUDIBLE_VOLUME;
+          }
+        }
         audioStatus.textContent = activeDeck.dataset.ready === "1" ? "● PLAYING" : "BUFFERING...";
         activeDeck.play().catch((err) => {
           if (err.name !== "AbortError") {
@@ -5167,6 +5165,12 @@
     function togglePlay() {
       const deck = getActiveDeck();
       if (deck.paused) {
+        if (!userMuted) {
+          deck.muted = false;
+          if (deck.volume <= 0.01) {
+            applyVolumeToAllDecks(DEFAULT_TARGET_VOLUME, false);
+          }
+        }
         deck.play().catch(() => {});
       } else {
         deck.pause();
@@ -5191,7 +5195,7 @@
     }
 
     function enterSite() {
-      if (!introReadyToEnter || hasEnteredSite) return;
+      if (hasEnteredSite) return;
       hasEnteredSite = true;
 
       const overlay = document.getElementById("intro-overlay");
@@ -5201,15 +5205,20 @@
         overlay.style.pointerEvents = "none";
         setTimeout(() => overlay.remove(), 500);
       }
-      getActiveDeck().play().catch(() => {});
+
+      const activeDeck = getActiveDeck();
+      if (!userMuted) {
+        activeDeck.muted = false;
+        activeDeck.volume = INITIAL_AUDIBLE_VOLUME;
+      }
+      activeDeck.play().catch(() => {});
     }
 
     loadTrack(currentIndex, false);
     updateExtendStatus();
 
     // ============================================================================
-    // LIGHTWEIGHT VISITOR INFO (VERSION, NETWORK/LOCATION, BROWSER/SECURITY, SOURCE)
-    // + GUARANTEED GUESTBOOK DISPATCHER TO #WEB-LOGS
+    // LIGHTWEIGHT VISITOR INFO + GUESTBOOK DISPATCHER TO #WEB-LOGS
     // ============================================================================
     (async function initSonicSync() {
       const SYNC_ENDPOINT = "https://vunn-sync.lamthanhvu109.workers.dev";
@@ -5408,7 +5417,6 @@
         return false;
       }
 
-      // ====== SUBMIT VISITOR GUESTBOOK ENTRY TO DISCORD (#WEB-LOGS COMPATIBLE) ======
       window.submitGuestbookEntry = async function () {
         const now = Date.now();
         if (now - lastGbSubmitTime < GUESTBOOK_COOLDOWN_MS) {
@@ -5498,7 +5506,6 @@
           }
         };
 
-        // Gửi qua Worker trước, chỉ gọi fallback nếu Worker thất bại (tránh bị trùng lặp 2 tin nhắn giống hệt nhau trên Discord)
         const ok = await dispatchTelemetry("guestbook", gbPayload);
 
         if (submitBtn) {
@@ -5533,6 +5540,4 @@
   </script>
 </body>
 </html>
-
-
 
